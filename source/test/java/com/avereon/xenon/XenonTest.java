@@ -1,6 +1,6 @@
-package com.avereon.xenon;
+package com.acromere.xenon;
 
-import com.avereon.util.OperatingSystem;
+import com.acromere.util.OperatingSystem;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Path;

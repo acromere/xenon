@@ -1,8 +1,8 @@
-package com.avereon.xenon.workspace;
+package com.acromere.xenon.workspace;
 
-import com.avereon.xenon.BaseXenonUIT;
-import com.avereon.xenon.notice.Notice;
-import com.avereon.xenon.notice.NoticePane;
+import com.acromere.xenon.BaseXenonUIT;
+import com.acromere.xenon.notice.Notice;
+import com.acromere.xenon.notice.NoticePane;
 import javafx.scene.layout.Pane;
 import org.junit.jupiter.api.Test;
 

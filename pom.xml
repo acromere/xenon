@@ -6,14 +6,14 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.avereon.pom</groupId>
+		<groupId>com.acromere.pom</groupId>
 		<artifactId>prg</artifactId>
-		<version>3.7-SNAPSHOT</version>
+		<version>1.0-SNAPSHOT</version>
 		<relativePath/>
 	</parent>
 
 	<!-- Update the product roadmap when the version changes -->
-	<groupId>com.avereon</groupId>
+	<groupId>com.acromere</groupId>
 	<artifactId>xenon</artifactId>
 	<!-- Also update the version in the jpackage descriptors -->
 	<version>1.10-SNAPSHOT</version>
@@ -26,21 +26,21 @@
 	<licenses>
 		<license>
 			<name>MIT</name>
-			<url>https://avereon.com/licenses/mit/</url>
+			<url>https://acromere.com/licenses/mit/</url>
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
 
 	<scm>
-		<connection>scm:git:https://github.com/avereon/xenon.git</connection>
-		<developerConnection>scm:git:https://github.com/avereon/xenon.git</developerConnection>
-		<url>https://github.com/avereon/xenon</url>
+		<connection>scm:git:https://github.com/acromere/xenon.git</connection>
+		<developerConnection>scm:git:https://github.com/acromere/xenon.git</developerConnection>
+		<url>https://github.com/acromere/xenon</url>
 	</scm>
 
 	<developers>
 		<developer>
 			<name>Mark Soderquist</name>
-			<email>mark@avereon.com</email>
+			<email>mark@acromere.com</email>
 			<roles>
 				<role>Architect</role>
 			</roles>
@@ -49,15 +49,15 @@
 
 	<repositories>
 		<repository>
-			<id>avn</id>
-			<url>https://repo.avereon.com/avn</url>
+			<id>acm</id>
+			<url>https://repo.acromere.com/acm</url>
 		</repository>
 	</repositories>
 
 	<pluginRepositories>
 		<pluginRepository>
-			<id>avn</id>
-			<url>https://repo.avereon.com/avn</url>
+			<id>acm</id>
+			<url>https://repo.acromere.com/acm</url>
 		</pluginRepository>
 	</pluginRepositories>
 
@@ -92,32 +92,32 @@
 
 		<!-- Build plugin versions -->
 		<!-- Version numbers reviewed 28 Apr 2025 -->
-		<cameo.version>2.12</cameo.version>
-		<curex.version>1.5.0</curex.version>
+		<cameo.version>2.13-SNAPSHOT</cameo.version>
+		<curex.version>1.6-SNAPSHOT</curex.version>
 	</properties>
 
 	<dependencies>
 
 		<dependency>
-			<groupId>com.avereon</groupId>
+			<groupId>com.acromere</groupId>
 			<artifactId>zevra</artifactId>
 			<version>${zevra.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>com.avereon</groupId>
+			<groupId>com.acromere</groupId>
 			<artifactId>zerra</artifactId>
 			<version>${zerra.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>com.avereon</groupId>
+			<groupId>com.acromere</groupId>
 			<artifactId>zenna</artifactId>
 			<version>${zenna.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>com.avereon</groupId>
+			<groupId>com.acromere</groupId>
 			<artifactId>weave</artifactId>
 			<version>${weave.version}</version>
 		</dependency>
@@ -316,7 +316,7 @@
 						<configuration>
 							<archive>
 								<manifest>
-									<mainClass>com.avereon.xenon.Launcher</mainClass>
+									<mainClass>com.acromere.xenon.Launcher</mainClass>
 								</manifest>
 							</archive>
 						</configuration>
@@ -336,14 +336,14 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<configuration>
 					<links>
-						<link>https://www.avereon.com/product/weave/docs/api</link>
-						<link>https://www.avereon.com/product/zevra/docs/api</link>
+						<link>https://www.acromere.com/product/weave/docs/api</link>
+						<link>https://www.acromere.com/product/zevra/docs/api</link>
 					</links>
 				</configuration>
 			</plugin>
 
 			<plugin>
-				<groupId>com.avereon</groupId>
+				<groupId>com.acromere</groupId>
 				<artifactId>cameo</artifactId>
 				<version>${cameo.version}</version>
 				<executions>
@@ -356,17 +356,17 @@
 						<configuration>
 							<images>
 								<image>
-									<class>com.avereon.xenon.image.InstallerBannerImage</class>
+									<class>com.acromere.xenon.image.InstallerBannerImage</class>
 									<target>${images-folder}/banner.png</target>
 									<theme>light</theme>
 								</image>
 								<image>
-									<class>com.avereon.zenna.icon.XRingLargeIcon</class>
+									<class>com.acromere.zenna.icon.XRingLargeIcon</class>
 									<target>${images-folder}/xenon.png</target>
 									<theme>dark</theme>
 								</image>
 								<image>
-									<class>com.avereon.zenna.icon.XRingLargeIcon</class>
+									<class>com.acromere.zenna.icon.XRingLargeIcon</class>
 									<target>${images-folder}/xenon-light.png</target>
 									<theme>light</theme>
 								</image>
@@ -376,31 +376,31 @@
 									<target>${images-folder}/xenon.ico</target>
 									<images>
 										<image>
-											<class>com.avereon.zenna.icon.XRingLargeIcon</class>
+											<class>com.acromere.zenna.icon.XRingLargeIcon</class>
 											<size>16</size>
 										</image>
 										<image>
-											<class>com.avereon.zenna.icon.XRingLargeIcon</class>
+											<class>com.acromere.zenna.icon.XRingLargeIcon</class>
 											<size>24</size>
 										</image>
 										<image>
-											<class>com.avereon.zenna.icon.XRingLargeIcon</class>
+											<class>com.acromere.zenna.icon.XRingLargeIcon</class>
 											<size>32</size>
 										</image>
 										<image>
-											<class>com.avereon.zenna.icon.XRingLargeIcon</class>
+											<class>com.acromere.zenna.icon.XRingLargeIcon</class>
 											<size>48</size>
 										</image>
 										<image>
-											<class>com.avereon.zenna.icon.XRingLargeIcon</class>
+											<class>com.acromere.zenna.icon.XRingLargeIcon</class>
 											<size>64</size>
 										</image>
 										<image>
-											<class>com.avereon.zenna.icon.XRingLargeIcon</class>
+											<class>com.acromere.zenna.icon.XRingLargeIcon</class>
 											<size>96</size>
 										</image>
 										<image>
-											<class>com.avereon.zenna.icon.XRingLargeIcon</class>
+											<class>com.acromere.zenna.icon.XRingLargeIcon</class>
 											<size>128</size>
 										</image>
 									</images>
@@ -410,31 +410,31 @@
 									<theme>light</theme>
 									<images>
 										<image>
-											<class>com.avereon.zenna.icon.XRingLargeIcon</class>
+											<class>com.acromere.zenna.icon.XRingLargeIcon</class>
 											<size>16</size>
 										</image>
 										<image>
-											<class>com.avereon.zenna.icon.XRingLargeIcon</class>
+											<class>com.acromere.zenna.icon.XRingLargeIcon</class>
 											<size>24</size>
 										</image>
 										<image>
-											<class>com.avereon.zenna.icon.XRingLargeIcon</class>
+											<class>com.acromere.zenna.icon.XRingLargeIcon</class>
 											<size>32</size>
 										</image>
 										<image>
-											<class>com.avereon.zenna.icon.XRingLargeIcon</class>
+											<class>com.acromere.zenna.icon.XRingLargeIcon</class>
 											<size>48</size>
 										</image>
 										<image>
-											<class>com.avereon.zenna.icon.XRingLargeIcon</class>
+											<class>com.acromere.zenna.icon.XRingLargeIcon</class>
 											<size>64</size>
 										</image>
 										<image>
-											<class>com.avereon.zenna.icon.XRingLargeIcon</class>
+											<class>com.acromere.zenna.icon.XRingLargeIcon</class>
 											<size>96</size>
 										</image>
 										<image>
-											<class>com.avereon.zenna.icon.XRingLargeIcon</class>
+											<class>com.acromere.zenna.icon.XRingLargeIcon</class>
 											<size>128</size>
 										</image>
 									</images>
@@ -469,7 +469,7 @@
 			</plugin>
 
 			<plugin>
-				<groupId>com.avereon</groupId>
+				<groupId>com.acromere</groupId>
 				<artifactId>curex</artifactId>
 				<version>${curex.version}</version>
 				<executions>
@@ -539,7 +539,7 @@
 										<argument>-p</argument>
 										<modulepath/>
 										<argument>-m</argument>
-										<argument>com.avereon.xenon/com.avereon.xenon.XenonScreenshots</argument>
+										<argument>com.acromere.xenon/com.acromere.xenon.XenonScreenshots</argument>
 										<argument>1</argument>
 									</arguments>
 								</configuration>
@@ -573,7 +573,7 @@
 										<argument>-p</argument>
 										<modulepath/>
 										<argument>-m</argument>
-										<argument>com.avereon.xenon/com.avereon.xenon.XenonScreenshots</argument>
+										<argument>com.acromere.xenon/com.acromere.xenon.XenonScreenshots</argument>
 										<argument>2</argument>
 									</arguments>
 								</configuration>

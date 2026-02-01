@@ -1,6 +1,6 @@
-package com.avereon.xenon.product;
+package com.acromere.xenon.product;
 
-import com.avereon.xenon.ProgramTestCase;
+import com.acromere.xenon.ProgramTestCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

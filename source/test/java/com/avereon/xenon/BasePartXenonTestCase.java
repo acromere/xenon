@@ -1,8 +1,8 @@
-package com.avereon.xenon;
+package com.acromere.xenon;
 
-import com.avereon.util.Parameters;
-import com.avereon.xenon.task.TaskManager;
-import com.avereon.xenon.test.ProgramTestConfig;
+import com.acromere.util.Parameters;
+import com.acromere.xenon.task.TaskManager;
+import com.acromere.xenon.test.ProgramTestConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -10,7 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.mockito.Mockito.spy;
 
 /**
- * This class is a duplicate of com.avereon.zenna.BaseXenonUiTestCase which is
+ * This class is a duplicate of com.acromere.zenna.BaseXenonUiTestCase which is
  * intended to be visible for mod testing but is not available to Xenon to
  * avoid a circular dependency. Attempts at making this
  * class publicly available have run in to various challenges with the most

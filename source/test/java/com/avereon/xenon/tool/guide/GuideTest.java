@@ -1,10 +1,10 @@
-package com.avereon.xenon.tool.guide;
+package com.acromere.xenon.tool.guide;
 
-import com.avereon.xenon.BaseFullXenonTestCase;
-import com.avereon.zerra.javafx.Fx;
+import com.acromere.xenon.BaseFullXenonTestCase;
+import com.acromere.zerra.javafx.Fx;
 import org.junit.jupiter.api.Test;
 
-import static com.avereon.xenon.test.ProgramTestConfig.LONG_TIMEOUT;
+import static com.acromere.xenon.test.ProgramTestConfig.LONG_TIMEOUT;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class GuideTest extends BaseFullXenonTestCase {

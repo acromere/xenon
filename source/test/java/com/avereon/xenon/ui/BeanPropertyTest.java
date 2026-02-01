@@ -1,4 +1,4 @@
-package com.avereon.xenon.ui;
+package com.acromere.xenon.ui;
 
 import lombok.Getter;
 import lombok.Setter;

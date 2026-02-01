@@ -1,7 +1,7 @@
-package com.avereon.xenon.workpane;
+package com.acromere.xenon.workpane;
 
-import com.avereon.xenon.BaseFxPlatformTestCase;
-import com.avereon.xenon.workspace.Workarea;
+import com.acromere.xenon.BaseFxPlatformTestCase;
+import com.acromere.xenon.workspace.Workarea;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

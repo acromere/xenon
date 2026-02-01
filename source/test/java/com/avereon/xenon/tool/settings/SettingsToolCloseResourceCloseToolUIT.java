@@ -1,15 +1,15 @@
-package com.avereon.xenon.tool.settings;
+package com.acromere.xenon.tool.settings;
 
-import com.avereon.xenon.ProgramTool;
-import com.avereon.xenon.resource.type.ProgramSettingsType;
-import com.avereon.xenon.workpane.ToolEvent;
-import com.avereon.xenon.workspace.Workarea;
-import com.avereon.zerra.javafx.Fx;
+import com.acromere.xenon.ProgramTool;
+import com.acromere.xenon.resource.type.ProgramSettingsType;
+import com.acromere.xenon.workpane.ToolEvent;
+import com.acromere.xenon.workspace.Workarea;
+import com.acromere.zerra.javafx.Fx;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.Future;
 
-import static com.avereon.xenon.test.ProgramTestConfig.LONG_TIMEOUT;
+import static com.acromere.xenon.test.ProgramTestConfig.LONG_TIMEOUT;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class SettingsToolCloseResourceCloseToolUIT extends SettingsToolUIT {

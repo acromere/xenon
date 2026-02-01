@@ -1,6 +1,6 @@
-package com.avereon.xenon.product;
+package com.acromere.xenon.product;
 
-import com.avereon.product.ProductCard;
+import com.acromere.product.ProductCard;
 import org.assertj.core.api.AbstractAssert;
 
 public class ProductCardAssert extends AbstractAssert<ProductCardAssert, ProductCard> {

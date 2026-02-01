@@ -1,5 +1,5 @@
-package com.avereon.xenon.tool.guide;
+package com.acromere.xenon.tool.guide;
 
-import com.avereon.xenon.BaseToolUIT;
+import com.acromere.xenon.BaseToolUIT;
 
 class GuideToolUIT extends BaseToolUIT {}

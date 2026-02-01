@@ -1,8 +1,8 @@
-package com.avereon.xenon.tool.product;
+package com.acromere.xenon.tool.product;
 
-import com.avereon.xenon.tool.settings.SettingsTool;
-import com.avereon.xenon.workpane.ToolEvent;
-import com.avereon.xenon.workpane.Workpane;
+import com.acromere.xenon.tool.settings.SettingsTool;
+import com.acromere.xenon.workpane.ToolEvent;
+import com.acromere.xenon.workpane.Workpane;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

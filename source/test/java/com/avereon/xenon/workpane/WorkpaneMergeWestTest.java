@@ -1,4 +1,4 @@
-package com.avereon.xenon.workpane;
+package com.acromere.xenon.workpane;
 
 import javafx.geometry.Side;
 import org.junit.jupiter.api.Test;

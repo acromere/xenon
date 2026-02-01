@@ -1,7 +1,7 @@
-package com.avereon.xenon.resource;
+package com.acromere.xenon.resource;
 
-import com.avereon.xenon.Xenon;
-import com.avereon.xenon.scheme.BaseScheme;
+import com.acromere.xenon.Xenon;
+import com.acromere.xenon.scheme.BaseScheme;
 
 public class MockScheme extends BaseScheme {
 

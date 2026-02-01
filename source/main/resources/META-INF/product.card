@@ -5,7 +5,7 @@
   "timestamp": "${project.timestamp}",
   "osSpecific": true,
   "iconUri": "program",
-	"icons": [ "program", "https://avereon.com/download/latest/xenon/product/icon" ],
+	"icons": [ "program", "https://acromere.com/download/latest/xenon/product/icon" ],
   "name": "${name}",
   "provider": "${organization.name}",
   "providerUrl": "${organization.url}",
@@ -18,10 +18,10 @@
   "maintainers": [
   {
     "name": "Mark Soderquist",
-    "email": "mark.soderquist@avereon.com",
+    "email": "mark.soderquist@acromere.com",
     "timezone": null,
-    "organization": "Avereon",
-    "organizationUrl": "http://www.avereon.com",
+    "organization": "Acromere",
+    "organizationUrl": "http://www.acromere.com",
     "roles": [ "Architect", "Developer" ]
   }
   ],

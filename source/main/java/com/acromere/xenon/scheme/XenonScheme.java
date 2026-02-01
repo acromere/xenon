@@ -1,0 +1,71 @@
+package com.acromere.xenon.scheme;
+
+import com.acromere.index.Document;
+import com.acromere.product.Rb;
+import com.acromere.util.IoUtil;
+import com.acromere.xenon.Xenon;
+import com.acromere.xenon.resource.Resource;
+import com.acromere.xenon.resource.Codec;
+import com.acromere.xenon.resource.exception.ResourceException;
+import lombok.CustomLog;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
+
+@CustomLog
+public class XenonScheme extends ProgramScheme {
+
+	public static final String ID = "xenon";
+
+	public XenonScheme( Xenon program ) {
+		super( program, ID );
+	}
+
+	@Override
+	public boolean canLoad( Resource resource ) throws ResourceException {
+		return true;
+	}
+
+	@Override
+	public void load( Resource resource, Codec codec ) throws ResourceException {
+		// Most program assets don't actually load anything
+		// However, the following do:
+
+		// Help content
+		URI uri = resource.getUri();
+		if( uri.getScheme().equals( ID ) ) {
+			if( uri.getSchemeSpecificPart().equals( "help" ) ) {
+				loadHelp( resource, codec );
+			}
+		}
+	}
+
+	private void loadHelp( Resource resource, Codec codec ) {
+		URI uri = resource.getUri();
+
+		String content;
+		try {
+			Document document = getProgram().getIndexService().lookupFromCache( uri );
+			if( document == null ) {
+				log.atWarn().log( "Document not found: doc=%s", uri );
+				String message = Rb.text( "program", "help-document-not-found" );
+				content = "<html><body>" + message + "</body></html>";
+			} else {
+				content = IoUtil.toString( document.reader() );
+			}
+		} catch( Exception exception ) {
+			String message = Rb.text( "program", "error-loading-help-content" );
+			content = "<html><body>" + message + "</body></html>";
+			log.atError( exception ).log();
+		}
+
+		try {
+			codec.load( resource, new ByteArrayInputStream( content.getBytes( StandardCharsets.UTF_8 ) ) );
+		} catch( IOException exception ) {
+			throw new RuntimeException( exception );
+		}
+	}
+
+}

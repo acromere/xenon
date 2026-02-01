@@ -1,6 +1,6 @@
-package com.avereon.xenon.task;
+package com.acromere.xenon.task;
 
-import com.avereon.event.EventType;
+import com.acromere.event.EventType;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

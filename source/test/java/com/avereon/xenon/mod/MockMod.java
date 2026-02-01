@@ -1,6 +1,6 @@
-package com.avereon.xenon.mod;
+package com.acromere.xenon.mod;
 
-import com.avereon.xenon.Module;
+import com.acromere.xenon.Module;
 
 public class MockMod extends Module {
 

@@ -1,4 +1,4 @@
-package com.avereon.xenon.workpane;
+package com.acromere.xenon.workpane;
 
 import org.assertj.core.api.AbstractAssert;
 

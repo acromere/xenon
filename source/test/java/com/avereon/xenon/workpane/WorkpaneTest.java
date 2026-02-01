@@ -1,10 +1,10 @@
-package com.avereon.xenon.workpane;
+package com.acromere.xenon.workpane;
 
-import com.avereon.zerra.javafx.Fx;
+import com.acromere.zerra.javafx.Fx;
 import javafx.geometry.Side;
 import org.junit.jupiter.api.Test;
 
-import static com.avereon.xenon.test.ProgramTestConfig.TIMEOUT;
+import static com.acromere.xenon.test.ProgramTestConfig.TIMEOUT;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class WorkpaneTest extends WorkpaneTestCase {

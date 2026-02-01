@@ -1,0 +1,24 @@
+package com.acromere.xenon.action;
+
+import com.acromere.xenon.ProgramAction;
+import com.acromere.xenon.Xenon;
+import com.acromere.xenon.resource.type.ProgramThemesType;
+import javafx.event.ActionEvent;
+
+public class ThemesAction extends ProgramAction {
+
+	public ThemesAction( Xenon program ) {
+		super( program );
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
+
+	@Override
+	public void handle( ActionEvent event ) {
+		getProgram().getResourceManager().openAsset( ProgramThemesType.URI );
+	}
+
+}

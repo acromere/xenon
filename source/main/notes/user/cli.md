@@ -5,7 +5,7 @@ module command line parameters. Xenon has also been distributed as a
 jlink-ed application and should be executed using the provided Java runtime. 
 To start Xenon use the following commands:
 
-    ${xenon.home}/bin/java -m com.avereon.xenon
+    ${xenon.home}/bin/java -m com.acromere.xenon
 
 It is expected, however, that users use the provided program shortcuts and shell 
 scripts such that Xenon may simply be started by using the command 
@@ -36,7 +36,7 @@ Examples:
     xenon.jar /etc/motd
     
     Open the Xenon web site
-    xenon.jar https://avereon.com/products/xenon/
+    xenon.jar https://acromere.com/products/xenon/
 
 ### Options
 Xenon supports several simple and valued options. Options always begin 

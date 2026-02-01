@@ -1,7 +1,7 @@
-package com.avereon.xenon.product;
+package com.acromere.xenon.product;
 
-import com.avereon.product.ProductCard;
-import com.avereon.xenon.ProgramTestCase;
+import com.acromere.product.ProductCard;
+import com.acromere.xenon.ProgramTestCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

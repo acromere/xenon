@@ -1,0 +1,8 @@
+package com.acromere.xenon.task;
+
+@FunctionalInterface
+public interface TaskChainSupplier<T> {
+
+	T get() throws Exception;
+
+}

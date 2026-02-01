@@ -1,4 +1,4 @@
-name: CI
+name: Acromere Xenon CI
 
 on:
   push:
@@ -10,16 +10,18 @@ on:
   workflow_dispatch:
 
 env:
-  AVN_PRODUCT: "xenon"
+  ACM_PRODUCT: "xenon"
   # The default release, should be overridden in config.sh
-  AVN_RELEASE: "latest"
+  ACM_RELEASE: "latest"
   # The default platform, should be overridden in the platform binaries jobs below
-  AVN_PLATFORM: "linux"
+  ACM_PLATFORM: "linux"
 
-  AVN_GPG_PASSWORD: ${{ secrets.AVN_GPG_PASSWORD }}
-  AVN_KEYSTORE_PASSWORD: ${{ secrets.AVN_KEYSTORE_PASSWORD }}
-  AVN_REPO_USERNAME: ${{ secrets.AVN_REPO_USERNAME }}
-  AVN_REPO_PASSWORD: ${{ secrets.AVN_REPO_PASSWORD }}
+  ACM_GPG_PASSWORD: ${{ secrets.ACM_GPG_PASSWORD }}
+  ACM_KEYSTORE_PASSWORD: ${{ secrets.ACM_KEYSTORE_PASSWORD }}
+  ACM_MAVEN_REPO_USERNAME: ${{ secrets.ACM_MAVEN_REPO_USERNAME }}
+  ACM_MAVEN_REPO_PASSWORD: ${{ secrets.ACM_MAVEN_REPO_PASSWORD }}
+  ACM_XENON_REPO_USERNAME: ${{ secrets.ACM_XENON_REPO_USERNAME }}
+  ACM_XENON_REPO_PASSWORD: ${{ secrets.ACM_XENON_REPO_PASSWORD }}
 
   DISPLAY: ":99"
   GITHUB_REF: ${{ github.ref }}
@@ -40,7 +42,7 @@ jobs:
       - name: Fetch CI/CD resources
         uses: actions/checkout@v6
         with:
-          repository: avereon/canoe
+          repository: acromere/canoe
           path: .github
 
       - name: Configuration
@@ -61,11 +63,6 @@ jobs:
           java-package: ${{env.JAVA_PACKAGE}}
           cache: 'maven'
 
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v4
-        with:
-          languages: java
-
       - name: Compile
         run: |
           mvn ${{env.MAVEN_PARMS}} compile
@@ -73,9 +70,6 @@ jobs:
       - name: Unit Tests
         run: |
           mvn ${{env.MAVEN_PARMS}} test
-
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v4
 
       - name: Upload Artifacts for Next Steps
         uses: actions/upload-artifact@v6
@@ -96,7 +90,7 @@ jobs:
       - name: Fetch CI/CD resources
         uses: actions/checkout@v6
         with:
-          repository: avereon/canoe
+          repository: acromere/canoe
           path: .github
 
       - name: Configuration
@@ -129,19 +123,19 @@ jobs:
 
       - name: Publish Icons
         run: |
-          ssh -t ${{env.AVN_REPO_USERNAME}}@avereon.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}};"
+          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}};"
           if [ $? -ne 0 ]; then exit 1; fi
-          scp -B target/main/images/${AVN_PRODUCT}.png ${{env.AVN_REPO_USERNAME}}@avereon.com:${PRODUCT_DEPLOY_PATH}/product.png 2>&1
-          scp -B target/main/images/${AVN_PRODUCT}.png ${{env.AVN_REPO_USERNAME}}@avereon.com:${PRODUCT_DEPLOY_PATH}/product-dark.png 2>&1
-          scp -B target/main/images/${AVN_PRODUCT}-light.png ${{env.AVN_REPO_USERNAME}}@avereon.com:${PRODUCT_DEPLOY_PATH}/product-light.png 2>&1
+          scp -B target/main/images/${ACM_PRODUCT}.png ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/product.png 2>&1
+          scp -B target/main/images/${ACM_PRODUCT}.png ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/product-dark.png 2>&1
+          scp -B target/main/images/${ACM_PRODUCT}-light.png ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/product-light.png 2>&1
 
       - name: Publish JavaDoc
         run: |
-          ssh -t ${{env.AVN_REPO_USERNAME}}@avereon.com "mkdir -p ${{env.JAVADOC_DEPLOY_PATH}};"
+          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.JAVADOC_DEPLOY_PATH}};"
           if [ $? -ne 0 ]; then exit 1; fi
-          scp -B target/${AVN_PRODUCT}-*-javadoc.jar ${{env.AVN_REPO_USERNAME}}@avereon.com:${{env.JAVADOC_DEPLOY_PATH}}/javadoc.jar 2>&1
+          scp -B target/${ACM_PRODUCT}-*-javadoc.jar ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${{env.JAVADOC_DEPLOY_PATH}}/javadoc.jar 2>&1
           if [ $? -ne 0 ]; then exit 1; fi
-          ssh -t ${{env.AVN_REPO_USERNAME}}@avereon.com "mkdir -p ${{env.JAVADOC_TARGET_PATH}};rm -rf ${{env.JAVADOC_TARGET_PATH}}/*;unzip -o ${{env.JAVADOC_DEPLOY_PATH}}/javadoc.jar -d ${{env.JAVADOC_TARGET_PATH}}"
+          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.JAVADOC_TARGET_PATH}};rm -rf ${{env.JAVADOC_TARGET_PATH}}/*;unzip -o ${{env.JAVADOC_DEPLOY_PATH}}/javadoc.jar -d ${{env.JAVADOC_TARGET_PATH}}"
           if [ $? -ne 0 ]; then exit 1; fi
 
   trigger_dependent_builds:
@@ -153,7 +147,7 @@ jobs:
     steps:
       - name: Trigger Dependent Builds
         run: |
-          curl -XPOST -u "${{secrets.AVN_CI_USERNAME}}:${{secrets.AVN_CI_PASSWORD}}" -H "Accept: application/vnd.github.v3+json" -H "Content-Type: application/json" https://api.github.com/repos/avereon/xenos/actions/workflows/ci.yml/dispatches --data '{"ref": "main"}'
+          curl -XPOST -u "${{secrets.ACM_CI_USERNAME}}:${{secrets.ACM_CI_PASSWORD}}" -H "Accept: application/vnd.github.v3+json" -H "Content-Type: application/json" https://api.github.com/repos/acromere/xenos/actions/workflows/ci.yml/dispatches --data '{"ref": "main"}'
 
   screenshots1x:
     needs: build
@@ -162,7 +156,7 @@ jobs:
     timeout-minutes: 5
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/stable' || github.base_ref == 'refs/heads/main' || github.base_ref == 'refs/heads/stable'
     env:
-      AVN_PLATFORM: "linux"
+      ACM_PLATFORM: "linux"
       XVFB_PARMS: "-screen 0 1920x1080x24 -nolisten unix"
     steps:
       - name: Fetch sources
@@ -171,7 +165,7 @@ jobs:
       - name: Fetch CI/CD resources
         uses: actions/checkout@v6
         with:
-          repository: avereon/canoe
+          repository: acromere/canoe
           path: .github
 
       - name: Configuration
@@ -203,9 +197,9 @@ jobs:
 
       - name: Publish Screenshots
         run: |
-          ssh -t ${{env.AVN_REPO_USERNAME}}@avereon.com "mkdir -p /opt/avn/web/screenshots;"
+          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p /opt/acm/web/screenshots;"
           if [ $? -ne 0 ]; then exit 1; fi
-          scp -Br target/screenshots/* ${{env.AVN_REPO_USERNAME}}@avereon.com:/opt/avn/web/screenshots/ 2>&1
+          scp -Br target/screenshots/* ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:/opt/acm/web/screenshots/ 2>&1
 
   screenshots2x:
     needs: build
@@ -214,7 +208,7 @@ jobs:
     timeout-minutes: 5
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/stable' || github.base_ref == 'refs/heads/main' || github.base_ref == 'refs/heads/stable'
     env:
-      AVN_PLATFORM: "linux"
+      ACM_PLATFORM: "linux"
       XVFB_PARMS: "-screen 0 3840x2160x24 -nolisten unix"
     steps:
       - name: Fetch sources
@@ -223,7 +217,7 @@ jobs:
       - name: Fetch CI/CD resources
         uses: actions/checkout@v6
         with:
-          repository: avereon/canoe
+          repository: acromere/canoe
           path: .github
 
       - name: Configuration
@@ -255,9 +249,9 @@ jobs:
 
       - name: Publish Screenshots
         run: |
-          ssh -t ${{env.AVN_REPO_USERNAME}}@avereon.com "mkdir -p /opt/avn/web/screenshots;"
+          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p /opt/acm/web/screenshots;"
           if [ $? -ne 0 ]; then exit 1; fi
-          scp -Br target/screenshots/* ${{env.AVN_REPO_USERNAME}}@avereon.com:/opt/avn/web/screenshots/ 2>&1
+          scp -Br target/screenshots/* ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:/opt/acm/web/screenshots/ 2>&1
 
   linux:
     needs: build
@@ -266,7 +260,7 @@ jobs:
     timeout-minutes: 30
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/stable' || github.base_ref == 'refs/heads/main' || github.base_ref == 'refs/heads/stable'
     env:
-      AVN_PLATFORM: "linux"
+      ACM_PLATFORM: "linux"
     steps:
       - name: Fetch sources
         uses: actions/checkout@v6
@@ -274,7 +268,7 @@ jobs:
       - name: Fetch CI/CD resources
         uses: actions/checkout@v6
         with:
-          repository: avereon/canoe
+          repository: acromere/canoe
           path: .github
 
       - name: Configuration
@@ -310,20 +304,20 @@ jobs:
 
       - name: Publish Install Pack
         run: |
-          scp -B target/jpackage/*.deb ${{env.AVN_REPO_USERNAME}}@avereon.com:${PRODUCT_DEPLOY_PATH}/${AVN_PLATFORM}/install.deb 2>&1
-      #    scp -B target/jpackage/*.rpm ${{env.AVN_REPO_USERNAME}}@avereon.com:${PRODUCT_DEPLOY_PATH}/${AVN_PLATFORM} 2>&1
+          scp -B target/jpackage/*.deb ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/install.deb 2>&1
+      #    scp -B target/jpackage/*.rpm ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM} 2>&1
 
       #      - name: Publish Install Pack (izpack)
       #        run: |
-      #          scp -B target/*install.jar ${{env.AVN_REPO_USERNAME}}@avereon.com:${PRODUCT_DEPLOY_PATH}/${AVN_PLATFORM}/install.jar 2>&1
+      #          scp -B target/*install.jar ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/install.jar 2>&1
 
       - name: Publish Product Pack
         run: |
-          scp -B target/*product.jar ${{env.AVN_REPO_USERNAME}}@avereon.com:${PRODUCT_DEPLOY_PATH}/${AVN_PLATFORM}/product.jar 2>&1
+          scp -B target/*product.jar ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/product.jar 2>&1
 
       - name: Publish Product Card
         run: |
-          scp -B target/main/java/META-INF/*.card ${{env.AVN_REPO_USERNAME}}@avereon.com:${PRODUCT_DEPLOY_PATH}/${AVN_PLATFORM}/product.card 2>&1
+          scp -B target/main/java/META-INF/*.card ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/product.card 2>&1
 
   macos:
     needs: build
@@ -332,7 +326,7 @@ jobs:
     timeout-minutes: 30
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/stable' || github.base_ref == 'refs/heads/main' || github.base_ref == 'refs/heads/stable'
     env:
-      AVN_PLATFORM: "macosx"
+      ACM_PLATFORM: "macosx"
     steps:
       - name: Fetch sources
         uses: actions/checkout@v6
@@ -340,7 +334,7 @@ jobs:
       - name: Fetch CI/CD resources
         uses: actions/checkout@v6
         with:
-          repository: avereon/canoe
+          repository: acromere/canoe
           path: .github
 
       - name: Configuration
@@ -380,18 +374,18 @@ jobs:
           cd target/main/images
           mkdir icons.iconset
           
-          cp ${AVN_PRODUCT}.png icons.iconset/icon512x512@2x.png
-          sips -z 512 512 ${AVN_PRODUCT}.png --out icons.iconset/icon_512x512.png
-          sips -z 512 512 ${AVN_PRODUCT}.png --out icons.iconset/icon_256x256@2x.png
-          sips -z 256 256 ${AVN_PRODUCT}.png --out icons.iconset/icon_256x256.png
-          sips -z 256 256 ${AVN_PRODUCT}.png --out icons.iconset/icon_128x128@2x.png
-          sips -z 128 128 ${AVN_PRODUCT}.png --out icons.iconset/icon_128x128.png
-          sips -z 128 128 ${AVN_PRODUCT}.png --out icons.iconset/icon_64x64@2x.png
-          sips -z 64 64 ${AVN_PRODUCT}.png --out icons.iconset/icon_64x64.png
-          sips -z 64 64 ${AVN_PRODUCT}.png --out icons.iconset/icon_32x32@2x.png
-          sips -z 32 32 ${AVN_PRODUCT}.png --out icons.iconset/icon_32x32.png
-          sips -z 32 32 ${AVN_PRODUCT}.png --out icons.iconset/icon_16x16@2x.png
-          sips -z 16 16 ${AVN_PRODUCT}.png --out icons.iconset/icon_16x16.png
+          cp ${ACM_PRODUCT}.png icons.iconset/icon512x512@2x.png
+          sips -z 512 512 ${ACM_PRODUCT}.png --out icons.iconset/icon_512x512.png
+          sips -z 512 512 ${ACM_PRODUCT}.png --out icons.iconset/icon_256x256@2x.png
+          sips -z 256 256 ${ACM_PRODUCT}.png --out icons.iconset/icon_256x256.png
+          sips -z 256 256 ${ACM_PRODUCT}.png --out icons.iconset/icon_128x128@2x.png
+          sips -z 128 128 ${ACM_PRODUCT}.png --out icons.iconset/icon_128x128.png
+          sips -z 128 128 ${ACM_PRODUCT}.png --out icons.iconset/icon_64x64@2x.png
+          sips -z 64 64 ${ACM_PRODUCT}.png --out icons.iconset/icon_64x64.png
+          sips -z 64 64 ${ACM_PRODUCT}.png --out icons.iconset/icon_32x32@2x.png
+          sips -z 32 32 ${ACM_PRODUCT}.png --out icons.iconset/icon_32x32.png
+          sips -z 32 32 ${ACM_PRODUCT}.png --out icons.iconset/icon_16x16@2x.png
+          sips -z 16 16 ${ACM_PRODUCT}.png --out icons.iconset/icon_16x16.png
           
           iconutil -c icns icons.iconset
           rm -R icons.iconset
@@ -399,7 +393,7 @@ jobs:
 
       # For help building the MacOS icon pack
       # https://codetinkering.com/how-to-use-jpackage-tool-cli-for-macos-apps/#notes-about-macos-application-icons
-      # target/main/images/${AVN_PRODUCT}.icns
+      # target/main/images/${ACM_PRODUCT}.icns
 
       - name: Build Packs
         run: |
@@ -407,20 +401,20 @@ jobs:
 
       - name: Publish Install Pack
         run: |
-          scp -B target/jpackage/*.dmg ${{env.AVN_REPO_USERNAME}}@avereon.com:${PRODUCT_DEPLOY_PATH}/${AVN_PLATFORM}/install.dmg 2>&1
-      #    scp -B target/jpackage/*.pkg ${{env.AVN_REPO_USERNAME}}@avereon.com:${PRODUCT_DEPLOY_PATH}/${AVN_PLATFORM} 2>&1
+          scp -B target/jpackage/*.dmg ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/install.dmg 2>&1
+      #    scp -B target/jpackage/*.pkg ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM} 2>&1
 
       #      - name: Publish Install Pack (izpack)
       #        run: |
-      #          scp -B target/*install.jar ${{env.AVN_REPO_USERNAME}}@avereon.com:${PRODUCT_DEPLOY_PATH}/${AVN_PLATFORM}/install.jar 2>&1
+      #          scp -B target/*install.jar ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/install.jar 2>&1
 
       - name: Publish Product Pack
         run: |
-          scp -B target/*product.jar ${{env.AVN_REPO_USERNAME}}@avereon.com:${PRODUCT_DEPLOY_PATH}/${AVN_PLATFORM}/product.jar 2>&1
+          scp -B target/*product.jar ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/product.jar 2>&1
 
       - name: Publish Product Card
         run: |
-          scp -B target/main/java/META-INF/*.card ${{env.AVN_REPO_USERNAME}}@avereon.com:${PRODUCT_DEPLOY_PATH}/${AVN_PLATFORM}/product.card 2>&1
+          scp -B target/main/java/META-INF/*.card ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/product.card 2>&1
 
   windows:
     needs: build
@@ -429,7 +423,7 @@ jobs:
     timeout-minutes: 30
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/stable' || github.base_ref == 'refs/heads/main' || github.base_ref == 'refs/heads/stable'
     env:
-      AVN_PLATFORM: "windows"
+      ACM_PLATFORM: "windows"
     steps:
       - name: Fetch sources
         uses: actions/checkout@v6
@@ -437,7 +431,7 @@ jobs:
       - name: Fetch CI/CD resources
         uses: actions/checkout@v6
         with:
-          repository: avereon/canoe
+          repository: acromere/canoe
           path: .github
 
       - name: Configuration
@@ -478,21 +472,21 @@ jobs:
       - name: Publish Install Pack
         shell: bash
         run: |
-          scp -B target/jpackage/*.msi ${{env.AVN_REPO_USERNAME}}@avereon.com:${PRODUCT_DEPLOY_PATH}/${AVN_PLATFORM}/install.msi 2>&1
-        # scp -B target/jpackage/*.exe ${{env.AVN_REPO_USERNAME}}@avereon.com:${PRODUCT_DEPLOY_PATH}/${AVN_PLATFORM}/install.exe 2>&1
+          scp -B target/jpackage/*.msi ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/install.msi 2>&1
+        # scp -B target/jpackage/*.exe ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/install.exe 2>&1
 
 #      # Originally implemented with IzPack
 #      - name: Publish Install Pack (izpack)
 #        shell: bash
 #        run: |
-#          scp -B target/*install.jar ${{env.AVN_REPO_USERNAME}}@avereon.com:${PRODUCT_DEPLOY_PATH}/${AVN_PLATFORM}/install.jar 2>&1
+#          scp -B target/*install.jar ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/install.jar 2>&1
 
       - name: Publish Product Pack
         shell: bash
         run: |
-          scp -B target/*product.jar ${{env.AVN_REPO_USERNAME}}@avereon.com:${PRODUCT_DEPLOY_PATH}/${AVN_PLATFORM}/product.jar 2>&1
+          scp -B target/*product.jar ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/product.jar 2>&1
 
       - name: Publish Product Card
         shell: bash
         run: |
-          scp -B target/main/java/META-INF/*.card ${{env.AVN_REPO_USERNAME}}@avereon.com:${PRODUCT_DEPLOY_PATH}/${AVN_PLATFORM}/product.card 2>&1
+          scp -B target/main/java/META-INF/*.card ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/product.card 2>&1

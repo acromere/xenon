@@ -1,7 +1,7 @@
-package com.avereon.xenon.resource;
+package com.acromere.xenon.resource;
 
-import com.avereon.event.EventHandler;
-import com.avereon.event.EventType;
+import com.acromere.event.EventHandler;
+import com.acromere.event.EventType;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

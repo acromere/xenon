@@ -1,8 +1,8 @@
-package com.avereon.xenon.resource;
+package com.acromere.xenon.resource;
 
-import com.avereon.xenon.ProgramTestCase;
-import com.avereon.xenon.scheme.FileScheme;
-import com.avereon.xenon.scheme.NewScheme;
+import com.acromere.xenon.ProgramTestCase;
+import com.acromere.xenon.scheme.FileScheme;
+import com.acromere.xenon.scheme.NewScheme;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

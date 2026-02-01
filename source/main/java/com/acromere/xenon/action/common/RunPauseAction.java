@@ -1,0 +1,32 @@
+package com.acromere.xenon.action.common;
+
+import com.acromere.skill.RunPauseResettable;
+import com.acromere.xenon.Xenon;
+import com.acromere.xenon.ProgramAction;
+import javafx.event.ActionEvent;
+import lombok.CustomLog;
+
+@CustomLog
+public class RunPauseAction extends ProgramAction {
+
+	private final RunPauseResettable target;
+
+	public RunPauseAction( Xenon program, RunPauseResettable target ) {
+		super( program );
+		this.target = target;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
+
+	@Override
+	public void handle( ActionEvent event ) {
+		switch( getState() ) {
+			case "run" -> target.run();
+			case "pause" -> target.pause();
+		}
+	}
+
+}

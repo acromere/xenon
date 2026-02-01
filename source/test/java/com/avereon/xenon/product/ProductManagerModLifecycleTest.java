@@ -1,8 +1,8 @@
-package com.avereon.xenon.product;
+package com.acromere.xenon.product;
 
-import com.avereon.xenon.BaseFullXenonTestCase;
-import com.avereon.xenon.Module;
-import com.avereon.xenon.mod.MockMod;
+import com.acromere.xenon.BaseFullXenonTestCase;
+import com.acromere.xenon.Module;
+import com.acromere.xenon.mod.MockMod;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,7 +1,7 @@
-package com.avereon.xenon.resource;
+package com.acromere.xenon.resource;
 
-import com.avereon.xenon.XenonProgramProduct;
-import com.avereon.xenon.mod.MockMod;
+import com.acromere.xenon.XenonProgramProduct;
+import com.acromere.xenon.mod.MockMod;
 import lombok.Getter;
 import org.junit.jupiter.api.BeforeEach;
 

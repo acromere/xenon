@@ -1,6 +1,6 @@
-package com.avereon.xenon.resource;
+package com.acromere.xenon.resource;
 
-import com.avereon.xenon.BasePartXenonTestCase;
+import com.acromere.xenon.BasePartXenonTestCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

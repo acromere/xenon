@@ -1,0 +1,109 @@
+package com.acromere.xenon.tool;
+
+import com.acromere.data.NodeEvent;
+import com.acromere.event.EventHandler;
+import com.acromere.product.Rb;
+import com.acromere.xenon.RbKey;
+import com.acromere.xenon.XenonProgramProduct;
+import com.acromere.xenon.ProgramTool;
+import com.acromere.xenon.resource.Resource;
+import com.acromere.xenon.resource.OpenAssetRequest;
+import com.acromere.xenon.notice.Notice;
+import com.acromere.xenon.notice.NoticeModel;
+import com.acromere.xenon.notice.NoticePane;
+import com.acromere.xenon.workpane.Workpane;
+import com.acromere.zerra.javafx.Fx;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import lombok.CustomLog;
+
+import java.util.List;
+
+/**
+ * The notice tool displays the program notices that have been posted. The tool allows the user to close/dismiss notices or click on the notice to execute a
+ * program action.
+ */
+@CustomLog
+public class NoticeTool extends ProgramTool {
+
+	private final VBox noticeContainer;
+
+	private EventHandler<NodeEvent> assetHandler;
+
+	public NoticeTool( XenonProgramProduct product, Resource resource ) {
+		super( product, resource );
+		setId( "tool-notice" );
+
+		String clearAllText = Rb.text( RbKey.TOOL, "notice-clear-all" );
+		Button clearAllButton = new Button( clearAllText );
+		clearAllButton.getStyleClass().addAll( "padded" );
+		clearAllButton.setOnMouseClicked( ( event ) -> this.clearAll() );
+
+		VBox buttonBox = new VBox( clearAllButton );
+		buttonBox.getStyleClass().addAll( "padded", "notice-buttons" );
+
+		ScrollPane scroller = new ScrollPane( noticeContainer = new VBox() );
+		scroller.setFitToWidth( true );
+		scroller.setFitToHeight( true );
+
+		BorderPane layout = new BorderPane( scroller, buttonBox, null, null, null );
+		clearAllButton.prefWidthProperty().bind( layout.widthProperty() );
+
+		getChildren().addAll( layout );
+	}
+
+	@Override
+	public Workpane.Placement getPlacement() {
+		return Workpane.Placement.DOCK_RIGHT;
+	}
+
+	@Override
+	protected void ready( OpenAssetRequest request ) {
+		setTitle( Rb.text( "tool", "notice-name" ) );
+		setGraphic( getProgram().getIconLibrary().getIcon( "notice" ) );
+		((NoticeModel)getAssetModel()).register( NodeEvent.NODE_CHANGED, assetHandler = ( e ) -> updateNotices() );
+	}
+
+	@Override
+	protected void open( OpenAssetRequest request ) {
+		getProgram().getNoticeManager().markAllAsRead();
+		updateNotices();
+	}
+
+	@Override
+	protected void display() {
+		getProgram().getWorkspaceManager().getActiveWorkspace().hideNotices();
+	}
+
+	@Override
+	protected void deallocate() {
+		((NoticeModel)getAssetModel()).unregister( NodeEvent.NODE_CHANGED, assetHandler );
+	}
+
+	private void clearAll() {
+		getProgram().getNoticeManager().removeAll();
+		this.close();
+	}
+
+	private void updateNotices() {
+		List<Notice> notices = getProgram().getNoticeManager().getNotices();
+
+		Fx.run( () -> {
+			noticeContainer.getChildren().clear();
+			for( Notice notice : notices ) {
+				NoticePane noticePane = new NoticePane( getProgram(), notice, false );
+				noticePane.setOnMouseClicked( ( event ) -> {
+					noticePane.executeNoticeAction();
+				} );
+				noticePane.getCloseButton().setOnMouseClicked( ( event ) -> {
+					getProgram().getNoticeManager().removeNotice( notice );
+					event.consume();
+				} );
+				noticeContainer.getChildren().add( noticePane );
+			}
+		} );
+	}
+
+}

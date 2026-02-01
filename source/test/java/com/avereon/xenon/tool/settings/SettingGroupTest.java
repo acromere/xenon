@@ -1,7 +1,7 @@
-package com.avereon.xenon.tool.settings;
+package com.acromere.xenon.tool.settings;
 
-import com.avereon.settings.MapSettings;
-import com.avereon.settings.Settings;
+import com.acromere.settings.MapSettings;
+import com.acromere.settings.Settings;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

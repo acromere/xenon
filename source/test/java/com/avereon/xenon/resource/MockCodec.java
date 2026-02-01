@@ -1,6 +1,6 @@
-package com.avereon.xenon.resource;
+package com.acromere.xenon.resource;
 
-import com.avereon.xenon.scheme.XenonScheme;
+import com.acromere.xenon.scheme.XenonScheme;
 
 import java.io.InputStream;
 import java.io.OutputStream;

@@ -1,0 +1,69 @@
+package com.acromere.xenon.tool.settings.editor;
+
+import com.acromere.product.Rb;
+import com.acromere.settings.SettingsEvent;
+import com.acromere.xenon.XenonProgramProduct;
+import com.acromere.xenon.tool.settings.SettingData;
+import com.acromere.xenon.tool.settings.SettingEditor;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
+import javafx.scene.layout.GridPane;
+
+import java.util.List;
+
+public class CheckBoxSettingEditor extends SettingEditor {
+
+	private CheckBox checkbox;
+
+	private List<Node> nodes;
+
+	public CheckBoxSettingEditor( XenonProgramProduct product, String rbKey, SettingData setting ) {
+		super( product, rbKey, setting );
+	}
+
+	@Override
+	public void addComponents( GridPane pane, int row ) {
+		String rbKey = setting.getRbKey();
+		String selected = setting.getSettings().get( getKey() );
+		String label = Rb.text( getProduct(), getRbKey(), rbKey );
+
+		checkbox = new CheckBox();
+		checkbox.setSelected( Boolean.parseBoolean( selected ) );
+		checkbox.setText( label );
+		checkbox.setId( rbKey );
+
+		nodes = List.of( checkbox );
+
+		// Add the change handlers
+		checkbox.selectedProperty().addListener( this::doCheckboxValueChanged );
+
+		// Set component state
+		setDisable( setting.isDisable() );
+		setVisible( setting.isVisible() );
+
+		// Add the components
+		GridPane.setColumnSpan( checkbox, GridPane.REMAINING );
+		pane.addRow( row, checkbox );
+	}
+
+	@Override
+	public List<Node> getComponents() {
+		return nodes;
+	}
+
+	@Override
+	protected void doSettingValueChanged( SettingsEvent event ) {
+		if( event.getEventType() == SettingsEvent.CHANGED && getKey().equals( event.getKey() ) ) checkbox.setSelected( Boolean.parseBoolean( String.valueOf( event.getNewValue() ) ) );
+	}
+
+	@Override
+	protected void pageSettingsChanged() {
+		checkbox.setSelected( Boolean.parseBoolean( getCurrentValue() ) );
+	}
+
+	private void doCheckboxValueChanged( ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue ) {
+		setting.getSettings().set( getKey(), String.valueOf( newValue ) );
+	}
+
+}

@@ -1,14 +1,14 @@
-package com.avereon.xenon.tool;
+package com.acromere.xenon.tool;
 
-import com.avereon.xenon.BaseToolUIT;
-import com.avereon.xenon.resource.type.ProgramGuideType;
-import com.avereon.xenon.tool.guide.GuideTool;
-import com.avereon.xenon.workpane.ToolEvent;
-import com.avereon.xenon.workpane.Workpane;
-import com.avereon.zerra.javafx.Fx;
+import com.acromere.xenon.BaseToolUIT;
+import com.acromere.xenon.resource.type.ProgramGuideType;
+import com.acromere.xenon.tool.guide.GuideTool;
+import com.acromere.xenon.workpane.ToolEvent;
+import com.acromere.xenon.workpane.Workpane;
+import com.acromere.zerra.javafx.Fx;
 import org.junit.jupiter.api.Test;
 
-import static com.avereon.xenon.test.ProgramTestConfig.LONG_TIMEOUT;
+import static com.acromere.xenon.test.ProgramTestConfig.LONG_TIMEOUT;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class SingletonRaceConditionUIT extends BaseToolUIT {

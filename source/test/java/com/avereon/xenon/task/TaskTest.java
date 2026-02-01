@@ -1,6 +1,6 @@
-package com.avereon.xenon.task;
+package com.acromere.xenon.task;
 
-import com.avereon.util.ThreadUtil;
+import com.acromere.util.ThreadUtil;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

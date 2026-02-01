@@ -5,23 +5,23 @@
 // 3. Trying to extract base test classes to a separate library caused a circular reference.
 
 @SuppressWarnings( "requires-transitive-automatic" )
-module com.avereon.xenon {
+module com.acromere.xenon {
 
 	// Compile-time only
 	requires static lombok;
 	requires static org.jspecify;
 
 	// Both compile-time and run-time
-	requires transitive com.avereon.zenna;
-	requires transitive com.avereon.zerra;
-	requires transitive com.avereon.zevra;
+	requires transitive com.acromere.zenna;
+	requires transitive com.acromere.zerra;
+	requires transitive com.acromere.zevra;
 	requires transitive javafx.controls;
 	requires transitive javafx.graphics;
 	requires transitive javafx.fxml;
 	requires transitive javafx.swing;
 	requires transitive javafx.web;
 	requires transitive org.fxmisc.undo;
-	requires com.avereon.weave;
+	requires com.acromere.weave;
 	requires java.net.http;
 	requires java.logging;
 	requires java.management;
@@ -32,37 +32,37 @@ module com.avereon.xenon {
 	requires reactfx;
 
 	// General exports
-	exports com.avereon.xenon;
-	exports com.avereon.xenon.action.common;
-	exports com.avereon.xenon.demo;
-	exports com.avereon.xenon.index;
-	exports com.avereon.xenon.notice;
-	exports com.avereon.xenon.product;
-	exports com.avereon.xenon.resource;
-	exports com.avereon.xenon.resource.exception;
-	exports com.avereon.xenon.resource.type;
-	exports com.avereon.xenon.scheme;
-	exports com.avereon.xenon.task;
-	exports com.avereon.xenon.test;
-	exports com.avereon.xenon.throwable;
-	exports com.avereon.xenon.tool;
-	exports com.avereon.xenon.tool.guide;
-	exports com.avereon.xenon.tool.settings;
-	exports com.avereon.xenon.tool.settings.editor;
-	exports com.avereon.xenon.trial;
-	exports com.avereon.xenon.undo;
-	exports com.avereon.xenon.util;
-	exports com.avereon.xenon.ui;
-	exports com.avereon.xenon.ui.util;
-	exports com.avereon.xenon.workpane;
-	exports com.avereon.xenon.workspace;
+	exports com.acromere.xenon;
+	exports com.acromere.xenon.action.common;
+	exports com.acromere.xenon.demo;
+	exports com.acromere.xenon.index;
+	exports com.acromere.xenon.notice;
+	exports com.acromere.xenon.product;
+	exports com.acromere.xenon.resource;
+	exports com.acromere.xenon.resource.exception;
+	exports com.acromere.xenon.resource.type;
+	exports com.acromere.xenon.scheme;
+	exports com.acromere.xenon.task;
+	exports com.acromere.xenon.test;
+	exports com.acromere.xenon.throwable;
+	exports com.acromere.xenon.tool;
+	exports com.acromere.xenon.tool.guide;
+	exports com.acromere.xenon.tool.settings;
+	exports com.acromere.xenon.tool.settings.editor;
+	exports com.acromere.xenon.trial;
+	exports com.acromere.xenon.undo;
+	exports com.acromere.xenon.util;
+	exports com.acromere.xenon.ui;
+	exports com.acromere.xenon.ui.util;
+	exports com.acromere.xenon.workpane;
+	exports com.acromere.xenon.workspace;
 
-	opens com.avereon.xenon;
-	opens com.avereon.xenon.bundles;
-	opens com.avereon.xenon.product;
-	opens com.avereon.xenon.settings;
-	opens com.avereon.xenon.undo;
-	opens com.avereon.xenon.trial;
+	opens com.acromere.xenon;
+	opens com.acromere.xenon.bundles;
+	opens com.acromere.xenon.product;
+	opens com.acromere.xenon.settings;
+	opens com.acromere.xenon.undo;
+	opens com.acromere.xenon.trial;
 
-	uses com.avereon.xenon.Module;
+	uses com.acromere.xenon.Module;
 }

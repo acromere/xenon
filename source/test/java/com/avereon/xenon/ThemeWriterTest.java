@@ -1,6 +1,6 @@
-package com.avereon.xenon;
+package com.acromere.xenon;
 
-import com.avereon.util.TextUtil;
+import com.acromere.util.TextUtil;
 import javafx.scene.paint.Color;
 import org.junit.jupiter.api.Test;
 

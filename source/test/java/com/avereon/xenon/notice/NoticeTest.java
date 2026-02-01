@@ -1,6 +1,6 @@
-package com.avereon.xenon.notice;
+package com.acromere.xenon.notice;
 
-import com.avereon.zerra.javafx.Fx;
+import com.acromere.zerra.javafx.Fx;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;

@@ -1,7 +1,7 @@
-package com.avereon.xenon.workpane;
+package com.acromere.xenon.workpane;
 
-import com.avereon.xenon.BaseFxPlatformTestCase;
-import com.avereon.xenon.resource.Resource;
+import com.acromere.xenon.BaseFxPlatformTestCase;
+import com.acromere.xenon.resource.Resource;
 import javafx.geometry.Side;
 import javafx.scene.Scene;
 import org.junit.jupiter.api.BeforeEach;

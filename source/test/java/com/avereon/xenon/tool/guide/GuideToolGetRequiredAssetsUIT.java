@@ -1,7 +1,7 @@
-package com.avereon.xenon.tool.guide;
+package com.acromere.xenon.tool.guide;
 
-import com.avereon.xenon.resource.Resource;
-import com.avereon.xenon.resource.type.ProgramGuideType;
+import com.acromere.xenon.resource.Resource;
+import com.acromere.xenon.resource.type.ProgramGuideType;
 import org.junit.jupiter.api.Test;
 
 import java.net.URI;

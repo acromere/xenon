@@ -1,8 +1,8 @@
 # Getting Started
 
 ## Installing the Program
-Download the installer for your platform. Installers can be found at the Avereon 
-web site: https://avereon.com
+Download the installer for your platform. Installers can be found at the Acromere 
+web site: https://acromere.com
 
 Run the installer and follow the installer prompts
 

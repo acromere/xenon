@@ -1,10 +1,10 @@
-package com.avereon.xenon;
+package com.acromere.xenon;
 
-import com.avereon.xenon.resource.Resource;
-import com.avereon.xenon.tool.guide.Guide;
-import com.avereon.xenon.tool.guide.GuideContext;
-import com.avereon.xenon.tool.guide.GuideNode;
-import com.avereon.xenon.tool.guide.GuidedTool;
+import com.acromere.xenon.resource.Resource;
+import com.acromere.xenon.tool.guide.Guide;
+import com.acromere.xenon.tool.guide.GuideContext;
+import com.acromere.xenon.tool.guide.GuideNode;
+import com.acromere.xenon.tool.guide.GuidedTool;
 import lombok.Getter;
 
 import java.util.HashSet;

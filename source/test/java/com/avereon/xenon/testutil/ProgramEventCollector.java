@@ -1,7 +1,7 @@
-package com.avereon.xenon.testutil;
+package com.acromere.xenon.testutil;
 
-import com.avereon.event.EventHandler;
-import com.avereon.xenon.product.ProductEvent;
+import com.acromere.event.EventHandler;
+import com.acromere.xenon.product.ProductEvent;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;

@@ -1,5 +1,5 @@
-package com.avereon.xenon.workspace;
+package com.acromere.xenon.workspace;
 
-import com.avereon.xenon.BaseXenonUIT;
+import com.acromere.xenon.BaseXenonUIT;
 
 abstract class ProgramWorkspaceUIT extends BaseXenonUIT {}

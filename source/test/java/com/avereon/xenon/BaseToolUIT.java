@@ -1,6 +1,6 @@
-package com.avereon.xenon;
+package com.acromere.xenon;
 
-import com.avereon.xenon.workpane.Workpane;
+import com.acromere.xenon.workpane.Workpane;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

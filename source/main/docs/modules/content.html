@@ -1,9 +1,9 @@
 <!--
 This is the Xenon mods manual. It is formatted as a partial HTML document in
-order to be used with the DocViewer component on the Avereon website. The
+order to be used with the DocViewer component on the Acromere website. The
 h1-h6 tags that are children of the root div element, and have an id, will be
 used as an outline when displayed. Note also that links are relative to the
-Avereon website or must be fully qualified.
+Acromere website or must be fully qualified.
 -->
 <div>
 
@@ -18,7 +18,7 @@ Avereon website or must be fully qualified.
 		topic you need.
 	</p>
 	<p>
-		A reference project, <a href="https://github.com/avereon/mazer">Mazer</a>,
+		A reference project, <a href="https://github.com/acromere/mazer">Mazer</a>,
 		is also available to provide a working reference of a Xenon module. As you
 		work through these instructions, feel free to review this project for
 		information.
@@ -62,7 +62,7 @@ Avereon website or must be fully qualified.
   &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
 
   &lt;parent&gt;
-    &lt;groupId&gt;com.avereon.pom&lt;/groupId&gt;
+    &lt;groupId&gt;com.acromere.pom&lt;/groupId&gt;
     &lt;artifactId&gt;mod&lt;/artifactId&gt;
     &lt;version&gt;3.6.2&lt;/version&gt;
   &lt;/parent&gt;
@@ -72,11 +72,11 @@ Avereon website or must be fully qualified.
   &lt;version&gt;[your.version]&lt;/version&gt;
   &lt;packaging&gt;jar&lt;/packaging&gt;
 
-  &lt;-- The Avereon Maven repository --&gt;
+  &lt;-- The Acromere Maven repository --&gt;
   &lt;repositories&gt;
     &lt;repository&gt;
-      &lt;id&gt;avn&lt;/id&gt;
-      &lt;url&gt;https://repo.avereon.com/avn&lt;/url&gt;
+      &lt;id&gt;acm&lt;/id&gt;
+      &lt;url&gt;https://repo.acromere.com/acm&lt;/url&gt;
     &lt;/repository&gt;
   &lt;/repositories&gt;
 
@@ -107,17 +107,17 @@ source/main/java</pre>
 		time as needs arise. For now, we just need the initial configuration:
 	</p>
 	<pre>module [your java module name] {
-  requires com.avereon.xenon;
-  exports [your module class package] to com.avereon.xenon;
-  provides com.avereon.xenon.Module with [your fully qualified module class name];
+  requires com.acromere.xenon;
+  exports [your module class package] to com.acromere.xenon;
+  provides com.acromere.xenon.Module with [your fully qualified module class name];
 }</pre>
 	<p>
 		Here is an example using the Mazer project:
 	</p>
-	<pre>module com.avereon.mazer {
-  requires com.avereon.xenon;
-  exports com.avereon.mazer to com.avereon.xenon;
-  provides com.avereon.xenon.Module with com.avereon.mazer.Mazer;
+	<pre>module com.acromere.mazer {
+  requires com.acromere.xenon;
+  exports com.acromere.mazer to com.acromere.xenon;
+  provides com.acromere.xenon.Module with com.acromere.mazer.Mazer;
 }</pre>
 
 	<h3 id="module-class">Module Class</h3>
@@ -126,7 +126,7 @@ source/main/java</pre>
 	</p>
 	<pre>package [your package];
 
-import com.avereon.xenon.Module;
+import com.acromere.xenon.Module;
 
 public class [YourModuleClassName] extends Module {
 
@@ -135,9 +135,9 @@ public class [YourModuleClassName] extends Module {
 	<p>
 		Here is an example using the Mazer project:
 	</p>
-	<pre>package com.avereon.mazer;
+	<pre>package com.acromere.mazer;
 
-import com.avereon.xenon.Module;
+import com.acromere.xenon.Module;
 
 public class Mazer extends Module {
 
@@ -159,7 +159,7 @@ public class Mazer extends Module {
   "version": "${project.version}",
   "timestamp": "${project.timestamp}",
   "packaging": "mod",
-  "icons": [ "${project.artifactId}", "&lt;https://www.avereon.com/download/stable/avereon/provider/icon&gt;" ],
+  "icons": [ "${project.artifactId}", "&lt;https://www.acromere.com/download/stable/acromere/provider/icon&gt;" ],
   "name": "${project.name}",
   "provider": "${project.organization.name}",
   "providerUrl": "${project.organization.url}",
@@ -234,9 +234,9 @@ public class Mazer extends Module {
 		functionality will be used to discover and install the update.
 	</p>
 	<p>
-		Example repo URL: https://www.avereon.com/download/stable/catalog<br/>
-		Example card URL: https://www.avereon.com/download/stable/xenon/linux/product/card<br/>
-		Example pack URL: https://www.avereon.com/download/stable/xenon/linux/product/pack
+		Example repo URL: https://www.acromere.com/download/stable/catalog<br/>
+		Example card URL: https://www.acromere.com/download/stable/xenon/linux/product/card<br/>
+		Example pack URL: https://www.acromere.com/download/stable/xenon/linux/product/pack
 	</p>
 	<h3 id="manual-deployment">Manual Deployment</h3>
 	<p>
@@ -261,7 +261,7 @@ public class Mazer extends Module {
 	<p>
 		Here is an example using the Mazer project:
 	</p>
-	<pre>{program data folder}/modules/com.avereon.mazer/mazer.jar</pre>
+	<pre>{program data folder}/modules/com.acromere.mazer/mazer.jar</pre>
 	<p>
 		With the module now in a module folder, start or restart Xenon. You can see if it
 		loaded or not in the About tool. Open the About tool (from the menu Help >
@@ -281,7 +281,7 @@ public class Mazer extends Module {
 	<p>Here is an example using the Mazer project:</p>
 	<pre>module mazer {
   ...
-  opens com.avereon.mazer.bundles;
+  opens com.acromere.mazer.bundles;
   ...
 }</pre>
 </div>

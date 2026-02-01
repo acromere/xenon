@@ -1,7 +1,7 @@
-package com.avereon.xenon.resource;
+package com.acromere.xenon.resource;
 
-import com.avereon.xenon.Xenon;
-import com.avereon.xenon.XenonProgramProduct;
+import com.acromere.xenon.Xenon;
+import com.acromere.xenon.XenonProgramProduct;
 
 public class MockResourceType extends ResourceType {
 

@@ -1,6 +1,6 @@
-package com.avereon.xenon;
+package com.acromere.xenon;
 
-import com.avereon.zerra.javafx.Fx;
+import com.acromere.zerra.javafx.Fx;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Control;
@@ -9,7 +9,7 @@ import javafx.stage.StageStyle;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
-import static com.avereon.xenon.test.ProgramTestConfig.TIMEOUT;
+import static com.acromere.xenon.test.ProgramTestConfig.TIMEOUT;
 
 public abstract class BaseFxPlatformTestCase extends BaseForAllTests {
 

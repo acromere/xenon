@@ -1,6 +1,6 @@
-package com.avereon.xenon.tool.settings;
+package com.acromere.xenon.tool.settings;
 
-import com.avereon.xenon.ProgramTestCase;
+import com.acromere.xenon.ProgramTestCase;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;

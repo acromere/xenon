@@ -1,4 +1,4 @@
-package com.avereon.xenon;
+package com.acromere.xenon;
 
 import org.junit.jupiter.api.Test;
 

@@ -1,4 +1,4 @@
-package com.avereon.xenon.tool.guide;
+package com.acromere.xenon.tool.guide;
 
 import org.junit.jupiter.api.BeforeEach;
 

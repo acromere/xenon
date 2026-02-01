@@ -1,14 +1,14 @@
-package com.avereon.xenon.workpane;
+package com.acromere.xenon.workpane;
 
-import com.avereon.xenon.BaseFxPlatformTestCase;
-import com.avereon.xenon.resource.Resource;
-import com.avereon.zerra.javafx.Fx;
+import com.acromere.xenon.BaseFxPlatformTestCase;
+import com.acromere.xenon.resource.Resource;
+import com.acromere.zerra.javafx.Fx;
 import javafx.scene.control.Button;
 import org.junit.jupiter.api.Test;
 
 import java.net.URI;
 
-import static com.avereon.xenon.test.ProgramTestConfig.TIMEOUT;
+import static com.acromere.xenon.test.ProgramTestConfig.TIMEOUT;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ToolTabPaneTest extends BaseFxPlatformTestCase {

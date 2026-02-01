@@ -1,4 +1,4 @@
-package com.avereon.xenon.workspace;
+package com.acromere.xenon.workspace;
 
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;

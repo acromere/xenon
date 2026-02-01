@@ -1,7 +1,7 @@
-package com.avereon.xenon;
+package com.acromere.xenon;
 
-import com.avereon.log.Log;
-import com.avereon.util.OperatingSystem;
+import com.acromere.log.Log;
+import com.acromere.util.OperatingSystem;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.util.logging.Level;

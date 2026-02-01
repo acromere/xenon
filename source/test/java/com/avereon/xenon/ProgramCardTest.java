@@ -1,7 +1,7 @@
-package com.avereon.xenon;
+package com.acromere.xenon;
 
-import com.avereon.product.ProductCard;
-import com.avereon.util.OperatingSystem;
+import com.acromere.product.ProductCard;
+import com.acromere.util.OperatingSystem;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
@@ -50,7 +50,7 @@ public class ProgramCardTest extends ProgramTestCase {
 
 		assertThat( metadata.getName() ).isEqualTo( name );
 		//assertThat( metadata.getIconUri()).isEqualTo( "program" ) ;
-		assertThat( metadata.getProvider() ).isEqualTo( "Avereon" );
+		assertThat( metadata.getProvider() ).isEqualTo( "Acromere" );
 		assertThat( metadata.getInception() ).isEqualTo( inception );
 
 		assertThat( metadata.getSummary() ).isEqualTo( "Modular application platform" );

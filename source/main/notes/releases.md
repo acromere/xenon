@@ -27,16 +27,16 @@ This document helps coordinate the process:
 | prg                       | 3.6.4         | 3.6.4       | Complete | 2025-09-25 |
 | mod                       | 3.6.4         | 3.6.4       | Complete | 2025-09-25 |
 |                           |               |             |          |
-| Avereon Libraries         |
+| Acromere Libraries         |
 | zevra                     | 0.11-SNAPSHOT | 0.11        | Complete | 2025-09-25 |
 | zerra                     | 0.11-SNAPSHOT | 0.11        | Complete | 2025-09-25 |
 | zenna                     | 0.11-SNAPSHOT | 0.11        | Complete | 2025-09-25 |
 |                           |               |             |          |            |
-| Avereon Maven Plugins     |
+| Acromere Maven Plugins     |
 | curex                     | 1.5.0         | 1.5.0       | Complete | 2025-09-25 |
 | cameo                     | 2.12-SNAPSHOT | 2.12        | Complete | 2025-09-25 |
 |                           |               |             |          |            |
-| Avereon Applications      |
+| Acromere Applications      |
 | weave                     | 1.6-SNAPSHOT  | 1.6         | Complete | 2025-09-25 |
 | xenon                     | 1.9-SNAPSHOT  | 1.9         | Complete | 2025-09-26 |
 |                           |               |             |          |            |
@@ -47,7 +47,7 @@ This document helps coordinate the process:
 | curve                     | 0.6-SNAPSHOT  | 0.6         |          |            |
 | marea                     | 0.4-SNAPSHOT  | 0.4         |          |            |
 |                           |               |             |          |            |
-| Avereon Modules           |
+| Acromere Modules           |
 | acorn                     | 1.3-SNAPSHOT  | 1.3         |          |
 | aveon                     | 1.3-SNAPSHOT  | 1.3         |          |
 | carta                     | 1.4-SNAPSHOT  | 1.4         |          |

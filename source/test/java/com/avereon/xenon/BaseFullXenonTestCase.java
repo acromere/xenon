@@ -1,14 +1,14 @@
-package com.avereon.xenon;
+package com.acromere.xenon;
 
-import com.avereon.event.EventWatcher;
-import com.avereon.log.Log;
-import com.avereon.util.*;
-import com.avereon.xenon.test.ProgramTestConfig;
-import com.avereon.xenon.workpane.Workpane;
-import com.avereon.xenon.workpane.WorkpaneEvent;
-import com.avereon.xenon.workspace.Workspace;
-import com.avereon.zerra.event.FxEventWatcher;
-import com.avereon.zerra.javafx.Fx;
+import com.acromere.event.EventWatcher;
+import com.acromere.log.Log;
+import com.acromere.util.*;
+import com.acromere.xenon.test.ProgramTestConfig;
+import com.acromere.xenon.workpane.Workpane;
+import com.acromere.xenon.workpane.WorkpaneEvent;
+import com.acromere.xenon.workspace.Workspace;
+import com.acromere.zerra.event.FxEventWatcher;
+import com.acromere.zerra.javafx.Fx;
 import javafx.event.Event;
 import lombok.Getter;
 import org.junit.jupiter.api.AfterEach;
@@ -22,12 +22,12 @@ import org.testfx.util.WaitForAsyncUtils;
 
 import java.util.concurrent.TimeUnit;
 
-import static com.avereon.xenon.test.ProgramTestConfig.LONG_TIMEOUT;
-import static com.avereon.xenon.test.ProgramTestConfig.TIMEOUT;
+import static com.acromere.xenon.test.ProgramTestConfig.LONG_TIMEOUT;
+import static com.acromere.xenon.test.ProgramTestConfig.TIMEOUT;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * This class is a duplicate of com.avereon.xenos.BaseFullXenonTestCase which is
+ * This class is a duplicate of com.acromere.xenos.BaseFullXenonTestCase which is
  * intended to be visible for mod testing but is not available to Xenon to
  * avoid a circular dependency. Attempts at making this class publicly available
  * have run in to various challenges. The most recent challenge is with Surefire
