@@ -304,20 +304,20 @@ jobs:
 
       - name: Publish Install Pack
         run: |
-          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}}/${{ACM_PLATFORM}};"
+          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}}/${{env.ACM_PLATFORM}};"
           if [ $? -ne 0 ]; then exit 1; fi
           scp -B target/jpackage/*.deb ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/install.deb 2>&1
       #    scp -B target/jpackage/*.rpm ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM} 2>&1
 
       - name: Publish Product Pack
         run: |
-          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}}/${{ACM_PLATFORM}};"
+          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}}/${{env.ACM_PLATFORM}};"
           if [ $? -ne 0 ]; then exit 1; fi
           scp -B target/*product.jar ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/product.jar 2>&1
 
       - name: Publish Product Card
         run: |
-          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}}/${{ACM_PLATFORM}};"
+          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}}/${{env.ACM_PLATFORM}};"
           if [ $? -ne 0 ]; then exit 1; fi
           scp -B target/main/java/META-INF/*.card ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/product.card 2>&1
 
@@ -403,20 +403,20 @@ jobs:
 
       - name: Publish Install Pack
         run: |
-          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}}/${{ACM_PLATFORM}};"
+          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}}/${{env.ACM_PLATFORM}};"
           if [ $? -ne 0 ]; then exit 1; fi
           scp -B target/jpackage/*.dmg ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/install.dmg 2>&1
       #    scp -B target/jpackage/*.pkg ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM} 2>&1
 
       - name: Publish Product Pack
         run: |
-          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}}/${{ACM_PLATFORM}};"
+          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}}/${{env.ACM_PLATFORM}};"
           if [ $? -ne 0 ]; then exit 1; fi
           scp -B target/*product.jar ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/product.jar 2>&1
 
       - name: Publish Product Card
         run: |
-          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}}/${{ACM_PLATFORM}};"
+          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}}/${{env.ACM_PLATFORM}};"
           if [ $? -ne 0 ]; then exit 1; fi
           scp -B target/main/java/META-INF/*.card ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/product.card 2>&1
 
@@ -476,7 +476,7 @@ jobs:
       - name: Publish Install Pack
         shell: bash
         run: |
-          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}}/${{ACM_PLATFORM}};"
+          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}}/${{env.ACM_PLATFORM}};"
           if [ $? -ne 0 ]; then exit 1; fi
           scp -B target/jpackage/*.msi ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/install.msi 2>&1
         # scp -B target/jpackage/*.exe ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/install.exe 2>&1
@@ -484,13 +484,13 @@ jobs:
       - name: Publish Product Pack
         shell: bash
         run: |
-          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}}/${{ACM_PLATFORM}};"
+          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}}/${{env.ACM_PLATFORM}};"
           if [ $? -ne 0 ]; then exit 1; fi
           scp -B target/*product.jar ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/product.jar 2>&1
 
       - name: Publish Product Card
         shell: bash
         run: |
-          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}}/${{ACM_PLATFORM}};"
+          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}}/${{env.ACM_PLATFORM}};"
           if [ $? -ne 0 ]; then exit 1; fi
           scp -B target/main/java/META-INF/*.card ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/product.card 2>&1
