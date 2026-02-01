@@ -1,4 +1,4 @@
-[build-status]: https://github.com/acromere/xenon/workflows/Acromere%20Xenon%20Continuous/badge.svg "Build status"
+[build-status]: https://github.com/acromere/xenon/actions/workflows/ci.yml/badge.svg "Build status"
 
 # Xenon [![CI](https://github.com/acromere/xenon/actions/workflows/ci.yml/badge.svg)](https://github.com/acromere/xenon/actions)
 
