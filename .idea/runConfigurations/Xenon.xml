@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Xenon" type="Application" factoryName="Application" singleton="false">
     <option name="ALTERNATIVE_JRE_PATH" value="15" />
-    <option name="MAIN_CLASS_NAME" value="com.avereon.xenon.Launcher" />
+    <option name="MAIN_CLASS_NAME" value="com.acromere.xenon.Launcher" />
     <module name="xenon" />
     <option name="PROGRAM_PARAMETERS" value="--mode dev --noupdate --log-level config" />
     <option name="VM_PARAMETERS" value="-Xmx256m -Duser.language=es" />
