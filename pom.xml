@@ -62,6 +62,7 @@
 	</pluginRepositories>
 
 	<properties>
+		<product.extension/>
 		<images-folder>target/main/images</images-folder>
 		<!-- The folder used to set up the installer files -->
 		<product-pack-folder>pack/program</product-pack-folder>
@@ -697,7 +698,7 @@
 									<arguments>
 										<argument>@${basedir}/target/main/jpackage/app.options</argument>
 										<argument>@${basedir}/target/main/jpackage/install-pack-common.options</argument>
-										<argument>@${basedir}/target/main/jpackage/install-pack-${product.platform}.options</argument>
+										<argument>@${basedir}/target/main/jpackage/install-pack-${product.platform}-${product.extension}.options</argument>
 									</arguments>
 								</configuration>
 							</execution>

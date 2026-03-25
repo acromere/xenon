@@ -300,7 +300,7 @@ jobs:
 
       - name: Build Packs
         run: |
-          mvn ${{env.MAVEN_PARMS}} -Dmaven.test.skip=true -P packs verify
+          mvn ${{env.MAVEN_PARMS}} -Dmaven.test.skip=true -Dproduct.extension=deb -P packs verify
 
       - name: Publish Install Pack
         run: |
@@ -399,7 +399,7 @@ jobs:
 
       - name: Build Packs
         run: |
-          mvn ${{env.MAVEN_PARMS}} -Dmaven.test.skip=true -P packs verify
+          mvn ${{env.MAVEN_PARMS}} -Dmaven.test.skip=true -Dproduct.extension=dmg -P packs verify
 
       - name: Publish Install Pack
         run: |
@@ -470,7 +470,7 @@ jobs:
       - name: Build Packs
         shell: bash
         run: |
-          mvn ${{env.MAVEN_PARMS}} -Dmaven.test.skip=true -P packs verify
+          mvn ${{env.MAVEN_PARMS}} -Dmaven.test.skip=true -Dproduct.extension=msi -P packs verify
 
       # JPackage uses Wix 3.x in Java 11, 17, 21
       - name: Publish Install Pack
