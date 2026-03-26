@@ -1,5 +1,4 @@
 --type exe
---icon "${basedir}/target/main/images/${project.artifactId}.ico"
 --description "${project.name}"
 --win-menu
 --win-menu-group Programs
