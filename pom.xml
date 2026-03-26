@@ -382,23 +382,11 @@
 										</image>
 										<image>
 											<class>com.acromere.zenna.icon.XRingLargeIcon</class>
-											<size>24</size>
-										</image>
-										<image>
-											<class>com.acromere.zenna.icon.XRingLargeIcon</class>
 											<size>32</size>
 										</image>
 										<image>
 											<class>com.acromere.zenna.icon.XRingLargeIcon</class>
-											<size>48</size>
-										</image>
-										<image>
-											<class>com.acromere.zenna.icon.XRingLargeIcon</class>
 											<size>64</size>
-										</image>
-										<image>
-											<class>com.acromere.zenna.icon.XRingLargeIcon</class>
-											<size>96</size>
 										</image>
 										<image>
 											<class>com.acromere.zenna.icon.XRingLargeIcon</class>
