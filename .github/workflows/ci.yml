@@ -253,9 +253,9 @@ jobs:
           if [ $? -ne 0 ]; then exit 1; fi
           scp -Br target/screenshots/* ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:/opt/acm/web/screenshots/ 2>&1
 
-  linux:
+  linux-product-pack:
     needs: build
-    name: Pack Linux Binaries
+    name: Linux Product Pack
     runs-on: ubuntu-latest
     timeout-minutes: 30
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/stable' || github.base_ref == 'refs/heads/main' || github.base_ref == 'refs/heads/stable'
@@ -300,14 +300,7 @@ jobs:
 
       - name: Build Packs
         run: |
-          mvn ${{env.MAVEN_PARMS}} -Dmaven.test.skip=true -Dproduct.extension=deb -P packs verify
-
-      - name: Publish Install Pack
-        run: |
-          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}}/${{env.ACM_PLATFORM}};"
-          if [ $? -ne 0 ]; then exit 1; fi
-          scp -B target/jpackage/*.deb ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/install.deb 2>&1
-      #    scp -B target/jpackage/*.rpm ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM} 2>&1
+          mvn ${{env.MAVEN_PARMS}} -Dmaven.test.skip=true -P product-pack verify
 
       - name: Publish Product Pack
         run: |
@@ -321,9 +314,125 @@ jobs:
           if [ $? -ne 0 ]; then exit 1; fi
           scp -B target/main/java/META-INF/*.card ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/product.card 2>&1
 
-  macos:
+  linux-install-pack-deb:
     needs: build
-    name: Pack Mac OS Binaries
+    name: Linux Install Pack DEB
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/stable' || github.base_ref == 'refs/heads/main' || github.base_ref == 'refs/heads/stable'
+    env:
+      ACM_PLATFORM: "linux"
+    steps:
+      - name: Fetch sources
+        uses: actions/checkout@v6
+
+      - name: Fetch CI/CD resources
+        uses: actions/checkout@v6
+        with:
+          repository: acromere/canoe
+          path: .github
+
+      - name: Configuration
+        shell: bash
+        run: |
+          source .github/config.sh
+
+      - name: Set up Virtual Display
+        run: |
+          Xvfb ${{env.DISPLAY}} ${{env.XVFB_PARMS}} &
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: ${{env.JAVA_DISTRO}}
+          java-version: ${{env.JAVA_VERSION}}
+          java-package: ${{env.JAVA_PACKAGE}}
+          cache: 'maven'
+
+      - name: Download Artifacts
+        uses: actions/download-artifact@v7
+        with:
+          name: build
+          path: target
+
+      - name: UI Tests
+        run: |
+          mvn ${{env.MAVEN_PARMS}} -P testui verify
+
+      - name: Build Packs
+        run: |
+          mvn ${{env.MAVEN_PARMS}} -Dmaven.test.skip=true -Dproduct.extension=deb -P install-pack verify
+
+      - name: Publish Install Pack
+        run: |
+          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}}/${{env.ACM_PLATFORM}};"
+          if [ $? -ne 0 ]; then exit 1; fi
+          scp -B target/jpackage/*.deb ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/install.deb 2>&1
+
+      - name: Publish Product Pack
+        run: |
+          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}}/${{env.ACM_PLATFORM}};"
+          if [ $? -ne 0 ]; then exit 1; fi
+          scp -B target/*product.jar ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/product.jar 2>&1
+
+  linux-install-pack-rpm:
+    needs: build
+    name: Linux Install Pack RPM
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/stable' || github.base_ref == 'refs/heads/main' || github.base_ref == 'refs/heads/stable'
+    env:
+      ACM_PLATFORM: "linux"
+    steps:
+      - name: Fetch sources
+        uses: actions/checkout@v6
+
+      - name: Fetch CI/CD resources
+        uses: actions/checkout@v6
+        with:
+          repository: acromere/canoe
+          path: .github
+
+      - name: Configuration
+        shell: bash
+        run: |
+          source .github/config.sh
+
+      - name: Set up Virtual Display
+        run: |
+          Xvfb ${{env.DISPLAY}} ${{env.XVFB_PARMS}} &
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: ${{env.JAVA_DISTRO}}
+          java-version: ${{env.JAVA_VERSION}}
+          java-package: ${{env.JAVA_PACKAGE}}
+          cache: 'maven'
+
+      - name: Download Artifacts
+        uses: actions/download-artifact@v7
+        with:
+          name: build
+          path: target
+
+      - name: UI Tests
+        run: |
+          mvn ${{env.MAVEN_PARMS}} -P testui verify
+
+      - name: Build Packs
+        run: |
+          mvn ${{env.MAVEN_PARMS}} -Dmaven.test.skip=true -Dproduct.extension=rpm -P install-pack verify
+
+      - name: Publish Install Pack
+        run: |
+          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}}/${{env.ACM_PLATFORM}};"
+          if [ $? -ne 0 ]; then exit 1; fi
+          scp -B target/jpackage/*.rpm ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/install.deb 2>&1
+
+  macos-product-pack:
+    needs: build
+    name: MacOS Product Pack
     runs-on: macos-latest
     timeout-minutes: 30
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/stable' || github.base_ref == 'refs/heads/main' || github.base_ref == 'refs/heads/stable'
@@ -399,14 +508,7 @@ jobs:
 
       - name: Build Packs
         run: |
-          mvn ${{env.MAVEN_PARMS}} -Dmaven.test.skip=true -Dproduct.extension=dmg -P packs verify
-
-      - name: Publish Install Pack
-        run: |
-          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}}/${{env.ACM_PLATFORM}};"
-          if [ $? -ne 0 ]; then exit 1; fi
-          scp -B target/jpackage/*.dmg ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/install.dmg 2>&1
-      #    scp -B target/jpackage/*.pkg ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM} 2>&1
+          mvn ${{env.MAVEN_PARMS}} -Dmaven.test.skip=true -P product-pack verify
 
       - name: Publish Product Pack
         run: |
@@ -420,9 +522,96 @@ jobs:
           if [ $? -ne 0 ]; then exit 1; fi
           scp -B target/main/java/META-INF/*.card ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/product.card 2>&1
 
-  windows:
+  macos-install-pack-dmg:
     needs: build
-    name: Pack Windows Binaries
+    name: MacOS Install Pack DMG
+    runs-on: macos-latest
+    timeout-minutes: 30
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/stable' || github.base_ref == 'refs/heads/main' || github.base_ref == 'refs/heads/stable'
+    env:
+      ACM_PLATFORM: "macosx"
+    steps:
+      - name: Fetch sources
+        uses: actions/checkout@v6
+
+      - name: Fetch CI/CD resources
+        uses: actions/checkout@v6
+        with:
+          repository: acromere/canoe
+          path: .github
+
+      - name: Configuration
+        shell: bash
+        run: |
+          source .github/config.sh
+
+      - name: Set up Virtual Display
+        run: |
+          Xvfb ${{env.DISPLAY}} ${{env.XVFB_PARMS}} &
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: ${{env.JAVA_DISTRO}}
+          java-version: ${{env.JAVA_VERSION}}
+          java-package: ${{env.JAVA_PACKAGE}}
+          cache: 'maven'
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Download Artifacts
+        uses: actions/download-artifact@v7
+        with:
+          name: build
+          path: target
+
+      - name: UI Tests
+        run: |
+          mvn ${{env.MAVEN_PARMS}} -P testui verify
+
+      - name: MacOS Icon Pack
+        run: |
+          cd target/main/images
+          mkdir icons.iconset
+          
+          cp ${ACM_PRODUCT}.png icons.iconset/icon512x512@2x.png
+          sips -z 512 512 ${ACM_PRODUCT}.png --out icons.iconset/icon_512x512.png
+          sips -z 512 512 ${ACM_PRODUCT}.png --out icons.iconset/icon_256x256@2x.png
+          sips -z 256 256 ${ACM_PRODUCT}.png --out icons.iconset/icon_256x256.png
+          sips -z 256 256 ${ACM_PRODUCT}.png --out icons.iconset/icon_128x128@2x.png
+          sips -z 128 128 ${ACM_PRODUCT}.png --out icons.iconset/icon_128x128.png
+          sips -z 128 128 ${ACM_PRODUCT}.png --out icons.iconset/icon_64x64@2x.png
+          sips -z 64 64 ${ACM_PRODUCT}.png --out icons.iconset/icon_64x64.png
+          sips -z 64 64 ${ACM_PRODUCT}.png --out icons.iconset/icon_32x32@2x.png
+          sips -z 32 32 ${ACM_PRODUCT}.png --out icons.iconset/icon_32x32.png
+          sips -z 32 32 ${ACM_PRODUCT}.png --out icons.iconset/icon_16x16@2x.png
+          sips -z 16 16 ${ACM_PRODUCT}.png --out icons.iconset/icon_16x16.png
+          
+          iconutil -c icns icons.iconset
+          rm -R icons.iconset
+          cd -
+
+      # For help building the MacOS icon pack
+      # https://codetinkering.com/how-to-use-jpackage-tool-cli-for-macos-apps/#notes-about-macos-application-icons
+      # target/main/images/${ACM_PRODUCT}.icns
+
+      - name: Build Packs
+        run: |
+          mvn ${{env.MAVEN_PARMS}} -Dmaven.test.skip=true -Dproduct.extension=dmg -P install-pack verify
+
+      - name: Publish Install Pack
+        run: |
+          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}}/${{env.ACM_PLATFORM}};"
+          if [ $? -ne 0 ]; then exit 1; fi
+          scp -B target/jpackage/*.dmg ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/install.dmg 2>&1
+      #    scp -B target/jpackage/*.pkg ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM} 2>&1
+
+  windows-product-pack:
+    needs: build
+    name: Windows Product Pack
     runs-on: windows-latest
     timeout-minutes: 30
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/stable' || github.base_ref == 'refs/heads/main' || github.base_ref == 'refs/heads/stable'
@@ -470,16 +659,7 @@ jobs:
       - name: Build Packs
         shell: bash
         run: |
-          mvn ${{env.MAVEN_PARMS}} -Dmaven.test.skip=true -Dproduct.extension=msi -P packs verify
-
-      # JPackage uses Wix 3.x in Java 11, 17, 21
-      - name: Publish Install Pack
-        shell: bash
-        run: |
-          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}}/${{env.ACM_PLATFORM}};"
-          if [ $? -ne 0 ]; then exit 1; fi
-          scp -B target/jpackage/*.msi ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/install.msi 2>&1
-        # scp -B target/jpackage/*.exe ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/install.exe 2>&1
+          mvn ${{env.MAVEN_PARMS}} -Dmaven.test.skip=true -P product-pack verify
 
       - name: Publish Product Pack
         shell: bash
@@ -494,3 +674,123 @@ jobs:
           ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}}/${{env.ACM_PLATFORM}};"
           if [ $? -ne 0 ]; then exit 1; fi
           scp -B target/main/java/META-INF/*.card ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/product.card 2>&1
+
+  windows-install-pack-exe:
+    needs: build
+    name: Windows Install Pack EXE
+    runs-on: windows-latest
+    timeout-minutes: 30
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/stable' || github.base_ref == 'refs/heads/main' || github.base_ref == 'refs/heads/stable'
+    env:
+      ACM_PLATFORM: "windows"
+    steps:
+      - name: Fetch sources
+        uses: actions/checkout@v6
+
+      - name: Fetch CI/CD resources
+        uses: actions/checkout@v6
+        with:
+          repository: acromere/canoe
+          path: .github
+
+      - name: Configuration
+        shell: bash
+        run: |
+          source .github/config.sh
+
+      # Not needed on Windows
+      #- name: Set up Virtual Display
+      #  run: |
+      #    Xvfb ${{env.DISPLAY}} ${{env.XVFB_PARMS}} &
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: ${{env.JAVA_DISTRO}}
+          java-version: ${{env.JAVA_VERSION}}
+          java-package: ${{env.JAVA_PACKAGE}}
+          cache: 'maven'
+
+      - name: Download Artifacts
+        uses: actions/download-artifact@v7
+        with:
+          name: build
+          path: target
+
+      - name: UI Tests
+        shell: bash
+        run: |
+          mvn ${{env.MAVEN_PARMS}} -P testui verify
+
+      - name: Build Packs
+        shell: bash
+        run: |
+          mvn ${{env.MAVEN_PARMS}} -Dmaven.test.skip=true -Dproduct.extension=exe -P install-pack verify
+
+      # JPackage uses Wix 3.x in Java 11, 17, 21
+      - name: Publish Install Pack
+        shell: bash
+        run: |
+          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}}/${{env.ACM_PLATFORM}};"
+          if [ $? -ne 0 ]; then exit 1; fi
+          scp -B target/jpackage/*.exe ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/install.msi 2>&1
+
+  windows-install-pack-msi:
+    needs: build
+    name: Windows Install Pack MSI
+    runs-on: windows-latest
+    timeout-minutes: 30
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/stable' || github.base_ref == 'refs/heads/main' || github.base_ref == 'refs/heads/stable'
+    env:
+      ACM_PLATFORM: "windows"
+    steps:
+      - name: Fetch sources
+        uses: actions/checkout@v6
+
+      - name: Fetch CI/CD resources
+        uses: actions/checkout@v6
+        with:
+          repository: acromere/canoe
+          path: .github
+
+      - name: Configuration
+        shell: bash
+        run: |
+          source .github/config.sh
+
+      # Not needed on Windows
+      #- name: Set up Virtual Display
+      #  run: |
+      #    Xvfb ${{env.DISPLAY}} ${{env.XVFB_PARMS}} &
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: ${{env.JAVA_DISTRO}}
+          java-version: ${{env.JAVA_VERSION}}
+          java-package: ${{env.JAVA_PACKAGE}}
+          cache: 'maven'
+
+      - name: Download Artifacts
+        uses: actions/download-artifact@v7
+        with:
+          name: build
+          path: target
+
+      - name: UI Tests
+        shell: bash
+        run: |
+          mvn ${{env.MAVEN_PARMS}} -P testui verify
+
+      - name: Build Packs
+        shell: bash
+        run: |
+          mvn ${{env.MAVEN_PARMS}} -Dmaven.test.skip=true -Dproduct.extension=msi -P install-pack verify
+
+      # JPackage uses Wix 3.x in Java 11, 17, 21
+      - name: Publish Install Pack
+        shell: bash
+        run: |
+          ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.PRODUCT_DEPLOY_PATH}}/${{env.ACM_PLATFORM}};"
+          if [ $? -ne 0 ]; then exit 1; fi
+          scp -B target/jpackage/*.msi ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com:${PRODUCT_DEPLOY_PATH}/${ACM_PLATFORM}/install.msi 2>&1
