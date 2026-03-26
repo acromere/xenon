@@ -25,6 +25,7 @@ env:
 
   DISPLAY: ":99"
   GITHUB_REF: ${{ github.ref }}
+  JAVA_DISTRO: "zulu"
   JAVA_VERSION: "25.0.1"
   MAVEN_OPTS: "-Xms1g -Xmx2g"
   MAVEN_PARMS: "-B -U -V --settings .github/settings.xml --file pom.xml"
