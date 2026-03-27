@@ -388,10 +388,6 @@
 											<class>com.acromere.zenna.icon.XRingLargeIcon</class>
 											<size>64</size>
 										</image>
-										<image>
-											<class>com.acromere.zenna.icon.XRingLargeIcon</class>
-											<size>128</size>
-										</image>
 									</images>
 								</icon>
 								<icon>
