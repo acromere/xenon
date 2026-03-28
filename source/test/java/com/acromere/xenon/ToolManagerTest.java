@@ -1,6 +1,7 @@
 package com.acromere.xenon;
 
 import com.acromere.xenon.task.Task;
+import com.acromere.xenon.tool.AboutTool;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,6 +26,11 @@ public class ToolManagerTest extends BasePartXenonTestCase {
 	void testGetToolClassName() {
 		toolManager.addToolAlias( "oldName", "newName" );
 		assertThat( toolManager.getToolClassName( "oldName" ) ).isEqualTo( "newName" );
+	}
+
+	@Test
+	void testGetToolClassNameWithAvereonTool() {
+		assertThat( toolManager.getToolClassName( "com.avereon.xenon.tool.AboutTool" ) ).isEqualTo( AboutTool.class.getName() );
 	}
 
 	@Test

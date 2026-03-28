@@ -408,6 +408,12 @@ class UiReader {
 	private String mapResourceType( String resourceTypeKey ) {
 		if( resourceTypeKey == null ) return null;
 
+		// Swap com.avereon for com.acromere
+		if( resourceTypeKey.startsWith( "com.avereon." ) ) {
+			resourceTypeKey = resourceTypeKey.replaceFirst( "com.avereon", "com.acromere" );
+		}
+
+		// Swap AssetType for ResourceType
 		if( resourceTypeKey.startsWith( "com.acromere." ) ) {
 			// com.acromere.cartesia.Design2dAssetType
 			int startIndex = resourceTypeKey.lastIndexOf( "AssetType" );

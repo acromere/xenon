@@ -5,10 +5,10 @@ import com.acromere.product.Rb;
 import com.acromere.settings.Settings;
 import com.acromere.skill.Controllable;
 import com.acromere.util.IdGenerator;
+import com.acromere.xenon.resource.OpenAssetRequest;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.ResourceManager;
 import com.acromere.xenon.resource.ResourceType;
-import com.acromere.xenon.resource.OpenAssetRequest;
 import com.acromere.xenon.task.Task;
 import com.acromere.xenon.task.TaskManager;
 import com.acromere.xenon.throwable.NoToolRegisteredException;
@@ -334,8 +334,9 @@ public class ToolManager implements Controllable<ToolManager> {
 	}
 
 	public String getToolClassName( String className ) {
-		String alias = null;
-		if( className != null ) alias = aliases.get( className );
+		if( className == null ) return null;
+		if( className.startsWith( "com.avereon" ) ) className = className.replaceFirst( "com.avereon", "com.acromere" );
+		String alias = aliases.get( className );
 		return alias == null ? className : alias;
 	}
 
