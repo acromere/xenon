@@ -146,15 +146,6 @@ class UiReader {
 	}
 
 	private void createDefaultWorkspace() {
-		// Create the default workarea
-		Workarea workarea = areaFactory.create();
-		workarea.setUid( IdGenerator.getId() );
-		workarea.setIcon( "workarea" );
-		workarea.setName( Rb.text( RbKey.WORKAREA, "workarea-new-title", "New Workarea" ) );
-		Settings areaSettings = program.getSettingsManager().getSettings( ProgramSettings.AREA, workarea.getUid() );
-		areaFactory.applyWorkareaSettings( workarea, areaSettings );
-		areaFactory.linkWorkareaSettingsListeners( workarea, areaSettings );
-
 		// Create the default workspace
 		Workspace space = new Workspace( program );
 		space.setUid( IdGenerator.getId() );
@@ -166,6 +157,15 @@ class UiReader {
 
 		String themeId = getProgram().getWorkspaceManager().getThemeId();
 		space.setTheme( getProgram().getThemeManager().getMetadata( themeId ).getUrl() );
+
+		// Create the default workarea
+		Workarea workarea = areaFactory.create();
+		workarea.setUid( IdGenerator.getId() );
+		workarea.setIcon( "workarea" );
+		workarea.setName( Rb.text( RbKey.WORKAREA, "workarea-new-title", "New Workarea" ) );
+		Settings areaSettings = program.getSettingsManager().getSettings( ProgramSettings.AREA, workarea.getUid() );
+		areaFactory.applyWorkareaSettings( workarea, areaSettings );
+		areaFactory.linkWorkareaSettingsListeners( workarea, areaSettings );
 
 		// Add the workarea to the workspace
 		space.addWorkarea( workarea );

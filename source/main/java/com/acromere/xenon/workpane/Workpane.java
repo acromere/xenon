@@ -1164,7 +1164,7 @@ public class Workpane extends Control implements WritableIdentity {
 	 * @param tool The tool to close
 	 * @return The tool that was closed
 	 */
-	public Tool closeTool( Tool tool ) {
+	Tool closeTool( Tool tool ) {
 		return closeTool( tool, true );
 	}
 
