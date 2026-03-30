@@ -9,7 +9,9 @@ import com.acromere.zerra.color.Colors;
 import com.acromere.zerra.color.Paints;
 import javafx.collections.ListChangeListener;
 import javafx.scene.Node;
+import lombok.CustomLog;
 
+@CustomLog
 public class UiWorkareaFactory {
 
 	public static final String DOCK_TOP_SIZE = "dock-top-size";
@@ -36,21 +38,31 @@ public class UiWorkareaFactory {
 		return new Workarea();
 	}
 
-	Workarea applyWorkareaSettings( Workarea workarea, Settings settings ) {
+	Workarea applyWorkareaSettings( Workarea area, Settings settings, boolean isDefaultWorkspace ) {
 		// Restore state from settings
-		workarea.setName( settings.get( UiFactory.NAME, workarea.getName() ) );
-		workarea.setOrder( settings.get( UiFactory.ORDER, Integer.class, workarea.getOrder() ) );
-		workarea.setPaint( Paints.parse( settings.get( UiFactory.PAINT, Paints.toString( workarea.getPaint() ) ) ) );
-		workarea.setColor( Colors.parse( settings.get( UiFactory.COLOR, Colors.toString( workarea.getColor() ) ) ) );
-		workarea.setActive( settings.get( UiFactory.ACTIVE, Boolean.class, workarea.isActive() ) );
+		area.setName( settings.get( UiFactory.NAME, area.getName() ) );
+		area.setOrder( settings.get( UiFactory.ORDER, Integer.class, area.getOrder() ) );
+		area.setPaint( Paints.parse( settings.get( UiFactory.PAINT, Paints.toString( area.getPaint() ) ) ) );
+		area.setColor( Colors.parse( settings.get( UiFactory.COLOR, Colors.toString( area.getColor() ) ) ) );
+		area.setActive( settings.get( UiFactory.ACTIVE, Boolean.class, area.isActive() ) );
 
-		// Save new state to settings, to save default values immediately
-		settings.set( UiFactory.PAINT, Paints.toString( workarea.getPaint() ) );
-		settings.set( UiFactory.COLOR, Colors.toString( workarea.getColor() ) );
-		settings.set( UiFactory.NAME, workarea.getName() );
-		settings.set( UiFactory.ACTIVE, workarea.isActive() );
+		// Save new state to settings to save initial values immediately
+		storeWorkareaSettings( area, settings, isDefaultWorkspace );
 
-		return workarea;
+		return area;
+	}
+
+	static void storeWorkareaSettings( Workarea area, Settings settings, boolean isDefaultWorkspace ) {
+		settings.set( UiFactory.PAINT, Paints.toString( area.getPaint() ) );
+		settings.set( UiFactory.COLOR, Colors.toString( area.getColor() ) );
+		settings.set( UiFactory.NAME, area.getName() );
+		settings.set( UiFactory.ACTIVE, area.isActive() );
+
+		if( isDefaultWorkspace ) {
+			settings.set( VIEW_ACTIVE, area.getActiveView() == null ? null : area.getActiveView().getUid() );
+			settings.set( VIEW_DEFAULT, area.getDefaultView() == null ? null : area.getDefaultView().getUid() );
+			settings.set( VIEW_MAXIMIZED, area.getMaximizedView() == null ? null : area.getMaximizedView().getUid() );
+		}
 	}
 
 	Workarea linkWorkareaSettingsListeners( Workarea workarea, Settings settings ) {

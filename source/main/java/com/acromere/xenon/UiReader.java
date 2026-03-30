@@ -5,6 +5,7 @@ import com.acromere.log.LogLevel;
 import com.acromere.product.Rb;
 import com.acromere.settings.Settings;
 import com.acromere.util.IdGenerator;
+import com.acromere.xenon.notice.Notice;
 import com.acromere.xenon.resource.OpenAssetRequest;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.ResourceType;
@@ -12,7 +13,6 @@ import com.acromere.xenon.resource.exception.AssetTypeNotFoundException;
 import com.acromere.xenon.resource.exception.ResourceException;
 import com.acromere.xenon.resource.exception.ResourceNotFoundException;
 import com.acromere.xenon.resource.type.ProgramWelcomeType;
-import com.acromere.xenon.notice.Notice;
 import com.acromere.xenon.scheme.XenonScheme;
 import com.acromere.xenon.workpane.*;
 import com.acromere.xenon.workspace.Workarea;
@@ -124,15 +124,16 @@ class UiReader {
 
 			// Check the restored state
 			if( getProgram().getWorkspaceManager().getWorkspaces().isEmpty() ) log.atError().log( "No workspaces restored" );
-			if( space == null ) log.atError().log( "Missing active workspace" );
-			if( space != null && space.getWorkareas().isEmpty() ) log.atError().log( "No workareas restored" );
-			if( space != null && space.getActiveWorkarea() == null ) log.atError().log( "Missing active workarea" );
+			if( space == null ) errors.add( new UiException( "Missing active workspace" ) );
+			if( space != null && space.getWorkareas().isEmpty() ) errors.add( new UiException( "No workareas restored" ) );
+			if( space != null && space.getActiveWorkarea() == null ) errors.add( new UiException( "Missing active workarea" ) );
 			for( Workarea area : areas.values() ) {
-				if( area.getActiveView() == null ) log.atError().log( "Missing active view for workarea: %s", area );
-				if( area.getDefaultView() == null ) log.atError().log( "Missing default view for workarea: %s", area );
+				if( area.getUid() == null ) errors.add( new UiException( "Missing id for workarea: " + area ) );
+				if( area.getActiveView() == null ) errors.add( new UiException( "Missing active view for workarea: " + area ) );
+				if( area.getDefaultView() == null ) errors.add( new UiException( "Missing default view for workarea: " + area ) );
 			}
 
-			// If there are exceptions, restoring the UI notify the user
+			// If there are exceptions restoring the UI, notify the user
 			if( !errors.isEmpty() ) notifyUserOfErrors( errors );
 		} finally {
 			spacesRestored = true;
@@ -159,23 +160,24 @@ class UiReader {
 		space.setTheme( getProgram().getThemeManager().getMetadata( themeId ).getUrl() );
 
 		// Create the default workarea
-		Workarea workarea = areaFactory.create();
-		workarea.setUid( IdGenerator.getId() );
-		workarea.setIcon( "workarea" );
-		workarea.setName( Rb.text( RbKey.WORKAREA, "workarea-new-title", "New Workarea" ) );
-		Settings areaSettings = program.getSettingsManager().getSettings( ProgramSettings.AREA, workarea.getUid() );
-		areaFactory.applyWorkareaSettings( workarea, areaSettings );
-		areaFactory.linkWorkareaSettingsListeners( workarea, areaSettings );
+		Workarea area = areaFactory.create();
+		area.setUid( IdGenerator.getId() );
+		area.setIcon( "workarea" );
+		area.setName( Rb.text( RbKey.WORKAREA, "workarea-new-title", "New Workarea" ) );
+		Settings areaSettings = program.getSettingsManager().getSettings( ProgramSettings.AREA, area.getUid() );
+		areaFactory.applyWorkareaSettings( area, areaSettings, true );
+		areaFactory.linkWorkareaSettingsListeners( area, areaSettings );
 
 		// Add the workarea to the workspace
-		space.addWorkarea( workarea );
+		space.addWorkarea( area );
 
 		// Activate the new workarea and workspace
-		space.setActiveWorkarea( workarea );
+		space.setActiveWorkarea( area );
 		getProgram().getWorkspaceManager().setActiveWorkspace( space );
 
 		// Add the welcome tool to the default workarea
-		if( !getProgram().getProgramParameters().isSet( XenonTestFlag.EMPTY_WORKSPACE ) ) getProgram().getResourceManager().openAsset( ProgramWelcomeType.URI );
+		boolean isEmptyWorkspace = getProgram().getProgramParameters().isSet( XenonTestFlag.EMPTY_WORKSPACE );
+		if( !isEmptyWorkspace ) getProgram().getResourceManager().openAsset( ProgramWelcomeType.URI );
 
 		spaces.put( space.getUid(), space );
 	}
@@ -291,6 +293,7 @@ class UiReader {
 
 	Workarea loadAreaForLinking( Settings settings ) {
 		try {
+			// deprecated in 1.9-SNAPSHOT
 			copyPaneSettings( settings );
 
 			String id = settings.getName();
@@ -318,7 +321,7 @@ class UiReader {
 	Workarea loadArea( Settings settings ) {
 		Workarea area = areaFactory.create();
 		area.setUid( settings.getName() );
-		return areaFactory.applyWorkareaSettings( area, settings );
+		return areaFactory.applyWorkareaSettings( area, settings, false );
 	}
 
 	WorkpaneView loadViewForLinking( Settings settings ) {
@@ -483,9 +486,9 @@ class UiReader {
 				// Save the active area for later
 				if( area.isActive() ) spaceActiveAreas.put( space, area );
 
-				if( isViewActive( settings ) ) areaActiveViews.put( area, views.get( settings.get( UiWorkareaFactory.VIEW_ACTIVE ) ) );
-				if( isViewDefault( settings ) ) areaDefaultViews.put( area, views.get( settings.get( UiWorkareaFactory.VIEW_DEFAULT ) ) );
-				if( isViewMaximized( settings ) ) areaMaximizedViews.put( area, views.get( settings.get( UiWorkareaFactory.VIEW_MAXIMIZED ) ) );
+				if( hasActiveView( settings ) ) areaActiveViews.put( area, views.get( settings.get( UiWorkareaFactory.VIEW_ACTIVE ) ) );
+				if( hasDefaultView( settings ) ) areaDefaultViews.put( area, views.get( settings.get( UiWorkareaFactory.VIEW_DEFAULT ) ) );
+				if( hasMaximizedView( settings ) ) areaMaximizedViews.put( area, views.get( settings.get( UiWorkareaFactory.VIEW_MAXIMIZED ) ) );
 			} catch( Exception exception ) {
 				errors.add( exception );
 			}
@@ -504,7 +507,7 @@ class UiReader {
 			if( area == null ) area = areas.get( settings.get( UiFactory.PARENT_WORKPANE_ID ) );
 			try {
 				if( linkEdge( area, edge, settings ) ) {
-					areaEdges.computeIfAbsent( area, k -> new HashSet<>() ).add( edge );
+					areaEdges.computeIfAbsent( area, _ -> new HashSet<>() ).add( edge );
 				} else {
 					log.atDebug().log( "Removing invalid workpane edge settings: %s", LazyEval.of( settings::getName ) );
 					settings.delete();
@@ -522,9 +525,9 @@ class UiReader {
 			if( area == null ) area = areas.get( settings.get( UiFactory.PARENT_WORKPANE_ID ) );
 			try {
 				if( linkView( area, view, settings ) ) {
-					areaViews.computeIfAbsent( area, k -> new HashSet<>() ).add( view );
+					areaViews.computeIfAbsent( area, _ -> new HashSet<>() ).add( view );
 				} else {
-					log.atDebug().log( "Removing invalid workpane edge settings: %s", LazyEval.of( settings::getName ) );
+					log.atDebug().log( "Removing invalid workpane view settings: %s", LazyEval.of( settings::getName ) );
 					settings.delete();
 				}
 			} catch( Exception exception ) {
@@ -625,15 +628,15 @@ class UiReader {
 		return settings.get( UiFactory.MAXIMIZED, Boolean.class, false );
 	}
 
-	private boolean isViewActive( Settings settings ) {
+	private boolean hasActiveView( Settings settings ) {
 		return settings.exists( UiWorkareaFactory.VIEW_ACTIVE );
 	}
 
-	private boolean isViewDefault( Settings settings ) {
+	private boolean hasDefaultView( Settings settings ) {
 		return settings.exists( UiWorkareaFactory.VIEW_DEFAULT );
 	}
 
-	private boolean isViewMaximized( Settings settings ) {
+	private boolean hasMaximizedView( Settings settings ) {
 		return settings.exists( UiWorkareaFactory.VIEW_MAXIMIZED );
 	}
 

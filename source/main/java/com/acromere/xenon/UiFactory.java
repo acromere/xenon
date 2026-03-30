@@ -144,9 +144,7 @@ public final class UiFactory {
 
 		if( !restore ) {
 			// Save new state to settings
-			settings.set( VIEW_ACTIVE, workarea.getActiveView() == null ? null : workarea.getActiveView().getUid() );
-			settings.set( VIEW_DEFAULT, workarea.getDefaultView() == null ? null : workarea.getDefaultView().getUid() );
-			settings.set( VIEW_MAXIMIZED, workarea.getMaximizedView() == null ? null : workarea.getMaximizedView().getUid() );
+			storeWorkareaSettings( workarea, settings, false );
 
 			// Setup existing views and edges
 			workarea.getEdges().forEach( e -> setupWorkpaneEdgeSettings( workarea, e ) );
