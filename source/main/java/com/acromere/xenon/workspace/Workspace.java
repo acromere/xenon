@@ -728,7 +728,7 @@ public class Workspace extends Stage implements WritableIdentity {
 	 * @return The workspace settings
 	 */
 	private Settings getSettings() {
-		return getProgram().getSettingsManager().getSettings( ProgramSettings.WORKSPACE, getUid() );
+		return getProgram().getSettingsManager().getSettings( ProgramSettings.SPACE, getUid() );
 	}
 
 	public void applySettings() {

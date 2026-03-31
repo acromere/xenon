@@ -20,7 +20,7 @@ public interface ProgramSettings {
 
 	String UI = BASE + "ui/";
 
-	String WORKSPACE = UI + "workspace/";
+	String SPACE = UI + "space/";
 
 	String AREA = UI + "area/";
 

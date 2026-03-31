@@ -143,7 +143,7 @@ class UiReader {
 	}
 
 	private int getWorkspaceCount() {
-		return getProgram().getSettingsManager().getSettings( ProgramSettings.WORKSPACE ).getNodes().size();
+		return getProgram().getSettingsManager().getSettings( ProgramSettings.SPACE).getNodes().size();
 	}
 
 	private void createDefaultWorkspace() {
@@ -152,7 +152,7 @@ class UiReader {
 		space.setUid( IdGenerator.getId() );
 		space.initializeScene( UiWorkspaceFactory.DEFAULT_WIDTH, UiWorkspaceFactory.DEFAULT_HEIGHT );
 
-		Settings spaceSettings = program.getSettingsManager().getSettings( ProgramSettings.WORKSPACE, space.getUid() );
+		Settings spaceSettings = program.getSettingsManager().getSettings( ProgramSettings.SPACE, space.getUid() );
 		spaceFactory.applyWorkspaceSettings( space, spaceSettings );
 		spaceFactory.linkWorkspaceSettingsListeners( space, spaceSettings );
 
@@ -183,7 +183,7 @@ class UiReader {
 	}
 
 	private void restoreWorkspaces() {
-		getUiSettings( ProgramSettings.WORKSPACE ).forEach( this::loadSpaceForLinking );
+		getUiSettings( ProgramSettings.SPACE).forEach( this::loadSpaceForLinking );
 		getUiSettings( ProgramSettings.AREA ).forEach( this::loadAreaForLinking );
 		getUiSettings( ProgramSettings.VIEW ).forEach( this::loadViewForLinking );
 		getUiSettings( ProgramSettings.EDGE ).forEach( this::loadEdgeForLinking );
@@ -258,7 +258,7 @@ class UiReader {
 
 		// Register the workspace listeners
 		for( Workspace space : spaces.values() ) {
-			Settings settings = program.getSettingsManager().getSettings( ProgramSettings.WORKSPACE, space.getUid() );
+			Settings settings = program.getSettingsManager().getSettings( ProgramSettings.SPACE, space.getUid() );
 			spaceFactory.linkWorkspaceSettingsListeners( space, settings );
 		}
 	}
