@@ -1,6 +1,7 @@
 package com.acromere.xenon;
 
 import com.acromere.settings.Settings;
+import com.acromere.util.IdGenerator;
 import com.acromere.xenon.workpane.Workpane;
 import com.acromere.xenon.workpane.WorkpaneEdge;
 import com.acromere.xenon.workpane.WorkpaneView;
@@ -9,6 +10,10 @@ import com.acromere.zerra.color.Colors;
 import com.acromere.zerra.color.Paints;
 import javafx.collections.ListChangeListener;
 import javafx.scene.Node;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
 import lombok.CustomLog;
 
 @CustomLog
@@ -34,12 +39,24 @@ public class UiWorkareaFactory {
 		this.program = program;
 	}
 
-	public Workarea create() {
-		return new Workarea();
+	public Workarea create( String name ) {
+		LinearGradient paint = new LinearGradient( 0, 0, 0.5, 1, true, CycleMethod.NO_CYCLE, new Stop( 0, Color.BLUEVIOLET.darker().darker() ), new Stop( 1, Color.TRANSPARENT ) );
+
+		Workarea area = new Workarea();
+		area.setUid( IdGenerator.getId() );
+		area.setName( name );
+		area.setPaint( paint );
+		area.setIcon( "workarea" );
+
+		Settings areaSettings = program.getSettingsManager().getSettings( ProgramSettings.AREA, area.getUid() );
+		applyWorkareaSettings( area, areaSettings, false );
+
+		return area;
 	}
 
 	Workarea applyWorkareaSettings( Workarea area, Settings settings, boolean isDefaultWorkspace ) {
 		// Restore state from settings
+		area.setUid( settings.getName() );
 		area.setName( settings.get( UiFactory.NAME, area.getName() ) );
 		area.setOrder( settings.get( UiFactory.ORDER, Integer.class, area.getOrder() ) );
 		area.setPaint( Paints.parse( settings.get( UiFactory.PAINT, Paints.toString( area.getPaint() ) ) ) );

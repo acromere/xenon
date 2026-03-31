@@ -160,7 +160,7 @@ class UiReader {
 		space.setTheme( getProgram().getThemeManager().getMetadata( themeId ).getUrl() );
 
 		// Create the default workarea
-		Workarea area = areaFactory.create();
+		Workarea area = new Workarea();
 		area.setUid( IdGenerator.getId() );
 		area.setIcon( "workarea" );
 		area.setName( Rb.text( RbKey.WORKAREA, "workarea-new-title", "New Workarea" ) );
@@ -319,9 +319,7 @@ class UiReader {
 	}
 
 	Workarea loadArea( Settings settings ) {
-		Workarea area = areaFactory.create();
-		area.setUid( settings.getName() );
-		return areaFactory.applyWorkareaSettings( area, settings, false );
+		return areaFactory.applyWorkareaSettings( new Workarea(), settings, false );
 	}
 
 	WorkpaneView loadViewForLinking( Settings settings ) {

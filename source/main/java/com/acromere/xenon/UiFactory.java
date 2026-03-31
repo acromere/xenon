@@ -105,8 +105,9 @@ public final class UiFactory {
 	}
 
 	// TODO Remove in 1.8
+	// Replaced with UiWorkareaFactory.create()
 	@Deprecated( since = "1.7", forRemoval = true )
-	public Workarea create() {
+	Workarea create() {
 		return create( IdGenerator.getId() );
 	}
 
