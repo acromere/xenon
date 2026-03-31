@@ -56,13 +56,6 @@ public final class UiFactory {
 	@Deprecated( since = "1.7", forRemoval = true )
 	public static final String PARENT_WORKPANE_ID = "workpane-id";
 
-	/**
-	 * @deprecated Use {@link #PARENT_VIEW_ID} instead.
-	 */
-	// TODO Remove in 1.8
-	@Deprecated( since = "1.7", forRemoval = true )
-	public static final String PARENT_WORKPANEVIEW_ID = "workpaneview-id";
-
 	public static final String ICON = "icon";
 
 	public static final String TITLE = "title";

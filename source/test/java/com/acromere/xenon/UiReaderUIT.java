@@ -375,7 +375,7 @@ class UiReaderUIT extends BaseFullXenonTestCase {
     private static Settings toolSettings(XenonProgramProduct program, String viewId) {
         Settings settings = new MapSettings().getNode(IdGenerator.getId());
 
-        settings.set(UiFactory.PARENT_WORKPANEVIEW_ID, viewId);
+        settings.set(UiFactory.PARENT_VIEW_ID, viewId);
         settings.set(Tool.SETTINGS_TYPE_KEY, AboutTool.class.getName());
         settings.set(Tool.ORDER, 5);
 

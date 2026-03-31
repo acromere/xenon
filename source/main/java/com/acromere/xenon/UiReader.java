@@ -388,8 +388,6 @@ class UiReader {
 			String id = settings.getName();
 			URI uri = settings.get( Resource.SETTINGS_URI_KEY, URI.class );
 			WorkpaneView view = views.get( settings.get( UiFactory.PARENT_VIEW_ID ) );
-			// TODO Remove in 1.9-SNAPSHOT
-			if( view == null ) view = views.get( settings.get( UiFactory.PARENT_WORKPANEVIEW_ID ) );
 
 			// If the view is not found, then the tool is orphaned...delete the settings
 			if( view == null || uri == null ) {
@@ -576,8 +574,6 @@ class UiReader {
 			for( Tool tool : tools.values() ) {
 				Settings settings = getProgram().getSettingsManager().getSettings( ProgramSettings.TOOL, tool.getUid() );
 				WorkpaneView view = views.get( settings.get( UiFactory.PARENT_VIEW_ID ) );
-				// TODO Remove in 1.9-SNAPSHOT
-				if( view == null ) view = views.get( settings.get( UiFactory.PARENT_WORKPANEVIEW_ID ) );
 				viewToolMap.computeIfAbsent( view, k -> new HashSet<>() ).add( tool );
 			}
 
