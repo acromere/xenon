@@ -57,36 +57,41 @@ The framework provides the following features:
 
 ### Product Roadmap
 
+#### Version 2.x
+
+| Release                                               | Feature Goals                         |      Status |
+|-------------------------------------------------------|---------------------------------------|------------:|
+| [2.1](https://github.com/acromere/xenon/milestone/21) |                                       |    Planning |
+| [2.0](https://github.com/acromere/xenon/milestone/20) | Acromere rebrand, Java 25, Java FX 25 | In Progress |
+
 #### Version 1.x
 
 | Release                                               | Feature Goals                                                                    |      Status |
 |-------------------------------------------------------|----------------------------------------------------------------------------------|------------:|
-| [1.11](https://github.com/acromere/xenon/milestone/13) |                                                                                  |    Planning |
-| [1.10](https://github.com/acromere/xenon/milestone/12) | Java 25, Java FX 25                                                              | In Progress |
-| [1.9](https://github.com/acromere/xenon/milestone/11)  | General improvements and bug fixes                                               | 25 Sep 2025 |
-| [1.8](https://github.com/acromere/xenon/milestone/10)  | Java 21, Java FX 21, Menu trays, bug fixes                                       | 29 Apr 2025 |
-| [1.7](https://github.com/acromere/xenon/milestone/9)   | General improvements and bug fixes                                               | 03 Feb 2024 |
-| [1.6](https://github.com/acromere/xenon/milestone/8)   | Java 17, Java FX 17, [Acorn Module](https://github.com/acromere/acorn), bug fixes | 01 Jan 2023 |
-| [1.5](https://github.com/acromere/xenon/milestone/7)   | Two-step save, resource reload, bug fixes                                        | 09 Oct 2021 |
-| [1.4](https://github.com/acromere/xenon/milestone/6)   | SVG Icons, [Cartesia Module](https://github.com/acromere/carta)                   | 28 May 2021 |
-| [1.3](https://github.com/acromere/xenon/milestone/5)   | Java 14, Java FX 14, flat icons, jpackage installers                             | 03 Jul 2020 |
-| [1.2](https://github.com/acromere/xenon/milestone/4)   | Theme modification, more dark and light themes                                   | 03 May 2020 |
-| [1.1](https://github.com/acromere/xenon/milestone/3)   | Example Module (Mazer)                                                           | 22 Feb 2020 |
-| [1.0](https://github.com/acromere/xenon/milestone/2)   | Documentation, licensing, housekeeping                                           | 28 Nov 2019 |
+| [1.9](https://github.com/acromere/xenon/milestone/19) | General improvements and bug fixes                                               | 25 Sep 2025 |
+| [1.8](https://github.com/acromere/xenon/milestone/18) | Java 21, Java FX 21, Menu trays, bug fixes                                       | 29 Apr 2025 |
+| [1.7](https://github.com/acromere/xenon/milestone/16) | General improvements and bug fixes                                               | 03 Feb 2024 |
+| [1.6](https://github.com/acromere/xenon/milestone/16) | Java 17, Java FX 17, [Acorn Module](https://github.com/acromere/acorn), bug fixes | 01 Jan 2023 |
+| [1.5](https://github.com/acromere/xenon/milestone/15) | Two-step save, resource reload, bug fixes                                        | 09 Oct 2021 |
+| [1.4](https://github.com/acromere/xenon/milestone/14) | SVG Icons, [Cartesia Module](https://github.com/acromere/carta)                   | 28 May 2021 |
+| [1.3](https://github.com/acromere/xenon/milestone/13) | Java 14, Java FX 14, flat icons, jpackage installers                             | 03 Jul 2020 |
+| [1.2](https://github.com/acromere/xenon/milestone/12) | Theme modification, more dark and light themes                                   | 03 May 2020 |
+| [1.1](https://github.com/acromere/xenon/milestone/11) | Example Module (Mazer)                                                           | 22 Feb 2020 |
+| [1.0](https://github.com/acromere/xenon/milestone/10) | Documentation, licensing, housekeeping                                           | 28 Nov 2019 |
 
 #### Version 0.x
 
-| Release                                             | Feature Goals                                               |      Status |
-|-----------------------------------------------------|-------------------------------------------------------------|------------:|
-| [0.9](https://github.com/acromere/xenon/milestone/1) | Custom tool pane and tabs, CI configuration                 | 19 Sep 2019 |
-| 0.8                                                 | Module manager, module tool, module updates                 | 16 Jun 2019 |
-| 0.7                                                 | Java 11, Java FX 11, status bar, memory status, task status | 24 Jan 2019 |
-| 0.6                                                 | Update manager, product updates                             | 04 Jun 2018 |
-| 0.5                                                 | Program settings, settings tool                             | 22 Oct 2017 |
-| 0.4                                                 | Welcome tool, guide tool, about tool                        | 21 Sep 2017 |
-| 0.3                                                 | Resource manager, product resources                         | 05 Aug 2017 |
-| 0.2                                                 | Workarea, menu bar, tool bar                                | 30 May 2017 |
-| 0.1                                                 | Initial UI, settings manager                                | 07 Apr 2017 |
+| Release                                              | Feature Goals                                               |      Status |
+|------------------------------------------------------|-------------------------------------------------------------|------------:|
+| [0.9](https://github.com/acromere/xenon/milestone/9) | Custom tool pane and tabs, CI configuration                 | 19 Sep 2019 |
+| [0.8](https://github.com/acromere/xenon/milestone/8) | Module manager, module tool, module updates                 | 16 Jun 2019 |
+| [0.7](https://github.com/acromere/xenon/milestone/7) | Java 11, Java FX 11, status bar, memory status, task status | 24 Jan 2019 |
+| [0.6](https://github.com/acromere/xenon/milestone/6) | Update manager, product updates                             | 04 Jun 2018 |
+| [0.5](https://github.com/acromere/xenon/milestone/5) | Program settings, settings tool                             | 22 Oct 2017 |
+| [0.4](https://github.com/acromere/xenon/milestone/4) | Welcome tool, guide tool, about tool                        | 21 Sep 2017 |
+| [0.3](https://github.com/acromere/xenon/milestone/3) | Resource manager, product resources                         | 05 Aug 2017 |
+| [0.2](https://github.com/acromere/xenon/milestone/2) | Workarea, menu bar, tool bar                                | 30 May 2017 |
+| [0.1](https://github.com/acromere/xenon/milestone/1) | Initial UI, settings manager                                | 07 Apr 2017 |
 
 ### Contact Information
 
