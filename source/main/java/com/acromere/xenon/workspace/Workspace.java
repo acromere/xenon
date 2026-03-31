@@ -745,14 +745,14 @@ public class Workspace extends Stage implements WritableIdentity {
 		// different operating systems, the width and height from the scene, not the
 		// stage, are used. This includes the listeners for the width and height
 		// properties below.
-		Double w = settings.get( "w", Double.class, UiWorkspaceFactory.DEFAULT_WIDTH );
-		Double h = settings.get( "h", Double.class, UiWorkspaceFactory.DEFAULT_HEIGHT );
+		Double w = settings.get( Ui.W, Double.class, UiWorkspaceFactory.DEFAULT_WIDTH );
+		Double h = settings.get( Ui.H, Double.class, UiWorkspaceFactory.DEFAULT_HEIGHT );
 		initializeScene( w, h );
 
 		// Position the stage if x and y are specified
 		// If not specified the stage is centered on the screen
-		Double x = settings.get( "x", Double.class, null );
-		Double y = settings.get( "y", Double.class, null );
+		Double x = settings.get( Ui.X, Double.class, null );
+		Double y = settings.get( Ui.Y, Double.class, null );
 		if( x != null ) setX( x );
 		if( y != null ) setY( y );
 
@@ -764,16 +764,16 @@ public class Workspace extends Stage implements WritableIdentity {
 			if( isShowing() ) settings.set( "maximized", n );
 		} );
 		xProperty().addListener( ( v, o, n ) -> {
-			if( !isMaximized() ) settings.set( "x", n );
+			if( !isMaximized() ) settings.set( Ui.X, n );
 		} );
 		yProperty().addListener( ( v, o, n ) -> {
-			if( !isMaximized() ) settings.set( "y", n );
+			if( !isMaximized() ) settings.set( Ui.Y, n );
 		} );
 		scene.widthProperty().addListener( ( v, o, n ) -> {
-			if( !isMaximized() ) settings.set( "w", n );
+			if( !isMaximized() ) settings.set( Ui.W, n );
 		} );
 		scene.heightProperty().addListener( ( v, o, n ) -> {
-			if( !isMaximized() ) settings.set( "h", n );
+			if( !isMaximized() ) settings.set( Ui.H, n );
 		} );
 
 		updateBackgroundFromSettings( getProgram().getSettingsManager().getSettings( ProgramSettings.PROGRAM ) );

@@ -101,10 +101,10 @@ class UiReaderUIT extends BaseFullXenonTestCase {
 
         // Check workspace settings
         assertThat(workspaceSettings.get(UiFactory.ACTIVE)).isEqualTo("true");
-        assertThat(workspaceSettings.get("x")).isEqualTo("160.0");
-        assertThat(workspaceSettings.get("y")).isEqualTo("67.0");
-        assertThat(workspaceSettings.get("w")).isEqualTo("960.0");
-        assertThat(workspaceSettings.get("h")).isEqualTo("600.0");
+        assertThat(workspaceSettings.get(Ui.X)).isEqualTo("160.0");
+        assertThat(workspaceSettings.get(Ui.Y)).isEqualTo("67.0");
+        assertThat(workspaceSettings.get(Ui.W)).isEqualTo("960.0");
+        assertThat(workspaceSettings.get(Ui.H)).isEqualTo("600.0");
     }
 
     @Test
@@ -294,10 +294,10 @@ class UiReaderUIT extends BaseFullXenonTestCase {
     private static Settings spaceSettings() {
         Settings settings = new MapSettings().getNode(IdGenerator.getId());
 
-        settings.set("x", "428");
-        settings.set("y", "174");
-        settings.set("w", "1224");
-        settings.set("h", "840");
+        settings.set(Ui.X, "428");
+        settings.set(Ui.Y, "174");
+        settings.set(Ui.W, "1224");
+        settings.set(Ui.H, "840");
         settings.set("active", false);
         settings.set("maximized", false);
 

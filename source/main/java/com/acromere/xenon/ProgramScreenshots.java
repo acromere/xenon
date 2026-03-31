@@ -143,9 +143,9 @@ public abstract class ProgramScreenshots {
 			scaleText = "";
 		} else if( scale % 1.0 == 0.0 ) {
 			// If the scale is an integer, don't include the decimal point
-			scaleText = "@" + (int)scale + "x";
+			scaleText = "@" + (int)scale + Ui.X;
 		} else {
-			scaleText = "@" + scale + "x";
+			scaleText = "@" + scale + Ui.X;
 		}
 		return scaleText;
 	}

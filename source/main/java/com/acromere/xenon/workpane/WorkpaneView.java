@@ -3,6 +3,7 @@ package com.acromere.xenon.workpane;
 import com.acromere.skill.Identity;
 import com.acromere.skill.WritableIdentity;
 import com.acromere.util.IdGenerator;
+import com.acromere.xenon.Ui;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -290,7 +291,7 @@ public class WorkpaneView extends BorderPane implements WritableIdentity {
 		builder.append( " bounds=" );
 		builder.append( bounds.getMinX() ).append( "," ).append( bounds.getMinX() );
 		builder.append( " " );
-		builder.append( bounds.getWidth() ).append( "x" ).append( bounds.getHeight() );
+		builder.append( bounds.getWidth() ).append( Ui.X ).append( bounds.getHeight() );
 		builder.append( ">" );
 
 		return builder.toString();

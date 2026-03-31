@@ -8,6 +8,7 @@ import com.acromere.product.Rb;
 import com.acromere.settings.SettingsEvent;
 import com.acromere.util.*;
 import com.acromere.xenon.RbKey;
+import com.acromere.xenon.Ui;
 import com.acromere.xenon.UiFactory;
 import com.acromere.xenon.Xenon;
 import com.acromere.xenon.XenonProgramProduct;
@@ -589,10 +590,10 @@ public class AboutTool extends GuidedTool {
 		Rectangle2D sceneScale = scene == null ? null : new Rectangle2D( 0, 0, scene.getRoot().getScaleX(), scene.getRoot().getScaleY() );
 		int dpi = (int)screen.getDpi();
 
-		String sizeText = TextUtil.justify( TextUtil.RIGHT, (int)size.getWidth() + "x" + (int)size.getHeight(), 10 );
-		String scaleText = outputScale.getWidth() + "x" + outputScale.getWidth();
-		String renderScaleText = renderScale == null ? "" : renderScale.getWidth() + "x" + renderScale.getWidth();
-		String sceneScaleText = sceneScale == null ? "" : sceneScale.getWidth() + "x" + sceneScale.getWidth();
+		String sizeText = TextUtil.justify( TextUtil.RIGHT, (int)size.getWidth() + Ui.X + (int)size.getHeight(), 10 );
+		String scaleText = outputScale.getWidth() + Ui.X + outputScale.getWidth();
+		String renderScaleText = renderScale == null ? "" : renderScale.getWidth() + Ui.X + renderScale.getWidth();
+		String sceneScaleText = sceneScale == null ? "" : sceneScale.getWidth() + Ui.X + sceneScale.getWidth();
 
 		//System.out.println( "Screen scale: " + scaleText );
 		//System.out.println( "Render scale: " + renderScaleText );
