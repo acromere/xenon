@@ -22,6 +22,10 @@ import java.util.concurrent.CopyOnWriteArraySet;
  */
 public class WorkpaneEdge extends Control implements WritableIdentity {
 
+	public static final String ORIENTATION = "orientation";
+
+	public static final String POSITION = "position";
+
 	private static final PseudoClass HORIZONTAL_PSEUDOCLASS_STATE = PseudoClass.getPseudoClass( "horizontal" );
 
 	private static final PseudoClass VERTICAL_PSEUDOCLASS_STATE = PseudoClass.getPseudoClass( "vertical" );
@@ -152,7 +156,7 @@ public class WorkpaneEdge extends Control implements WritableIdentity {
 
 				@Override
 				public String getName() {
-					return "orientation";
+					return ORIENTATION;
 				}
 			};
 		}
@@ -169,7 +173,7 @@ public class WorkpaneEdge extends Control implements WritableIdentity {
 	}
 
 	public ReadOnlyDoubleProperty positionProperty() {
-		if( position == null ) position = new SimpleDoubleProperty( this, "position", 0 );
+		if( position == null ) position = new SimpleDoubleProperty( this, ORIENTATION, 0 );
 		return position;
 	}
 
@@ -234,24 +238,13 @@ public class WorkpaneEdge extends Control implements WritableIdentity {
 	}
 
 	public WorkpaneEdge getEdge( Side direction ) {
-
-		switch( direction ) {
-			case TOP: {
-				return getTopEdge();
-			}
-			case BOTTOM: {
-				return getBottomEdge();
-			}
-			case LEFT: {
-				return getLeftEdge();
-			}
-			case RIGHT: {
-				return getRightEdge();
-			}
-		}
-
-		return null;
-	}
+        return switch (direction) {
+            case TOP -> getTopEdge();
+            case BOTTOM -> getBottomEdge();
+            case LEFT -> getLeftEdge();
+            case RIGHT -> getRightEdge();
+        };
+    }
 
 	public void setEdge( Side direction, WorkpaneEdge edge ) {
 		switch( direction ) {
@@ -275,23 +268,13 @@ public class WorkpaneEdge extends Control implements WritableIdentity {
 	}
 
 	public Set<WorkpaneView> getViews( Side direction ) {
-		switch( direction ) {
-			case TOP: {
-				return topViews;
-			}
-			case LEFT: {
-				return leftViews;
-			}
-			case RIGHT: {
-				return rightViews;
-			}
-			case BOTTOM: {
-				return bottomViews;
-			}
-		}
-
-		return Set.of();
-	}
+        return switch (direction) {
+            case TOP -> topViews;
+            case LEFT -> leftViews;
+            case RIGHT -> rightViews;
+            case BOTTOM -> bottomViews;
+        };
+    }
 
 	@Override
 	@SuppressWarnings( "StringBufferReplaceableByString" )
@@ -302,9 +285,9 @@ public class WorkpaneEdge extends Control implements WritableIdentity {
 		builder.append( getClass().getSimpleName() );
 		builder.append( " id=" );
 		builder.append( getUid() );
-		builder.append( " orientation=" );
+		builder.append( " " ).append( ORIENTATION ).append( "=" );
 		builder.append( getOrientation() );
-		builder.append( " position=" );
+		builder.append( " ").append( POSITION ).append( "=" );
 		builder.append( getPosition() );
 		builder.append( " wall=" );
 		builder.append( isWall() );

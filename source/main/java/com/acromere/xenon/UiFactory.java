@@ -26,6 +26,16 @@ public final class UiFactory {
 
 	public static final double PAD = BorderStroke.THICK.getTop();
 
+	public static final String WORKSPACE = "workspace";
+
+	public static final String AREA = "area";
+
+	public static final String VIEW = "view";
+
+	public static final String EDGE = "edge";
+
+	public static final String TOOL = "tool";
+
 	public static final String PARENT_SPACE_ID = "space-id";
 
 	public static final String PARENT_AREA_ID = "area-id";
@@ -71,6 +81,10 @@ public final class UiFactory {
 
 	public static final String COLOR = "color";
 
+	public static final String ORIENTATION = "orientation";
+
+	public static final String POSITION = "position";
+
 	private final Xenon program;
 
 	/**
@@ -114,7 +128,6 @@ public final class UiFactory {
 		workarea.setIcon( "workarea" );
 
 		setupWorkareaSettings( workarea );
-		setupWorkpaneSettings( workarea );
 
 		return workarea;
 	}
@@ -160,34 +173,6 @@ public final class UiFactory {
 		workarea.defaultViewProperty().addListener( ( v, o, n ) -> settings.set( VIEW_DEFAULT, n == null ? null : n.getUid() ) );
 		workarea.maximizedViewProperty().addListener( ( v, o, n ) -> settings.set( VIEW_MAXIMIZED, n == null ? null : n.getUid() ) );
 		workarea.getChildrenUnmodifiable().addListener( (ListChangeListener<? super Node>)c -> processWorkareaChildrenChanges( workarea, c ) );
-	}
-
-	// TODO Remove in 1.8
-	@Deprecated( since = "1.7", forRemoval = true )
-	private void setupWorkpaneSettings( Workpane workpane ) {
-		Settings settings = program.getSettingsManager().getSettings( ProgramSettings.PANE, workpane.getUid() );
-		settings.set( PARENT_WORKPANE_ID, workpane.getUid() );
-
-		if( !restore ) {
-			// Save new state to settings
-			settings.set( VIEW_ACTIVE, workpane.getActiveView() == null ? null : workpane.getActiveView().getUid() );
-			settings.set( VIEW_DEFAULT, workpane.getDefaultView() == null ? null : workpane.getDefaultView().getUid() );
-			settings.set( VIEW_MAXIMIZED, workpane.getMaximizedView() == null ? null : workpane.getMaximizedView().getUid() );
-
-			// Setup existing views and edges
-			workpane.getEdges().forEach( e -> setupWorkpaneEdgeSettings( workpane, e ) );
-			workpane.getViews().forEach( v -> setupWorkpaneViewSettings( workpane, v ) );
-		}
-
-		// Add the change listeners
-		workpane.topDockSizeProperty().addListener( ( observable, oldValue, newValue ) -> settings.set( UiWorkareaFactory.DOCK_TOP_SIZE, newValue ) );
-		workpane.leftDockSizeProperty().addListener( ( observable, oldValue, newValue ) -> settings.set( UiWorkareaFactory.DOCK_LEFT_SIZE, newValue ) );
-		workpane.rightDockSizeProperty().addListener( ( observable, oldValue, newValue ) -> settings.set( UiWorkareaFactory.DOCK_RIGHT_SIZE, newValue ) );
-		workpane.bottomDockSizeProperty().addListener( ( observable, oldValue, newValue ) -> settings.set( UiWorkareaFactory.DOCK_BOTTOM_SIZE, newValue ) );
-		workpane.activeViewProperty().addListener( ( v, o, n ) -> settings.set( VIEW_ACTIVE, n == null ? null : n.getUid() ) );
-		workpane.defaultViewProperty().addListener( ( v, o, n ) -> settings.set( VIEW_DEFAULT, n == null ? null : n.getUid() ) );
-		workpane.maximizedViewProperty().addListener( ( v, o, n ) -> settings.set( VIEW_MAXIMIZED, n == null ? null : n.getUid() ) );
-		workpane.getChildrenUnmodifiable().addListener( (ListChangeListener<? super Node>)c -> processWorkareaChildrenChanges( workpane, c ) );
 	}
 
 	// TODO Remove in 1.8

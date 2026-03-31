@@ -24,7 +24,8 @@ public interface ProgramSettings {
 
 	String AREA = UI + "area/";
 
-	@Deprecated
+	// TODO Remove in 1.9-SNAPSHOT
+	@Deprecated( since = "1.7", forRemoval = true )
 	String PANE = UI + "pane/";
 
 	String EDGE = UI + "edge/";

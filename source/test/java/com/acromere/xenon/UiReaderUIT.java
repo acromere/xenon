@@ -56,10 +56,10 @@ class UiReaderUIT extends BaseFullXenonTestCase {
         // when
         long timeout = getProgram().getSettingsManager().getMaxFlushLimit() * 3;
         FileUtil.waitToExist(uiSettingsFolder, timeout, TimeUnit.MILLISECONDS);
-        FileUtil.waitToExist(uiSettingsFolder.resolve("tool"), timeout, TimeUnit.MILLISECONDS);
-        FileUtil.waitToExist(uiSettingsFolder.resolve("view"), timeout, TimeUnit.MILLISECONDS);
-        FileUtil.waitToExist(uiSettingsFolder.resolve("area"), timeout, TimeUnit.MILLISECONDS);
-        FileUtil.waitToExist(uiSettingsFolder.resolve("workspace"), timeout, TimeUnit.MILLISECONDS);
+        FileUtil.waitToExist(uiSettingsFolder.resolve(UiFactory.TOOL), timeout, TimeUnit.MILLISECONDS);
+        FileUtil.waitToExist(uiSettingsFolder.resolve(UiFactory.VIEW), timeout, TimeUnit.MILLISECONDS);
+        FileUtil.waitToExist(uiSettingsFolder.resolve(UiFactory.AREA), timeout, TimeUnit.MILLISECONDS);
+        FileUtil.waitToExist(uiSettingsFolder.resolve(UiFactory.WORKSPACE), timeout, TimeUnit.MILLISECONDS);
 
         // then
 
@@ -69,25 +69,25 @@ class UiReaderUIT extends BaseFullXenonTestCase {
 
         // Ensure settings folders exist
         assertThat(uiSettingsFolder).exists();
-        assertThat(uiSettingsFolder.resolve("tool")).exists();
-        assertThat(uiSettingsFolder.resolve("view")).exists();
-        assertThat(uiSettingsFolder.resolve("area")).exists();
-        assertThat(uiSettingsFolder.resolve("workspace")).exists();
+        assertThat(uiSettingsFolder.resolve(UiFactory.TOOL)).exists();
+        assertThat(uiSettingsFolder.resolve(UiFactory.VIEW)).exists();
+        assertThat(uiSettingsFolder.resolve(UiFactory.AREA)).exists();
+        assertThat(uiSettingsFolder.resolve(UiFactory.WORKSPACE)).exists();
 
         Settings settings = new StoredSettings(uiSettingsFolder);
-        List<String> toolKeys = settings.getNode("tool").getNodes();
-        List<String> viewKeys = settings.getNode("view").getNodes();
-        List<String> areaKeys = settings.getNode("area").getNodes();
-        List<String> workspaceKeys = settings.getNode("workspace").getNodes();
+        List<String> toolKeys = settings.getNode(UiFactory.TOOL).getNodes();
+        List<String> viewKeys = settings.getNode(UiFactory.VIEW).getNodes();
+        List<String> areaKeys = settings.getNode(UiFactory.AREA).getNodes();
+        List<String> workspaceKeys = settings.getNode(UiFactory.WORKSPACE).getNodes();
         assertThat(toolKeys).hasSize(1);
         assertThat(viewKeys).hasSize(1);
         assertThat(areaKeys).hasSize(1);
         assertThat(workspaceKeys).hasSize(1);
 
-        Settings toolSettings = settings.getNode("tool").getNode(toolKeys.getFirst());
-        Settings viewSettings = settings.getNode("view").getNode(viewKeys.getFirst());
-        Settings areaSettings = settings.getNode("area").getNode(areaKeys.getFirst());
-        Settings workspaceSettings = settings.getNode("workspace").getNode(workspaceKeys.getFirst());
+        Settings toolSettings = settings.getNode(UiFactory.TOOL).getNode(toolKeys.getFirst());
+        Settings viewSettings = settings.getNode(UiFactory.VIEW).getNode(viewKeys.getFirst());
+        Settings areaSettings = settings.getNode(UiFactory.AREA).getNode(areaKeys.getFirst());
+        Settings workspaceSettings = settings.getNode(UiFactory.WORKSPACE).getNode(workspaceKeys.getFirst());
 
         // Check area settings
         assertThat(areaSettings.get(UiFactory.ACTIVE)).isEqualTo("true");
@@ -358,8 +358,8 @@ class UiReaderUIT extends BaseFullXenonTestCase {
         Settings settings = new MapSettings().getNode(IdGenerator.getId());
 
         settings.set(UiFactory.PARENT_AREA_ID, areaId);
-        settings.set("orientation", Orientation.VERTICAL.name().toLowerCase());
-        settings.set("position", "73");
+        settings.set(WorkpaneEdge.ORIENTATION, Orientation.VERTICAL.name().toLowerCase());
+        settings.set(WorkpaneEdge.POSITION, "73");
         settings.set("t", "t");
         settings.set("b", "b");
 
@@ -368,8 +368,8 @@ class UiReaderUIT extends BaseFullXenonTestCase {
 
     private static void assertEdgeMatches(WorkpaneEdge edge, Settings settings) {
         assertThat(edge.getUid()).isEqualTo(settings.getName());
-        assertThat(edge.getOrientation()).isEqualTo(settings.get("orientation", Orientation.class));
-        assertThat(edge.getPosition()).isEqualTo(settings.get("position", Double.class));
+        assertThat(edge.getOrientation()).isEqualTo(settings.get(WorkpaneEdge.ORIENTATION, Orientation.class));
+        assertThat(edge.getPosition()).isEqualTo(settings.get(WorkpaneEdge.POSITION, Double.class));
     }
 
     private static Settings toolSettings(XenonProgramProduct program, String viewId) {
