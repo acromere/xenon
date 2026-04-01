@@ -49,18 +49,16 @@ public class UiManagerTest extends BasePartXenonTestCase {
 		Path settingsFolder = getProgram().getDataFolder().resolve( SettingsManager.ROOT );
 		Path areaFolder = settingsFolder.resolve( ProgramSettings.AREA.substring( 1 ) );
 		Path areaSettingsFolder = settingsFolder.resolve( ProgramSettings.AREA.substring( 1 ) ).resolve( workarea.getUid() );
-		Path viewSettingsFolder = settingsFolder.resolve( ProgramSettings.VIEW.substring( 1 ) );
-		Path edgeSettingsFolder = settingsFolder.resolve( ProgramSettings.EDGE.substring( 1 ) );
-		Path toolSettingsFolder = settingsFolder.resolve( ProgramSettings.TOOL.substring( 1 ) );
+		Path viewFolder = settingsFolder.resolve( ProgramSettings.VIEW.substring( 1 ) );
 
 		FileUtil.waitToExist( settingsFolder, timeout, TimeUnit.MILLISECONDS );
 		FileUtil.waitToExist( areaFolder, timeout, TimeUnit.MILLISECONDS );
+		FileUtil.waitToExist( viewFolder, timeout, TimeUnit.MILLISECONDS );
 		FileUtil.waitToExist( areaSettingsFolder, timeout, TimeUnit.MILLISECONDS );
-		// FIXME Where is the area default view?
-		//FileUtil.waitToExist( viewSettingsFolder, timeout, TimeUnit.MILLISECONDS );
-		//FileUtil.waitToExist( edgeSettingsFolder, timeout, TimeUnit.MILLISECONDS );
-		//FileUtil.waitToExist( toolSettingsFolder, timeout, TimeUnit.MILLISECONDS );
+		// TODO We don't know the view id yet
 
+		assertThat( areaFolder ).existsNoFollowLinks();
+		assertThat( viewFolder ).existsNoFollowLinks();
 		assertThat( areaSettingsFolder ).existsNoFollowLinks();
 	}
 

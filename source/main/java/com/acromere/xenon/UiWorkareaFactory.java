@@ -51,6 +51,7 @@ class UiWorkareaFactory {
 
 		Settings areaSettings = program.getSettingsManager().getSettings( ProgramSettings.AREA, area.getUid() );
 		applyWorkareaSettings( area, areaSettings, false );
+		linkWorkareaSettingsListeners( area, areaSettings );
 
 		return area;
 	}
