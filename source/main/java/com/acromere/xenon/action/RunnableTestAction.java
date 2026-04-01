@@ -1,7 +1,7 @@
 package com.acromere.xenon.action;
 
-import com.acromere.xenon.Xenon;
 import com.acromere.xenon.ProgramAction;
+import com.acromere.xenon.Xenon;
 import javafx.event.ActionEvent;
 import lombok.CustomLog;
 
@@ -25,7 +25,7 @@ public class RunnableTestAction extends ProgramAction {
 		try {
 			runnable.run();
 		} catch( Throwable throwable ) {
-			log.atError(throwable).log( "Error running action" );
+			log.atError( throwable ).log( "Error running action" );
 		}
 	}
 

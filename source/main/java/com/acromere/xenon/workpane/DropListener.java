@@ -8,7 +8,7 @@ public interface DropListener {
 
 	TransferMode[] MOVE_ONLY = { TransferMode.MOVE };
 
-	TransferMode[] getSupportedModes(Tool tool);
+	TransferMode[] getSupportedModes( Tool tool );
 
 	void handleDrop( DropEvent event ) throws Exception;
 

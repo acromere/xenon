@@ -39,7 +39,7 @@ public class PaintMode {
 		this.label = label;
 	}
 
-	public static PaintMode parse(String name ) {
+	public static PaintMode parse( String name ) {
 		return switch( name ) {
 			case "none" -> NONE;
 			case "layer" -> LAYER;

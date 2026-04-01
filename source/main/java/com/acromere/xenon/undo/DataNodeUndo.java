@@ -29,27 +29,31 @@ public class DataNodeUndo {
 
 		node.setValue( UNDO_CHANGES, new LinkedList<>() );
 
-		node.register( NodeEvent.VALUE_CHANGED, e -> {
-			Node eventNode = e.getNode();
-			String eventKey = e.getKey();
-			boolean isModifying = eventNode.isModifyingKey( eventKey );
-			boolean isCaptureUndoChanges = node.getValue( NodeChange.CAPTURE_UNDO_CHANGES, NodeChange.DEFAULT_CAPTURE_UNDO_CHANGES );
+		node.register(
+			NodeEvent.VALUE_CHANGED, e -> {
+				Node eventNode = e.getNode();
+				String eventKey = e.getKey();
+				boolean isModifying = eventNode.isModifyingKey( eventKey );
+				boolean isCaptureUndoChanges = node.getValue( NodeChange.CAPTURE_UNDO_CHANGES, NodeChange.DEFAULT_CAPTURE_UNDO_CHANGES );
 
-			if( isModifying && isCaptureUndoChanges ) {
-				LinkedList<NodeChange> changes = node.getValue( UNDO_CHANGES );
-				synchronized( changes ) {
-					changes.add( new NodeChange( eventNode, eventKey, e.getOldValue(), e.getNewValue() ) );
+				if( isModifying && isCaptureUndoChanges ) {
+					LinkedList<NodeChange> changes = node.getValue( UNDO_CHANGES );
+					synchronized( changes ) {
+						changes.add( new NodeChange( eventNode, eventKey, e.getOldValue(), e.getNewValue() ) );
+					}
 				}
 			}
-		} );
+		);
 
-		node.register( TxnEvent.COMMIT_END, e -> {
-			LinkedList<NodeChange> changes = node.getValue( UNDO_CHANGES );
-			synchronized( changes ) {
-				events.push( new ArrayList<>( changes ) );
-				changes.clear();
+		node.register(
+			TxnEvent.COMMIT_END, e -> {
+				LinkedList<NodeChange> changes = node.getValue( UNDO_CHANGES );
+				synchronized( changes ) {
+					events.push( new ArrayList<>( changes ) );
+					changes.clear();
+				}
 			}
-		} );
+		);
 
 		return events;
 	}

@@ -26,7 +26,7 @@ public class Lambda {
 			try {
 				consumer.accept( parameter );
 			} catch( Throwable throwable ) {
-				log.atError().withCause(throwable).log( "Exception occurred in lambda" );
+				log.atError().withCause( throwable ).log( "Exception occurred in lambda" );
 			}
 		};
 
@@ -45,9 +45,7 @@ public class Lambda {
 
 	}
 
-	public static <T, R, E extends Exception> Consumer<T> handlingFunctionWrapper(
-			ThrowingFunction<T, R, E> throwingFunction, Class<E> exceptionClass
-	) {
+	public static <T, R, E extends Exception> Consumer<T> handlingFunctionWrapper( ThrowingFunction<T, R, E> throwingFunction, Class<E> exceptionClass ) {
 
 		return i -> {
 			try {

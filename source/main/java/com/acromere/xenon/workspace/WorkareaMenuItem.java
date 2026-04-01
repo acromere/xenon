@@ -15,7 +15,7 @@ public class WorkareaMenuItem extends CustomMenuItem {
 		getStyleClass().addAll( "menu-item", "workarea-menu-item" );
 
 		Label label = new Label();
-		label.getStyleClass().addAll("label");
+		label.getStyleClass().addAll( "label" );
 		label.graphicProperty().bind( workarea.iconProperty().map( i -> workarea.getProgram().getIconLibrary().getIcon( i ) ) );
 		label.textProperty().bind( workarea.nameProperty() );
 		setContent( label );

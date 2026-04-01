@@ -239,11 +239,11 @@ public abstract class Task<R> extends FutureTask<R> implements Callable<R> {
 		return throwable;
 	}
 
-	public  void setTotal( long total ) {
+	public void setTotal( long total ) {
 		this.total = total;
 	}
 
-	public  void setProgress( long progress ) {
+	public void setProgress( long progress ) {
 		this.progress = progress;
 		eventBus.dispatch( new TaskEvent( this, TaskEvent.PROGRESS, this ) );
 	}

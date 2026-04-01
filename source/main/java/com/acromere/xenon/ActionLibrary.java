@@ -156,7 +156,7 @@ public class ActionLibrary {
 		String[] tags = Rb.textOr( product, RbKey.ACTION, id + ProgramAction.TAGS_SUFFIX, "" ).split( "," );
 
 		for( int index = 0; index < tags.length; index++ ) {
-			tags[index] = tags[index].trim().toLowerCase();
+			tags[ index ] = tags[ index ].trim().toLowerCase();
 		}
 
 		proxy.setId( id );

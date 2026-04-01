@@ -191,14 +191,16 @@ class RepoPane extends GridPane {
 	}
 
 	private void removeRepo() {
-		productTool.getProgram().getTaskManager().submit( Task.of( "Remove repo", () -> {
-			try {
-				productTool.getProgram().getProductManager().removeRepo( source );
-				page.updateState( false );
-			} catch( Exception exception ) {
-				log.atWarning().withCause( exception ).log( "Error removing repository" );
+		productTool.getProgram().getTaskManager().submit( Task.of(
+			"Remove repo", () -> {
+				try {
+					productTool.getProgram().getProductManager().removeRepo( source );
+					page.updateState( false );
+				} catch( Exception exception ) {
+					log.atWarning().withCause( exception ).log( "Error removing repository" );
+				}
 			}
-		} ) );
+		) );
 	}
 
 }

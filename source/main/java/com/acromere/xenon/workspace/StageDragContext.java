@@ -85,17 +85,8 @@ public class StageDragContext {
 		dragHandler.onDrag( new DragData( this, event, stage, anchorX, anchorY, windowX, windowY, windowW, windowH, windowX2, windowY2 ) );
 	}
 
-	public record DragData(StageDragContext handler,
-												 MouseEvent event,
-												 Window window,
-												 double anchorX,
-												 double anchorY,
-												 double windowX,
-												 double windowY,
-												 double windowW,
-												 double windowH,
-												 double anchorW,
-												 double anchorH) {
+	public record DragData(StageDragContext handler, MouseEvent event, Window window, double anchorX, double anchorY, double windowX, double windowY, double windowW, double windowH, double anchorW,
+	                       double anchorH) {
 
 		public double dragDistance() {
 			double dx = event.getScreenX() - anchorX;

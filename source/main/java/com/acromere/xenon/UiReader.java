@@ -4,7 +4,6 @@ import com.acromere.log.LazyEval;
 import com.acromere.log.LogLevel;
 import com.acromere.product.Rb;
 import com.acromere.settings.Settings;
-import com.acromere.util.IdGenerator;
 import com.acromere.xenon.notice.Notice;
 import com.acromere.xenon.resource.OpenAssetRequest;
 import com.acromere.xenon.resource.Resource;
@@ -12,7 +11,6 @@ import com.acromere.xenon.resource.ResourceType;
 import com.acromere.xenon.resource.exception.AssetTypeNotFoundException;
 import com.acromere.xenon.resource.exception.ResourceException;
 import com.acromere.xenon.resource.exception.ResourceNotFoundException;
-import com.acromere.xenon.resource.type.ProgramWelcomeType;
 import com.acromere.xenon.scheme.XenonScheme;
 import com.acromere.xenon.workpane.*;
 import com.acromere.xenon.workspace.Workarea;
@@ -109,20 +107,16 @@ class UiReader {
 
 		try {
 			if( getWorkspaceCount() == 0 ) {
-				createDefaultWorkspace();
+				Workspace space = spaceFactory.createDefaultWorkspace( areaFactory );
+				spaces.put( space.getUid(), space );
 				log.at( logLevel ).log( "Created default workspace" );
 			} else {
 				restoreWorkspaces();
 				log.at( logLevel ).log( "Restored known workspaces: count=%s", spaces.size() );
 			}
 
-			// Ensure there is an active workarea
-			Workspace space = getProgram().getWorkspaceManager().getActiveWorkspace();
-			//			if( space != null && !space.getWorkareas().isEmpty() && getProgram().getWorkspaceManager().getActiveWorkpane() == null ) {
-			//				space.setActiveWorkarea( space.getWorkareas().iterator().next() );
-			//			}
-
 			// Check the restored state
+			Workspace space = getProgram().getWorkspaceManager().getActiveWorkspace();
 			if( getProgram().getWorkspaceManager().getWorkspaces().isEmpty() ) log.atError().log( "No workspaces restored" );
 			if( space == null ) errors.add( new UiException( "Missing active workspace" ) );
 			if( space != null && space.getWorkareas().isEmpty() ) errors.add( new UiException( "No workareas restored" ) );
@@ -143,47 +137,11 @@ class UiReader {
 	}
 
 	private int getWorkspaceCount() {
-		return getProgram().getSettingsManager().getSettings( ProgramSettings.SPACE).getNodes().size();
-	}
-
-	private void createDefaultWorkspace() {
-		// Create the default workspace
-		Workspace space = new Workspace( program );
-		space.setUid( IdGenerator.getId() );
-		space.initializeScene( Ui.DEFAULT_WIDTH, Ui.DEFAULT_HEIGHT );
-
-		Settings spaceSettings = program.getSettingsManager().getSettings( ProgramSettings.SPACE, space.getUid() );
-		spaceFactory.applyWorkspaceSettings( space, spaceSettings );
-		spaceFactory.linkWorkspaceSettingsListeners( space, spaceSettings );
-
-		String themeId = getProgram().getWorkspaceManager().getThemeId();
-		space.setTheme( getProgram().getThemeManager().getMetadata( themeId ).getUrl() );
-
-		// Create the default workarea
-		Workarea area = new Workarea();
-		area.setUid( IdGenerator.getId() );
-		area.setIcon( "workarea" );
-		area.setName( Rb.text( RbKey.WORKAREA, "workarea-new-title", "New Workarea" ) );
-		Settings areaSettings = program.getSettingsManager().getSettings( ProgramSettings.AREA, area.getUid() );
-		areaFactory.applyWorkareaSettings( area, areaSettings, true );
-		areaFactory.linkWorkareaSettingsListeners( area, areaSettings );
-
-		// Add the workarea to the workspace
-		space.addWorkarea( area );
-
-		// Activate the new workarea and workspace
-		space.setActiveWorkarea( area );
-		getProgram().getWorkspaceManager().setActiveWorkspace( space );
-
-		// Add the welcome tool to the default workarea
-		boolean isEmptyWorkspace = getProgram().getProgramParameters().isSet( XenonTestFlag.EMPTY_WORKSPACE );
-		if( !isEmptyWorkspace ) getProgram().getResourceManager().openAsset( ProgramWelcomeType.URI );
-
-		spaces.put( space.getUid(), space );
+		return getProgram().getSettingsManager().getSettings( ProgramSettings.SPACE ).getNodes().size();
 	}
 
 	private void restoreWorkspaces() {
-		getUiSettings( ProgramSettings.SPACE).forEach( this::loadSpaceForLinking );
+		getUiSettings( ProgramSettings.SPACE ).forEach( this::loadSpaceForLinking );
 		getUiSettings( ProgramSettings.AREA ).forEach( this::loadAreaForLinking );
 		getUiSettings( ProgramSettings.VIEW ).forEach( this::loadViewForLinking );
 		getUiSettings( ProgramSettings.EDGE ).forEach( this::loadEdgeForLinking );
@@ -665,8 +623,6 @@ class UiReader {
 			}
 		}
 
-		//		List<String> sortedMessages = new ArrayList<>( messages );
-		//		Collections.sort( sortedMessages );
 		StringBuilder builder = new StringBuilder();
 		for( String message : messages ) builder.append( "\n" ).append( message );
 

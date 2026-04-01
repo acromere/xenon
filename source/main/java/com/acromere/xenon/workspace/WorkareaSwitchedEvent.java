@@ -36,7 +36,7 @@ public class WorkareaSwitchedEvent extends WorkspaceEvent {
 
 	@Override
 	public String toString() {
-		return super.toString() + ": " + ( oldWorkarea == null ? "null" : oldWorkarea.getName() + " -> " + (newWorkarea == null ? "null" : newWorkarea.getName() ) );
+		return super.toString() + ": " + (oldWorkarea == null ? "null" : oldWorkarea.getName() + " -> " + (newWorkarea == null ? "null" : newWorkarea.getName()));
 	}
 
 }

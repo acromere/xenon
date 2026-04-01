@@ -15,7 +15,7 @@ public class ProductPageHeader extends BorderPane {
 		setId( "tool-product-page-header" );
 
 		title = new Label();
-		title.setId("tool-product-page-title");
+		title.setId( "tool-product-page-title" );
 
 		buttons = new HBox();
 		buttons.setId( "tool-product-page-header-buttons" );

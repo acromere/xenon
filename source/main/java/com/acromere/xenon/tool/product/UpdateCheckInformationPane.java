@@ -41,14 +41,16 @@ class UpdateCheckInformationPane extends HBox {
 		HBox.setHgrow( spring, Priority.ALWAYS );
 		getChildren().addAll( lastUpdateCheckLabel, lastUpdateCheckField, spring, nextUpdateCheckLabel, nextUpdateCheckField );
 
-		program.getProductManager().getSettings().register( SettingsEvent.CHANGED, e -> {
-			switch( e.getKey() ) {
-				case ProductManager.LAST_CHECK_TIME:
-				case ProductManager.NEXT_CHECK_TIME: {
-					updateInfo();
+		program.getProductManager().getSettings().register(
+			SettingsEvent.CHANGED, e -> {
+				switch( e.getKey() ) {
+					case ProductManager.LAST_CHECK_TIME:
+					case ProductManager.NEXT_CHECK_TIME: {
+						updateInfo();
+					}
 				}
 			}
-		} );
+		);
 	}
 
 	void updateInfo() {

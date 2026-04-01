@@ -28,12 +28,12 @@ public class ResourceTypeCodecAssociationList extends VBox {
 	@Getter
 	private ResourceType resourceType;
 
-	public ResourceTypeCodecAssociationList( XenonProgramProduct product) {
+	public ResourceTypeCodecAssociationList( XenonProgramProduct product ) {
 		this.items = new GridPane();
 		this.items.setHgap( Ui.PAD );
 		this.items.setVgap( Ui.PAD );
 
-		List<Codec.Pattern> associationPatterns  = Arrays.asList(Codec.Pattern.values());
+		List<Codec.Pattern> associationPatterns = Arrays.asList( Codec.Pattern.values() );
 
 		// Create the association choices chooser
 		associationChoices = new ComboBox<>();
@@ -44,7 +44,7 @@ public class ResourceTypeCodecAssociationList extends VBox {
 		GridPane.setHgrow( pattern, Priority.ALWAYS );
 
 		// Create the association add button
-		this.addButton = new Button( null, product.getProgram().getIconLibrary().getIcon("add") );
+		this.addButton = new Button( null, product.getProgram().getIconLibrary().getIcon( "add" ) );
 
 		getChildren().setAll( items );
 
@@ -65,14 +65,14 @@ public class ResourceTypeCodecAssociationList extends VBox {
 		// Reload the asset type associations
 		int row = 0;
 
-		for( Codec.Association association : resourceType.getAssociations()) {
-			items.addRow( row++, new Label(association.pattern().name()), new Label(association.value()) );
+		for( Codec.Association association : resourceType.getAssociations() ) {
+			items.addRow( row++, new Label( association.pattern().name() ), new Label( association.value() ) );
 		}
 
 		addAdditionRow( row );
 	}
 
-	private void addAdditionRow(int row) {
+	private void addAdditionRow( int row ) {
 		items.addRow( row, associationChoices, pattern, addButton );
 	}
 

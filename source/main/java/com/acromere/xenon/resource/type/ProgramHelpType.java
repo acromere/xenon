@@ -1,9 +1,9 @@
 package com.acromere.xenon.resource.type;
 
 import com.acromere.xenon.XenonProgramProduct;
-import com.acromere.xenon.resource.ResourceType;
 import com.acromere.xenon.resource.Codec;
 import com.acromere.xenon.resource.ContentCodec;
+import com.acromere.xenon.resource.ResourceType;
 import com.acromere.xenon.scheme.XenonScheme;
 
 public class ProgramHelpType extends ResourceType {

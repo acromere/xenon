@@ -10,8 +10,8 @@ public class GoogleSheetsPalette extends BasePaintPalette {
 
 	public GoogleSheetsPalette() {
 		super(
-			Rb.text( RbKey.LABEL, "palette-google-sheets" ),
-			List.of( Colors.parse( "#a21414" ),
+			Rb.text( RbKey.LABEL, "palette-google-sheets" ), List.of(
+				Colors.parse( "#a21414" ),
 				Colors.parse( "#ff0000" ),
 				Colors.parse( "#ff9900" ),
 				Colors.parse( "#ffff00" ),

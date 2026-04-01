@@ -8,11 +8,11 @@ import com.acromere.product.ProductCard;
 import com.acromere.product.Program;
 import com.acromere.product.ProgramProduct;
 import com.acromere.settings.Settings;
-import com.acromere.xenon.resource.ResourceManager;
-import com.acromere.xenon.resource.ResourceWatchService;
 import com.acromere.xenon.index.IndexService;
 import com.acromere.xenon.notice.NoticeManager;
 import com.acromere.xenon.product.ProductManager;
+import com.acromere.xenon.resource.ResourceManager;
+import com.acromere.xenon.resource.ResourceWatchService;
 import com.acromere.xenon.task.TaskManager;
 import javafx.stage.Stage;
 

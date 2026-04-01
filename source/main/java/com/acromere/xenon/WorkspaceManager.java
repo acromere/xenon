@@ -5,12 +5,12 @@ import com.acromere.settings.SettingsEvent;
 import com.acromere.skill.Controllable;
 import com.acromere.util.TextUtil;
 import com.acromere.xenon.resource.Resource;
-import com.acromere.zerra.stage.DialogUtil;
 import com.acromere.xenon.workpane.Tool;
 import com.acromere.xenon.workpane.Workpane;
 import com.acromere.xenon.workspace.Workarea;
 import com.acromere.xenon.workspace.Workspace;
 import com.acromere.zerra.javafx.Fx;
+import com.acromere.zerra.stage.DialogUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Alert;
@@ -48,9 +48,11 @@ public class WorkspaceManager implements Controllable<WorkspaceManager> {
 		this.workspaces = new CopyOnWriteArraySet<>();
 		this.themeId = new SimpleStringProperty( DEFAULT_THEME_ID );
 
-		program.getSettings().register( SettingsEvent.CHANGED, e -> {
-			if( "workspace-theme-id".equals( e.getKey() ) ) setTheme( (String)e.getNewValue() );
-		} );
+		program.getSettings().register(
+			SettingsEvent.CHANGED, e -> {
+				if( "workspace-theme-id".equals( e.getKey() ) ) setTheme( (String)e.getNewValue() );
+			}
+		);
 	}
 
 	@Override

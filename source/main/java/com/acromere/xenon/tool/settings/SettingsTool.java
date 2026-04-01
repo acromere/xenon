@@ -2,8 +2,8 @@ package com.acromere.xenon.tool.settings;
 
 import com.acromere.product.Rb;
 import com.acromere.xenon.XenonProgramProduct;
-import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.OpenAssetRequest;
+import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.tool.guide.Guide;
 import com.acromere.xenon.tool.guide.GuideNode;
 import com.acromere.xenon.tool.guide.GuidedTool;

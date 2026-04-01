@@ -50,7 +50,7 @@ public final class ProgramTestConfig {
 		parameters = values;
 	}
 
-	public static void addFlag(String flag) {
+	public static void addFlag( String flag ) {
 		parameters.add( flag );
 	}
 

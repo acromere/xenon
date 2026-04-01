@@ -26,7 +26,7 @@ public class StageMover {
 		new StageDragContext( node, this::handleDrag );
 	}
 
-	public static <T extends Node> T of(T node) {
+	public static <T extends Node> T of( T node ) {
 		new StageMover( node );
 		node.getStyleClass().add( "stage-mover" );
 		return node;

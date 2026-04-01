@@ -114,19 +114,9 @@ public class ToolTabPane extends Control {
 			if( event.getDragboard().getUrl() != null ) uris.add( new URI( event.getDragboard().getUrl() ) );
 			event.getDragboard().getFiles().forEach( f -> uris.add( f.toURI() ) );
 
-			getWorkpane().handleDrop( new DropEvent( this,
-				DropEvent.DROP,
-				getWorkpane(),
-				event.getTransferMode(),
-				sourceTool,
-				getWorkpaneView(),
-				area,
-				index,
-				side,
-				uris
-			) );
+			getWorkpane().handleDrop( new DropEvent( this, DropEvent.DROP, getWorkpane(), event.getTransferMode(), sourceTool, getWorkpaneView(), area, index, side, uris ) );
 		} catch( Exception exception ) {
-			log.atError( exception).log( "Error handling tool drop" );
+			log.atError( exception ).log( "Error handling tool drop" );
 		} finally {
 			event.setDropCompleted( true );
 			event.consume();

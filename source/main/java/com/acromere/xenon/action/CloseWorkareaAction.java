@@ -2,10 +2,10 @@ package com.acromere.xenon.action;
 
 import com.acromere.product.Rb;
 import com.acromere.xenon.ProgramAction;
-import com.acromere.xenon.Xenon;
 import com.acromere.xenon.ProgramScope;
-import com.acromere.zerra.stage.DialogUtil;
+import com.acromere.xenon.Xenon;
 import com.acromere.xenon.workspace.Workarea;
+import com.acromere.zerra.stage.DialogUtil;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;

@@ -2,7 +2,7 @@ package com.acromere.xenon.tool.settings.editor.paint;
 
 import javafx.scene.paint.Paint;
 
-public class EmptyPaintPalette implements PaintPalette{
+public class EmptyPaintPalette implements PaintPalette {
 
 	@Override
 	public String getName() {

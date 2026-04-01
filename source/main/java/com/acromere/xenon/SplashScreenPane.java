@@ -1,8 +1,8 @@
 package com.acromere.xenon;
 
+import com.acromere.zenna.icon.XRingLargeIcon;
 import com.acromere.zerra.image.RenderedImage;
 import com.acromere.zerra.javafx.Fx;
-import com.acromere.zenna.icon.XRingLargeIcon;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;

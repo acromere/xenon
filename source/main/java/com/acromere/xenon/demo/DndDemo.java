@@ -3,7 +3,10 @@ package com.acromere.xenon.demo;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
-import javafx.scene.*;
+import javafx.scene.Cursor;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.ClipboardContent;
@@ -23,7 +26,6 @@ public class DndDemo extends Application {
 		Scene scene = new Scene( root, 400, 200 );
 
 		Platform.requestNextPulse();
-
 
 		final Label source = new Label( "DRAG ME" );
 		source.setCursor( Cursor.HAND );

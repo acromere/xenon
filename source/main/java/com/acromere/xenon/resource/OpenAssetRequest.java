@@ -75,8 +75,8 @@ public class OpenAssetRequest {
 	 * requests occasionally have a pre-existing model that should be used with
 	 * the request.
 	 *
-	 * @return The model associated with this request.
 	 * @param <M> The model type.
+	 * @return The model associated with this request.
 	 */
 	@SuppressWarnings( "unchecked" )
 	public <M> M getModel() {
@@ -88,8 +88,8 @@ public class OpenAssetRequest {
 	 * the model should be set with this method.
 	 *
 	 * @param model The model to use with this request.
-	 * @return This request.
 	 * @param <M> The model type.
+	 * @return This request.
 	 */
 	public <M> OpenAssetRequest setModel( M model ) {
 		this.model = model;

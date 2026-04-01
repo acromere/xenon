@@ -1,7 +1,7 @@
 package com.acromere.xenon;
 
-import com.acromere.xenon.resource.ResourceType;
 import com.acromere.xenon.compare.AssetTypeNameComparator;
+import com.acromere.xenon.resource.ResourceType;
 import com.acromere.xenon.tool.settings.SettingOptionProvider;
 
 import java.util.List;

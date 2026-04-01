@@ -5,9 +5,9 @@ import com.acromere.product.ProductCardComparator;
 import com.acromere.product.Rb;
 import com.acromere.xenon.Xenon;
 import com.acromere.xenon.XenonProgramProduct;
-import com.acromere.xenon.resource.Resource;
-import com.acromere.xenon.resource.OpenAssetRequest;
 import com.acromere.xenon.product.ProgramProductCardComparator;
+import com.acromere.xenon.resource.OpenAssetRequest;
+import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.tool.guide.Guide;
 import com.acromere.xenon.tool.guide.GuideNode;
 import com.acromere.xenon.tool.guide.GuidedTool;
@@ -85,7 +85,7 @@ public class ProductTool extends GuidedTool {
 
 	@Override
 	protected void ready( OpenAssetRequest request ) {
-		setTitle( Rb.text(getProduct(), "tool", "product-name" ) );
+		setTitle( Rb.text( getProduct(), "tool", "product-name" ) );
 		setGraphic( getProgram().getIconLibrary().getIcon( "product" ) );
 	}
 
@@ -138,19 +138,19 @@ public class ProductTool extends GuidedTool {
 	private Guide createGuide() {
 		Guide guide = new Guide();
 
-		GuideNode installed = new GuideNode( getProgram(), INSTALLED, Rb.text(getProduct(), "tool", "product-installed" ), "module" );
+		GuideNode installed = new GuideNode( getProgram(), INSTALLED, Rb.text( getProduct(), "tool", "product-installed" ), "module" );
 		installed.setOrder( 0 );
 		guide.addNode( installed );
 
-		GuideNode available = new GuideNode( getProgram(), AVAILABLE, Rb.text(getProduct(), "tool", "product-available" ), "module" );
+		GuideNode available = new GuideNode( getProgram(), AVAILABLE, Rb.text( getProduct(), "tool", "product-available" ), "module" );
 		available.setOrder( 1 );
 		guide.addNode( available );
 
-		GuideNode updates = new GuideNode( getProgram(), UPDATES, Rb.text(getProduct(), "tool", "product-updates" ), "download" );
+		GuideNode updates = new GuideNode( getProgram(), UPDATES, Rb.text( getProduct(), "tool", "product-updates" ), "download" );
 		updates.setOrder( 2 );
 		guide.addNode( updates );
 
-		GuideNode sources = new GuideNode( getProgram(), SOURCES, Rb.text(getProduct(), "tool", "product-sources" ), "market" );
+		GuideNode sources = new GuideNode( getProgram(), SOURCES, Rb.text( getProduct(), "tool", "product-sources" ), "market" );
 		sources.setOrder( 3 );
 		guide.addNode( sources );
 

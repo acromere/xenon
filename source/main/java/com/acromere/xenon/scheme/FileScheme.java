@@ -4,11 +4,11 @@ import com.acromere.util.FileUtil;
 import com.acromere.util.TextUtil;
 import com.acromere.util.UriUtil;
 import com.acromere.xenon.Xenon;
-import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.Codec;
+import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.StandardMediaTypes;
-import com.acromere.xenon.resource.exception.ResourceException;
 import com.acromere.xenon.resource.exception.NullCodecException;
+import com.acromere.xenon.resource.exception.ResourceException;
 import lombok.CustomLog;
 
 import java.io.*;

@@ -12,17 +12,17 @@ import com.acromere.product.Release;
 import com.acromere.settings.Settings;
 import com.acromere.util.*;
 import com.acromere.xenon.action.*;
+import com.acromere.xenon.index.IndexService;
+import com.acromere.xenon.notice.Notice;
+import com.acromere.xenon.notice.NoticeLogHandler;
+import com.acromere.xenon.notice.NoticeManager;
+import com.acromere.xenon.product.ProductManager;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.ResourceManager;
 import com.acromere.xenon.resource.ResourceType;
 import com.acromere.xenon.resource.ResourceWatchService;
 import com.acromere.xenon.resource.exception.ResourceException;
 import com.acromere.xenon.resource.type.*;
-import com.acromere.xenon.index.IndexService;
-import com.acromere.xenon.notice.Notice;
-import com.acromere.xenon.notice.NoticeLogHandler;
-import com.acromere.xenon.notice.NoticeManager;
-import com.acromere.xenon.product.ProductManager;
 import com.acromere.xenon.scheme.*;
 import com.acromere.xenon.task.Task;
 import com.acromere.xenon.task.TaskManager;
@@ -34,9 +34,9 @@ import com.acromere.xenon.tool.settings.SettingData;
 import com.acromere.xenon.tool.settings.SettingGroup;
 import com.acromere.xenon.tool.settings.SettingsPage;
 import com.acromere.xenon.tool.settings.SettingsTool;
-import com.acromere.zerra.stage.DialogUtil;
 import com.acromere.zerra.event.FxEventHub;
 import com.acromere.zerra.javafx.Fx;
+import com.acromere.zerra.stage.DialogUtil;
 import javafx.application.Application;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
@@ -367,7 +367,7 @@ public class Xenon extends Application implements XenonProgram {
 		resourceManager.getEventBus().parent( getFxEventHub() );
 		registerSchemes( resourceManager );
 		registerAssetTypes( resourceManager );
-		uiManager = new UiManager(Xenon.this).start();
+		uiManager = new UiManager( Xenon.this ).start();
 		toolManager = new ToolManager( Xenon.this ).start();
 		themeManager = new ThemeManager( Xenon.this ).start();
 		workspaceManager = new WorkspaceManager( Xenon.this ).start();
@@ -1122,14 +1122,14 @@ public class Xenon extends Application implements XenonProgram {
 	}
 
 	/**
-     * Check for another instance of the program is running after getting the
-     * settings but before the splash screen is shown. The fastest way to check is
-     * to try and bind to the port defined in the settings. The OS will quickly
-     * deny the bind if the port is already bound.
-     * <p>
-     * See: <a href="https://stackoverflow.com/questions/41051127/javafx-single-instance-application">...</a>
-     * </p>
-     */
+	 * Check for another instance of the program is running after getting the
+	 * settings but before the splash screen is shown. The fastest way to check is
+	 * to try and bind to the port defined in the settings. The OS will quickly
+	 * deny the bind if the port is already bound.
+	 * <p>
+	 * See: <a href="https://stackoverflow.com/questions/41051127/javafx-single-instance-application">...</a>
+	 * </p>
+	 */
 	private boolean isHostAlreadyRunning( int port ) {
 		// If the peer server starts this process is a host, not a peer
 		if( peerServer == null ) peerServer = new PeerServer( this, port ).start();
@@ -1186,14 +1186,14 @@ public class Xenon extends Application implements XenonProgram {
 		return false;
 	}
 
-    /**
+	/**
 	 * Process the assets specified on the command line.
 	 *
 	 * @param parameters The command line parameters
 	 */
 	void processAssets( com.acromere.util.Parameters parameters ) {
 		List<String> uris = parameters.getUris();
-		if(uris.isEmpty()) return;
+		if( uris.isEmpty() ) return;
 
 		getWorkspaceManager().showActiveWorkspace();
 
@@ -1214,8 +1214,8 @@ public class Xenon extends Application implements XenonProgram {
 	 * <a href="http://patorjk.com/software/taag/#p=display&h=0&f=Bulbhead&t=XENON">XENON</a>
 	 */
 	private void printAsciiArtTitle() {
-		try (InputStream input = getClass().getResourceAsStream( "/ascii-art-title.txt" )){
-            if( input != null ) System.out.println(IoUtil.toString(input));
+		try( InputStream input = getClass().getResourceAsStream( "/ascii-art-title.txt" ) ) {
+			if( input != null ) System.out.println( IoUtil.toString( input ) );
 		} catch( IOException ignore ) {}
 	}
 

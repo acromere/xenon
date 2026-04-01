@@ -4,11 +4,11 @@ import com.acromere.event.EventHandler;
 import com.acromere.product.Rb;
 import com.acromere.settings.Settings;
 import com.acromere.skill.Identity;
+import com.acromere.xenon.notice.Notice;
+import com.acromere.xenon.resource.OpenAssetRequest;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.ResourceEvent;
-import com.acromere.xenon.resource.OpenAssetRequest;
 import com.acromere.xenon.resource.exception.ResourceException;
-import com.acromere.xenon.notice.Notice;
 import com.acromere.xenon.task.Task;
 import com.acromere.xenon.task.TaskChain;
 import com.acromere.xenon.workpane.Tool;
@@ -256,10 +256,12 @@ public abstract class ProgramTool extends Tool {
 	}
 
 	static void waitForReady( OpenAssetRequest request, ProgramTool tool ) {
-		TaskChain.of( "wait for ready", () -> {
-			waitForTool( tool );
-			return null;
-		} ).link( () -> {
+		TaskChain.of(
+			"wait for ready", () -> {
+				waitForTool( tool );
+				return null;
+			}
+		).link( () -> {
 			waitForAsset( request.getResource() );
 			return null;
 		} ).link( () -> {
@@ -320,7 +322,7 @@ public abstract class ProgramTool extends Tool {
 		Fx.run( () -> {
 			// Notify the user if the asset is missing
 			if( finalAssetMissing ) {
-				String title = Rb.text(RbKey.ASSET, "asset-missing" );
+				String title = Rb.text( RbKey.ASSET, "asset-missing" );
 				String message = Rb.text( RbKey.ASSET, "asset-is-missing", request.getResource().getSimpleName(), request.getResource().getUri() );
 				Notice notice = new Notice( title, message );
 				getProgram().getNoticeManager().addNotice( notice );

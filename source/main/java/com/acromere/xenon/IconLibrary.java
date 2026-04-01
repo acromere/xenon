@@ -3,11 +3,11 @@ package com.acromere.xenon;
 import com.acromere.product.Rb;
 import com.acromere.util.TextUtil;
 import com.acromere.xenon.task.Task;
+import com.acromere.zenna.icon.*;
 import com.acromere.zerra.image.BrokenIcon;
 import com.acromere.zerra.image.ImageIcon;
 import com.acromere.zerra.image.Images;
 import com.acromere.zerra.image.VectorImage;
-import com.acromere.zenna.icon.*;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -42,7 +42,6 @@ public class IconLibrary {
 		register( "exit", new PowerIcon() );
 
 		register( "save", new SaveIcon() );
-
 
 		register( "new-folder", new NewFolderIcon() );
 

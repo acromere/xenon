@@ -4,40 +4,40 @@ import javafx.scene.layout.BorderStroke;
 
 public interface Ui {
 
-    String BOTTOM = "bottom";
+	String BOTTOM = "bottom";
 
-    String LEFT = "left";
+	String LEFT = "left";
 
-    String RIGHT = "right";
+	String RIGHT = "right";
 
-    String TOP = "top";
+	String TOP = "top";
 
-    String MAXIMIZED = "maximized";
+	String MAXIMIZED = "maximized";
 
-    // Bottom key
-    String B = "b";
+	// Bottom key
+	String B = "b";
 
-    // Left key
-    String L = "l";
+	// Left key
+	String L = "l";
 
-    // Right key
-    String R = "r";
+	// Right key
+	String R = "r";
 
-    // Top key
-    String T = "t";
+	// Top key
+	String T = "t";
 
-    // X-coordinate key
-    String X = "x";
+	// X-coordinate key
+	String X = "x";
 
-    // Y-coordinate key
-    String Y = "y";
+	// Y-coordinate key
+	String Y = "y";
 
-    // Width key
-    String W = "w";
+	// Width key
+	String W = "w";
 
-    // Height key
-    String H = "h";
-    double DEFAULT_WIDTH = 960;
-    double DEFAULT_HEIGHT = 600;
-    double PAD = BorderStroke.THICK.getTop();
+	// Height key
+	String H = "h";
+	double DEFAULT_WIDTH = 960;
+	double DEFAULT_HEIGHT = 600;
+	double PAD = BorderStroke.THICK.getTop();
 }

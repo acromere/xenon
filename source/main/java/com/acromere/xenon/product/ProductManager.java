@@ -1135,7 +1135,7 @@ public class ProductManager implements Controllable<ProductManager> {
 	 *
 	 * @param folders The folders to search for standard mods
 	 */
-	private void loadAllModules( Path... folders) {
+	private void loadAllModules( Path... folders ) {
 		loadModulePathMods();
 		loadModulesInFolders( folders );
 	}
@@ -1216,7 +1216,7 @@ public class ProductManager implements Controllable<ProductManager> {
 	}
 
 	void callModStart( Module module ) {
-		if( getProgram().getProgramParameters().isSet( XenonFlag.NO_MODS) ) return;
+		if( getProgram().getProgramParameters().isSet( XenonFlag.NO_MODS ) ) return;
 		if( module.getStatus() == Module.Status.UNREGISTERED ) callModRegister( module );
 		if( !isEnabled( module.getCard() ) || module.getStatus() != Module.Status.REGISTERED ) return;
 		try {

@@ -6,7 +6,6 @@ import lombok.CustomLog;
 @CustomLog
 public class ResourceTypeAndNameComparator extends ResourceNameComparator {
 
-
 	@Override
 	public int compare( Resource o1, Resource o2 ) {
 		try {

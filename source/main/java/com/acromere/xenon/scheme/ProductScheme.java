@@ -1,9 +1,9 @@
 package com.acromere.xenon.scheme;
 
 import com.acromere.xenon.Xenon;
+import com.acromere.xenon.resource.Codec;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.exception.ResourceException;
-import com.acromere.xenon.resource.Codec;
 
 import java.io.IOException;
 

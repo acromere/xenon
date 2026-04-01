@@ -2,11 +2,11 @@ package com.acromere.xenon.resource.type;
 
 import com.acromere.xenon.Xenon;
 import com.acromere.xenon.XenonProgramProduct;
+import com.acromere.xenon.notice.NoticeModel;
+import com.acromere.xenon.resource.Codec;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.ResourceType;
-import com.acromere.xenon.resource.Codec;
 import com.acromere.xenon.resource.exception.ResourceException;
-import com.acromere.xenon.notice.NoticeModel;
 import com.acromere.xenon.scheme.XenonScheme;
 import lombok.CustomLog;
 

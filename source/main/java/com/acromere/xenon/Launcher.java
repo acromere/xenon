@@ -1,8 +1,8 @@
 package com.acromere.xenon;
 
 import com.acromere.weave.ElevatedFlag;
-import com.acromere.weave.WeaveFlag;
 import com.acromere.weave.Weave;
+import com.acromere.weave.WeaveFlag;
 
 /**
  * The Launcher class is the entry point for the application. The Launcher is

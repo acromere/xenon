@@ -1,8 +1,8 @@
 package com.acromere.xenon.action;
 
 import com.acromere.xenon.ProgramAction;
-import com.acromere.xenon.Xenon;
 import com.acromere.xenon.RestartJob;
+import com.acromere.xenon.Xenon;
 import javafx.event.ActionEvent;
 
 public class MockUpdateAction extends ProgramAction {

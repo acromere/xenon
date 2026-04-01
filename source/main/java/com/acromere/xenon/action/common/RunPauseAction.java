@@ -1,8 +1,8 @@
 package com.acromere.xenon.action.common;
 
 import com.acromere.skill.RunPauseResettable;
-import com.acromere.xenon.Xenon;
 import com.acromere.xenon.ProgramAction;
+import com.acromere.xenon.Xenon;
 import javafx.event.ActionEvent;
 import lombok.CustomLog;
 

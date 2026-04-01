@@ -1,9 +1,9 @@
 package com.acromere.xenon.tool.guide;
 
-import com.acromere.xenon.XenonProgramProduct;
 import com.acromere.xenon.ProgramTool;
-import com.acromere.xenon.resource.Resource;
+import com.acromere.xenon.XenonProgramProduct;
 import com.acromere.xenon.resource.OpenAssetRequest;
+import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.type.ProgramGuideType;
 import com.acromere.xenon.workpane.ToolException;
 import javafx.beans.value.ChangeListener;
@@ -112,9 +112,7 @@ public abstract class GuidedTool extends ProgramTool {
 	private class GuideExpandedNodesListener implements ChangeListener<Set<TreeItem<GuideNode>>> {
 
 		@Override
-		public void changed(
-			ObservableValue<? extends Set<TreeItem<GuideNode>>> observable, Set<TreeItem<GuideNode>> oldValue, Set<TreeItem<GuideNode>> newValue
-		) {
+		public void changed( ObservableValue<? extends Set<TreeItem<GuideNode>>> observable, Set<TreeItem<GuideNode>> oldValue, Set<TreeItem<GuideNode>> newValue ) {
 			Set<GuideNode> oldNodes = oldValue.stream().map( TreeItem::getValue ).collect( Collectors.toSet() );
 			Set<GuideNode> newNodes = newValue.stream().map( TreeItem::getValue ).collect( Collectors.toSet() );
 
@@ -130,9 +128,7 @@ public abstract class GuidedTool extends ProgramTool {
 	private class GuideSelectedNodesListener implements ChangeListener<Set<TreeItem<GuideNode>>> {
 
 		@Override
-		public void changed(
-			ObservableValue<? extends Set<TreeItem<GuideNode>>> observable, Set<TreeItem<GuideNode>> oldValue, Set<TreeItem<GuideNode>> newValue
-		) {
+		public void changed( ObservableValue<? extends Set<TreeItem<GuideNode>>> observable, Set<TreeItem<GuideNode>> oldValue, Set<TreeItem<GuideNode>> newValue ) {
 			Set<GuideNode> oldNodes = oldValue.stream().filter( Objects::nonNull ).map( TreeItem::getValue ).collect( Collectors.toSet() );
 			Set<GuideNode> newNodes = newValue.stream().filter( Objects::nonNull ).map( TreeItem::getValue ).collect( Collectors.toSet() );
 

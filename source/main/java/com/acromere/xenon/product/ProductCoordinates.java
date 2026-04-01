@@ -52,7 +52,7 @@ public class ProductCoordinates {
 	}
 
 	@Override
-	public String toString(){
+	public String toString() {
 		StringBuilder builder = new StringBuilder( artifact );
 		if( platform != null ) builder.append( "/" ).append( platform );
 		builder.append( "/" ).append( asset );

@@ -1,7 +1,10 @@
 package com.acromere.xenon;
 
+import com.acromere.product.Rb;
 import com.acromere.settings.Settings;
 import com.acromere.util.IdGenerator;
+import com.acromere.xenon.resource.type.ProgramWelcomeType;
+import com.acromere.xenon.workspace.Workarea;
 import com.acromere.xenon.workspace.Workspace;
 import lombok.Getter;
 
@@ -18,6 +21,41 @@ class UiWorkspaceFactory {
 	Workspace create() {
 		Workspace space = new Workspace( program );
 		space.setUid( IdGenerator.getId() );
+		return space;
+	}
+
+	Workspace createDefaultWorkspace( UiWorkareaFactory areaFactory ) {
+		// Create the default workspace
+		Workspace space = new Workspace( program );
+		space.setUid( IdGenerator.getId() );
+		space.initializeScene( Ui.DEFAULT_WIDTH, Ui.DEFAULT_HEIGHT );
+
+		Settings spaceSettings = program.getSettingsManager().getSettings( ProgramSettings.SPACE, space.getUid() );
+		applyWorkspaceSettings( space, spaceSettings );
+		linkWorkspaceSettingsListeners( space, spaceSettings );
+
+		String themeId = program.getWorkspaceManager().getThemeId();
+		space.setTheme( program.getThemeManager().getMetadata( themeId ).getUrl() );
+
+		// Create the default workarea
+		Workarea area = new Workarea();
+		area.setUid( IdGenerator.getId() );
+		area.setIcon( "workarea" );
+		area.setName( Rb.text( RbKey.WORKAREA, "workarea-new-title", "New Workarea" ) );
+		Settings areaSettings = program.getSettingsManager().getSettings( ProgramSettings.AREA, area.getUid() );
+		areaFactory.applyWorkareaSettings( area, areaSettings, true );
+		areaFactory.linkWorkareaSettingsListeners( area, areaSettings );
+
+		// Add the workarea to the workspace
+		space.addWorkarea( area );
+
+		// Activate the new workarea and workspace
+		space.setActiveWorkarea( area );
+		program.getWorkspaceManager().setActiveWorkspace( space );
+
+		// Add the welcome tool to the default workarea
+		boolean isEmptyWorkspace = program.getProgramParameters().isSet( XenonTestFlag.EMPTY_WORKSPACE );
+		if( !isEmptyWorkspace ) program.getResourceManager().openAsset( ProgramWelcomeType.URI );
 		return space;
 	}
 
@@ -43,7 +81,7 @@ class UiWorkspaceFactory {
 		return workspace;
 	}
 
-	public Workspace linkWorkspaceSettingsListeners( Workspace workspace, Settings settings ) {
+	Workspace linkWorkspaceSettingsListeners( Workspace workspace, Settings settings ) {
 		// Add the property listeners
 		workspace.maximizedProperty().addListener( ( v, o, n ) -> {
 			if( workspace.isShowing() ) settings.set( Ui.MAXIMIZED, n );

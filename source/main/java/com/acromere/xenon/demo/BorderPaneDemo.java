@@ -34,10 +34,10 @@ public class BorderPaneDemo extends Application {
 		b.setFill( Color.BLUE );
 		b.relocate( 100, 100 );
 		Rectangle c = new Rectangle( 200, 200 );
-		c.setFill( Color.RED);
+		c.setFill( Color.RED );
 		c.relocate( -100, -100 );
 
-		Rectangle clip = new Rectangle(  );
+		Rectangle clip = new Rectangle();
 
 		Pane p = new Pane( b, a, c );
 		clip.widthProperty().bind( p.widthProperty() );

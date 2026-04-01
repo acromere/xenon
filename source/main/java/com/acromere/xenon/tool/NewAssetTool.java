@@ -1,13 +1,13 @@
 package com.acromere.xenon.tool;
 
 import com.acromere.product.Rb;
+import com.acromere.xenon.ProgramTool;
 import com.acromere.xenon.RbKey;
 import com.acromere.xenon.XenonProgramProduct;
-import com.acromere.xenon.ProgramTool;
+import com.acromere.xenon.compare.AssetTypeNameComparator;
+import com.acromere.xenon.resource.OpenAssetRequest;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.ResourceType;
-import com.acromere.xenon.resource.OpenAssetRequest;
-import com.acromere.xenon.compare.AssetTypeNameComparator;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -62,15 +62,12 @@ public class NewAssetTool extends ProgramTool {
 			types.sort( new AssetTypeNameComparator() );
 
 			getChildren().clear();
-			getChildren().addAll( types
-				.stream()
-				.filter( ResourceType::isUserType )
-				.map( AssetTypeTile::new )
-				.peek( tile -> tile.addEventFilter( MouseEvent.MOUSE_PRESSED, e -> {
+			getChildren().addAll( types.stream().filter( ResourceType::isUserType ).map( AssetTypeTile::new ).peek( tile -> tile.addEventFilter(
+				MouseEvent.MOUSE_PRESSED, e -> {
 					getProgram().getResourceManager().newAsset( tile.getAssetType() );
 					NewAssetTool.this.close();
-				} ) )
-				.collect( Collectors.toList() ) );
+				}
+			) ).collect( Collectors.toList() ) );
 		}
 
 	}

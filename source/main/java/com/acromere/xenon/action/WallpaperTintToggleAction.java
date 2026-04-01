@@ -1,9 +1,9 @@
 package com.acromere.xenon.action;
 
 import com.acromere.settings.Settings;
-import com.acromere.xenon.Xenon;
 import com.acromere.xenon.ProgramAction;
 import com.acromere.xenon.ProgramSettings;
+import com.acromere.xenon.Xenon;
 import javafx.event.ActionEvent;
 
 public class WallpaperTintToggleAction extends ProgramAction {

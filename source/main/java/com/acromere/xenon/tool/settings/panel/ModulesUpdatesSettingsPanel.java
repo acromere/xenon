@@ -1,9 +1,9 @@
 package com.acromere.xenon.tool.settings.panel;
 
 import com.acromere.xenon.XenonProgramProduct;
-import com.acromere.xenon.tool.settings.panel.products.RefreshModuleUpdates;
 import com.acromere.xenon.tool.settings.panel.products.DisplayMode;
 import com.acromere.xenon.tool.settings.panel.products.ProductsSettingsPanel;
+import com.acromere.xenon.tool.settings.panel.products.RefreshModuleUpdates;
 import javafx.scene.control.Button;
 import lombok.CustomLog;
 

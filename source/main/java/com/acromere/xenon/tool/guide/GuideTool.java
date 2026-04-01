@@ -316,7 +316,7 @@ public class GuideTool extends ProgramTool {
 				if( item.isExpanded() && !FxUtil.isParentOf( item, selectedItem ) ) itemsToCollapse.add( item );
 			}
 
-			Fx.run( () -> itemsToCollapse.forEach( item -> item.setExpanded(false) ) );
+			Fx.run( () -> itemsToCollapse.forEach( item -> item.setExpanded( false ) ) );
 		}
 	}
 

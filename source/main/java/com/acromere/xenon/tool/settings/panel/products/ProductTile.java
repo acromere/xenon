@@ -8,8 +8,8 @@ import com.acromere.xenon.Ui;
 import com.acromere.xenon.XenonProgramProduct;
 import com.acromere.xenon.product.ProductStatus;
 import com.acromere.xenon.task.Task;
-import com.acromere.zerra.stage.DialogUtil;
 import com.acromere.zerra.javafx.Fx;
+import com.acromere.zerra.stage.DialogUtil;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.HPos;
@@ -276,15 +276,17 @@ public class ProductTile extends BaseTile {
 	}
 
 	private void removeProduct() {
-		getProgram().getTaskManager().submit( Task.of( "Remove product", () -> {
-			try {
-				getProductManager().uninstallProducts( source ).get();
-				getProductSettingsPanel().updateState( false );
-			} catch( Exception exception ) {
-				log.atWarning().withCause(exception).log( "Error uninstalling product", exception );
+		getProgram().getTaskManager().submit( Task.of(
+			"Remove product", () -> {
+				try {
+					getProductManager().uninstallProducts( source ).get();
+					getProductSettingsPanel().updateState( false );
+				} catch( Exception exception ) {
+					log.atWarning().withCause( exception ).log( "Error uninstalling product", exception );
+				}
+				Fx.run( () -> setStatus( ProductStatus.NOT_INSTALLED ) );
 			}
-			Fx.run( () -> setStatus( ProductStatus.NOT_INSTALLED ) );
-		} ) );
+		) );
 	}
 
 }

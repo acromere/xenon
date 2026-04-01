@@ -9,9 +9,9 @@ import com.acromere.xenon.Xenon;
 import com.acromere.xenon.product.ProductManager;
 import com.acromere.xenon.product.ProductStatus;
 import com.acromere.xenon.task.Task;
-import com.acromere.zerra.stage.DialogUtil;
 import com.acromere.zerra.javafx.Fx;
 import com.acromere.zerra.javafx.FxUtil;
+import com.acromere.zerra.stage.DialogUtil;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.HPos;
@@ -285,15 +285,17 @@ class ProductPane extends GridPane {
 	}
 
 	private void removeProduct() {
-		program.getTaskManager().submit( Task.of( "Remove product", () -> {
-			try {
-				manager.uninstallProducts( source ).get();
-				tool.getSelectedPage().updateState( false );
-			} catch( Exception exception ) {
-				log.atWarning().withCause(exception).log( "Error uninstalling product", exception );
+		program.getTaskManager().submit( Task.of(
+			"Remove product", () -> {
+				try {
+					manager.uninstallProducts( source ).get();
+					tool.getSelectedPage().updateState( false );
+				} catch( Exception exception ) {
+					log.atWarning().withCause( exception ).log( "Error uninstalling product", exception );
+				}
+				Fx.run( () -> setStatus( ProductStatus.NOT_INSTALLED ) );
 			}
-			Fx.run( () -> setStatus( ProductStatus.NOT_INSTALLED ) );
-		} ) );
+		) );
 	}
 
 }

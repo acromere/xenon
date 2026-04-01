@@ -22,7 +22,7 @@ public class WallpaperNextAction extends WallpaperFileAction {
 		List<Path> files = listImageFiles();
 		int index = getImageIndex();
 		index++;
-		if( index > files.size() -1 ) index = 0;
+		if( index > files.size() - 1 ) index = 0;
 		setImageIndex( index );
 	}
 

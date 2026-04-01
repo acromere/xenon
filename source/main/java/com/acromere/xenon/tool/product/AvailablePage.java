@@ -24,7 +24,7 @@ class AvailablePage extends ProductPage {
 
 	@Override
 	protected void updateState( boolean force ) {
-		log.atFiner().log(  "Update available products" );
+		log.atFiner().log( "Update available products" );
 		productTool.getProgram().getTaskManager().submit( new RefreshAvailableProducts( productTool, force ) );
 	}
 

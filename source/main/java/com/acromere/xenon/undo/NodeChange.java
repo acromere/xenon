@@ -89,7 +89,7 @@ public class NodeChange {
 
 		NodeChange that = (NodeChange)other;
 		//if( this.node != null ) {
-			return Objects.equals( this.node, that.node ) && Objects.equals( this.key, that.key ) && Objects.equals( oldValue, that.oldValue ) && Objects.equals( newValue, that.newValue );
+		return Objects.equals( this.node, that.node ) && Objects.equals( this.key, that.key ) && Objects.equals( oldValue, that.oldValue ) && Objects.equals( newValue, that.newValue );
 		//}
 
 		//return true;

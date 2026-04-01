@@ -2,12 +2,12 @@ package com.acromere.xenon.tool;
 
 import com.acromere.log.LazyEval;
 import com.acromere.product.Rb;
+import com.acromere.xenon.ThemeMetadata;
 import com.acromere.xenon.Ui;
 import com.acromere.xenon.Xenon;
 import com.acromere.xenon.XenonProgramProduct;
-import com.acromere.xenon.ThemeMetadata;
-import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.OpenAssetRequest;
+import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.tool.guide.GuidedTool;
 import javafx.css.*;
 import javafx.css.converter.DeriveColorConverter;

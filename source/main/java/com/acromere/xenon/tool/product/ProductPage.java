@@ -63,10 +63,12 @@ abstract class ProductPage extends ProductToolPage {
 			DownloadRequest request = new DownloadRequest( install ? pane.getSource() : pane.getUpdate() );
 			//pane.setProductSize( request.getCard().get)
 			request
-				.register( TaskEvent.START, e -> Fx.run( () -> {
-					pane.setSize( e.getTask().getTotal() );
-					pane.setStatus( ProductStatus.DOWNLOADING );
-				} ) )
+				.register(
+					TaskEvent.START, e -> Fx.run( () -> {
+						pane.setSize( e.getTask().getTotal() );
+						pane.setStatus( ProductStatus.DOWNLOADING );
+					} )
+				)
 				.register( TaskEvent.PROGRESS, e -> Fx.run( () -> pane.setProgress( e.getTask().getPercent() ) ) )
 				.register( TaskEvent.CANCEL, e -> Fx.run( () -> pane.setStatus( install ? ProductStatus.NOT_INSTALLED : ProductStatus.AVAILABLE ) ) )
 				.register( TaskEvent.FAILURE, e -> Fx.run( () -> pane.setStatus( install ? ProductStatus.NOT_INSTALLED : ProductStatus.AVAILABLE ) ) )
@@ -108,11 +110,7 @@ abstract class ProductPage extends ProductToolPage {
 		} else {
 			// Add a product pane for each card
 			sources.clear();
-			sources.addAll( getTool()
-				.createSourceList( cards )
-				.stream()
-				.map( ( source ) -> new ProductPane( getTool(), source, productUpdates.get( source.getProductKey() ) ) )
-				.toList() );
+			sources.addAll( getTool().createSourceList( cards ).stream().map( ( source ) -> new ProductPane( getTool(), source, productUpdates.get( source.getProductKey() ) ) ).toList() );
 
 			getChildren().clear();
 			getChildren().addAll( sources );

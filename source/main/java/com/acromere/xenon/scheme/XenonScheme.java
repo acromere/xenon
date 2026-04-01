@@ -4,8 +4,8 @@ import com.acromere.index.Document;
 import com.acromere.product.Rb;
 import com.acromere.util.IoUtil;
 import com.acromere.xenon.Xenon;
-import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.Codec;
+import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.exception.ResourceException;
 import lombok.CustomLog;
 

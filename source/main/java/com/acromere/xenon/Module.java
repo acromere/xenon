@@ -2,8 +2,8 @@ package com.acromere.xenon;
 
 import com.acromere.product.*;
 import com.acromere.settings.Settings;
-import com.acromere.xenon.resource.ResourceType;
 import com.acromere.xenon.product.ProductManager;
+import com.acromere.xenon.resource.ResourceType;
 import com.acromere.xenon.tool.settings.SettingsPage;
 import com.acromere.zerra.image.VectorImage;
 import lombok.CustomLog;

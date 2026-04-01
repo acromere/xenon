@@ -238,13 +238,13 @@ public class WorkpaneEdge extends Control implements WritableIdentity {
 	}
 
 	public WorkpaneEdge getEdge( Side direction ) {
-        return switch (direction) {
-            case TOP -> getTopEdge();
-            case BOTTOM -> getBottomEdge();
-            case LEFT -> getLeftEdge();
-            case RIGHT -> getRightEdge();
-        };
-    }
+		return switch( direction ) {
+			case TOP -> getTopEdge();
+			case BOTTOM -> getBottomEdge();
+			case LEFT -> getLeftEdge();
+			case RIGHT -> getRightEdge();
+		};
+	}
 
 	public void setEdge( Side direction, WorkpaneEdge edge ) {
 		switch( direction ) {
@@ -268,13 +268,13 @@ public class WorkpaneEdge extends Control implements WritableIdentity {
 	}
 
 	public Set<WorkpaneView> getViews( Side direction ) {
-        return switch (direction) {
-            case TOP -> topViews;
-            case LEFT -> leftViews;
-            case RIGHT -> rightViews;
-            case BOTTOM -> bottomViews;
-        };
-    }
+		return switch( direction ) {
+			case TOP -> topViews;
+			case LEFT -> leftViews;
+			case RIGHT -> rightViews;
+			case BOTTOM -> bottomViews;
+		};
+	}
 
 	@Override
 	@SuppressWarnings( "StringBufferReplaceableByString" )
@@ -287,7 +287,7 @@ public class WorkpaneEdge extends Control implements WritableIdentity {
 		builder.append( getUid() );
 		builder.append( " " ).append( ORIENTATION ).append( "=" );
 		builder.append( getOrientation() );
-		builder.append( " ").append( POSITION ).append( "=" );
+		builder.append( " " ).append( POSITION ).append( "=" );
 		builder.append( getPosition() );
 		builder.append( " wall=" );
 		builder.append( isWall() );

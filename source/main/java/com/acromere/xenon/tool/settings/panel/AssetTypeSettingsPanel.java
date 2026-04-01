@@ -3,10 +3,10 @@ package com.acromere.xenon.tool.settings.panel;
 import com.acromere.product.Rb;
 import com.acromere.xenon.RbKey;
 import com.acromere.xenon.XenonProgramProduct;
+import com.acromere.xenon.compare.AssetTypeNameComparator;
 import com.acromere.xenon.resource.ResourceType;
 import com.acromere.xenon.resource.ResourceTypeCodecAssociationList;
 import com.acromere.xenon.resource.ResourceTypeToolAssociationList;
-import com.acromere.xenon.compare.AssetTypeNameComparator;
 import com.acromere.xenon.tool.settings.SettingsPanel;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -52,7 +52,7 @@ public class AssetTypeSettingsPanel extends SettingsPanel {
 
 	private final ResourceTypeToolAssociationList toolRegistrations;
 
-	public AssetTypeSettingsPanel(XenonProgramProduct product ) {
+	public AssetTypeSettingsPanel( XenonProgramProduct product ) {
 		super( product );
 
 		// Add the title to the panel
@@ -99,7 +99,7 @@ public class AssetTypeSettingsPanel extends SettingsPanel {
 		row = 0;
 
 		// Codec associations
-		associations = new ResourceTypeCodecAssociationList(product);
+		associations = new ResourceTypeCodecAssociationList( product );
 		associations.prefWidthProperty().bind( codecAssocGrid.widthProperty() );
 		GridPane.setColumnSpan( associations, GridPane.REMAINING );
 		GridPane.setHgrow( associations, Priority.ALWAYS );
@@ -132,34 +132,34 @@ public class AssetTypeSettingsPanel extends SettingsPanel {
 		associations.setResourceType( type );
 		toolRegistrations.setResourceType( type );
 
-//		if( type == null ) return;`
-//
-//		// The default tool
-//		List<Class<? extends ProgramTool>> toolClasses = getProduct().getProgram().getToolManager().getRegisteredTools( type );
-//		Class<? extends ProgramTool> toolClass = getProduct().getProgram().getToolManager().getDefaultTool( type );
-//
-//		type.getCodecs();
-//		Codec defaultCodec = type.getDefaultCodec();
-//		type.getIcon();
-//
-//		type.getCodecs().forEach( c -> {
-//			//System.out.printf( "%s%n", c.getName() );
-//			Arrays.stream( Codec.Pattern.values() ).forEach( p -> {
-//				//System.out.printf( "  %s%n", p );
-//				Set<String> supported = c.getSupported( p );
-//				supported.forEach( s -> {
-//					//System.out.printf( "    %s%n", s );
-//				} );
-//			} );
-//		} );
-//
-//		//System.out.printf( "  %s%n", "TOOL" );
-//		toolClasses.forEach( c -> {
-//			boolean isDefault = toolClass == c;
-//			//System.out.printf( "    %s %s%n", c.getName(), isDefault ? "*" : "" );
-//		} );
-//
-//		//defaultCodec.getSupported( Codec.Pattern.EXTENSION );
+		//		if( type == null ) return;`
+		//
+		//		// The default tool
+		//		List<Class<? extends ProgramTool>> toolClasses = getProduct().getProgram().getToolManager().getRegisteredTools( type );
+		//		Class<? extends ProgramTool> toolClass = getProduct().getProgram().getToolManager().getDefaultTool( type );
+		//
+		//		type.getCodecs();
+		//		Codec defaultCodec = type.getDefaultCodec();
+		//		type.getIcon();
+		//
+		//		type.getCodecs().forEach( c -> {
+		//			//System.out.printf( "%s%n", c.getName() );
+		//			Arrays.stream( Codec.Pattern.values() ).forEach( p -> {
+		//				//System.out.printf( "  %s%n", p );
+		//				Set<String> supported = c.getSupported( p );
+		//				supported.forEach( s -> {
+		//					//System.out.printf( "    %s%n", s );
+		//				} );
+		//			} );
+		//		} );
+		//
+		//		//System.out.printf( "  %s%n", "TOOL" );
+		//		toolClasses.forEach( c -> {
+		//			boolean isDefault = toolClass == c;
+		//			//System.out.printf( "    %s %s%n", c.getName(), isDefault ? "*" : "" );
+		//		} );
+		//
+		//		//defaultCodec.getSupported( Codec.Pattern.EXTENSION );
 	}
 
 	private List<ResourceType> getUserAssetTypes( XenonProgramProduct product ) {

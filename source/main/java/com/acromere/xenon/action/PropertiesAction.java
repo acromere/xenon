@@ -1,9 +1,9 @@
 package com.acromere.xenon.action;
 
 import com.acromere.data.NodeSettings;
-import com.acromere.xenon.Xenon;
 import com.acromere.xenon.ProgramAction;
 import com.acromere.xenon.PropertiesToolEvent;
+import com.acromere.xenon.Xenon;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.type.ProgramPropertiesType;
 import com.acromere.xenon.task.Task;

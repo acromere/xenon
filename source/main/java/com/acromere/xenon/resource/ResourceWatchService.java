@@ -125,7 +125,7 @@ public class ResourceWatchService implements Controllable<ResourceWatchService> 
 							resource.setExternallyModified( true );
 
 							// Dispatch the event
-							ResourceWatchEvent.Type type = ResourceWatchEvent.Type.valueOf( kind.name().substring( "ENTRY_".length() ));
+							ResourceWatchEvent.Type type = ResourceWatchEvent.Type.valueOf( kind.name().substring( "ENTRY_".length() ) );
 							dispatch( resource, new ResourceWatchEvent( type, resource ) );
 						} catch( ResourceException exception ) {
 							log.atWarn( exception ).log();
@@ -176,9 +176,10 @@ public class ResourceWatchService implements Controllable<ResourceWatchService> 
 		// Remove the callback
 		callbacks.computeIfPresent(
 			resource, ( k, v ) -> {
-			v.remove( callback );
-			return v.isEmpty() ? null : v;
-		} );
+				v.remove( callback );
+				return v.isEmpty() ? null : v;
+			}
+		);
 	}
 
 }

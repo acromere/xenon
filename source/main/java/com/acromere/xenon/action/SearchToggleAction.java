@@ -1,7 +1,7 @@
 package com.acromere.xenon.action;
 
-import com.acromere.xenon.Xenon;
 import com.acromere.xenon.ProgramAction;
+import com.acromere.xenon.Xenon;
 import com.acromere.xenon.resource.type.ProgramSearchType;
 import com.acromere.xenon.tool.SearchTool;
 import com.acromere.xenon.workpane.Tool;

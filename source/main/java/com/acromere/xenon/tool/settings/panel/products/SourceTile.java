@@ -169,10 +169,12 @@ public class SourceTile extends BaseTile {
 	}
 
 	private void reloadRepoState() {
-		getProductSettingsPanel().getProgram().getTaskManager().submit( Task.of( "Load repo state", () -> {
-			getProductSettingsPanel().getProgram().getProductManager().updateRepo( source );
-			Fx.run( this::updateTileState );
-		} ) );
+		getProductSettingsPanel().getProgram().getTaskManager().submit( Task.of(
+			"Load repo state", () -> {
+				getProductSettingsPanel().getProgram().getProductManager().updateRepo( source );
+				Fx.run( this::updateTileState );
+			}
+		) );
 	}
 
 	private boolean isValidRepoState( RepoState state ) {
@@ -196,14 +198,16 @@ public class SourceTile extends BaseTile {
 	}
 
 	private void removeRepo() {
-		getProgram().getTaskManager().submit( Task.of( "Remove repo", () -> {
-			try {
-				getProductManager().removeRepo( source );
-				getProductSettingsPanel().updateState( false );
-			} catch( Exception exception ) {
-				log.atWarning().withCause( exception ).log( "Error removing repository" );
+		getProgram().getTaskManager().submit( Task.of(
+			"Remove repo", () -> {
+				try {
+					getProductManager().removeRepo( source );
+					getProductSettingsPanel().updateState( false );
+				} catch( Exception exception ) {
+					log.atWarning().withCause( exception ).log( "Error removing repository" );
+				}
 			}
-		} ) );
+		) );
 	}
 
 }

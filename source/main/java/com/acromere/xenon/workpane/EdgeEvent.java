@@ -18,7 +18,7 @@ public class EdgeEvent extends WorkpaneEvent {
 
 	private double position;
 
-	public EdgeEvent( Object source, EventType<? extends EdgeEvent> eventType, Workpane workpane, WorkpaneEdge edge) {
+	public EdgeEvent( Object source, EventType<? extends EdgeEvent> eventType, Workpane workpane, WorkpaneEdge edge ) {
 		super( source, eventType, workpane );
 		this.edge = edge;
 		this.position = edge.getPosition();

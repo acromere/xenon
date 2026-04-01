@@ -73,7 +73,7 @@ public abstract class ResourceType implements Comparable<ResourceType> {
 
 	private Codec defaultCodec;
 
-	private Map<String,SettingsPage> settingsPages;
+	private Map<String, SettingsPage> settingsPages;
 
 	public ResourceType( XenonProgramProduct product, String rbKey ) {
 		if( product == null ) throw new NullPointerException( "Product cannot be null" );
@@ -158,7 +158,7 @@ public abstract class ResourceType implements Comparable<ResourceType> {
 	}
 
 	public Set<Codec.Association> getAssociations() {
-		return getCodecs().stream().flatMap( c -> c.getAssociations().stream() ).collect( Collectors.toSet());
+		return getCodecs().stream().flatMap( c -> c.getAssociations().stream() ).collect( Collectors.toSet() );
 	}
 
 	public List<Class<? extends ProgramTool>> getRegisteredTools() {
@@ -262,7 +262,7 @@ public abstract class ResourceType implements Comparable<ResourceType> {
 		return settingsPages;
 	}
 
-	public void setSettingsPages(Map<String,SettingsPage> pages) {
+	public void setSettingsPages( Map<String, SettingsPage> pages ) {
 		this.settingsPages = pages;
 	}
 

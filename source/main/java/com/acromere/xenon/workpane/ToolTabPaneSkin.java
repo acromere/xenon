@@ -102,7 +102,7 @@ public class ToolTabPaneSkin extends SkinBase<ToolTabPane> {
 	}
 
 	private void doUpdateTabs( ListChangeListener.Change<? extends ToolTab> change ) {
-		 while( change.next() ) {
+		while( change.next() ) {
 			change.getRemoved().stream().filter( Objects::nonNull ).forEach( tab -> {
 				if( !getSkinnable().getTabs().contains( tab ) ) tab.setToolPane( null );
 				toolArea.getChildren().remove( tab.getTool() );

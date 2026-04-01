@@ -2,10 +2,10 @@ package com.acromere.xenon.tool;
 
 import com.acromere.event.EventHandler;
 import com.acromere.xenon.ProgramEvent;
-import com.acromere.xenon.XenonProgramProduct;
 import com.acromere.xenon.ProgramTool;
-import com.acromere.xenon.resource.Resource;
+import com.acromere.xenon.XenonProgramProduct;
 import com.acromere.xenon.resource.OpenAssetRequest;
+import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.task.Task;
 import javafx.scene.control.TextArea;
 import lombok.CustomLog;

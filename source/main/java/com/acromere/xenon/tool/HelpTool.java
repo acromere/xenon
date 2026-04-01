@@ -2,8 +2,8 @@ package com.acromere.xenon.tool;
 
 import com.acromere.util.FileUtil;
 import com.acromere.xenon.XenonProgramProduct;
-import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.OpenAssetRequest;
+import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.tool.guide.GuidedTool;
 import com.acromere.xenon.workpane.ToolException;
 import com.acromere.zerra.color.Paints;
