@@ -293,9 +293,6 @@ class UiReader {
 
 	Workarea loadAreaForLinking( Settings settings ) {
 		try {
-			// deprecated in 1.9-SNAPSHOT
-			copyPaneSettings( settings );
-
 			String id = settings.getName();
 			Workspace space = spaces.get( settings.get( UiManager.PARENT_SPACE_ID ) );
 			// TODO Remove in 1.9-SNAPSHOT
@@ -326,8 +323,6 @@ class UiReader {
 		try {
 			String id = settings.getName();
 			Workarea area = areas.get( settings.get( UiManager.PARENT_AREA_ID ) );
-			// TODO Remove in 1.9-SNAPSHOT
-			if( area == null ) area = areas.get( settings.get( UiManager.PARENT_WORKPANE_ID ) );
 
 			// If the workpane is not found, then the view is orphaned...delete the settings
 			if( area == null ) {
@@ -355,8 +350,6 @@ class UiReader {
 		try {
 			String id = settings.getName();
 			Workarea area = areas.get( settings.get( UiManager.PARENT_AREA_ID ) );
-			// TODO Remove in 1.9-SNAPSHOT
-			if( area == null ) area = areas.get( settings.get( UiManager.PARENT_WORKPANE_ID ) );
 
 			// If the workpane is not found, then the edge is orphaned...delete the settings
 			if( area == null ) {
@@ -499,8 +492,7 @@ class UiReader {
 		for( WorkpaneEdge edge : edges.values() ) {
 			Settings settings = getProgram().getSettingsManager().getSettings( ProgramSettings.EDGE, edge.getUid() );
 			Workarea area = areas.get( settings.get( UiManager.PARENT_AREA_ID ) );
-			// TODO Remove in 1.9-SNAPSHOT
-			if( area == null ) area = areas.get( settings.get( UiManager.PARENT_WORKPANE_ID ) );
+
 			try {
 				if( linkEdge( area, edge, settings ) ) {
 					areaEdges.computeIfAbsent( area, _ -> new HashSet<>() ).add( edge );
@@ -517,8 +509,7 @@ class UiReader {
 		for( WorkpaneView view : views.values() ) {
 			Settings settings = getProgram().getSettingsManager().getSettings( ProgramSettings.VIEW, view.getUid() );
 			Workarea area = areas.get( settings.get( UiManager.PARENT_AREA_ID ) );
-			// TODO Remove in 1.9-SNAPSHOT
-			if( area == null ) area = areas.get( settings.get( UiManager.PARENT_WORKPANE_ID ) );
+
 			try {
 				if( linkView( area, view, settings ) ) {
 					areaViews.computeIfAbsent( area, _ -> new HashSet<>() ).add( view );
@@ -685,29 +676,6 @@ class UiReader {
 		Notice notice = new Notice( Rb.text( RbKey.PROGRAM, "ui-restore-error-title" ) );
 		notice.setMessage( builder.toString().trim() );
 		getProgram().getNoticeManager().addNotice( notice );
-	}
-
-	/**
-	 * Copy the workpane settings to the workarea settings.
-	 *
-	 * @param settings The workarea settings.
-	 * @deprecated Remove in 1.8
-	 */
-	// TODO Remove in 1.9-SNAPSHOT
-	@Deprecated( since = "1.7", forRemoval = true )
-	private void copyPaneSettings( Settings settings ) {
-		Settings rootSettings = getProgram().getSettingsManager().getSettings( ProgramSettings.BASE );
-		if( rootSettings.nodeExists( ProgramSettings.PANE ) ) {
-			Settings paneSetting = getProgram().getSettingsManager().getSettings( ProgramSettings.PANE );
-			String id = settings.getName();
-			if( paneSetting.nodeExists( id ) ) {
-				Settings paneSettings = paneSetting.getNode( id );
-				settings.set( UiWorkareaFactory.VIEW_ACTIVE, paneSettings.get( UiWorkareaFactory.VIEW_ACTIVE ) );
-				settings.set( UiWorkareaFactory.VIEW_DEFAULT, paneSettings.get( UiWorkareaFactory.VIEW_DEFAULT ) );
-				settings.set( UiWorkareaFactory.VIEW_MAXIMIZED, paneSettings.get( UiWorkareaFactory.VIEW_MAXIMIZED ) );
-				paneSettings.delete();
-			}
-		}
 	}
 
 }
