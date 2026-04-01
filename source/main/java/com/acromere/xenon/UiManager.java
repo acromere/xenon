@@ -25,13 +25,6 @@ public final class UiManager implements Controllable<UiManager> {
 
     public static final String PARENT_VIEW_ID = "view-id";
 
-    /**
-     * @deprecated Use {@link #PARENT_SPACE_ID} instead.
-     */
-    // TODO Remove in 1.8
-    @Deprecated(since = "1.7", forRemoval = true)
-    public static final String PARENT_WORKSPACE_ID = "workspace-id";
-
     public static final String ICON = "icon";
 
     public static final String TITLE = "title";

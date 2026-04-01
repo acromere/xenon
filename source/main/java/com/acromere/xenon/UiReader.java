@@ -295,8 +295,6 @@ class UiReader {
 		try {
 			String id = settings.getName();
 			Workspace space = spaces.get( settings.get( UiManager.PARENT_SPACE_ID ) );
-			// TODO Remove in 1.9-SNAPSHOT
-			if( space == null ) space = spaces.get( settings.get( UiManager.PARENT_WORKSPACE_ID ) );
 
 			// If the workspace is not found, then the workarea is orphaned...delete the settings
 			if( space == null ) {
@@ -468,8 +466,7 @@ class UiReader {
 			try {
 				Settings settings = getProgram().getSettingsManager().getSettings( ProgramSettings.AREA, area.getUid() );
 				Workspace space = spaces.get( settings.get( UiManager.PARENT_SPACE_ID ) );
-				// TODO Remove in 1.9-SNAPSHOT
-				if( space == null ) space = spaces.get( settings.get( UiManager.PARENT_WORKSPACE_ID ) );
+
 				space.addWorkarea( area );
 
 				// Save the active area for later

@@ -89,7 +89,7 @@ class UiWorkareaFactory {
 		workarea.orderProperty().addListener( ( v, o, n ) -> settings.set( UiManager.ORDER, n ) );
 		workarea.paintProperty().addListener( ( v, o, n ) -> settings.set( UiManager.PAINT, Paints.toString( n ) ) );
 		workarea.activeProperty().addListener( ( v, o, n ) -> settings.set( UiManager.ACTIVE, n ) );
-		workarea.workspaceProperty().addListener( ( v, o, n ) -> settings.set( UiManager.PARENT_WORKSPACE_ID, n == null ? null : n.getUid() ) );
+		workarea.workspaceProperty().addListener( ( v, o, n ) -> settings.set( UiManager.PARENT_SPACE_ID, n == null ? null : n.getUid() ) );
 
 		// Setup existing views and edges
 		workarea.getEdges().forEach( e -> setupEdgeSettings( workarea, e ) );

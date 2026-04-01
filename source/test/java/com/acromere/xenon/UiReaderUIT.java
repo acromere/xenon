@@ -104,7 +104,7 @@ class UiReaderUIT extends BaseFullXenonTestCase {
         assertThat(areaSettings.get(UiWorkareaFactory.VIEW_ACTIVE)).isEqualTo(viewKeys.getFirst());
         assertThat(areaSettings.get(UiWorkareaFactory.VIEW_DEFAULT)).isEqualTo(viewKeys.getFirst());
         assertThat(areaSettings.get(UiWorkareaFactory.VIEW_MAXIMIZED)).isNull();
-        assertThat(areaSettings.get(UiManager.PARENT_WORKSPACE_ID)).isEqualTo(workspaceKeys.getFirst());
+        assertThat(areaSettings.get(UiManager.PARENT_SPACE_ID)).isEqualTo(workspaceKeys.getFirst());
 
         // Check view settings
         assertThat(workspaceSettings.get(Ui.B)).isNull();
@@ -329,7 +329,7 @@ class UiReaderUIT extends BaseFullXenonTestCase {
     private static Settings areaSettings(String spaceId) {
         Settings settings = new MapSettings().getNode(IdGenerator.getId());
 
-        settings.set(UiManager.PARENT_WORKSPACE_ID, spaceId);
+        settings.set(UiManager.PARENT_SPACE_ID, spaceId);
 
         return settings;
     }
