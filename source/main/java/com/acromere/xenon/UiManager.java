@@ -7,7 +7,6 @@ import lombok.Getter;
 
 @Getter
 @CustomLog
-// FIXME Should this be renamed UiManager?
 public final class UiManager implements Controllable<UiManager> {
 
     public static final String SPACE = "space";
