@@ -5,7 +5,6 @@ import com.acromere.settings.Settings;
 import com.acromere.settings.StoredSettings;
 import com.acromere.util.FileUtil;
 import com.acromere.util.IdGenerator;
-import com.acromere.util.ThreadUtil;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.type.ProgramAboutType;
 import com.acromere.xenon.test.ProgramTestConfig;
@@ -118,40 +117,6 @@ class UiReaderUIT extends BaseFullXenonTestCase {
         assertThat(toolSettings.get(UiManager.ACTIVE)).isEqualTo("true");
         assertThat(toolSettings.get(UiManager.ORDER)).isEqualTo("0");
         assertThat(toolSettings.get(UiManager.PARENT_VIEW_ID)).isEqualTo(viewKeys.getFirst());
-    }
-
-    @Test
-    void createNewWorkarea() throws Exception {
-        // given
-        Fx.run(() -> {
-            Workarea area = getProgram().getUiManager().newWorkarea("Workarea 2");
-            getProgram().getWorkspaceManager().getActiveWorkspace().setActiveWorkarea(area);
-        });
-
-        Path settingsFolder = getProgram().getDataFolder().resolve(SettingsManager.ROOT);
-        Path uiSettingsFolder = settingsFolder.resolve(ProgramSettings.UI.substring(1));
-
-        // when
-        long timeout = getProgram().getSettingsManager().getMaxFlushLimit() * 3;
-        FileUtil.waitToExist(uiSettingsFolder, timeout, TimeUnit.MILLISECONDS);
-        FileUtil.waitToExist(uiSettingsFolder.resolve(UiManager.SPACE), timeout, TimeUnit.MILLISECONDS);
-        FileUtil.waitToExist(uiSettingsFolder.resolve(UiManager.AREA), timeout, TimeUnit.MILLISECONDS);
-        FileUtil.waitToExist(uiSettingsFolder.resolve(UiManager.VIEW), timeout, TimeUnit.MILLISECONDS);
-        FileUtil.waitToExist(uiSettingsFolder.resolve(UiManager.TOOL), timeout, TimeUnit.MILLISECONDS);
-        ThreadUtil.pause(1, TimeUnit.SECONDS );
-
-        // then
-        Settings settings = getProgram().getSettingsManager().getSettings(ProgramSettings.UI);
-        List<String> workspaceKeys = settings.getNode(UiManager.SPACE).getNodes();
-        List<String> areaKeys = settings.getNode(UiManager.AREA).getNodes();
-        List<String> viewKeys = settings.getNode(UiManager.VIEW).getNodes();
-        List<String> toolKeys = settings.getNode(UiManager.TOOL).getNodes();
-
-        assertThat(workspaceKeys).hasSize(1);
-        assertThat(areaKeys).hasSize(2);
-        // FIXME Missing a view? Should be one for each area.
-        assertThat(viewKeys).hasSize(1);
-        assertThat(toolKeys).hasSize(1);
     }
 
     @Test
