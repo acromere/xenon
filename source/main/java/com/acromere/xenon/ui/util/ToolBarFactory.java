@@ -1,7 +1,7 @@
 package com.acromere.xenon.ui.util;
 
 import com.acromere.xenon.ActionProxy;
-import com.acromere.xenon.UiFactory;
+import com.acromere.xenon.Ui;
 import com.acromere.xenon.Xenon;
 import javafx.geometry.Orientation;
 import javafx.geometry.Point2D;
@@ -44,7 +44,7 @@ public class ToolBarFactory extends NavFactory {
 
 	public static Region createPad() {
 		Region pad = new Region();
-		pad.setMinSize( UiFactory.PAD, UiFactory.PAD );
+		pad.setMinSize( Ui.PAD, Ui.PAD );
 		return pad;
 	}
 

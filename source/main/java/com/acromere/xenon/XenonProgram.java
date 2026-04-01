@@ -103,6 +103,8 @@ public interface XenonProgram extends Program, ProgramProduct, XenonProgramProdu
 
 	SettingsManager getSettingsManager();
 
+	UiManager getUiManager();
+
 	ToolManager getToolManager();
 
 	ResourceManager getResourceManager();

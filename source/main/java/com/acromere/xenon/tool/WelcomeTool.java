@@ -19,7 +19,7 @@ import java.net.URI;
 @CustomLog
 public class WelcomeTool extends ProgramTool {
 
-	private static final double PAD = 2 * UiFactory.PAD;
+	private static final double PAD = 2 * Ui.PAD;
 
 	private static final double PRODUCT_ICON_SIZE = 96;
 
@@ -67,8 +67,8 @@ public class WelcomeTool extends ProgramTool {
 		buttonGrid.getColumnConstraints().addAll( column1, column2 );
 		buttonGrid.getChildren().addAll( docsButton, modsButton );
 
-		VBox contentPane = new VBox( UiFactory.PAD, label, buttonGrid );
-		contentPane.setPadding( new Insets( UiFactory.PAD ) );
+		VBox contentPane = new VBox( Ui.PAD, label, buttonGrid );
+		contentPane.setPadding( new Insets( Ui.PAD ) );
 
 		getChildren().addAll( accentPane, contentPane );
 	}

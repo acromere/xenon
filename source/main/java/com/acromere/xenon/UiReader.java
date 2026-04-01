@@ -150,7 +150,7 @@ class UiReader {
 		// Create the default workspace
 		Workspace space = new Workspace( program );
 		space.setUid( IdGenerator.getId() );
-		space.initializeScene( UiWorkspaceFactory.DEFAULT_WIDTH, UiWorkspaceFactory.DEFAULT_HEIGHT );
+		space.initializeScene( Ui.DEFAULT_WIDTH, Ui.DEFAULT_HEIGHT );
 
 		Settings spaceSettings = program.getSettingsManager().getSettings( ProgramSettings.SPACE, space.getUid() );
 		spaceFactory.applyWorkspaceSettings( space, spaceSettings );
@@ -297,9 +297,9 @@ class UiReader {
 			copyPaneSettings( settings );
 
 			String id = settings.getName();
-			Workspace space = spaces.get( settings.get( UiFactory.PARENT_SPACE_ID ) );
+			Workspace space = spaces.get( settings.get( UiManager.PARENT_SPACE_ID ) );
 			// TODO Remove in 1.9-SNAPSHOT
-			if( space == null ) space = spaces.get( settings.get( UiFactory.PARENT_WORKSPACE_ID ) );
+			if( space == null ) space = spaces.get( settings.get( UiManager.PARENT_WORKSPACE_ID ) );
 
 			// If the workspace is not found, then the workarea is orphaned...delete the settings
 			if( space == null ) {
@@ -325,9 +325,9 @@ class UiReader {
 	WorkpaneView loadViewForLinking( Settings settings ) {
 		try {
 			String id = settings.getName();
-			Workarea area = areas.get( settings.get( UiFactory.PARENT_AREA_ID ) );
+			Workarea area = areas.get( settings.get( UiManager.PARENT_AREA_ID ) );
 			// TODO Remove in 1.9-SNAPSHOT
-			if( area == null ) area = areas.get( settings.get( UiFactory.PARENT_WORKPANE_ID ) );
+			if( area == null ) area = areas.get( settings.get( UiManager.PARENT_WORKPANE_ID ) );
 
 			// If the workpane is not found, then the view is orphaned...delete the settings
 			if( area == null ) {
@@ -354,9 +354,9 @@ class UiReader {
 	WorkpaneEdge loadEdgeForLinking( Settings settings ) {
 		try {
 			String id = settings.getName();
-			Workarea area = areas.get( settings.get( UiFactory.PARENT_AREA_ID ) );
+			Workarea area = areas.get( settings.get( UiManager.PARENT_AREA_ID ) );
 			// TODO Remove in 1.9-SNAPSHOT
-			if( area == null ) area = areas.get( settings.get( UiFactory.PARENT_WORKPANE_ID ) );
+			if( area == null ) area = areas.get( settings.get( UiManager.PARENT_WORKPANE_ID ) );
 
 			// If the workpane is not found, then the edge is orphaned...delete the settings
 			if( area == null ) {
@@ -385,7 +385,7 @@ class UiReader {
 		try {
 			String id = settings.getName();
 			URI uri = settings.get( Resource.SETTINGS_URI_KEY, URI.class );
-			WorkpaneView view = views.get( settings.get( UiFactory.PARENT_VIEW_ID ) );
+			WorkpaneView view = views.get( settings.get( UiManager.PARENT_VIEW_ID ) );
 
 			// If the view is not found, then the tool is orphaned...delete the settings
 			if( view == null || uri == null ) {
@@ -474,9 +474,9 @@ class UiReader {
 		for( Workarea area : areaList ) {
 			try {
 				Settings settings = getProgram().getSettingsManager().getSettings( ProgramSettings.AREA, area.getUid() );
-				Workspace space = spaces.get( settings.get( UiFactory.PARENT_SPACE_ID ) );
+				Workspace space = spaces.get( settings.get( UiManager.PARENT_SPACE_ID ) );
 				// TODO Remove in 1.9-SNAPSHOT
-				if( space == null ) space = spaces.get( settings.get( UiFactory.PARENT_WORKSPACE_ID ) );
+				if( space == null ) space = spaces.get( settings.get( UiManager.PARENT_WORKSPACE_ID ) );
 				space.addWorkarea( area );
 
 				// Save the active area for later
@@ -498,9 +498,9 @@ class UiReader {
 		// Link the edges
 		for( WorkpaneEdge edge : edges.values() ) {
 			Settings settings = getProgram().getSettingsManager().getSettings( ProgramSettings.EDGE, edge.getUid() );
-			Workarea area = areas.get( settings.get( UiFactory.PARENT_AREA_ID ) );
+			Workarea area = areas.get( settings.get( UiManager.PARENT_AREA_ID ) );
 			// TODO Remove in 1.9-SNAPSHOT
-			if( area == null ) area = areas.get( settings.get( UiFactory.PARENT_WORKPANE_ID ) );
+			if( area == null ) area = areas.get( settings.get( UiManager.PARENT_WORKPANE_ID ) );
 			try {
 				if( linkEdge( area, edge, settings ) ) {
 					areaEdges.computeIfAbsent( area, _ -> new HashSet<>() ).add( edge );
@@ -516,9 +516,9 @@ class UiReader {
 		// Link the views
 		for( WorkpaneView view : views.values() ) {
 			Settings settings = getProgram().getSettingsManager().getSettings( ProgramSettings.VIEW, view.getUid() );
-			Workarea area = areas.get( settings.get( UiFactory.PARENT_AREA_ID ) );
+			Workarea area = areas.get( settings.get( UiManager.PARENT_AREA_ID ) );
 			// TODO Remove in 1.9-SNAPSHOT
-			if( area == null ) area = areas.get( settings.get( UiFactory.PARENT_WORKPANE_ID ) );
+			if( area == null ) area = areas.get( settings.get( UiManager.PARENT_WORKPANE_ID ) );
 			try {
 				if( linkView( area, view, settings ) ) {
 					areaViews.computeIfAbsent( area, _ -> new HashSet<>() ).add( view );
@@ -571,7 +571,7 @@ class UiReader {
 			Map<WorkpaneView, Set<Tool>> viewToolMap = new HashMap<>();
 			for( Tool tool : tools.values() ) {
 				Settings settings = getProgram().getSettingsManager().getSettings( ProgramSettings.TOOL, tool.getUid() );
-				WorkpaneView view = views.get( settings.get( UiFactory.PARENT_VIEW_ID ) );
+				WorkpaneView view = views.get( settings.get( UiManager.PARENT_VIEW_ID ) );
 				viewToolMap.computeIfAbsent( view, k -> new HashSet<>() ).add( tool );
 			}
 
@@ -615,11 +615,11 @@ class UiReader {
 	}
 
 	private boolean isActive( Settings settings ) {
-		return settings.get( UiFactory.ACTIVE, Boolean.class, false );
+		return settings.get( UiManager.ACTIVE, Boolean.class, false );
 	}
 
 	private boolean isMaximized( Settings settings ) {
-		return settings.get( UiFactory.MAXIMIZED, Boolean.class, false );
+		return settings.get( UiManager.MAXIMIZED, Boolean.class, false );
 	}
 
 	private boolean hasActiveView( Settings settings ) {

@@ -745,8 +745,8 @@ public class Workspace extends Stage implements WritableIdentity {
 		// different operating systems, the width and height from the scene, not the
 		// stage, are used. This includes the listeners for the width and height
 		// properties below.
-		Double w = settings.get( Ui.W, Double.class, UiWorkspaceFactory.DEFAULT_WIDTH );
-		Double h = settings.get( Ui.H, Double.class, UiWorkspaceFactory.DEFAULT_HEIGHT );
+		Double w = settings.get( Ui.W, Double.class, Ui.DEFAULT_WIDTH );
+		Double h = settings.get( Ui.H, Double.class, Ui.DEFAULT_HEIGHT );
 		initializeScene( w, h );
 
 		// Position the stage if x and y are specified

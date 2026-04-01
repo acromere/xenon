@@ -3,10 +3,10 @@ package com.acromere.xenon.tool;
 import com.acromere.event.EventHandler;
 import com.acromere.product.Rb;
 import com.acromere.util.ThreadUtil;
+import com.acromere.xenon.Ui;
 import com.acromere.xenon.XenonMode;
 import com.acromere.xenon.XenonProgramProduct;
 import com.acromere.xenon.ProgramTool;
-import com.acromere.xenon.UiFactory;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.OpenAssetRequest;
 import com.acromere.xenon.task.Task;
@@ -59,14 +59,14 @@ public class TaskTool extends ProgramTool {
 		Button failChain = new Button( "Fail Chain" );
 		failChain.setOnAction( ( event ) -> startTaskChain( true ) );
 
-		ScrollPane scroller = new ScrollPane( taskPanes = new VBox( UiFactory.PAD ) );
+		ScrollPane scroller = new ScrollPane( taskPanes = new VBox( Ui.PAD ) );
 		scroller.setFitToWidth( true );
 
-		HBox buttonBox = new HBox( UiFactory.PAD, testTask, failTask, testChain, failChain );
+		HBox buttonBox = new HBox( Ui.PAD, testTask, failTask, testChain, failChain );
 		buttonBox.setAlignment( Pos.CENTER );
 
 		BorderPane layoutPane = new BorderPane();
-		layoutPane.setPadding( new Insets( UiFactory.PAD ) );
+		layoutPane.setPadding( new Insets( Ui.PAD ) );
 		if( XenonMode.DEV.equals( getProgram().getMode() ) ) layoutPane.setTop( buttonBox );
 		layoutPane.setCenter( scroller );
 		getChildren().add( layoutPane );
@@ -134,7 +134,7 @@ public class TaskTool extends ProgramTool {
 		private final ProgressBar progress;
 
 		private TaskPane( Task<?> task ) {
-			super( UiFactory.PAD );
+			super( Ui.PAD );
 			this.task = task;
 
 			progress = new ProgressBar();

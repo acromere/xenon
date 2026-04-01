@@ -1,6 +1,6 @@
 package com.acromere.xenon.workspace;
 
-import com.acromere.xenon.UiWorkspaceFactory;
+import com.acromere.xenon.Ui;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 
@@ -12,8 +12,8 @@ class XenonWorkspaceDefaultSceneSizeUIT extends ProgramWorkspaceUIT {
 	void execute() {
 		Stage stage = getProgram().getWorkspaceManager().getActiveStage();
 		assertThat( stage.isShowing() ).isTrue();
-		assertThat( stage.getScene().getWidth() ).isEqualTo( UiWorkspaceFactory.DEFAULT_WIDTH );
-		assertThat( stage.getScene().getHeight() ).isEqualTo( UiWorkspaceFactory.DEFAULT_HEIGHT );
+		assertThat( stage.getScene().getWidth() ).isEqualTo( Ui.DEFAULT_WIDTH );
+		assertThat( stage.getScene().getHeight() ).isEqualTo( Ui.DEFAULT_HEIGHT );
 	}
 
 }

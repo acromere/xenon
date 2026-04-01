@@ -3,7 +3,7 @@ package com.acromere.xenon.tool.settings.editor;
 import com.acromere.product.Rb;
 import com.acromere.settings.SettingsEvent;
 import com.acromere.util.FileUtil;
-import com.acromere.xenon.UiFactory;
+import com.acromere.xenon.Ui;
 import com.acromere.xenon.XenonProgramProduct;
 import com.acromere.xenon.tool.settings.SettingData;
 import com.acromere.xenon.tool.settings.SettingEditor;
@@ -64,7 +64,7 @@ public class FileSettingEditor extends SettingEditor {
 		// Add the components
 		GridPane buttonBox = new GridPane();
 		GridPane.setHgrow( field, Priority.ALWAYS );
-		buttonBox.setHgap( UiFactory.PAD );
+		buttonBox.setHgap( Ui.PAD );
 		buttonBox.addRow( 0, field, button );
 
 		pane.addRow( row, label, buttonBox );

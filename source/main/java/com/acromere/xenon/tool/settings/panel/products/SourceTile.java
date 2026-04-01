@@ -2,7 +2,7 @@ package com.acromere.xenon.tool.settings.panel.products;
 
 import com.acromere.product.RepoCard;
 import com.acromere.util.TextUtil;
-import com.acromere.xenon.UiFactory;
+import com.acromere.xenon.Ui;
 import com.acromere.xenon.XenonProgramProduct;
 import com.acromere.xenon.product.RepoState;
 import com.acromere.xenon.task.Task;
@@ -51,8 +51,8 @@ public class SourceTile extends BaseTile {
 	public SourceTile( XenonProgramProduct product, ProductsSettingsPanel parent, RepoState source ) {
 		super( product, parent );
 
-		setHgap( UiFactory.PAD );
-		setVgap( UiFactory.PAD );
+		setHgap( Ui.PAD );
+		setVgap( Ui.PAD );
 
 		this.source = source;
 

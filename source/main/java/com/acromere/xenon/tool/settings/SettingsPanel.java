@@ -6,7 +6,7 @@ import com.acromere.log.LazyEval;
 import com.acromere.settings.Settings;
 import com.acromere.settings.SettingsEvent;
 import com.acromere.xenon.ActionProxy;
-import com.acromere.xenon.UiFactory;
+import com.acromere.xenon.Ui;
 import com.acromere.xenon.Xenon;
 import com.acromere.xenon.XenonProgramProduct;
 import com.acromere.xenon.ui.util.ActionFactory;
@@ -145,8 +145,8 @@ public class SettingsPanel extends VBox {
 
 	protected GridPane createSettingsPane() {
 		GridPane grid = new GridPane();
-		grid.setHgap( UiFactory.PAD );
-		grid.setVgap( UiFactory.PAD );
+		grid.setHgap( Ui.PAD );
+		grid.setVgap( Ui.PAD );
 
 		ColumnConstraints labelColumnConstraints = new ColumnConstraints();
 		ColumnConstraints editorColumnConstraints = new ColumnConstraints();

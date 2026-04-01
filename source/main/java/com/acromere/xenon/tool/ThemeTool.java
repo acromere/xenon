@@ -2,10 +2,10 @@ package com.acromere.xenon.tool;
 
 import com.acromere.log.LazyEval;
 import com.acromere.product.Rb;
+import com.acromere.xenon.Ui;
 import com.acromere.xenon.Xenon;
 import com.acromere.xenon.XenonProgramProduct;
 import com.acromere.xenon.ThemeMetadata;
-import com.acromere.xenon.UiFactory;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.OpenAssetRequest;
 import com.acromere.xenon.tool.guide.GuidedTool;
@@ -42,8 +42,8 @@ public class ThemeTool extends GuidedTool {
 		sample = generateSamplePane();
 
 		layout = new VBox( chooser, sample );
-		layout.setSpacing( UiFactory.PAD );
-		layout.setBorder( new Border( new BorderStroke( Color.TRANSPARENT, BorderStrokeStyle.NONE, CornerRadii.EMPTY, new BorderWidths( UiFactory.PAD ) ) ) );
+		layout.setSpacing( Ui.PAD );
+		layout.setBorder( new Border( new BorderStroke( Color.TRANSPARENT, BorderStrokeStyle.NONE, CornerRadii.EMPTY, new BorderWidths( Ui.PAD ) ) ) );
 		getChildren().addAll( layout );
 
 		refreshThemeChooser();
@@ -72,9 +72,9 @@ public class ThemeTool extends GuidedTool {
 
 	private Region generateSamplePane() {
 		VBox pane = new VBox();
-		pane.setSpacing( UiFactory.PAD );
+		pane.setSpacing( Ui.PAD );
 		pane.getStyleClass().add( "root" );
-		pane.setBorder( new Border( new BorderStroke( Color.TRANSPARENT, BorderStrokeStyle.NONE, CornerRadii.EMPTY, new BorderWidths( UiFactory.PAD ) ) ) );
+		pane.setBorder( new Border( new BorderStroke( Color.TRANSPARENT, BorderStrokeStyle.NONE, CornerRadii.EMPTY, new BorderWidths( Ui.PAD ) ) ) );
 
 		Button normal = new Button( "Normal" );
 		Button cancel = new Button( "Cancel" );
@@ -82,7 +82,7 @@ public class ThemeTool extends GuidedTool {
 		Button ok = new Button( "Default" );
 		ok.setDefaultButton( true );
 		HBox buttons = new HBox( normal, ok, cancel );
-		buttons.setSpacing( UiFactory.PAD );
+		buttons.setSpacing( Ui.PAD );
 		pane.getChildren().add( buttons );
 
 		return pane;

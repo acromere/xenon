@@ -5,32 +5,29 @@ import com.acromere.util.IdGenerator;
 import com.acromere.xenon.workspace.Workspace;
 import lombok.Getter;
 
-public class UiWorkspaceFactory {
-
-	public static final double DEFAULT_WIDTH = 960;
-
-	public static final double DEFAULT_HEIGHT = 600;
+// For use with UiManager only
+class UiWorkspaceFactory {
 
 	@Getter
 	private final Xenon program;
 
-	public UiWorkspaceFactory( Xenon program ) {
+	UiWorkspaceFactory( Xenon program ) {
 		this.program = program;
 	}
 
-	public Workspace create() {
+	Workspace create() {
 		Workspace space = new Workspace( program );
 		space.setUid( IdGenerator.getId() );
 		return space;
 	}
 
-	public Workspace applyWorkspaceSettings( Workspace workspace, Settings settings ) {
+	Workspace applyWorkspaceSettings( Workspace workspace, Settings settings ) {
 		// Due to differences in how FX handles stage sizes (width and height) on
 		// different operating systems, the width and height from the scene, not the
 		// stage, are used. This includes the listeners for the width and height
 		// properties below.
-		Double w = settings.get( Ui.W, Double.class, UiWorkspaceFactory.DEFAULT_WIDTH );
-		Double h = settings.get( Ui.H, Double.class, UiWorkspaceFactory.DEFAULT_HEIGHT );
+		Double w = settings.get( Ui.W, Double.class, Ui.DEFAULT_WIDTH );
+		Double h = settings.get( Ui.H, Double.class, Ui.DEFAULT_HEIGHT );
 		workspace.initializeScene( w, h );
 
 		// Position the stage if x and y are specified

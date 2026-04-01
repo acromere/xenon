@@ -129,6 +129,8 @@ public class Xenon extends Application implements XenonProgram {
 
 	private SettingsManager settingsManager;
 
+	private UiManager uiManager;
+
 	private ToolManager toolManager;
 
 	private ResourceManager resourceManager;
@@ -358,14 +360,15 @@ public class Xenon extends Application implements XenonProgram {
 	public Xenon initForTesting( com.acromere.util.Parameters parameters ) throws Exception {
 		setProgramParameters( parameters );
 		init();
-		iconLibrary = new IconLibrary( this );
-		actionLibrary = new ActionLibrary( this );
+		iconLibrary = new IconLibrary( Xenon.this );
+		actionLibrary = new ActionLibrary( Xenon.this );
 		card = ProductCard.card( this );
 		resourceManager = new ResourceManager( Xenon.this ).start();
 		resourceManager.getEventBus().parent( getFxEventHub() );
 		registerSchemes( resourceManager );
 		registerAssetTypes( resourceManager );
-		toolManager = new ToolManager( this ).start();
+		uiManager = new UiManager(Xenon.this).start();
+		toolManager = new ToolManager( Xenon.this ).start();
 		themeManager = new ThemeManager( Xenon.this ).start();
 		workspaceManager = new WorkspaceManager( Xenon.this ).start();
 		noticeManager = new NoticeManager( Xenon.this ).start();
@@ -415,7 +418,7 @@ public class Xenon extends Application implements XenonProgram {
 		time( "do-startup-tasks" );
 
 		// Reset the UI if the reset flag is set
-		if( parameters.isSet( XenonFlag.RESET ) ) new UiFactory( this ).reset();
+		if( parameters.isSet( XenonFlag.RESET ) ) new UiManager( this ).reset();
 
 		// Create the program event watcher, depends on logging
 		getFxEventHub().register( Event.ANY, watcher = new ProgramEventWatcher() );
@@ -472,6 +475,13 @@ public class Xenon extends Application implements XenonProgram {
 		// Load the settings pages
 		getSettingsManager().addSettingsPages( this, getSettings(), SETTINGS_PAGES );
 		time( "settings-pages" );
+
+		// Start the UI manager
+		log.atFiner().log( "Starting UI manager..." );
+		uiManager = new UiManager( this ).start();
+		if( splashScreen != null ) splashScreen.update();
+		log.atFine().log( "UI manager started." );
+		time( "ui-manager" );
 
 		// Start the tool manager
 		log.atFiner().log( "Starting tool manager..." );
@@ -728,6 +738,13 @@ public class Xenon extends Application implements XenonProgram {
 			toolManager.stop();
 			unregisterTools( toolManager );
 			log.atFine().log( "Tool manager stopped." );
+		}
+
+		// Stop the UI manager
+		if( uiManager != null ) {
+			log.atFiner().log( "Stopping UI manager..." );
+			uiManager.stop();
+			log.atFine().log( "UI manager stopped." );
 		}
 
 		// NOTE Do not try to remove the settings pages during shutdown
@@ -1010,10 +1027,16 @@ public class Xenon extends Application implements XenonProgram {
 	}
 
 	@Override
+	public UiManager getUiManager() {
+		return uiManager;
+	}
+
+	@Override
 	public ToolManager getToolManager() {
 		return toolManager;
 	}
 
+	@Override
 	public ResourceManager getResourceManager() {
 		return resourceManager;
 	}
@@ -1043,6 +1066,7 @@ public class Xenon extends Application implements XenonProgram {
 		return indexService;
 	}
 
+	@Override
 	public ResourceWatchService getResourceWatchService() {
 		return resourceWatchService;
 	}
@@ -1098,14 +1122,14 @@ public class Xenon extends Application implements XenonProgram {
 	}
 
 	/**
-	 * Check for another instance of the program is running after getting the
-	 * settings but before the splash screen is shown. The fastest way to check is
-	 * to try and bind to the port defined in the settings. The OS will quickly
-	 * deny the bind if the port is already bound.
-	 * <p>
-	 * See: https://stackoverflow.com/questions/41051127/javafx-single-instance-application
-	 * </p>
-	 */
+     * Check for another instance of the program is running after getting the
+     * settings but before the splash screen is shown. The fastest way to check is
+     * to try and bind to the port defined in the settings. The OS will quickly
+     * deny the bind if the port is already bound.
+     * <p>
+     * See: <a href="https://stackoverflow.com/questions/41051127/javafx-single-instance-application">...</a>
+     * </p>
+     */
 	private boolean isHostAlreadyRunning( int port ) {
 		// If the peer server starts this process is a host, not a peer
 		if( peerServer == null ) peerServer = new PeerServer( this, port ).start();
@@ -1162,32 +1186,14 @@ public class Xenon extends Application implements XenonProgram {
 		return false;
 	}
 
-	//	/**
-	//	 * Process staged updates at startup unless the NOUPDATE flag is set. This
-	//	 * situation happens if updates are staged and the updater was not run or did
-	//	 * not run successfully. If there are no staged updates then the method
-	//	 * returns false. If no updates were processed due to user input then the
-	//	 * method also returns false.
-	//	 *
-	//	 * @return True if the program should be restarted, false otherwise.
-	//	 */
-	//	private boolean processStagedUpdates() {
-	//		if( parameters.isSet( ProgramFlag.NOUPDATE ) ) return false;
-	//		int result = productManager.updateProduct();
-	//		if( result != 0 ) requestExit( true );
-	//		return result != 0;
-	//	}
-
-	/**
+    /**
 	 * Process the assets specified on the command line.
 	 *
 	 * @param parameters The command line parameters
 	 */
 	void processAssets( com.acromere.util.Parameters parameters ) {
 		List<String> uris = parameters.getUris();
-		if( uris.size() == 0 ) {
-			return;
-		}
+		if(uris.isEmpty()) return;
 
 		getWorkspaceManager().showActiveWorkspace();
 
@@ -1208,17 +1214,9 @@ public class Xenon extends Application implements XenonProgram {
 	 * <a href="http://patorjk.com/software/taag/#p=display&h=0&f=Bulbhead&t=XENON">XENON</a>
 	 */
 	private void printAsciiArtTitle() {
-		try {
-			InputStream input = getClass().getResourceAsStream( "/ascii-art-title.txt" );
-			BufferedReader reader = new BufferedReader( new InputStreamReader( input, TextUtil.CHARSET ) );
-
-			String line;
-			while( (line = reader.readLine()) != null ) {
-				System.out.println( line );
-			}
-		} catch( IOException exception ) {
-			// Intentionally ignore exception
-		}
+		try (InputStream input = getClass().getResourceAsStream( "/ascii-art-title.txt" )){
+            if( input != null ) System.out.println(IoUtil.toString(input));
+		} catch( IOException ignore ) {}
 	}
 
 	private void printHeader( ProductCard card, com.acromere.util.Parameters parameters ) {

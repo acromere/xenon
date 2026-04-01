@@ -1,6 +1,6 @@
 package com.acromere.xenon.resource;
 
-import com.acromere.xenon.UiFactory;
+import com.acromere.xenon.Ui;
 import com.acromere.xenon.XenonProgramProduct;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Button;
@@ -30,8 +30,8 @@ public class ResourceTypeCodecAssociationList extends VBox {
 
 	public ResourceTypeCodecAssociationList( XenonProgramProduct product) {
 		this.items = new GridPane();
-		this.items.setHgap( UiFactory.PAD );
-		this.items.setVgap( UiFactory.PAD );
+		this.items.setHgap( Ui.PAD );
+		this.items.setVgap( Ui.PAD );
 
 		List<Codec.Pattern> associationPatterns  = Arrays.asList(Codec.Pattern.values());
 

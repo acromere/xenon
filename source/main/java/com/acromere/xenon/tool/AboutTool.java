@@ -9,7 +9,6 @@ import com.acromere.settings.SettingsEvent;
 import com.acromere.util.*;
 import com.acromere.xenon.RbKey;
 import com.acromere.xenon.Ui;
-import com.acromere.xenon.UiFactory;
 import com.acromere.xenon.Xenon;
 import com.acromere.xenon.XenonProgramProduct;
 import com.acromere.xenon.resource.Resource;
@@ -179,7 +178,7 @@ public class AboutTool extends GuidedTool {
 		public SummaryPane() {
 			Node icon = getProgram().getIconLibrary().getIcon( "program", ICON_SIZE );
 
-			VBox title = new VBox( UiFactory.PAD );
+			VBox title = new VBox( Ui.PAD );
 			title.getChildren().add( productName = makeLabel( "tool-about-title" ) );
 			title.getChildren().add( productVersion = makeLabel( "tool-about-version" ) );
 			title.getChildren().add( productProvider = makeLabel( "tool-about-provider" ) );
@@ -253,7 +252,7 @@ public class AboutTool extends GuidedTool {
 		private final Label nextUpdateTimestamp;
 
 		public InformationPane() {
-			super( UiFactory.PAD );
+			super( Ui.PAD );
 			setId( "tool-about-summary" );
 
 			String from = Rb.text( "tool", "about-from" );
@@ -266,7 +265,7 @@ public class AboutTool extends GuidedTool {
 			javaVmName = makeLabel( "tool-about-name" );
 			osName = makeLabel( "tool-about-name" );
 
-			VBox information = new VBox( UiFactory.PAD );
+			VBox information = new VBox( Ui.PAD );
 			// Java
 			information.getChildren().add( makeSeparator() );
 			information.getChildren().add( makeSeparator() );
@@ -345,7 +344,7 @@ public class AboutTool extends GuidedTool {
 			String from = Rb.text( "tool", "about-from" );
 
 			// Mods
-			VBox mods = new VBox( UiFactory.PAD );
+			VBox mods = new VBox( Ui.PAD );
 			List<ProductCard> cards = new ArrayList<>( getProgram().getProductManager().getInstalledProductCards( false ) );
 			cards.sort( new ProductCardComparator( ProductCardComparator.Field.NAME ) );
 			for( ProductCard card : cards ) {

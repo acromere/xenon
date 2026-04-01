@@ -135,11 +135,11 @@ public class AssetTool extends GuidedTool {
 		userMessage = new Label( "user message" );
 		userMessage.setMaxWidth( Double.MAX_VALUE );
 		userMessage.setMaxHeight( Double.MAX_VALUE );
-		userMessage.setPadding( new Insets( 0, UiFactory.PAD, 0, UiFactory.PAD ) );
+		userMessage.setPadding( new Insets( 0, Ui.PAD, 0, Ui.PAD ) );
 		HBox.setHgrow( userMessage, Priority.ALWAYS );
 		Label closeLabel = new Label( "", getProgram().getIconLibrary().getIcon( "workarea-close" ) );
-		closeLabel.setPadding( new Insets( UiFactory.PAD ) );
-		userNotice = new HBox( UiFactory.PAD, userMessage, closeLabel );
+		closeLabel.setPadding( new Insets( Ui.PAD ) );
+		userNotice = new HBox( Ui.PAD, userMessage, closeLabel );
 		userNotice.setId( "user-notice" );
 		userNotice.setAlignment( Pos.CENTER );
 		closeLabel.setOnMousePressed( e -> closeUserNotice() );
@@ -194,9 +194,9 @@ public class AssetTool extends GuidedTool {
 		filtered.predicateProperty().bind( filters.getSelectionModel().selectedItemProperty() );
 
 		// Tool layout
-		VBox layout = new VBox( UiFactory.PAD );
-		layout.setPadding( new Insets( UiFactory.PAD ) );
-		layout.getChildren().add( new HBox( UiFactory.PAD, uriField, goButton ) );
+		VBox layout = new VBox( Ui.PAD );
+		layout.setPadding( new Insets( Ui.PAD ) );
+		layout.getChildren().add( new HBox( Ui.PAD, uriField, goButton ) );
 		layout.getChildren().add( filters );
 		layout.getChildren().add( userNotice );
 		layout.getChildren().add( assetTable );

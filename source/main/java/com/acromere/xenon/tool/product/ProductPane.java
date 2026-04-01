@@ -4,8 +4,8 @@ import com.acromere.product.ProductCard;
 import com.acromere.product.Rb;
 import com.acromere.util.FileUtil;
 import com.acromere.xenon.RbKey;
+import com.acromere.xenon.Ui;
 import com.acromere.xenon.Xenon;
-import com.acromere.xenon.UiFactory;
 import com.acromere.xenon.product.ProductManager;
 import com.acromere.xenon.product.ProductStatus;
 import com.acromere.xenon.task.Task;
@@ -72,8 +72,8 @@ class ProductPane extends GridPane {
 	private BooleanProperty selectedProperty;
 
 	ProductPane( ProductTool tool, ProductCard source, ProductCard update ) {
-		setHgap( UiFactory.PAD );
-		setVgap( UiFactory.PAD );
+		setHgap( Ui.PAD );
+		setVgap( Ui.PAD );
 
 		this.tool = tool;
 		this.source = source;

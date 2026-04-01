@@ -16,8 +16,9 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import lombok.CustomLog;
 
+// For use with UiManager only
 @CustomLog
-public class UiWorkareaFactory {
+class UiWorkareaFactory {
 
 	public static final String DOCK_TOP_SIZE = "dock-top-size";
 
@@ -35,11 +36,11 @@ public class UiWorkareaFactory {
 
 	private final Xenon program;
 
-	public UiWorkareaFactory( Xenon program ) {
+	UiWorkareaFactory( Xenon program ) {
 		this.program = program;
 	}
 
-	public Workarea create( String name ) {
+	Workarea newWorkarea( String name ) {
 		LinearGradient paint = new LinearGradient( 0, 0, 0.5, 1, true, CycleMethod.NO_CYCLE, new Stop( 0, Color.BLUEVIOLET.darker().darker() ), new Stop( 1, Color.TRANSPARENT ) );
 
 		Workarea area = new Workarea();
@@ -57,11 +58,11 @@ public class UiWorkareaFactory {
 	Workarea applyWorkareaSettings( Workarea area, Settings settings, boolean isDefaultWorkspace ) {
 		// Restore state from settings
 		area.setUid( settings.getName() );
-		area.setName( settings.get( UiFactory.NAME, area.getName() ) );
-		area.setOrder( settings.get( UiFactory.ORDER, Integer.class, area.getOrder() ) );
-		area.setPaint( Paints.parse( settings.get( UiFactory.PAINT, Paints.toString( area.getPaint() ) ) ) );
-		area.setColor( Colors.parse( settings.get( UiFactory.COLOR, Colors.toString( area.getColor() ) ) ) );
-		area.setActive( settings.get( UiFactory.ACTIVE, Boolean.class, area.isActive() ) );
+		area.setName( settings.get( UiManager.NAME, area.getName() ) );
+		area.setOrder( settings.get( UiManager.ORDER, Integer.class, area.getOrder() ) );
+		area.setPaint( Paints.parse( settings.get( UiManager.PAINT, Paints.toString( area.getPaint() ) ) ) );
+		area.setColor( Colors.parse( settings.get( UiManager.COLOR, Colors.toString( area.getColor() ) ) ) );
+		area.setActive( settings.get( UiManager.ACTIVE, Boolean.class, area.isActive() ) );
 
 		// Save new state to settings to save initial values immediately
 		storeWorkareaSettings( area, settings, isDefaultWorkspace );
@@ -70,10 +71,10 @@ public class UiWorkareaFactory {
 	}
 
 	static void storeWorkareaSettings( Workarea area, Settings settings, boolean isDefaultWorkspace ) {
-		settings.set( UiFactory.PAINT, Paints.toString( area.getPaint() ) );
-		settings.set( UiFactory.COLOR, Colors.toString( area.getColor() ) );
-		settings.set( UiFactory.NAME, area.getName() );
-		settings.set( UiFactory.ACTIVE, area.isActive() );
+		settings.set( UiManager.PAINT, Paints.toString( area.getPaint() ) );
+		settings.set( UiManager.COLOR, Colors.toString( area.getColor() ) );
+		settings.set( UiManager.NAME, area.getName() );
+		settings.set( UiManager.ACTIVE, area.isActive() );
 
 		if( isDefaultWorkspace ) {
 			settings.set( VIEW_ACTIVE, area.getActiveView() == null ? null : area.getActiveView().getUid() );
@@ -84,11 +85,11 @@ public class UiWorkareaFactory {
 
 	Workarea linkWorkareaSettingsListeners( Workarea workarea, Settings settings ) {
 		// Add the change listeners
-		workarea.nameProperty().addListener( ( v, o, n ) -> settings.set( UiFactory.NAME, n ) );
-		workarea.orderProperty().addListener( ( v, o, n ) -> settings.set( UiFactory.ORDER, n ) );
-		workarea.paintProperty().addListener( ( v, o, n ) -> settings.set( UiFactory.PAINT, Paints.toString( n ) ) );
-		workarea.activeProperty().addListener( ( v, o, n ) -> settings.set( UiFactory.ACTIVE, n ) );
-		workarea.workspaceProperty().addListener( ( v, o, n ) -> settings.set( UiFactory.PARENT_WORKSPACE_ID, n == null ? null : n.getUid() ) );
+		workarea.nameProperty().addListener( ( v, o, n ) -> settings.set( UiManager.NAME, n ) );
+		workarea.orderProperty().addListener( ( v, o, n ) -> settings.set( UiManager.ORDER, n ) );
+		workarea.paintProperty().addListener( ( v, o, n ) -> settings.set( UiManager.PAINT, Paints.toString( n ) ) );
+		workarea.activeProperty().addListener( ( v, o, n ) -> settings.set( UiManager.ACTIVE, n ) );
+		workarea.workspaceProperty().addListener( ( v, o, n ) -> settings.set( UiManager.PARENT_WORKSPACE_ID, n == null ? null : n.getUid() ) );
 
 		// Setup existing views and edges
 		workarea.getEdges().forEach( e -> setupEdgeSettings( workarea, e ) );
@@ -118,7 +119,7 @@ public class UiWorkareaFactory {
 
 	private void setupEdgeSettings( Workpane workpane, WorkpaneEdge edge ) {
 		Settings edgeSettings = program.getSettingsManager().getSettings( ProgramSettings.EDGE, edge.getUid() );
-		edgeSettings.set( UiFactory.PARENT_AREA_ID, workpane.getUid() );
+		edgeSettings.set( UiManager.PARENT_AREA_ID, workpane.getUid() );
 
 		// Restore state from settings
 		// NOTE The edge links are restored in the UiRegenerator
@@ -150,7 +151,7 @@ public class UiWorkareaFactory {
 
 	private void setupViewSettings( Workpane workpane, WorkpaneView view ) {
 		Settings viewSettings = program.getSettingsManager().getSettings( ProgramSettings.VIEW, view.getUid() );
-		viewSettings.set( UiFactory.PARENT_AREA_ID, workpane.getUid() );
+		viewSettings.set( UiManager.PARENT_AREA_ID, workpane.getUid() );
 
 		// Store the current values
 		viewSettings.set( "placement", view.getPlacement() == null ? null : view.getPlacement().name().toLowerCase() );

@@ -23,8 +23,8 @@ public class ResourceTypeToolAssociationList extends VBox {
 	public ResourceTypeToolAssociationList( XenonProgramProduct product ) {
 		this.product = product;
 		this.items = new GridPane();
-		this.items.setHgap( UiFactory.PAD );
-		this.items.setVgap( UiFactory.PAD );
+		this.items.setHgap( Ui.PAD );
+		this.items.setVgap( Ui.PAD );
 		getChildren().setAll( items );
 	}
 

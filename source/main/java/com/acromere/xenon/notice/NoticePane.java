@@ -1,6 +1,6 @@
 package com.acromere.xenon.notice;
 
-import com.acromere.xenon.UiFactory;
+import com.acromere.xenon.Ui;
 import com.acromere.xenon.Xenon;
 import com.acromere.xenon.task.Task;
 import javafx.geometry.HPos;
@@ -69,8 +69,8 @@ public class NoticePane extends GridPane {
 		GridPane.setColumnSpan( message, GridPane.REMAINING );
 		GridPane.setHgrow( message, Priority.ALWAYS );
 
-		this.setHgap( UiFactory.PAD );
-		this.setVgap( UiFactory.PAD );
+		this.setHgap( Ui.PAD );
+		this.setVgap( Ui.PAD );
 
 		getChildren().addAll( icon, title, when, closeIcon, message );
 	}

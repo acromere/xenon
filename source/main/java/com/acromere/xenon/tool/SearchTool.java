@@ -7,7 +7,7 @@ import com.acromere.product.Rb;
 import com.acromere.util.TextUtil;
 import com.acromere.xenon.ProgramTool;
 import com.acromere.xenon.RbKey;
-import com.acromere.xenon.UiFactory;
+import com.acromere.xenon.Ui;
 import com.acromere.xenon.XenonProgramProduct;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.OpenAssetRequest;
@@ -48,7 +48,7 @@ public class SearchTool extends ProgramTool {
 		scroller.setFitToHeight( true );
 		getChildren().add( scroller );
 
-		VBox listContainer = new VBox( UiFactory.PAD, search, scroller );
+		VBox listContainer = new VBox( Ui.PAD, search, scroller );
 		getChildren().add( listContainer );
 
 		search.textProperty().addListener( ( p, o, n ) -> doSearchAll( n ) );
@@ -163,7 +163,7 @@ public class SearchTool extends ProgramTool {
 					HBox.setHgrow( label, Priority.ALWAYS );
 					category = new Label();
 					HBox box = new HBox( label, category );
-					box.setSpacing( 2 * UiFactory.PAD );
+					box.setSpacing( 2 * Ui.PAD );
 
 					setContentDisplay( ContentDisplay.GRAPHIC_ONLY );
 					setGraphic( box );
@@ -212,7 +212,7 @@ public class SearchTool extends ProgramTool {
 					HBox.setHgrow( label, Priority.ALWAYS );
 					category = new Label();
 					HBox box = new HBox( label, category );
-					box.setSpacing( 2 * UiFactory.PAD );
+					box.setSpacing( 2 * Ui.PAD );
 
 					setContentDisplay( ContentDisplay.GRAPHIC_ONLY );
 					setGraphic( box );

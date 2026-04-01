@@ -3,7 +3,7 @@ package com.acromere.xenon.workspace;
 import com.acromere.skill.WritableIdentity;
 import com.acromere.xenon.ProgramTool;
 import com.acromere.xenon.ToolInstanceMode;
-import com.acromere.xenon.UiFactory;
+import com.acromere.xenon.Ui;
 import com.acromere.xenon.Xenon;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.workpane.*;
@@ -47,7 +47,7 @@ public class Workarea extends Workpane implements WritableIdentity {
 		active = new SimpleBooleanProperty( this, "active" );
 		workspace = new SimpleObjectProperty<>( this, "workspace" );
 
-		setEdgeSize( UiFactory.PAD );
+		setEdgeSize( Ui.PAD );
 
 		visibleProperty().bind( activeProperty() );
 

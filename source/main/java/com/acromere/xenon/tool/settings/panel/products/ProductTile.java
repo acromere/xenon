@@ -4,7 +4,7 @@ import com.acromere.product.ProductCard;
 import com.acromere.product.Rb;
 import com.acromere.util.FileUtil;
 import com.acromere.xenon.RbKey;
-import com.acromere.xenon.UiFactory;
+import com.acromere.xenon.Ui;
 import com.acromere.xenon.XenonProgramProduct;
 import com.acromere.xenon.product.ProductStatus;
 import com.acromere.xenon.task.Task;
@@ -68,8 +68,8 @@ public class ProductTile extends BaseTile {
 
 	ProductTile( XenonProgramProduct product, ProductsSettingsPanel parent, ProductCard source, ProductCard update, DisplayMode displayMode ) {
 		super( product, parent );
-		setHgap( UiFactory.PAD );
-		setVgap( UiFactory.PAD );
+		setHgap( Ui.PAD );
+		setVgap( Ui.PAD );
 
 		this.source = source;
 		this.displayMode = displayMode;

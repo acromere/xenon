@@ -1,5 +1,7 @@
 package com.acromere.xenon;
 
+import javafx.scene.layout.BorderStroke;
+
 public interface Ui {
 
     String BOTTOM = "bottom";
@@ -35,4 +37,7 @@ public interface Ui {
 
     // Height key
     String H = "h";
+    double DEFAULT_WIDTH = 960;
+    double DEFAULT_HEIGHT = 600;
+    double PAD = BorderStroke.THICK.getTop();
 }

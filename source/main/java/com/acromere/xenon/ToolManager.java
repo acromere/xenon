@@ -403,7 +403,7 @@ public class ToolManager implements Controllable<ToolManager> {
 	}
 
 	private void addToolListenerForSettings( ProgramTool tool ) {
-		tool.addEventHandler( ToolEvent.ADDED, e -> ((ProgramTool)e.getTool()).getSettings().set( UiFactory.PARENT_VIEW_ID, e.getTool().getToolView().getUid() ) );
+		tool.addEventHandler( ToolEvent.ADDED, e -> ((ProgramTool)e.getTool()).getSettings().set( UiManager.PARENT_VIEW_ID, e.getTool().getToolView().getUid() ) );
 		tool.addEventHandler( ToolEvent.REORDERED, e -> ((ProgramTool)e.getTool()).getSettings().set( Tool.ORDER, e.getTool().getOrder() ) );
 		tool.addEventHandler( ToolEvent.ACTIVATED, e -> ((ProgramTool)e.getTool()).getSettings().set( Tool.ACTIVE, true ) );
 		tool.addEventHandler( ToolEvent.DEACTIVATED, e -> ((ProgramTool)e.getTool()).getSettings().set( Tool.ACTIVE, null ) );

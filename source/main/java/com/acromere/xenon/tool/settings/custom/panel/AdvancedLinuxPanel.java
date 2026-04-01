@@ -81,7 +81,7 @@ public class AdvancedLinuxPanel extends SettingsPanel {
 		maxUnitComboBox.setDisable( true );
 
 		// Setting grid pane
-		GridPane memorySettings = new GridPane( UiFactory.PAD, UiFactory.PAD );
+		GridPane memorySettings = new GridPane( Ui.PAD, Ui.PAD );
 		memorySettings.addRow( 0, minMemoryLabel, jvmMemoryMinModeComboBox, minMemoryField, minUnitComboBox );
 		memorySettings.addRow( 1, maxMemoryLabel, jvmMemoryMaxModeComboBox, maxMemoryField, maxUnitComboBox );
 		GridPane.setColumnSpan( memorySettings, GridPane.REMAINING );

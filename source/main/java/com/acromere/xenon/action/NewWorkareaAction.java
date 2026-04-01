@@ -3,8 +3,6 @@ package com.acromere.xenon.action;
 import com.acromere.product.Rb;
 import com.acromere.xenon.ProgramAction;
 import com.acromere.xenon.RbKey;
-import com.acromere.xenon.UiFactory;
-import com.acromere.xenon.UiWorkareaFactory;
 import com.acromere.xenon.Xenon;
 import com.acromere.zerra.stage.DialogUtil;
 import com.acromere.xenon.workspace.Workarea;
@@ -46,9 +44,8 @@ public class NewWorkareaAction extends ProgramAction {
 	}
 
 	private void createNewWorkarea( String name ) {
-		UiWorkareaFactory factory = new UiWorkareaFactory( getProgram() );
 		try {
-			Workarea workarea = factory.create( name );
+			Workarea workarea = getProgram().getUiManager().newWorkarea( name );
 			getProgram().getWorkspaceManager().getActiveWorkspace().setActiveWorkarea( workarea );
 		} catch( Exception exception ) {
 			log.atError().withCause( exception ).log( "Error creating new workarea: %s", name );
