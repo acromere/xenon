@@ -199,9 +199,9 @@ class UiReader {
 		// done before the listeners are added to avoid unintended modifications.
 		restoreFlags();
 
-		// Last, but not least, register the listeners. This should be done last to
+		// Last, but not least, bind the settings. This should be done last to
 		// avoid unintended modifications while the UI is being restored.
-		registerListeners();
+		bindSettings();
 	}
 
 	private void restoreFlags() {
@@ -249,7 +249,7 @@ class UiReader {
 		}
 	}
 
-	private void registerListeners() {
+	private void bindSettings() {
 		// Register the workarea listeners
 		for( Workarea area : areas.values() ) {
 			Settings settings = program.getSettingsManager().getSettings( ProgramSettings.AREA, area.getUid() );
