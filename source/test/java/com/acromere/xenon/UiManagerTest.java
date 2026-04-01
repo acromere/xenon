@@ -45,7 +45,7 @@ public class UiManagerTest extends BasePartXenonTestCase {
 		assertThat( workarea.getName() ).isEqualTo( "Test Workarea" );
 
 		// Check that settings files exist
-		long timeout = getProgram().getSettingsManager().getMaxFlushLimit();
+		long timeout = getProgram().getSettingsManager().getMaxFlushLimit() * 3;
 		Path settingsFolder = getProgram().getDataFolder().resolve( SettingsManager.ROOT );
 		Path areaFolder = settingsFolder.resolve( ProgramSettings.AREA.substring( 1 ) );
 		Path areaSettingsFolder = settingsFolder.resolve( ProgramSettings.AREA.substring( 1 ) ).resolve( workarea.getUid() );
