@@ -1,5 +1,7 @@
 package com.acromere.xenon;
 
+import com.acromere.settings.Settings;
+import com.acromere.settings.StoredSettings;
 import com.acromere.util.FileUtil;
 import com.acromere.xenon.workspace.Workarea;
 import com.acromere.zerra.javafx.Fx;
@@ -55,11 +57,31 @@ public class UiManagerTest extends BasePartXenonTestCase {
 		FileUtil.waitToExist( areaFolder, timeout, TimeUnit.MILLISECONDS );
 		FileUtil.waitToExist( viewFolder, timeout, TimeUnit.MILLISECONDS );
 		FileUtil.waitToExist( areaSettingsFolder, timeout, TimeUnit.MILLISECONDS );
-		// TODO We don't know the view id yet
 
 		assertThat( areaFolder ).existsNoFollowLinks();
 		assertThat( viewFolder ).existsNoFollowLinks();
 		assertThat( areaSettingsFolder ).existsNoFollowLinks();
+
+		Settings areaSettings = new StoredSettings( areaSettingsFolder );
+		Settings viewSettings = new StoredSettings( viewFolder );
+		String areaKey = workarea.getUid();
+		String viewKey = viewSettings.getNodes().getFirst();
+		viewSettings = viewSettings.getNode( viewSettings.getNodes().getFirst() );
+
+		assertThat( areaSettings.get( UiManager.ACTIVE ) ).isEqualTo( "false" );
+		assertThat( areaSettings.get( UiManager.COLOR ) ).isEqualTo( "#206080ff" );
+		assertThat( areaSettings.get( UiManager.NAME ) ).isEqualTo( "Test Workarea" );
+		assertThat( areaSettings.get( UiManager.PAINT ) ).startsWith( "linear-gradient" );
+		assertThat( areaSettings.get( UiWorkareaFactory.VIEW_ACTIVE ) ).isEqualTo( viewKey );
+		assertThat( areaSettings.get( UiWorkareaFactory.VIEW_DEFAULT ) ).isEqualTo( viewKey );
+		assertThat( areaSettings.get( UiWorkareaFactory.VIEW_MAXIMIZED ) ).isNull();
+		assertThat( areaSettings.get( UiManager.PARENT_SPACE_ID ) ).isNull();
+
+		assertThat( viewSettings.get( Ui.B ) ).isEqualTo( Ui.BOTTOM );
+		assertThat( viewSettings.get( Ui.L ) ).isEqualTo( Ui.LEFT );
+		assertThat( viewSettings.get( Ui.R ) ).isEqualTo( Ui.RIGHT );
+		assertThat( viewSettings.get( Ui.T ) ).isEqualTo( Ui.TOP );
+		assertThat( viewSettings.get( UiManager.PARENT_AREA_ID ) ).isEqualTo( areaKey );
 	}
 
 }
