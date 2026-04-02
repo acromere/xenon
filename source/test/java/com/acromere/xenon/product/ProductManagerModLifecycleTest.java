@@ -88,7 +88,7 @@ public class ProductManagerModLifecycleTest extends BaseFullXenonTestCase {
 		assertThat( module.getStatus() ).isEqualTo( Module.Status.UNREGISTERED );
 	}
 
-	private void enableMod(){
+	private void enableMod() {
 		getProgram().getProductManager().setModEnabled( module, true );
 	}
 

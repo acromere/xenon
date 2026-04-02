@@ -43,7 +43,7 @@ class UiWorkspaceFactory {
 		area.setIcon( "workarea" );
 		area.setName( Rb.text( RbKey.WORKAREA, "workarea-new-title", "New Workarea" ) );
 		Settings areaSettings = program.getSettingsManager().getSettings( ProgramSettings.AREA, area.getUid() );
-		areaFactory.applyWorkareaSettings( area, areaSettings, true );
+		areaFactory.applyWorkareaSettings( area, areaSettings );
 		areaFactory.linkWorkareaSettingsListeners( area, areaSettings );
 
 		// Add the workarea to the workspace

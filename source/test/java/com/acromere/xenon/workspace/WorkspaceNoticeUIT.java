@@ -13,7 +13,7 @@ class WorkspaceNoticeUIT extends BaseXenonUIT {
 	@Test
 	void testUserCanCloseNotice() throws Exception {
 		// Force a notice
-		Notice notice = new Notice("title", "message");
+		Notice notice = new Notice( "title", "message" );
 		getProgram().getNoticeManager().addNotice( notice );
 		getProgramWatcher().waitForEvent( NoticeEvent.ADDED, 1000 );
 

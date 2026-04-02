@@ -272,7 +272,7 @@ class UiReader {
 	}
 
 	Workarea loadArea( Settings settings ) {
-		return areaFactory.applyWorkareaSettings( new Workarea(), settings, false );
+		return areaFactory.applyWorkareaSettings( new Workarea(), settings );
 	}
 
 	WorkpaneView loadViewForLinking( Settings settings ) {

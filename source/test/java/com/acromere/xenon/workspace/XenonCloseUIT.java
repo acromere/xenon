@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class XenonCloseUIT extends ProgramWorkspaceUIT {
 
 	@Test
-	void execute( FxRobot robot) throws Exception {
+	void execute( FxRobot robot ) throws Exception {
 		Stage stage = getProgram().getWorkspaceManager().getActiveStage();
 		assertThat( stage.isShowing() ).isTrue();
 

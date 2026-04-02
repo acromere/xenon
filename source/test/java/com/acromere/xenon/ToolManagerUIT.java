@@ -1,7 +1,7 @@
 package com.acromere.xenon;
 
-import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.OpenAssetRequest;
+import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.type.ProgramAboutType;
 import com.acromere.xenon.tool.AboutTool;
 import org.junit.jupiter.api.Test;

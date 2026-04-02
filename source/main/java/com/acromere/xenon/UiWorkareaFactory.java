@@ -50,13 +50,13 @@ class UiWorkareaFactory {
 		area.setIcon( "workarea" );
 
 		Settings areaSettings = program.getSettingsManager().getSettings( ProgramSettings.AREA, area.getUid() );
-		applyWorkareaSettings( area, areaSettings, false );
+		applyWorkareaSettings( area, areaSettings );
 		linkWorkareaSettingsListeners( area, areaSettings );
 
 		return area;
 	}
 
-	Workarea applyWorkareaSettings( Workarea area, Settings settings, boolean isDefaultWorkspace ) {
+	Workarea applyWorkareaSettings( Workarea area, Settings settings ) {
 		// Restore state from settings
 		area.setUid( settings.getName() );
 		area.setName( settings.get( UiManager.NAME, area.getName() ) );
@@ -66,22 +66,20 @@ class UiWorkareaFactory {
 		area.setActive( settings.get( UiManager.ACTIVE, Boolean.class, area.isActive() ) );
 
 		// Save new state to settings to save initial values immediately
-		storeWorkareaSettings( area, settings, isDefaultWorkspace );
+		storeWorkareaSettings( area, settings );
 
 		return area;
 	}
 
-	static void storeWorkareaSettings( Workarea area, Settings settings, boolean isDefaultWorkspace ) {
+	static void storeWorkareaSettings( Workarea area, Settings settings ) {
 		settings.set( UiManager.PAINT, Paints.toString( area.getPaint() ) );
 		settings.set( UiManager.COLOR, Colors.toString( area.getColor() ) );
 		settings.set( UiManager.NAME, area.getName() );
 		settings.set( UiManager.ACTIVE, area.isActive() );
 
-		if( isDefaultWorkspace ) {
-			settings.set( VIEW_ACTIVE, area.getActiveView() == null ? null : area.getActiveView().getUid() );
-			settings.set( VIEW_DEFAULT, area.getDefaultView() == null ? null : area.getDefaultView().getUid() );
-			settings.set( VIEW_MAXIMIZED, area.getMaximizedView() == null ? null : area.getMaximizedView().getUid() );
-		}
+		settings.set( VIEW_ACTIVE, area.getActiveView() == null ? null : area.getActiveView().getUid() );
+		settings.set( VIEW_DEFAULT, area.getDefaultView() == null ? null : area.getDefaultView().getUid() );
+		settings.set( VIEW_MAXIMIZED, area.getMaximizedView() == null ? null : area.getMaximizedView().getUid() );
 	}
 
 	Workarea linkWorkareaSettingsListeners( Workarea workarea, Settings settings ) {
