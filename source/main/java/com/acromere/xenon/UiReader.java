@@ -430,9 +430,9 @@ class UiReader {
 				// Save the active area for later
 				if( area.isActive() ) spaceActiveAreas.put( space, area );
 
-				if( hasActiveView( settings ) ) areaActiveViews.put( area, views.get( settings.get( UiWorkareaFactory.VIEW_ACTIVE ) ) );
-				if( hasDefaultView( settings ) ) areaDefaultViews.put( area, views.get( settings.get( UiWorkareaFactory.VIEW_DEFAULT ) ) );
-				if( hasMaximizedView( settings ) ) areaMaximizedViews.put( area, views.get( settings.get( UiWorkareaFactory.VIEW_MAXIMIZED ) ) );
+				if( hasActiveView( settings ) ) areaActiveViews.put( area, views.get( settings.get( Ui.VIEW_ACTIVE ) ) );
+				if( hasDefaultView( settings ) ) areaDefaultViews.put( area, views.get( settings.get( Ui.VIEW_DEFAULT ) ) );
+				if( hasMaximizedView( settings ) ) areaMaximizedViews.put( area, views.get( settings.get( Ui.VIEW_MAXIMIZED ) ) );
 			} catch( Exception exception ) {
 				errors.add( exception );
 			}
@@ -569,15 +569,15 @@ class UiReader {
 	}
 
 	private boolean hasActiveView( Settings settings ) {
-		return settings.exists( UiWorkareaFactory.VIEW_ACTIVE );
+		return settings.exists( Ui.VIEW_ACTIVE );
 	}
 
 	private boolean hasDefaultView( Settings settings ) {
-		return settings.exists( UiWorkareaFactory.VIEW_DEFAULT );
+		return settings.exists( Ui.VIEW_DEFAULT );
 	}
 
 	private boolean hasMaximizedView( Settings settings ) {
-		return settings.exists( UiWorkareaFactory.VIEW_MAXIMIZED );
+		return settings.exists( Ui.VIEW_MAXIMIZED );
 	}
 
 	private WorkpaneEdge lookupEdge( Workarea area, String id ) {

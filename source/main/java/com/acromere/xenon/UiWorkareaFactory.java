@@ -1,5 +1,6 @@
 package com.acromere.xenon;
 
+import com.acromere.product.Rb;
 import com.acromere.settings.Settings;
 import com.acromere.util.IdGenerator;
 import com.acromere.xenon.workpane.Workpane;
@@ -20,20 +21,6 @@ import lombok.CustomLog;
 @CustomLog
 class UiWorkareaFactory {
 
-	public static final String DOCK_TOP_SIZE = "dock-top-size";
-
-	public static final String DOCK_LEFT_SIZE = "dock-left-size";
-
-	public static final String DOCK_RIGHT_SIZE = "dock-right-size";
-
-	public static final String DOCK_BOTTOM_SIZE = "dock-bottom-size";
-
-	public static final String VIEW_ACTIVE = "view-active";
-
-	public static final String VIEW_DEFAULT = "view-default";
-
-	public static final String VIEW_MAXIMIZED = "view-maximized";
-
 	private final Xenon program;
 
 	UiWorkareaFactory( Xenon program ) {
@@ -53,6 +40,17 @@ class UiWorkareaFactory {
 		applyWorkareaSettings( area, areaSettings );
 		linkWorkareaSettingsListeners( area, areaSettings );
 
+		return area;
+	}
+
+	Workarea createDefaultWorkarea() {
+		Workarea area = new Workarea();
+		area.setUid( IdGenerator.getId() );
+		area.setIcon( "workarea" );
+		area.setName( Rb.text( RbKey.WORKAREA, "workarea-new-title", "New Workarea" ) );
+		Settings areaSettings = program.getSettingsManager().getSettings( ProgramSettings.AREA, area.getUid() );
+		applyWorkareaSettings( area, areaSettings );
+		linkWorkareaSettingsListeners( area, areaSettings );
 		return area;
 	}
 
@@ -77,9 +75,9 @@ class UiWorkareaFactory {
 		settings.set( UiManager.NAME, area.getName() );
 		settings.set( UiManager.ACTIVE, area.isActive() );
 
-		settings.set( VIEW_ACTIVE, area.getActiveView() == null ? null : area.getActiveView().getUid() );
-		settings.set( VIEW_DEFAULT, area.getDefaultView() == null ? null : area.getDefaultView().getUid() );
-		settings.set( VIEW_MAXIMIZED, area.getMaximizedView() == null ? null : area.getMaximizedView().getUid() );
+		settings.set( Ui.VIEW_ACTIVE, area.getActiveView() == null ? null : area.getActiveView().getUid() );
+		settings.set( Ui.VIEW_DEFAULT, area.getDefaultView() == null ? null : area.getDefaultView().getUid() );
+		settings.set( Ui.VIEW_MAXIMIZED, area.getMaximizedView() == null ? null : area.getMaximizedView().getUid() );
 	}
 
 	Workarea linkWorkareaSettingsListeners( Workarea workarea, Settings settings ) {
@@ -95,13 +93,13 @@ class UiWorkareaFactory {
 		workarea.getViews().forEach( v -> setupViewSettings( workarea, v ) );
 
 		// Add the change listeners
-		workarea.topDockSizeProperty().addListener( ( observable, oldValue, newValue ) -> settings.set( DOCK_TOP_SIZE, newValue ) );
-		workarea.leftDockSizeProperty().addListener( ( observable, oldValue, newValue ) -> settings.set( DOCK_LEFT_SIZE, newValue ) );
-		workarea.rightDockSizeProperty().addListener( ( observable, oldValue, newValue ) -> settings.set( DOCK_RIGHT_SIZE, newValue ) );
-		workarea.bottomDockSizeProperty().addListener( ( observable, oldValue, newValue ) -> settings.set( DOCK_BOTTOM_SIZE, newValue ) );
-		workarea.activeViewProperty().addListener( ( v, o, n ) -> settings.set( VIEW_ACTIVE, n == null ? null : n.getUid() ) );
-		workarea.defaultViewProperty().addListener( ( v, o, n ) -> settings.set( VIEW_DEFAULT, n == null ? null : n.getUid() ) );
-		workarea.maximizedViewProperty().addListener( ( v, o, n ) -> settings.set( VIEW_MAXIMIZED, n == null ? null : n.getUid() ) );
+		workarea.topDockSizeProperty().addListener( ( observable, oldValue, newValue ) -> settings.set( Ui.DOCK_TOP_SIZE, newValue ) );
+		workarea.leftDockSizeProperty().addListener( ( observable, oldValue, newValue ) -> settings.set( Ui.DOCK_LEFT_SIZE, newValue ) );
+		workarea.rightDockSizeProperty().addListener( ( observable, oldValue, newValue ) -> settings.set( Ui.DOCK_RIGHT_SIZE, newValue ) );
+		workarea.bottomDockSizeProperty().addListener( ( observable, oldValue, newValue ) -> settings.set( Ui.DOCK_BOTTOM_SIZE, newValue ) );
+		workarea.activeViewProperty().addListener( ( v, o, n ) -> settings.set( Ui.VIEW_ACTIVE, n == null ? null : n.getUid() ) );
+		workarea.defaultViewProperty().addListener( ( v, o, n ) -> settings.set( Ui.VIEW_DEFAULT, n == null ? null : n.getUid() ) );
+		workarea.maximizedViewProperty().addListener( ( v, o, n ) -> settings.set( Ui.VIEW_MAXIMIZED, n == null ? null : n.getUid() ) );
 		workarea.getChildrenUnmodifiable().addListener( (ListChangeListener<? super Node>)c -> processAreaChildChanges( workarea, c ) );
 
 		return workarea;

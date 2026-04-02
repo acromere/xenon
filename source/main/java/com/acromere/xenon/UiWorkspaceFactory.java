@@ -37,19 +37,9 @@ class UiWorkspaceFactory {
 		String themeId = program.getWorkspaceManager().getThemeId();
 		space.setTheme( program.getThemeManager().getMetadata( themeId ).getUrl() );
 
-		// Create the default workarea
-		Workarea area = new Workarea();
-		area.setUid( IdGenerator.getId() );
-		area.setIcon( "workarea" );
-		area.setName( Rb.text( RbKey.WORKAREA, "workarea-new-title", "New Workarea" ) );
-		Settings areaSettings = program.getSettingsManager().getSettings( ProgramSettings.AREA, area.getUid() );
-		areaFactory.applyWorkareaSettings( area, areaSettings );
-		areaFactory.linkWorkareaSettingsListeners( area, areaSettings );
-
-		// Add the workarea to the workspace
+		// Create and activate the default workarea and workspace
+		Workarea area = areaFactory.createDefaultWorkarea();
 		space.addWorkarea( area );
-
-		// Activate the new workarea and workspace
 		space.setActiveWorkarea( area );
 		program.getWorkspaceManager().setActiveWorkspace( space );
 

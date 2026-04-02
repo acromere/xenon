@@ -101,9 +101,13 @@ class UiReaderUIT extends BaseFullXenonTestCase {
 		assertThat( areaSettings.get( UiManager.COLOR ) ).isEqualTo( "#206080ff" );
 		assertThat( areaSettings.get( UiManager.NAME ) ).isEqualTo( "New Workarea" );
 		assertThat( areaSettings.get( UiManager.PAINT ) ).startsWith( "linear-gradient" );
-		assertThat( areaSettings.get( UiWorkareaFactory.VIEW_ACTIVE ) ).isEqualTo( viewKeys.getFirst() );
-		assertThat( areaSettings.get( UiWorkareaFactory.VIEW_DEFAULT ) ).isEqualTo( viewKeys.getFirst() );
-		assertThat( areaSettings.get( UiWorkareaFactory.VIEW_MAXIMIZED ) ).isNull();
+		assertThat( areaSettings.get( Ui.DOCK_BOTTOM_SIZE)).isNull();
+		assertThat( areaSettings.get( Ui.DOCK_LEFT_SIZE)).isNull();
+		assertThat( areaSettings.get( Ui.DOCK_RIGHT_SIZE)).isNull();
+		assertThat( areaSettings.get( Ui.DOCK_TOP_SIZE)).isNull();
+		assertThat( areaSettings.get( Ui.VIEW_ACTIVE ) ).isEqualTo( viewKeys.getFirst() );
+		assertThat( areaSettings.get( Ui.VIEW_DEFAULT ) ).isEqualTo( viewKeys.getFirst() );
+		assertThat( areaSettings.get( Ui.VIEW_MAXIMIZED ) ).isNull();
 		assertThat( areaSettings.get( UiManager.PARENT_SPACE_ID ) ).isEqualTo( workspaceKeys.getFirst() );
 
 		// Check view settings
