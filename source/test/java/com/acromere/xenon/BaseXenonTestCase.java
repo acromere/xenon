@@ -93,18 +93,9 @@ public abstract class BaseXenonTestCase extends BaseForAllTests {
 	}
 
 	private static void runHeadless() {
-		// Set java.awt.headless to true when running tests in headless mode
-		// This is not needed if using Monocle, but just to be safe
-		//System.setProperty( "java.awt.headless", "true" );
-
 		// Use Monocle to run UI tests
 		// <!-- https://wiki.openjdk.java.net/display/OpenJFX/Monocle -->
-		System.setProperty( "glass.platform", "Monocle" );
-
-		// When running the desktop build of JavaFX Monocle,
-		// then the only Monocle platform option is Headless,
-		// but it does have to be set.
-		System.setProperty( "monocle.platform", "Headless" );
+		System.setProperty( "glass.platform", "Headless" );
 
 		// Set prism.order to sw when running tests in headless mode
 		//System.setProperty( "prism.order", "sw" );

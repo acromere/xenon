@@ -83,13 +83,12 @@
 
 		<!-- Runtime dependencies -->
 		<!-- Version numbers reviewed 28 Apr 2025 -->
-		<openjfx.version>26-ea+19</openjfx.version>
+		<openjfx.version>26</openjfx.version>
 		<controlsfx.version>11.2.3</controlsfx.version>
 
 		<!-- Test dependencies -->
 		<!-- Version numbers reviewed 18 Feb 2023 -->
 		<testfx.version>4.0.18</testfx.version>
-		<monocle.version>21.0.2</monocle.version>
 
 		<!-- Build plugin versions -->
 		<!-- Version numbers reviewed 28 Apr 2025 -->
@@ -224,20 +223,6 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<!-- Exclude org.openjfx, it is already available -->
-				<exclusion>
-					<groupId>org.openjfx</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
-			<groupId>org.testfx</groupId>
-			<artifactId>openjfx-monocle</artifactId>
-			<version>${monocle.version}</version>
-			<scope>test</scope>
-			<exclusions>
-				<!-- Exclude the openjfx libraries, they are already available -->
 				<exclusion>
 					<groupId>org.openjfx</groupId>
 					<artifactId>*</artifactId>
