@@ -110,12 +110,6 @@ public abstract class BaseXenonTestCase extends BaseForAllTests {
 		//  | Faster computers
 		// 1000 - AMD Threadripper, Intel i9</pre>
 		System.setProperty( "testfx.setup.timeout", "5000" );
-
-		// When using Monocle, TestFX should also run in headless mode
-		System.setProperty( "testfx.headless", "true" );
-
-		// When using Monocle, use the Glass robot
-		System.setProperty( "testfx.robot", "glass" );
 	}
 
 }
