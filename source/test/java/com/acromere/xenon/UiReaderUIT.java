@@ -91,8 +91,8 @@ class UiReaderUIT extends BaseFullXenonTestCase {
 
 		// Check workspace settings
 		assertThat( workspaceSettings.get( UiManager.ACTIVE ) ).isEqualTo( "true" );
-		assertThat( workspaceSettings.get( Ui.X ) ).isEqualTo( "160.0" );
-		assertThat( workspaceSettings.get( Ui.Y ) ).isEqualTo( "67.0" );
+		assertThat( workspaceSettings.get( Ui.X ) ).isEqualTo( "20.0" );
+		assertThat( workspaceSettings.get( Ui.Y ) ).isEqualTo( "133.0" );
 		assertThat( workspaceSettings.get( Ui.W ) ).isEqualTo( "960.0" );
 		assertThat( workspaceSettings.get( Ui.H ) ).isEqualTo( "600.0" );
 

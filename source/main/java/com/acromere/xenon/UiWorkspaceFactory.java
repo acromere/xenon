@@ -82,6 +82,12 @@ class UiWorkspaceFactory {
 	}
 
 	Workspace linkWorkspaceSettingsListeners( Workspace workspace, Settings settings ) {
+		settings.set( Ui.MAXIMIZED, workspace.isMaximized() );
+		settings.set( Ui.X, workspace.getX() );
+		settings.set( Ui.Y, workspace.getY() );
+		settings.set( Ui.W, workspace.getScene().getWidth() );
+		settings.set( Ui.H, workspace.getScene().getHeight() );
+
 		// Add the property listeners
 		workspace.maximizedProperty().addListener( ( v, o, n ) -> {
 			if( workspace.isShowing() ) settings.set( Ui.MAXIMIZED, n );
