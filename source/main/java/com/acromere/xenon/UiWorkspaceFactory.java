@@ -1,17 +1,14 @@
 package com.acromere.xenon;
 
-import com.acromere.product.Rb;
 import com.acromere.settings.Settings;
 import com.acromere.util.IdGenerator;
 import com.acromere.xenon.resource.type.ProgramWelcomeType;
 import com.acromere.xenon.workspace.Workarea;
 import com.acromere.xenon.workspace.Workspace;
-import lombok.Getter;
 
 // For use with UiManager only
 class UiWorkspaceFactory {
 
-	@Getter
 	private final Xenon program;
 
 	UiWorkspaceFactory( Xenon program ) {
@@ -98,8 +95,8 @@ class UiWorkspaceFactory {
 	}
 
 	private void updateThemeFromSettings( Workspace workspace, Settings settings ) {
-		String themeId = settings.get( "theme", getProgram().getWorkspaceManager().getThemeId() );
-		workspace.setTheme( getProgram().getThemeManager().getMetadata( themeId ).getUrl() );
+		String themeId = settings.get( "theme", program.getWorkspaceManager().getThemeId() );
+		workspace.setTheme( program.getThemeManager().getMetadata( themeId ).getUrl() );
 	}
 
 }
