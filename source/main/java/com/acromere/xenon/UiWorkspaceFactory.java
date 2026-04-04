@@ -95,7 +95,7 @@ class UiWorkspaceFactory {
 	}
 
 	private void updateThemeFromSettings( Workspace workspace, Settings settings ) {
-		String themeId = settings.get( "theme", program.getWorkspaceManager().getThemeId() );
+		String themeId = settings.get( Ui.THEME, program.getWorkspaceManager().getThemeId() );
 		workspace.setTheme( program.getThemeManager().getMetadata( themeId ).getUrl() );
 	}
 

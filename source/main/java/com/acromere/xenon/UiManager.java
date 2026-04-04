@@ -9,44 +9,6 @@ import lombok.Getter;
 @CustomLog
 public final class UiManager implements Controllable<UiManager> {
 
-	public static final String SPACE = "space";
-
-	public static final String AREA = "area";
-
-	public static final String VIEW = "view";
-
-	public static final String EDGE = "edge";
-
-	public static final String TOOL = "tool";
-
-	public static final String PARENT_SPACE_ID = "space-id";
-
-	public static final String PARENT_AREA_ID = "area-id";
-
-	public static final String PARENT_VIEW_ID = "view-id";
-
-	public static final String ICON = "icon";
-
-	public static final String TITLE = "title";
-
-	public static final String NAME = "name";
-
-	public static final String DESCRIPTION = "description";
-
-	public static final String ORDER = "order";
-
-	public static final String ACTIVE = "active";
-
-	public static final String MAXIMIZED = "maximized";
-
-	public static final String PAINT = "paint";
-
-	public static final String COLOR = "color";
-
-	public static final String ORIENTATION = "orientation";
-
-	public static final String POSITION = "position";
-
 	private final Xenon program;
 
 	private final UiWorkspaceFactory workspaceFactory;

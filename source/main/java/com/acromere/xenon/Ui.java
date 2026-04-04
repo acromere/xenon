@@ -14,6 +14,50 @@ public interface Ui {
 
 	String MAXIMIZED = "maximized";
 
+	String ACTIVE = "active";
+
+	String AREA = "area";
+
+	String COLOR = "color";
+
+	String DESCRIPTION = "description";
+
+	String EDGE = "edge";
+
+	String ICON = "icon";
+
+	String NAME = "name";
+
+	String ORDER = "order";
+
+	String ORIENTATION = "orientation";
+
+	String PAINT = "paint";
+
+	String POSITION = "position";
+
+	String SPACE = "space";
+
+	String TITLE = "title";
+
+	String TOOL = "tool";
+
+	String VIEW = "view";
+
+	String PARENT_AREA_ID = "area-id";
+
+	String PARENT_SPACE_ID = "space-id";
+
+	String PARENT_VIEW_ID = "view-id";
+
+	String PLACEMENT = "placement";
+
+	String THEME = "theme";
+
+	String WORKAREA = "workarea";
+
+	String WORKAREA_NEW_TITLE = "workarea-new-title";
+
 	// Bottom key
 	String B = "b";
 
