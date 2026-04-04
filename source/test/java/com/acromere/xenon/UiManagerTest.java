@@ -72,19 +72,19 @@ public class UiManagerTest extends BasePartXenonTestCase {
 		assertThat( areaSettings.get( Ui.COLOR ) ).isEqualTo( "#206080ff" );
 		assertThat( areaSettings.get( Ui.NAME ) ).isEqualTo( "Test Workarea" );
 		assertThat( areaSettings.get( Ui.PAINT ) ).startsWith( "linear-gradient" );
-		assertThat( areaSettings.get( Ui.DOCK_BOTTOM_SIZE)).isNull();
-		assertThat( areaSettings.get( Ui.DOCK_LEFT_SIZE)).isNull();
-		assertThat( areaSettings.get( Ui.DOCK_RIGHT_SIZE)).isNull();
-		assertThat( areaSettings.get( Ui.DOCK_TOP_SIZE)).isNull();
+		assertThat( areaSettings.get( Ui.DOCK_TOP_SIZE)).isEqualTo( "0.2" );
+		assertThat( areaSettings.get( Ui.DOCK_LEFT_SIZE)).isEqualTo( "0.2" );
+		assertThat( areaSettings.get( Ui.DOCK_RIGHT_SIZE)).isEqualTo( "0.2" );
+		assertThat( areaSettings.get( Ui.DOCK_BOTTOM_SIZE)).isEqualTo( "0.2" );
 		assertThat( areaSettings.get( Ui.VIEW_ACTIVE ) ).isEqualTo( viewKey );
 		assertThat( areaSettings.get( Ui.VIEW_DEFAULT ) ).isEqualTo( viewKey );
 		assertThat( areaSettings.get( Ui.VIEW_MAXIMIZED ) ).isNull();
 		assertThat( areaSettings.get( Ui.PARENT_SPACE_ID ) ).isNull();
 
-		assertThat( viewSettings.get( Ui.B ) ).isEqualTo( Ui.BOTTOM );
+		assertThat( viewSettings.get( Ui.T ) ).isEqualTo( Ui.TOP );
 		assertThat( viewSettings.get( Ui.L ) ).isEqualTo( Ui.LEFT );
 		assertThat( viewSettings.get( Ui.R ) ).isEqualTo( Ui.RIGHT );
-		assertThat( viewSettings.get( Ui.T ) ).isEqualTo( Ui.TOP );
+		assertThat( viewSettings.get( Ui.B ) ).isEqualTo( Ui.BOTTOM );
 		assertThat( viewSettings.get( Ui.PARENT_AREA_ID ) ).isEqualTo( areaKey );
 	}
 
