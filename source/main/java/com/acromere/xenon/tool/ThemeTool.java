@@ -48,7 +48,7 @@ public class ThemeTool extends GuidedTool {
 
 		refreshThemeChooser();
 
-		chooser.valueProperty().addListener( ( v, o, n ) -> setSampleTheme( n ) );
+		chooser.valueProperty().addListener( ( p, o, n ) -> setSampleTheme( n ) );
 		chooser.getSelectionModel().select( 1 );
 	}
 

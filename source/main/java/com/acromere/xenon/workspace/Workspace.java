@@ -763,19 +763,19 @@ public class Workspace extends Stage implements WritableIdentity {
 		setMaximized( settings.get( "maximized", Boolean.class, false ) );
 
 		// Add the property listeners
-		maximizedProperty().addListener( ( v, o, n ) -> {
+		maximizedProperty().addListener( ( p, o, n ) -> {
 			if( isShowing() ) settings.set( "maximized", n );
 		} );
-		xProperty().addListener( ( v, o, n ) -> {
+		xProperty().addListener( ( p, o, n ) -> {
 			if( !isMaximized() ) settings.set( Ui.X, n );
 		} );
-		yProperty().addListener( ( v, o, n ) -> {
+		yProperty().addListener( ( p, o, n ) -> {
 			if( !isMaximized() ) settings.set( Ui.Y, n );
 		} );
-		scene.widthProperty().addListener( ( v, o, n ) -> {
+		scene.widthProperty().addListener( ( p, o, n ) -> {
 			if( !isMaximized() ) settings.set( Ui.W, n );
 		} );
-		scene.heightProperty().addListener( ( v, o, n ) -> {
+		scene.heightProperty().addListener( ( p, o, n ) -> {
 			if( !isMaximized() ) settings.set( Ui.H, n );
 		} );
 
