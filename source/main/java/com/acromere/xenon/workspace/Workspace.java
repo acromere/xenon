@@ -6,7 +6,6 @@ import com.acromere.settings.SettingsEvent;
 import com.acromere.skill.Identity;
 import com.acromere.skill.WritableIdentity;
 import com.acromere.xenon.ProgramSettings;
-import com.acromere.xenon.Ui;
 import com.acromere.xenon.Xenon;
 import com.acromere.xenon.XenonMode;
 import com.acromere.xenon.notice.Notice;
@@ -741,51 +740,6 @@ public class Workspace extends Stage implements WritableIdentity {
 		updateFpsMonitorFromSettings( getProgram().getSettingsManager().getSettings( ProgramSettings.PROGRAM ) );
 	}
 
-	// TODO Remove in 1.8
-	@Deprecated
-	public void updateFromSettings( Settings settings ) {
-		// Due to differences in how FX handles stage sizes (width and height) on
-		// different operating systems, the width and height from the scene, not the
-		// stage, are used. This includes the listeners for the width and height
-		// properties below.
-		Double w = settings.get( Ui.W, Double.class, Ui.DEFAULT_WIDTH );
-		Double h = settings.get( Ui.H, Double.class, Ui.DEFAULT_HEIGHT );
-		initializeScene( w, h );
-
-		// Position the stage if x and y are specified
-		// If not specified the stage is centered on the screen
-		Double x = settings.get( Ui.X, Double.class, null );
-		Double y = settings.get( Ui.Y, Double.class, null );
-		if( x != null ) setX( x );
-		if( y != null ) setY( y );
-
-		setActive( settings.get( "active", Boolean.class, false ) );
-		setMaximized( settings.get( "maximized", Boolean.class, false ) );
-
-		// Add the property listeners
-		maximizedProperty().addListener( ( p, o, n ) -> {
-			if( isShowing() ) settings.set( "maximized", n );
-		} );
-		xProperty().addListener( ( p, o, n ) -> {
-			if( !isMaximized() ) settings.set( Ui.X, n );
-		} );
-		yProperty().addListener( ( p, o, n ) -> {
-			if( !isMaximized() ) settings.set( Ui.Y, n );
-		} );
-		scene.widthProperty().addListener( ( p, o, n ) -> {
-			if( !isMaximized() ) settings.set( Ui.W, n );
-		} );
-		scene.heightProperty().addListener( ( p, o, n ) -> {
-			if( !isMaximized() ) settings.set( Ui.H, n );
-		} );
-
-		updateBackgroundFromSettings( getProgram().getSettingsManager().getSettings( ProgramSettings.PROGRAM ) );
-		updateMemoryMonitorFromSettings( getProgram().getSettingsManager().getSettings( ProgramSettings.PROGRAM ) );
-		updateTaskMonitorFromSettings( getProgram().getSettingsManager().getSettings( ProgramSettings.PROGRAM ) );
-		updateFpsMonitorFromSettings( getProgram().getSettingsManager().getSettings( ProgramSettings.PROGRAM ) );
-		updateThemeFromSettings( settings );
-	}
-
 	public void screenshot( Path file ) {
 		Fx.waitFor( 5, TimeUnit.SECONDS );
 		Fx.run( () -> {
@@ -824,13 +778,6 @@ public class Workspace extends Stage implements WritableIdentity {
 	private Workarea determineNextActiveWorkarea() {
 		int index = workareas.indexOf( getActiveWorkarea() );
 		return workareas.get( index == 0 ? 1 : index - 1 );
-	}
-
-	// TODO Remove in 1.8
-	@Deprecated
-	private void updateThemeFromSettings( Settings settings ) {
-		String themeId = settings.get( "theme", getProgram().getWorkspaceManager().getThemeId() );
-		setTheme( getProgram().getThemeManager().getMetadata( themeId ).getUrl() );
 	}
 
 	@Deprecated

@@ -56,7 +56,7 @@ class UiWorkspaceFactory {
 		workspace.initializeScene( w, h );
 
 		// Position the stage if x and y are specified
-		// If not specified the stage is centered on the screen
+		// If not specified, the stage is centered on the screen
 		Double x = settings.get( Ui.X, Double.class, null );
 		Double y = settings.get( Ui.Y, Double.class, null );
 		if( x != null ) workspace.setX( x );
@@ -76,6 +76,7 @@ class UiWorkspaceFactory {
 		settings.set( Ui.H, workspace.getScene().getHeight() );
 	}
 
+	@SuppressWarnings("unused")
 	void bindSettings( Workspace workspace, Settings settings ) {
 		settings.set( Ui.MAXIMIZED, workspace.isMaximized() );
 		settings.set( Ui.X, workspace.getX() );
