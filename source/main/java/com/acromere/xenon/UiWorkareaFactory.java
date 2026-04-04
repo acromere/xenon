@@ -54,7 +54,7 @@ class UiWorkareaFactory {
 		return area;
 	}
 
-	Workarea restoreWorkareaFromSettings( Workarea area, Settings settings ) {
+	void restoreWorkareaFromSettings( Workarea area, Settings settings ) {
 		// Restore state from settings
 		area.setUid( settings.getName() );
 		area.setName( settings.get( Ui.NAME, area.getName() ) );
@@ -65,11 +65,9 @@ class UiWorkareaFactory {
 
 		// Save new state to settings to save initial values immediately
 		storeWorkareaSettings( area, settings );
-
-		return area;
 	}
 
-	static void storeWorkareaSettings( Workarea area, Settings settings ) {
+	void storeWorkareaSettings( Workarea area, Settings settings ) {
 		settings.set( Ui.PAINT, Paints.toString( area.getPaint() ) );
 		settings.set( Ui.COLOR, Colors.toString( area.getColor() ) );
 		settings.set( Ui.NAME, area.getName() );
@@ -80,7 +78,7 @@ class UiWorkareaFactory {
 		settings.set( Ui.VIEW_MAXIMIZED, area.getMaximizedView() == null ? null : area.getMaximizedView().getUid() );
 	}
 
-	Workarea bindWorkareaSettingsListeners( Workarea workarea, Settings settings ) {
+	void bindWorkareaSettingsListeners( Workarea workarea, Settings settings ) {
 		// Add the change listeners
 		workarea.nameProperty().addListener( ( v, o, n ) -> settings.set( Ui.NAME, n ) );
 		workarea.orderProperty().addListener( ( v, o, n ) -> settings.set( Ui.ORDER, n ) );
@@ -101,8 +99,6 @@ class UiWorkareaFactory {
 		workarea.defaultViewProperty().addListener( ( v, o, n ) -> settings.set( Ui.VIEW_DEFAULT, n == null ? null : n.getUid() ) );
 		workarea.maximizedViewProperty().addListener( ( v, o, n ) -> settings.set( Ui.VIEW_MAXIMIZED, n == null ? null : n.getUid() ) );
 		workarea.getChildrenUnmodifiable().addListener( (ListChangeListener<? super Node>)c -> processAreaChildChanges( workarea, c ) );
-
-		return workarea;
 	}
 
 	private void processAreaChildChanges( Workpane workarea, ListChangeListener.Change<? extends Node> change ) {

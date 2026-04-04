@@ -272,7 +272,9 @@ class UiReader {
 	}
 
 	Workarea loadArea( Settings settings ) {
-		return areaFactory.restoreWorkareaFromSettings( new Workarea(), settings );
+		Workarea area = new Workarea();
+		areaFactory.restoreWorkareaFromSettings( area, settings );
+		return area;
 	}
 
 	WorkpaneView loadViewForLinking( Settings settings ) {

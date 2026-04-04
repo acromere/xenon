@@ -46,7 +46,7 @@ class UiWorkspaceFactory {
 		return space;
 	}
 
-	Workspace restoreWorkspaceFromSettings( Workspace workspace, Settings settings ) {
+	void restoreWorkspaceFromSettings( Workspace workspace, Settings settings ) {
 		// Due to differences in how FX handles stage sizes (width and height) on
 		// different operating systems, the width and height from the scene, not the
 		// stage, are used. This includes the listeners for the width and height
@@ -65,10 +65,18 @@ class UiWorkspaceFactory {
 		updateThemeFromSettings( workspace, settings );
 		workspace.applySettings();
 
-		return workspace;
+		storeWorkspaceSettings( workspace, settings );
 	}
 
-	Workspace bindWorkspaceSettingsListeners( Workspace workspace, Settings settings ) {
+	void storeWorkspaceSettings( Workspace workspace, Settings settings ) {
+		settings.set( Ui.MAXIMIZED, workspace.isMaximized() );
+		settings.set( Ui.X, workspace.getX() );
+		settings.set( Ui.Y, workspace.getY() );
+		settings.set( Ui.W, workspace.getScene().getWidth() );
+		settings.set( Ui.H, workspace.getScene().getHeight() );
+	}
+
+	void bindWorkspaceSettingsListeners( Workspace workspace, Settings settings ) {
 		settings.set( Ui.MAXIMIZED, workspace.isMaximized() );
 		settings.set( Ui.X, workspace.getX() );
 		settings.set( Ui.Y, workspace.getY() );
@@ -91,7 +99,6 @@ class UiWorkspaceFactory {
 		workspace.getScene().heightProperty().addListener( ( v, o, n ) -> {
 			if( !workspace.isMaximized() ) settings.set( Ui.H, n );
 		} );
-		return workspace;
 	}
 
 	private void updateThemeFromSettings( Workspace workspace, Settings settings ) {
