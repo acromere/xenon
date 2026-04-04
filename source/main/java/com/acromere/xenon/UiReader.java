@@ -97,10 +97,6 @@ class UiReader {
 		doStartAssetLoading();
 	}
 
-	public void awaitLoadAssets( long duration, TimeUnit unit ) throws InterruptedException, TimeoutException {
-		doAwaitForAssetLoad( duration, unit );
-	}
-
 	private void doWorkspaceLoad() {
 		Fx.affirmOnFxThread();
 		spaceRestoreLock.lock();
@@ -481,8 +477,8 @@ class UiReader {
 
 		// Restore edges and views to workpane
 		for( Workarea area : areas.values() ) {
-			Set<WorkpaneEdge> localAreaEdges = areaEdges.computeIfAbsent( area, k -> new HashSet<>() );
-			Set<WorkpaneView> localAreaViews = areaViews.computeIfAbsent( area, k -> new HashSet<>() );
+			Set<WorkpaneEdge> localAreaEdges = areaEdges.computeIfAbsent( area, _ -> new HashSet<>() );
+			Set<WorkpaneView> localAreaViews = areaViews.computeIfAbsent( area, _ -> new HashSet<>() );
 			linkArea( area, localAreaEdges, localAreaViews );
 		}
 	}
@@ -520,7 +516,7 @@ class UiReader {
 			for( Tool tool : tools.values() ) {
 				Settings settings = getProgram().getSettingsManager().getSettings( ProgramSettings.TOOL, tool.getUid() );
 				WorkpaneView view = views.get( settings.get( Ui.PARENT_VIEW_ID ) );
-				viewToolMap.computeIfAbsent( view, k -> new HashSet<>() ).add( tool );
+				viewToolMap.computeIfAbsent( view, _ -> new HashSet<>() ).add( tool );
 			}
 
 			// Now go through the views and link the tools
