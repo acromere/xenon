@@ -211,13 +211,13 @@ class UiReader {
 		// Register the workarea listeners
 		for( Workarea area : areas.values() ) {
 			Settings settings = program.getSettingsManager().getSettings( ProgramSettings.AREA, area.getUid() );
-			areaFactory.bindWorkareaSettingsListeners( area, settings );
+			areaFactory.bindSettings( area, settings );
 		}
 
 		// Register the workspace listeners
 		for( Workspace space : spaces.values() ) {
 			Settings settings = program.getSettingsManager().getSettings( ProgramSettings.SPACE, space.getUid() );
-			spaceFactory.bindWorkspaceSettingsListeners( space, settings );
+			spaceFactory.bindSettings( space, settings );
 		}
 	}
 

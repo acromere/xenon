@@ -38,7 +38,7 @@ class UiWorkareaFactory {
 
 		Settings areaSettings = program.getSettingsManager().getSettings( ProgramSettings.AREA, area.getUid() );
 		restoreWorkareaFromSettings( area, areaSettings );
-		bindWorkareaSettingsListeners( area, areaSettings );
+		bindSettings( area, areaSettings );
 
 		return area;
 	}
@@ -50,7 +50,7 @@ class UiWorkareaFactory {
 		area.setName( Rb.text( RbKey.WORKAREA, Ui.WORKAREA_NEW_TITLE, "New Workarea" ) );
 		Settings areaSettings = program.getSettingsManager().getSettings( ProgramSettings.AREA, area.getUid() );
 		restoreWorkareaFromSettings( area, areaSettings );
-		bindWorkareaSettingsListeners( area, areaSettings );
+		bindSettings( area, areaSettings );
 		return area;
 	}
 
@@ -62,64 +62,52 @@ class UiWorkareaFactory {
 		area.setPaint( Paints.parse( settings.get( Ui.PAINT, Paints.toString( area.getPaint() ) ) ) );
 		area.setColor( Colors.parse( settings.get( Ui.COLOR, Colors.toString( area.getColor() ) ) ) );
 		area.setActive( settings.get( Ui.ACTIVE, Boolean.class, area.isActive() ) );
-
-		// Save new state to settings to save initial values immediately
-		storeWorkareaSettings( area, settings );
 	}
 
-	void storeWorkareaSettings( Workarea area, Settings settings ) {
+	@SuppressWarnings("unused")
+	void bindSettings( Workarea area, Settings settings ) {
+		// Store the current values
 		settings.set( Ui.PAINT, Paints.toString( area.getPaint() ) );
 		settings.set( Ui.COLOR, Colors.toString( area.getColor() ) );
 		settings.set( Ui.NAME, area.getName() );
 		settings.set( Ui.ACTIVE, area.isActive() );
+		
+		settings.set( Ui.DOCK_TOP_SIZE, area.getTopDockSize() );
+		settings.set( Ui.DOCK_LEFT_SIZE, area.getLeftDockSize() );
+		settings.set( Ui.DOCK_RIGHT_SIZE, area.getRightDockSize() );
+		settings.set( Ui.DOCK_BOTTOM_SIZE, area.getBottomDockSize() );
 
 		settings.set( Ui.VIEW_ACTIVE, area.getActiveView() == null ? null : area.getActiveView().getUid() );
 		settings.set( Ui.VIEW_DEFAULT, area.getDefaultView() == null ? null : area.getDefaultView().getUid() );
 		settings.set( Ui.VIEW_MAXIMIZED, area.getMaximizedView() == null ? null : area.getMaximizedView().getUid() );
-	}
-
-	void bindWorkareaSettingsListeners( Workarea workarea, Settings settings ) {
-		// Add the change listeners
-		workarea.nameProperty().addListener( ( v, o, n ) -> settings.set( Ui.NAME, n ) );
-		workarea.orderProperty().addListener( ( v, o, n ) -> settings.set( Ui.ORDER, n ) );
-		workarea.paintProperty().addListener( ( v, o, n ) -> settings.set( Ui.PAINT, Paints.toString( n ) ) );
-		workarea.activeProperty().addListener( ( v, o, n ) -> settings.set( Ui.ACTIVE, n ) );
-		workarea.workspaceProperty().addListener( ( v, o, n ) -> settings.set( Ui.PARENT_SPACE_ID, n == null ? null : n.getUid() ) );
-
-		// Setup existing views and edges
-		workarea.getEdges().forEach( e -> setupEdgeSettings( workarea, e ) );
-		workarea.getViews().forEach( v -> setupViewSettings( workarea, v ) );
 
 		// Add the change listeners
-		workarea.topDockSizeProperty().addListener( ( observable, oldValue, newValue ) -> settings.set( Ui.DOCK_TOP_SIZE, newValue ) );
-		workarea.leftDockSizeProperty().addListener( ( observable, oldValue, newValue ) -> settings.set( Ui.DOCK_LEFT_SIZE, newValue ) );
-		workarea.rightDockSizeProperty().addListener( ( observable, oldValue, newValue ) -> settings.set( Ui.DOCK_RIGHT_SIZE, newValue ) );
-		workarea.bottomDockSizeProperty().addListener( ( observable, oldValue, newValue ) -> settings.set( Ui.DOCK_BOTTOM_SIZE, newValue ) );
-		workarea.activeViewProperty().addListener( ( v, o, n ) -> settings.set( Ui.VIEW_ACTIVE, n == null ? null : n.getUid() ) );
-		workarea.defaultViewProperty().addListener( ( v, o, n ) -> settings.set( Ui.VIEW_DEFAULT, n == null ? null : n.getUid() ) );
-		workarea.maximizedViewProperty().addListener( ( v, o, n ) -> settings.set( Ui.VIEW_MAXIMIZED, n == null ? null : n.getUid() ) );
-		workarea.getChildrenUnmodifiable().addListener( (ListChangeListener<? super Node>)c -> processAreaChildChanges( workarea, c ) );
+		area.nameProperty().addListener( ( p, o, n ) -> settings.set( Ui.NAME, n ) );
+		area.orderProperty().addListener( ( p, o, n ) -> settings.set( Ui.ORDER, n ) );
+		area.paintProperty().addListener( ( p, o, n ) -> settings.set( Ui.PAINT, Paints.toString( n ) ) );
+		area.activeProperty().addListener( ( p, o, n ) -> settings.set( Ui.ACTIVE, n ) );
+		area.workspaceProperty().addListener( ( p, o, n ) -> settings.set( Ui.PARENT_SPACE_ID, n == null ? null : n.getUid() ) );
+
+		// Bind existing views and edges
+		area.getEdges().forEach( e -> bindEdge( area, e ) );
+		area.getViews().forEach( v -> bindView( area, v ) );
+
+		// Add the change listeners
+		area.topDockSizeProperty().addListener( ( p, o, n ) -> settings.set( Ui.DOCK_TOP_SIZE, n ) );
+		area.leftDockSizeProperty().addListener( ( p, o, n ) -> settings.set( Ui.DOCK_LEFT_SIZE, n ) );
+		area.rightDockSizeProperty().addListener( ( p, o, n ) -> settings.set( Ui.DOCK_RIGHT_SIZE, n ) );
+		area.bottomDockSizeProperty().addListener( ( p, o, n ) -> settings.set( Ui.DOCK_BOTTOM_SIZE, n ) );
+		area.activeViewProperty().addListener( ( p, o, n ) -> settings.set( Ui.VIEW_ACTIVE, n == null ? null : n.getUid() ) );
+		area.defaultViewProperty().addListener( ( p, o, n ) -> settings.set( Ui.VIEW_DEFAULT, n == null ? null : n.getUid() ) );
+		area.maximizedViewProperty().addListener( ( p, o, n ) -> settings.set( Ui.VIEW_MAXIMIZED, n == null ? null : n.getUid() ) );
+		area.getChildrenUnmodifiable().addListener( (ListChangeListener<? super Node>)c -> processAreaChildChanges( area, c ) );
 	}
 
-	private void processAreaChildChanges( Workpane workarea, ListChangeListener.Change<? extends Node> change ) {
-		while( change.next() ) {
-			change.getAddedSubList().stream().filter( WorkpaneEdge.class::isInstance ).forEach( n -> setupEdgeSettings( workarea, (WorkpaneEdge)n ) );
-			change.getAddedSubList().stream().filter( WorkpaneView.class::isInstance ).forEach( n -> setupViewSettings( workarea, (WorkpaneView)n ) );
-			change.getRemoved().stream().filter( WorkpaneEdge.class::isInstance ).forEach( n -> removeEdgeSettings( (WorkpaneEdge)n ) );
-			change.getRemoved().stream().filter( WorkpaneView.class::isInstance ).forEach( n -> removeViewSettings( (WorkpaneView)n ) );
-		}
-	}
-
-	private void setupEdgeSettings( Workpane workpane, WorkpaneEdge edge ) {
-		Settings edgeSettings = program.getSettingsManager().getSettings( ProgramSettings.EDGE, edge.getUid() );
-		edgeSettings.set( Ui.PARENT_AREA_ID, workpane.getUid() );
-
-		// Restore state from settings
-		// NOTE The edge links are restored in the UiRegenerator
-		//if( edgeSettings.exists( "orientation" ) ) edge.setOrientation( Orientation.valueOf( edgeSettings.get( "orientation" ).toUpperCase() ) );
-		//if( edgeSettings.exists( "position" ) ) edge.setPosition( edgeSettings.get( "position", Double.class ) );
-
+	@SuppressWarnings("unused")
+	private void bindEdge( Workpane pane, WorkpaneEdge edge ) {
 		// Store the current values
+		Settings edgeSettings = program.getSettingsManager().getSettings( ProgramSettings.EDGE, edge.getUid() );
+		edgeSettings.set( Ui.PARENT_AREA_ID, pane.getUid() );
 		edgeSettings.set( Ui.POSITION, edge.getPosition() );
 		edgeSettings.set( Ui.ORIENTATION, edge.getOrientation().name().toLowerCase() );
 		edgeSettings.set( Ui.T, edge.getTopEdge() == null ? null : edge.getTopEdge().getUid() );
@@ -128,25 +116,25 @@ class UiWorkareaFactory {
 		edgeSettings.set( Ui.B, edge.getBottomEdge() == null ? null : edge.getBottomEdge().getUid() );
 
 		// Add the change listeners
-		edge.positionProperty().addListener( ( v, o, n ) -> edgeSettings.set( Ui.POSITION, n ) );
-		edge.orientationProperty().addListener( ( v, o, n ) -> edgeSettings.set( Ui.ORIENTATION, n ) );
-		edge.topEdgeProperty().addListener( ( v, o, n ) -> edgeSettings.set( Ui.T, n == null ? null : n.getUid() ) );
-		edge.leftEdgeProperty().addListener( ( v, o, n ) -> edgeSettings.set( Ui.L, n == null ? null : n.getUid() ) );
-		edge.rightEdgeProperty().addListener( ( v, o, n ) -> edgeSettings.set( Ui.R, n == null ? null : n.getUid() ) );
-		edge.bottomEdgeProperty().addListener( ( v, o, n ) -> edgeSettings.set( Ui.B, n == null ? null : n.getUid() ) );
+		edge.positionProperty().addListener( ( p, o, n ) -> edgeSettings.set( Ui.POSITION, n ) );
+		edge.orientationProperty().addListener( ( p, o, n ) -> edgeSettings.set( Ui.ORIENTATION, n ) );
+		edge.topEdgeProperty().addListener( ( p, o, n ) -> edgeSettings.set( Ui.T, n == null ? null : n.getUid() ) );
+		edge.leftEdgeProperty().addListener( ( p, o, n ) -> edgeSettings.set( Ui.L, n == null ? null : n.getUid() ) );
+		edge.rightEdgeProperty().addListener( ( p, o, n ) -> edgeSettings.set( Ui.R, n == null ? null : n.getUid() ) );
+		edge.bottomEdgeProperty().addListener( ( p, o, n ) -> edgeSettings.set( Ui.B, n == null ? null : n.getUid() ) );
 	}
 
-	private void removeEdgeSettings( WorkpaneEdge edge ) {
+	private void unbindEdge( WorkpaneEdge edge ) {
 		String id = edge.getUid();
 		if( id == null ) return;
 		program.getSettingsManager().getSettings( ProgramSettings.EDGE, id ).delete();
 	}
 
-	private void setupViewSettings( Workpane workpane, WorkpaneView view ) {
+	@SuppressWarnings("unused")
+	private void bindView( Workpane workpane, WorkpaneView view ) {
+		// Store the current values
 		Settings viewSettings = program.getSettingsManager().getSettings( ProgramSettings.VIEW, view.getUid() );
 		viewSettings.set( Ui.PARENT_AREA_ID, workpane.getUid() );
-
-		// Store the current values
 		viewSettings.set( Ui.PLACEMENT, view.getPlacement() == null ? null : view.getPlacement().name().toLowerCase() );
 		viewSettings.set( Ui.T, view.getTopEdge() == null ? null : view.getTopEdge().getUid() );
 		viewSettings.set( Ui.L, view.getLeftEdge() == null ? null : view.getLeftEdge().getUid() );
@@ -154,17 +142,26 @@ class UiWorkareaFactory {
 		viewSettings.set( Ui.B, view.getBottomEdge() == null ? null : view.getBottomEdge().getUid() );
 
 		// Add the change listeners
-		view.placementProperty().addListener( ( v, o, n ) -> viewSettings.set( Ui.PLACEMENT, n == null ? null : n.name().toLowerCase() ) );
-		view.topEdgeProperty().addListener( ( v, o, n ) -> viewSettings.set( Ui.T, n == null ? null : n.getUid() ) );
-		view.leftEdgeProperty().addListener( ( v, o, n ) -> viewSettings.set( Ui.L, n == null ? null : n.getUid() ) );
-		view.rightEdgeProperty().addListener( ( v, o, n ) -> viewSettings.set( Ui.R, n == null ? null : n.getUid() ) );
-		view.bottomEdgeProperty().addListener( ( v, o, n ) -> viewSettings.set( Ui.B, n == null ? null : n.getUid() ) );
+		view.placementProperty().addListener( ( p, o, n ) -> viewSettings.set( Ui.PLACEMENT, n == null ? null : n.name().toLowerCase() ) );
+		view.topEdgeProperty().addListener( ( p, o, n ) -> viewSettings.set( Ui.T, n == null ? null : n.getUid() ) );
+		view.leftEdgeProperty().addListener( ( p, o, n ) -> viewSettings.set( Ui.L, n == null ? null : n.getUid() ) );
+		view.rightEdgeProperty().addListener( ( p, o, n ) -> viewSettings.set( Ui.R, n == null ? null : n.getUid() ) );
+		view.bottomEdgeProperty().addListener( ( p, o, n ) -> viewSettings.set( Ui.B, n == null ? null : n.getUid() ) );
 	}
 
-	private void removeViewSettings( WorkpaneView view ) {
+	private void unbindView( WorkpaneView view ) {
 		String id = view.getUid();
 		if( id == null ) return;
 		program.getSettingsManager().getSettings( ProgramSettings.VIEW, id ).delete();
+	}
+
+	private void processAreaChildChanges( Workpane area, ListChangeListener.Change<? extends Node> change ) {
+		while( change.next() ) {
+			change.getAddedSubList().stream().filter( WorkpaneEdge.class::isInstance ).forEach( n -> bindEdge( area, (WorkpaneEdge)n ) );
+			change.getAddedSubList().stream().filter( WorkpaneView.class::isInstance ).forEach( n -> bindView( area, (WorkpaneView)n ) );
+			change.getRemoved().stream().filter( WorkpaneEdge.class::isInstance ).forEach( n -> unbindEdge( (WorkpaneEdge)n ) );
+			change.getRemoved().stream().filter( WorkpaneView.class::isInstance ).forEach( n -> unbindView( (WorkpaneView)n ) );
+		}
 	}
 
 }

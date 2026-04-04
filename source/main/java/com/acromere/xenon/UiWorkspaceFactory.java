@@ -29,7 +29,7 @@ class UiWorkspaceFactory {
 
 		Settings spaceSettings = program.getSettingsManager().getSettings( ProgramSettings.SPACE, space.getUid() );
 		restoreWorkspaceFromSettings( space, spaceSettings );
-		bindWorkspaceSettingsListeners( space, spaceSettings );
+		bindSettings( space, spaceSettings );
 
 		String themeId = program.getWorkspaceManager().getThemeId();
 		space.setTheme( program.getThemeManager().getMetadata( themeId ).getUrl() );
@@ -76,7 +76,7 @@ class UiWorkspaceFactory {
 		settings.set( Ui.H, workspace.getScene().getHeight() );
 	}
 
-	void bindWorkspaceSettingsListeners( Workspace workspace, Settings settings ) {
+	void bindSettings( Workspace workspace, Settings settings ) {
 		settings.set( Ui.MAXIMIZED, workspace.isMaximized() );
 		settings.set( Ui.X, workspace.getX() );
 		settings.set( Ui.Y, workspace.getY() );
@@ -84,19 +84,19 @@ class UiWorkspaceFactory {
 		settings.set( Ui.H, workspace.getScene().getHeight() );
 
 		// Add the property listeners
-		workspace.maximizedProperty().addListener( ( v, o, n ) -> {
+		workspace.maximizedProperty().addListener( ( p, o, n ) -> {
 			if( workspace.isShowing() ) settings.set( Ui.MAXIMIZED, n );
 		} );
-		workspace.xProperty().addListener( ( v, o, n ) -> {
+		workspace.xProperty().addListener( ( p, o, n ) -> {
 			if( !workspace.isMaximized() ) settings.set( Ui.X, n );
 		} );
-		workspace.yProperty().addListener( ( v, o, n ) -> {
+		workspace.yProperty().addListener( ( p, o, n ) -> {
 			if( !workspace.isMaximized() ) settings.set( Ui.Y, n );
 		} );
-		workspace.getScene().widthProperty().addListener( ( v, o, n ) -> {
+		workspace.getScene().widthProperty().addListener( ( p, o, n ) -> {
 			if( !workspace.isMaximized() ) settings.set( Ui.W, n );
 		} );
-		workspace.getScene().heightProperty().addListener( ( v, o, n ) -> {
+		workspace.getScene().heightProperty().addListener( ( p, o, n ) -> {
 			if( !workspace.isMaximized() ) settings.set( Ui.H, n );
 		} );
 	}
