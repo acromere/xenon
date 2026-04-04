@@ -26,6 +26,8 @@ public abstract class BaseXenonTestCase extends BaseForAllTests {
 	private Xenon program;
 
 	static {
+		//System.setProperty( "prism.forceGPU", "true" );
+		//System.setProperty( "--enable-native-access", "javafx.graphics" );
 		runHeadless();
 	}
 
@@ -98,7 +100,12 @@ public abstract class BaseXenonTestCase extends BaseForAllTests {
 		System.setProperty( "glass.platform", "Headless" );
 
 		// Set prism.order to sw when running tests in headless mode
-		//System.setProperty( "prism.order", "sw" );
+		//
+		// This fixes the following error:
+		// X Error of failed request:  BadDrawable (invalid Pixmap or Window parameter)
+		// Major opcode of failed request:  152 (GLX)
+		// 	 Minor opcode of failed request:  29 (X_GLXGetDrawableAttributes)
+		System.setProperty( "prism.order", "sw" );
 
 		// Not sure what this setting does, but it's in all the examples found
 		//System.setProperty( "prism.text", "t2k" );
