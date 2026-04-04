@@ -27,7 +27,7 @@ class UiWorkareaFactory {
 		this.program = program;
 	}
 
-	Workarea newWorkarea( String name ) {
+	Workarea createWorkarea( String name ) {
 		LinearGradient paint = new LinearGradient( 0, 0, 0.5, 1, true, CycleMethod.NO_CYCLE, new Stop( 0, Color.BLUEVIOLET.darker().darker() ), new Stop( 1, Color.TRANSPARENT ) );
 
 		Workarea area = new Workarea();
@@ -37,8 +37,8 @@ class UiWorkareaFactory {
 		area.setIcon( "workarea" );
 
 		Settings areaSettings = program.getSettingsManager().getSettings( ProgramSettings.AREA, area.getUid() );
-		applyWorkareaSettings( area, areaSettings );
-		linkWorkareaSettingsListeners( area, areaSettings );
+		restoreWorkareaFromSettings( area, areaSettings );
+		bindWorkareaSettingsListeners( area, areaSettings );
 
 		return area;
 	}
@@ -49,12 +49,12 @@ class UiWorkareaFactory {
 		area.setIcon( "workarea" );
 		area.setName( Rb.text( RbKey.WORKAREA, "workarea-new-title", "New Workarea" ) );
 		Settings areaSettings = program.getSettingsManager().getSettings( ProgramSettings.AREA, area.getUid() );
-		applyWorkareaSettings( area, areaSettings );
-		linkWorkareaSettingsListeners( area, areaSettings );
+		restoreWorkareaFromSettings( area, areaSettings );
+		bindWorkareaSettingsListeners( area, areaSettings );
 		return area;
 	}
 
-	Workarea applyWorkareaSettings( Workarea area, Settings settings ) {
+	Workarea restoreWorkareaFromSettings( Workarea area, Settings settings ) {
 		// Restore state from settings
 		area.setUid( settings.getName() );
 		area.setName( settings.get( UiManager.NAME, area.getName() ) );
@@ -80,7 +80,7 @@ class UiWorkareaFactory {
 		settings.set( Ui.VIEW_MAXIMIZED, area.getMaximizedView() == null ? null : area.getMaximizedView().getUid() );
 	}
 
-	Workarea linkWorkareaSettingsListeners( Workarea workarea, Settings settings ) {
+	Workarea bindWorkareaSettingsListeners( Workarea workarea, Settings settings ) {
 		// Add the change listeners
 		workarea.nameProperty().addListener( ( v, o, n ) -> settings.set( UiManager.NAME, n ) );
 		workarea.orderProperty().addListener( ( v, o, n ) -> settings.set( UiManager.ORDER, n ) );

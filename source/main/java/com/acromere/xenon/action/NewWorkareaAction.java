@@ -45,7 +45,7 @@ public class NewWorkareaAction extends ProgramAction {
 
 	private void createNewWorkarea( String name ) {
 		try {
-			Workarea workarea = getProgram().getUiManager().newWorkarea( name );
+			Workarea workarea = getProgram().getUiManager().createWorkarea( name );
 			getProgram().getWorkspaceManager().getActiveWorkspace().setActiveWorkarea( workarea );
 		} catch( Exception exception ) {
 			log.atError().withCause( exception ).log( "Error creating new workarea: %s", name );

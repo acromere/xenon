@@ -15,7 +15,7 @@ class UiWorkspaceFactory {
 		this.program = program;
 	}
 
-	Workspace create() {
+	Workspace createWorkspace() {
 		Workspace space = new Workspace( program );
 		space.setUid( IdGenerator.getId() );
 		return space;
@@ -28,8 +28,8 @@ class UiWorkspaceFactory {
 		space.initializeScene( Ui.DEFAULT_WIDTH, Ui.DEFAULT_HEIGHT );
 
 		Settings spaceSettings = program.getSettingsManager().getSettings( ProgramSettings.SPACE, space.getUid() );
-		applyWorkspaceSettings( space, spaceSettings );
-		linkWorkspaceSettingsListeners( space, spaceSettings );
+		restoreWorkspaceFromSettings( space, spaceSettings );
+		bindWorkspaceSettingsListeners( space, spaceSettings );
 
 		String themeId = program.getWorkspaceManager().getThemeId();
 		space.setTheme( program.getThemeManager().getMetadata( themeId ).getUrl() );
@@ -46,7 +46,7 @@ class UiWorkspaceFactory {
 		return space;
 	}
 
-	Workspace applyWorkspaceSettings( Workspace workspace, Settings settings ) {
+	Workspace restoreWorkspaceFromSettings( Workspace workspace, Settings settings ) {
 		// Due to differences in how FX handles stage sizes (width and height) on
 		// different operating systems, the width and height from the scene, not the
 		// stage, are used. This includes the listeners for the width and height
@@ -68,7 +68,7 @@ class UiWorkspaceFactory {
 		return workspace;
 	}
 
-	Workspace linkWorkspaceSettingsListeners( Workspace workspace, Settings settings ) {
+	Workspace bindWorkspaceSettingsListeners( Workspace workspace, Settings settings ) {
 		settings.set( Ui.MAXIMIZED, workspace.isMaximized() );
 		settings.set( Ui.X, workspace.getX() );
 		settings.set( Ui.Y, workspace.getY() );

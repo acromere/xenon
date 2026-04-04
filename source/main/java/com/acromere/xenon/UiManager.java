@@ -76,8 +76,8 @@ public final class UiManager implements Controllable<UiManager> {
 		return this;
 	}
 
-	public Workarea newWorkarea( String name ) {
-		return workareaFactory.newWorkarea( name );
+	public Workarea createWorkarea( String name ) {
+		return workareaFactory.createWorkarea( name );
 	}
 
 	public void reset() {

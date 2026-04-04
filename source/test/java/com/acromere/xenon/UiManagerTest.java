@@ -40,7 +40,7 @@ public class UiManagerTest extends BasePartXenonTestCase {
 		// given
 
 		// when
-		Workarea workarea = uiManager.newWorkarea( "Test Workarea" );
+		Workarea workarea = uiManager.createWorkarea( "Test Workarea" );
 
 		// then
 		assertThat( workarea ).isNotNull();

@@ -211,13 +211,13 @@ class UiReader {
 		// Register the workarea listeners
 		for( Workarea area : areas.values() ) {
 			Settings settings = program.getSettingsManager().getSettings( ProgramSettings.AREA, area.getUid() );
-			areaFactory.linkWorkareaSettingsListeners( area, settings );
+			areaFactory.bindWorkareaSettingsListeners( area, settings );
 		}
 
 		// Register the workspace listeners
 		for( Workspace space : spaces.values() ) {
 			Settings settings = program.getSettingsManager().getSettings( ProgramSettings.SPACE, space.getUid() );
-			spaceFactory.linkWorkspaceSettingsListeners( space, settings );
+			spaceFactory.bindWorkspaceSettingsListeners( space, settings );
 		}
 	}
 
@@ -241,9 +241,9 @@ class UiReader {
 	}
 
 	Workspace loadSpace( Settings settings ) {
-		Workspace workspace = spaceFactory.create();
+		Workspace workspace = spaceFactory.createWorkspace();
 		workspace.setUid( settings.getName() );
-		spaceFactory.applyWorkspaceSettings( workspace, settings );
+		spaceFactory.restoreWorkspaceFromSettings( workspace, settings );
 		if( isActive( settings ) ) activeSpace = workspace;
 		if( isMaximized( settings ) ) maximizedSpaces.add( workspace );
 		return workspace;
@@ -272,7 +272,7 @@ class UiReader {
 	}
 
 	Workarea loadArea( Settings settings ) {
-		return areaFactory.applyWorkareaSettings( new Workarea(), settings );
+		return areaFactory.restoreWorkareaFromSettings( new Workarea(), settings );
 	}
 
 	WorkpaneView loadViewForLinking( Settings settings ) {
