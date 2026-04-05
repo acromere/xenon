@@ -39,10 +39,12 @@ public final class UiManager implements Controllable<UiManager> {
 		return this;
 	}
 
+	@SuppressWarnings( "unused" )
 	public Workspace createWorkspace() {
 		return workspaceFactory.createWorkspace();
 	}
 
+	@SuppressWarnings( "unused" )
 	public Workspace createDefaultWorkspace() {
 		return workspaceFactory.createDefaultWorkspace( workareaFactory );
 	}
