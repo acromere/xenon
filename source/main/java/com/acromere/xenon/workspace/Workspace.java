@@ -5,7 +5,10 @@ import com.acromere.settings.Settings;
 import com.acromere.settings.SettingsEvent;
 import com.acromere.skill.Identity;
 import com.acromere.skill.WritableIdentity;
+import com.acromere.util.IdGenerator;
+import com.acromere.product.Rb;
 import com.acromere.xenon.ProgramSettings;
+import com.acromere.xenon.RbKey;
 import com.acromere.xenon.Xenon;
 import com.acromere.xenon.XenonMode;
 import com.acromere.xenon.notice.Notice;
@@ -18,6 +21,7 @@ import com.acromere.zerra.color.Colors;
 import com.acromere.zerra.event.FxEventHub;
 import com.acromere.zerra.javafx.Fx;
 import com.acromere.zerra.javafx.FxUtil;
+import com.acromere.zerra.stage.DialogUtil;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
@@ -659,11 +663,49 @@ public class Workspace extends Stage implements WritableIdentity {
 	}
 
 	private void setActiveWorkareaInNewWorkspace( Workarea workarea ) {
-		// TODO Just open a new workspace, set the active workarea and return
+		// Create a new workspace
+		Workspace workspace = new Workspace( program );
+		workspace.setUid( IdGenerator.getId() );
+
+		// Initialize the scene
+		workspace.initializeScene( getScene().getWidth(), getScene().getHeight() );
+
+		// Set the theme
+		workspace.setTheme( getProgram().getWorkspaceManager().getThemeMetadata().getUrl() );
+
+		// Add the workarea to the new workspace
+		workspace.addWorkarea( workarea );
+
+		// Set the new active workarea
+		workspace.setActiveWorkareaInCurrentWorkspace( workarea );
+
+		// Add the workspace to the workspace manager
+		getProgram().getWorkspaceManager().addWorkspace( workspace );
+
+		// Show the new workspace
+		workspace.show();
 	}
 
 	private void askUserWhatToDoWithActiveWorkarea( Workarea workarea ) {
-		// TODO Ask the user what to do and then do that
+		String title = Rb.text( RbKey.WORKSPACE, "workspace-open-in" );
+		String header = Rb.text( RbKey.WORKSPACE, "workspace-open-in-message" );
+		String prompt = Rb.text( RbKey.WORKSPACE, "workspace-open-in-prompt" );
+
+		ButtonType current = new ButtonType( Rb.text( RbKey.WORKSPACE, "workspace-open-in-current" ) );
+		ButtonType newWindow = new ButtonType( Rb.text( RbKey.WORKSPACE, "workspace-open-in-new" ) );
+
+		Alert alert = new Alert( Alert.AlertType.CONFIRMATION, "", current, newWindow, ButtonType.CANCEL );
+		alert.setTitle( title );
+		alert.setHeaderText( header );
+		alert.setContentText( prompt );
+		alert.initOwner( this );
+
+		Optional<ButtonType> result = DialogUtil.showAndWait( this, alert );
+
+		if( result.isPresent() ) {
+			if( result.get() == current ) setActiveWorkareaInCurrentWorkspace( workarea );
+			if( result.get() == newWindow ) setActiveWorkareaInNewWorkspace( workarea );
+		}
 	}
 
 	public Pane getNoticePane() {
