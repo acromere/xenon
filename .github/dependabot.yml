@@ -13,6 +13,7 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+    open-pull-requests-limit: 10
     ignore:
       - dependency-name: "javafx*"
         versions: ["[25-ea+1,25-ea+999999]","[26-ea+1,26-ea+999999]","[27-ea+1,27-ea+999999]"]
