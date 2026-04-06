@@ -15,7 +15,7 @@ class UiWorkspaceFactory {
 		this.program = program;
 	}
 
-	Workspace create() {
+	Workspace createWorkspace() {
 		Workspace space = new Workspace( program );
 		space.setUid( IdGenerator.getId() );
 		return space;
@@ -28,8 +28,8 @@ class UiWorkspaceFactory {
 		space.initializeScene( Ui.DEFAULT_WIDTH, Ui.DEFAULT_HEIGHT );
 
 		Settings spaceSettings = program.getSettingsManager().getSettings( ProgramSettings.SPACE, space.getUid() );
-		applyWorkspaceSettings( space, spaceSettings );
-		linkWorkspaceSettingsListeners( space, spaceSettings );
+		restoreWorkspaceFromSettings( space, spaceSettings );
+		bindSettings( space, spaceSettings );
 
 		String themeId = program.getWorkspaceManager().getThemeId();
 		space.setTheme( program.getThemeManager().getMetadata( themeId ).getUrl() );
@@ -46,7 +46,7 @@ class UiWorkspaceFactory {
 		return space;
 	}
 
-	Workspace applyWorkspaceSettings( Workspace workspace, Settings settings ) {
+	void restoreWorkspaceFromSettings( Workspace workspace, Settings settings ) {
 		// Due to differences in how FX handles stage sizes (width and height) on
 		// different operating systems, the width and height from the scene, not the
 		// stage, are used. This includes the listeners for the width and height
@@ -56,7 +56,7 @@ class UiWorkspaceFactory {
 		workspace.initializeScene( w, h );
 
 		// Position the stage if x and y are specified
-		// If not specified the stage is centered on the screen
+		// If not specified, the stage is centered on the screen
 		Double x = settings.get( Ui.X, Double.class, null );
 		Double y = settings.get( Ui.Y, Double.class, null );
 		if( x != null ) workspace.setX( x );
@@ -65,10 +65,19 @@ class UiWorkspaceFactory {
 		updateThemeFromSettings( workspace, settings );
 		workspace.applySettings();
 
-		return workspace;
+		storeWorkspaceSettings( workspace, settings );
 	}
 
-	Workspace linkWorkspaceSettingsListeners( Workspace workspace, Settings settings ) {
+	void storeWorkspaceSettings( Workspace workspace, Settings settings ) {
+		settings.set( Ui.MAXIMIZED, workspace.isMaximized() );
+		settings.set( Ui.X, workspace.getX() );
+		settings.set( Ui.Y, workspace.getY() );
+		settings.set( Ui.W, workspace.getScene().getWidth() );
+		settings.set( Ui.H, workspace.getScene().getHeight() );
+	}
+
+	@SuppressWarnings("unused")
+	void bindSettings( Workspace workspace, Settings settings ) {
 		settings.set( Ui.MAXIMIZED, workspace.isMaximized() );
 		settings.set( Ui.X, workspace.getX() );
 		settings.set( Ui.Y, workspace.getY() );
@@ -76,26 +85,25 @@ class UiWorkspaceFactory {
 		settings.set( Ui.H, workspace.getScene().getHeight() );
 
 		// Add the property listeners
-		workspace.maximizedProperty().addListener( ( v, o, n ) -> {
+		workspace.maximizedProperty().addListener( ( p, o, n ) -> {
 			if( workspace.isShowing() ) settings.set( Ui.MAXIMIZED, n );
 		} );
-		workspace.xProperty().addListener( ( v, o, n ) -> {
+		workspace.xProperty().addListener( ( p, o, n ) -> {
 			if( !workspace.isMaximized() ) settings.set( Ui.X, n );
 		} );
-		workspace.yProperty().addListener( ( v, o, n ) -> {
+		workspace.yProperty().addListener( ( p, o, n ) -> {
 			if( !workspace.isMaximized() ) settings.set( Ui.Y, n );
 		} );
-		workspace.getScene().widthProperty().addListener( ( v, o, n ) -> {
+		workspace.getScene().widthProperty().addListener( ( p, o, n ) -> {
 			if( !workspace.isMaximized() ) settings.set( Ui.W, n );
 		} );
-		workspace.getScene().heightProperty().addListener( ( v, o, n ) -> {
+		workspace.getScene().heightProperty().addListener( ( p, o, n ) -> {
 			if( !workspace.isMaximized() ) settings.set( Ui.H, n );
 		} );
-		return workspace;
 	}
 
 	private void updateThemeFromSettings( Workspace workspace, Settings settings ) {
-		String themeId = settings.get( "theme", program.getWorkspaceManager().getThemeId() );
+		String themeId = settings.get( Ui.THEME, program.getWorkspaceManager().getThemeId() );
 		workspace.setTheme( program.getThemeManager().getMetadata( themeId ).getUrl() );
 	}
 

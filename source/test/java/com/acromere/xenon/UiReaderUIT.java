@@ -56,10 +56,10 @@ class UiReaderUIT extends BaseFullXenonTestCase {
 		// when
 		long timeout = getProgram().getSettingsManager().getMaxFlushLimit() * 3;
 		FileUtil.waitToExist( uiSettingsFolder, timeout, TimeUnit.MILLISECONDS );
-		FileUtil.waitToExist( uiSettingsFolder.resolve( UiManager.SPACE ), timeout, TimeUnit.MILLISECONDS );
-		FileUtil.waitToExist( uiSettingsFolder.resolve( UiManager.AREA ), timeout, TimeUnit.MILLISECONDS );
-		FileUtil.waitToExist( uiSettingsFolder.resolve( UiManager.VIEW ), timeout, TimeUnit.MILLISECONDS );
-		FileUtil.waitToExist( uiSettingsFolder.resolve( UiManager.TOOL ), timeout, TimeUnit.MILLISECONDS );
+		FileUtil.waitToExist( uiSettingsFolder.resolve( Ui.SPACE ), timeout, TimeUnit.MILLISECONDS );
+		FileUtil.waitToExist( uiSettingsFolder.resolve( Ui.AREA ), timeout, TimeUnit.MILLISECONDS );
+		FileUtil.waitToExist( uiSettingsFolder.resolve( Ui.VIEW ), timeout, TimeUnit.MILLISECONDS );
+		FileUtil.waitToExist( uiSettingsFolder.resolve( Ui.TOOL ), timeout, TimeUnit.MILLISECONDS );
 
 		// then
 
@@ -69,58 +69,58 @@ class UiReaderUIT extends BaseFullXenonTestCase {
 
 		// Ensure settings folders exist
 		assertThat( uiSettingsFolder ).exists();
-		assertThat( uiSettingsFolder.resolve( UiManager.SPACE ) ).exists();
-		assertThat( uiSettingsFolder.resolve( UiManager.AREA ) ).exists();
-		assertThat( uiSettingsFolder.resolve( UiManager.VIEW ) ).exists();
-		assertThat( uiSettingsFolder.resolve( UiManager.TOOL ) ).exists();
+		assertThat( uiSettingsFolder.resolve( Ui.SPACE ) ).exists();
+		assertThat( uiSettingsFolder.resolve( Ui.AREA ) ).exists();
+		assertThat( uiSettingsFolder.resolve( Ui.VIEW ) ).exists();
+		assertThat( uiSettingsFolder.resolve( Ui.TOOL ) ).exists();
 
 		Settings settings = new StoredSettings( uiSettingsFolder );
-		List<String> workspaceKeys = settings.getNode( UiManager.SPACE ).getNodes();
-		List<String> areaKeys = settings.getNode( UiManager.AREA ).getNodes();
-		List<String> viewKeys = settings.getNode( UiManager.VIEW ).getNodes();
-		List<String> toolKeys = settings.getNode( UiManager.TOOL ).getNodes();
+		List<String> workspaceKeys = settings.getNode( Ui.SPACE ).getNodes();
+		List<String> areaKeys = settings.getNode( Ui.AREA ).getNodes();
+		List<String> viewKeys = settings.getNode( Ui.VIEW ).getNodes();
+		List<String> toolKeys = settings.getNode( Ui.TOOL ).getNodes();
 		assertThat( workspaceKeys ).hasSize( 1 );
 		assertThat( areaKeys ).hasSize( 1 );
 		assertThat( viewKeys ).hasSize( 1 );
 		assertThat( toolKeys ).hasSize( 1 );
 
-		Settings workspaceSettings = settings.getNode( UiManager.SPACE ).getNode( workspaceKeys.getFirst() );
-		Settings areaSettings = settings.getNode( UiManager.AREA ).getNode( areaKeys.getFirst() );
-		Settings viewSettings = settings.getNode( UiManager.VIEW ).getNode( viewKeys.getFirst() );
-		Settings toolSettings = settings.getNode( UiManager.TOOL ).getNode( toolKeys.getFirst() );
+		Settings workspaceSettings = settings.getNode( Ui.SPACE ).getNode( workspaceKeys.getFirst() );
+		Settings areaSettings = settings.getNode( Ui.AREA ).getNode( areaKeys.getFirst() );
+		Settings viewSettings = settings.getNode( Ui.VIEW ).getNode( viewKeys.getFirst() );
+		Settings toolSettings = settings.getNode( Ui.TOOL ).getNode( toolKeys.getFirst() );
 
 		// Check workspace settings
-		assertThat( workspaceSettings.get( UiManager.ACTIVE ) ).isEqualTo( "true" );
+		assertThat( workspaceSettings.get( Ui.ACTIVE ) ).isEqualTo( "true" );
 		assertThat( workspaceSettings.get( Ui.X ) ).isEqualTo( "20.0" );
 		assertThat( workspaceSettings.get( Ui.Y ) ).isEqualTo( "133.0" );
 		assertThat( workspaceSettings.get( Ui.W ) ).isEqualTo( "960.0" );
 		assertThat( workspaceSettings.get( Ui.H ) ).isEqualTo( "600.0" );
 
 		// Check area settings
-		assertThat( areaSettings.get( UiManager.ACTIVE ) ).isEqualTo( "true" );
-		assertThat( areaSettings.get( UiManager.COLOR ) ).isEqualTo( "#206080ff" );
-		assertThat( areaSettings.get( UiManager.NAME ) ).isEqualTo( "New Workarea" );
-		assertThat( areaSettings.get( UiManager.PAINT ) ).startsWith( "linear-gradient" );
-		assertThat( areaSettings.get( Ui.DOCK_BOTTOM_SIZE)).isNull();
-		assertThat( areaSettings.get( Ui.DOCK_LEFT_SIZE)).isNull();
-		assertThat( areaSettings.get( Ui.DOCK_RIGHT_SIZE)).isNull();
-		assertThat( areaSettings.get( Ui.DOCK_TOP_SIZE)).isNull();
+		assertThat( areaSettings.get( Ui.ACTIVE ) ).isEqualTo( "true" );
+		assertThat( areaSettings.get( Ui.COLOR ) ).isEqualTo( "#206080ff" );
+		assertThat( areaSettings.get( Ui.NAME ) ).isEqualTo( "New Workarea" );
+		assertThat( areaSettings.get( Ui.PAINT ) ).startsWith( "linear-gradient" );
+		assertThat( areaSettings.get( Ui.DOCK_BOTTOM_SIZE)).isEqualTo( "0.2" );
+		assertThat( areaSettings.get( Ui.DOCK_LEFT_SIZE)).isEqualTo( "0.2" );
+		assertThat( areaSettings.get( Ui.DOCK_RIGHT_SIZE)).isEqualTo( "0.2" );
+		assertThat( areaSettings.get( Ui.DOCK_TOP_SIZE)).isEqualTo( "0.2" );
 		assertThat( areaSettings.get( Ui.VIEW_ACTIVE ) ).isEqualTo( viewKeys.getFirst() );
 		assertThat( areaSettings.get( Ui.VIEW_DEFAULT ) ).isEqualTo( viewKeys.getFirst() );
 		assertThat( areaSettings.get( Ui.VIEW_MAXIMIZED ) ).isNull();
-		assertThat( areaSettings.get( UiManager.PARENT_SPACE_ID ) ).isEqualTo( workspaceKeys.getFirst() );
+		assertThat( areaSettings.get( Ui.PARENT_SPACE_ID ) ).isEqualTo( workspaceKeys.getFirst() );
 
 		// Check view settings
 		assertThat( viewSettings.get( Ui.B ) ).isEqualTo( Ui.BOTTOM );
 		assertThat( viewSettings.get( Ui.L ) ).isEqualTo( Ui.LEFT );
 		assertThat( viewSettings.get( Ui.R ) ).isEqualTo( Ui.RIGHT );
 		assertThat( viewSettings.get( Ui.T ) ).isEqualTo( Ui.TOP );
-		assertThat( viewSettings.get( UiManager.PARENT_AREA_ID ) ).isEqualTo( areaKeys.getFirst() );
+		assertThat( viewSettings.get( Ui.PARENT_AREA_ID ) ).isEqualTo( areaKeys.getFirst() );
 
 		// Check tool settings
-		assertThat( toolSettings.get( UiManager.ACTIVE ) ).isEqualTo( "true" );
-		assertThat( toolSettings.get( UiManager.ORDER ) ).isEqualTo( "0" );
-		assertThat( toolSettings.get( UiManager.PARENT_VIEW_ID ) ).isEqualTo( viewKeys.getFirst() );
+		assertThat( toolSettings.get( Ui.ACTIVE ) ).isEqualTo( "true" );
+		assertThat( toolSettings.get( Ui.ORDER ) ).isEqualTo( "0" );
+		assertThat( toolSettings.get( Ui.PARENT_VIEW_ID ) ).isEqualTo( viewKeys.getFirst() );
 	}
 
 	@Test
@@ -333,7 +333,7 @@ class UiReaderUIT extends BaseFullXenonTestCase {
 	private static Settings areaSettings( String spaceId ) {
 		Settings settings = new MapSettings().getNode( IdGenerator.getId() );
 
-		settings.set( UiManager.PARENT_SPACE_ID, spaceId );
+		settings.set( Ui.PARENT_SPACE_ID, spaceId );
 
 		return settings;
 	}
@@ -346,7 +346,7 @@ class UiReaderUIT extends BaseFullXenonTestCase {
 	private static Settings viewSettings( String areaId ) {
 		Settings settings = new MapSettings().getNode( IdGenerator.getId() );
 
-		settings.set( UiManager.PARENT_AREA_ID, areaId );
+		settings.set( Ui.PARENT_AREA_ID, areaId );
 		settings.set( "placement", Workpane.Placement.DEFAULT.name() );
 		settings.set( "maximized", false );
 		settings.set( "default", true );
@@ -373,7 +373,7 @@ class UiReaderUIT extends BaseFullXenonTestCase {
 	private static Settings edgeSettings( String areaId ) {
 		Settings settings = new MapSettings().getNode( IdGenerator.getId() );
 
-		settings.set( UiManager.PARENT_AREA_ID, areaId );
+		settings.set( Ui.PARENT_AREA_ID, areaId );
 		settings.set( WorkpaneEdge.ORIENTATION, Orientation.VERTICAL.name().toLowerCase() );
 		settings.set( WorkpaneEdge.POSITION, "73" );
 		settings.set( "t", "t" );
@@ -391,7 +391,7 @@ class UiReaderUIT extends BaseFullXenonTestCase {
 	private static Settings toolSettings( XenonProgramProduct program, String viewId ) {
 		Settings settings = new MapSettings().getNode( IdGenerator.getId() );
 
-		settings.set( UiManager.PARENT_VIEW_ID, viewId );
+		settings.set( Ui.PARENT_VIEW_ID, viewId );
 		settings.set( Tool.SETTINGS_TYPE_KEY, AboutTool.class.getName() );
 		settings.set( Tool.ORDER, 5 );
 

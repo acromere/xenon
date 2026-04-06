@@ -5,8 +5,10 @@ import com.acromere.settings.Settings;
 import com.acromere.settings.SettingsEvent;
 import com.acromere.skill.Identity;
 import com.acromere.skill.WritableIdentity;
+import com.acromere.util.IdGenerator;
+import com.acromere.product.Rb;
 import com.acromere.xenon.ProgramSettings;
-import com.acromere.xenon.Ui;
+import com.acromere.xenon.RbKey;
 import com.acromere.xenon.Xenon;
 import com.acromere.xenon.XenonMode;
 import com.acromere.xenon.notice.Notice;
@@ -19,6 +21,7 @@ import com.acromere.zerra.color.Colors;
 import com.acromere.zerra.event.FxEventHub;
 import com.acromere.zerra.javafx.Fx;
 import com.acromere.zerra.javafx.FxUtil;
+import com.acromere.zerra.stage.DialogUtil;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
@@ -660,11 +663,49 @@ public class Workspace extends Stage implements WritableIdentity {
 	}
 
 	private void setActiveWorkareaInNewWorkspace( Workarea workarea ) {
-		// TODO Just open a new workspace, set the active workarea and return
+		// Create a new workspace
+		Workspace workspace = new Workspace( program );
+		workspace.setUid( IdGenerator.getId() );
+
+		// Initialize the scene
+		workspace.initializeScene( getScene().getWidth(), getScene().getHeight() );
+
+		// Set the theme
+		workspace.setTheme( getProgram().getWorkspaceManager().getThemeMetadata().getUrl() );
+
+		// Add the workarea to the new workspace
+		workspace.addWorkarea( workarea );
+
+		// Set the new active workarea
+		workspace.setActiveWorkareaInCurrentWorkspace( workarea );
+
+		// Add the workspace to the workspace manager
+		getProgram().getWorkspaceManager().addWorkspace( workspace );
+
+		// Show the new workspace
+		workspace.show();
 	}
 
 	private void askUserWhatToDoWithActiveWorkarea( Workarea workarea ) {
-		// TODO Ask the user what to do and then do that
+		String title = Rb.text( RbKey.WORKSPACE, "workspace-open-in" );
+		String header = Rb.text( RbKey.WORKSPACE, "workspace-open-in-message" );
+		String prompt = Rb.text( RbKey.WORKSPACE, "workspace-open-in-prompt" );
+
+		ButtonType current = new ButtonType( Rb.text( RbKey.WORKSPACE, "workspace-open-in-current" ) );
+		ButtonType newWindow = new ButtonType( Rb.text( RbKey.WORKSPACE, "workspace-open-in-new" ) );
+
+		Alert alert = new Alert( Alert.AlertType.CONFIRMATION, "", current, newWindow, ButtonType.CANCEL );
+		alert.setTitle( title );
+		alert.setHeaderText( header );
+		alert.setContentText( prompt );
+		alert.initOwner( this );
+
+		Optional<ButtonType> result = DialogUtil.showAndWait( this, alert );
+
+		if( result.isPresent() ) {
+			if( result.get() == current ) setActiveWorkareaInCurrentWorkspace( workarea );
+			if( result.get() == newWindow ) setActiveWorkareaInNewWorkspace( workarea );
+		}
 	}
 
 	public Pane getNoticePane() {
@@ -741,51 +782,6 @@ public class Workspace extends Stage implements WritableIdentity {
 		updateFpsMonitorFromSettings( getProgram().getSettingsManager().getSettings( ProgramSettings.PROGRAM ) );
 	}
 
-	// TODO Remove in 1.8
-	@Deprecated
-	public void updateFromSettings( Settings settings ) {
-		// Due to differences in how FX handles stage sizes (width and height) on
-		// different operating systems, the width and height from the scene, not the
-		// stage, are used. This includes the listeners for the width and height
-		// properties below.
-		Double w = settings.get( Ui.W, Double.class, Ui.DEFAULT_WIDTH );
-		Double h = settings.get( Ui.H, Double.class, Ui.DEFAULT_HEIGHT );
-		initializeScene( w, h );
-
-		// Position the stage if x and y are specified
-		// If not specified the stage is centered on the screen
-		Double x = settings.get( Ui.X, Double.class, null );
-		Double y = settings.get( Ui.Y, Double.class, null );
-		if( x != null ) setX( x );
-		if( y != null ) setY( y );
-
-		setActive( settings.get( "active", Boolean.class, false ) );
-		setMaximized( settings.get( "maximized", Boolean.class, false ) );
-
-		// Add the property listeners
-		maximizedProperty().addListener( ( v, o, n ) -> {
-			if( isShowing() ) settings.set( "maximized", n );
-		} );
-		xProperty().addListener( ( v, o, n ) -> {
-			if( !isMaximized() ) settings.set( Ui.X, n );
-		} );
-		yProperty().addListener( ( v, o, n ) -> {
-			if( !isMaximized() ) settings.set( Ui.Y, n );
-		} );
-		scene.widthProperty().addListener( ( v, o, n ) -> {
-			if( !isMaximized() ) settings.set( Ui.W, n );
-		} );
-		scene.heightProperty().addListener( ( v, o, n ) -> {
-			if( !isMaximized() ) settings.set( Ui.H, n );
-		} );
-
-		updateBackgroundFromSettings( getProgram().getSettingsManager().getSettings( ProgramSettings.PROGRAM ) );
-		updateMemoryMonitorFromSettings( getProgram().getSettingsManager().getSettings( ProgramSettings.PROGRAM ) );
-		updateTaskMonitorFromSettings( getProgram().getSettingsManager().getSettings( ProgramSettings.PROGRAM ) );
-		updateFpsMonitorFromSettings( getProgram().getSettingsManager().getSettings( ProgramSettings.PROGRAM ) );
-		updateThemeFromSettings( settings );
-	}
-
 	public void screenshot( Path file ) {
 		Fx.waitFor( 5, TimeUnit.SECONDS );
 		Fx.run( () -> {
@@ -824,13 +820,6 @@ public class Workspace extends Stage implements WritableIdentity {
 	private Workarea determineNextActiveWorkarea() {
 		int index = workareas.indexOf( getActiveWorkarea() );
 		return workareas.get( index == 0 ? 1 : index - 1 );
-	}
-
-	// TODO Remove in 1.8
-	@Deprecated
-	private void updateThemeFromSettings( Settings settings ) {
-		String themeId = settings.get( "theme", getProgram().getWorkspaceManager().getThemeId() );
-		setTheme( getProgram().getThemeManager().getMetadata( themeId ).getUrl() );
 	}
 
 	@Deprecated
