@@ -47,11 +47,11 @@ public class TaskManager implements Controllable<TaskManager> {
 	@Getter
 	int p3ThreadCount;
 
-	private TaskManagerExecutor executorP1;
+	TaskManagerExecutor executorP1;
 
-	private TaskManagerExecutor executorP2;
+	TaskManagerExecutor executorP2;
 
-	private TaskManagerExecutor executorP3;
+	TaskManagerExecutor executorP3;
 
 	private final ThreadGroup group;
 
@@ -231,7 +231,7 @@ public class TaskManager implements Controllable<TaskManager> {
 		setP3ThreadCount( Math.max( 1, total / 2 ) );
 	}
 
-	private class TaskManagerExecutor extends ThreadPoolExecutor {
+	class TaskManagerExecutor extends ThreadPoolExecutor {
 
 		private Task.Priority priority;
 

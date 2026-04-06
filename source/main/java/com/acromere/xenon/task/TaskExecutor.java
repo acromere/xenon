@@ -1,5 +1,7 @@
 package com.acromere.xenon.task;
 
+import org.jspecify.annotations.NonNull;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -77,8 +79,8 @@ public class TaskExecutor implements ExecutorService {
 	}
 
 	@Override
-	public void execute( Runnable command ) {
-		throw new UnsupportedOperationException();
+	public void execute( @NonNull Runnable command ) {
+		manager.executorP2.execute( command );
 	}
 
 }
