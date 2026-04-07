@@ -16,7 +16,7 @@ class RepoStateTest {
 		List<RepoState> cards = RepoState.forProduct( getClass() );
 		assertThat( cards.size() ).isEqualTo( 2 );
 
-		assertThat( cards.get( 0 ).getName() ).isEqualTo( "Acromere Official" );
+		assertThat( cards.get( 0 ).getName() ).isEqualTo( "Acromere Stable" );
 		assertThat( cards.get( 0 ).getUrl() ).isEqualTo( "https://www.acromere.com/download/stable" );
 		//assertThat( cards.get( 0 ).getIcon()).isEqualTo( "https://www.acromere.com/download/stable/acromere/provider/icon" ) ;
 		assertThat( cards.get( 0 ).getIcons().get( 0 ) ).isEqualTo( "provider" );
@@ -26,7 +26,7 @@ class RepoStateTest {
 		assertThat( cards.get( 0 ).isRemovable() ).isEqualTo( false );
 		assertThat( cards.get( 0 ).getRank() ).isEqualTo( -2 );
 
-		assertThat( cards.get( 1 ).getName() ).isEqualTo( "Acromere Nightly" );
+		assertThat( cards.get( 1 ).getName() ).isEqualTo( "Acromere Latest" );
 		assertThat( cards.get( 1 ).getUrl() ).isEqualTo( "https://www.acromere.com/download/latest" );
 		//assertThat( cards.get( 1 ).getIcon()).isEqualTo( "https://www.acromere.com/download/stable/acromere/provider/icon" ) ;
 		assertThat( cards.get( 1 ).getIcons().get( 0 ) ).isEqualTo( "provider" );
