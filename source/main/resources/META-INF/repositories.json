@@ -1,7 +1,7 @@
 [
 	{
 		"internalId": "lhhvrhtzznbwmltt",
-		"name" : "${project.organization.name} Official",
+		"name" : "${project.organization.name} Stable",
 		"url" : "https://www.acromere.com/download/stable",
 		"icon" : "https://www.acromere.com/download/stable/acromere/provider/icon",
 		"icons": [ "provider", "https://www.acromere.com/download/stable/acromere/provider/icon" ],
@@ -11,7 +11,7 @@
 	},
 	{
 		"internalId": "vhwvtzdbtlzlsblv",
-		"name" : "${project.organization.name} Nightly",
+		"name" : "${project.organization.name} Latest",
 		"url" : "https://www.acromere.com/download/latest",
 		"icon" : "https://www.acromere.com/download/stable/acromere/provider/icon",
 		"icons": [ "provider", "https://www.acromere.com/download/stable/acromere/provider/icon" ],
