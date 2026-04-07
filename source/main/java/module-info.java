@@ -9,7 +9,6 @@ module com.acromere.xenon {
 
 	// Compile-time only
 	requires static lombok;
-	requires static org.jspecify;
 
 	// Both compile-time and run-time
 	requires transitive com.acromere.zenna;
@@ -21,6 +20,7 @@ module com.acromere.xenon {
 	requires transitive javafx.swing;
 	requires transitive javafx.web;
 	requires transitive org.fxmisc.undo;
+	requires transitive org.jspecify;
 	requires com.acromere.weave;
 	requires java.net.http;
 	requires java.logging;
