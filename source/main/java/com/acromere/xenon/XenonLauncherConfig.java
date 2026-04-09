@@ -14,12 +14,10 @@ class XenonLauncherConfig {
 	 * @return The product info for the program.
 	 */
 	static ProductCard loadProductInfo() {
-		// NEXT Where to load a rebrand file from?
 		return updateProductCard( ProductCard.info( Xenon.class ) );
 	}
 
 	static ProductCard loadProductCard() {
-		// NEXT Where to load a rebrand file from?
 		return updateProductCard( ProductCard.card( Xenon.class ) );
 	}
 
