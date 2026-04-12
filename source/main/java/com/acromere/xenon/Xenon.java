@@ -1315,10 +1315,9 @@ public class Xenon extends Application implements XenonProgram {
 			}
 
 			// Check Java home when running as a linked (jlink) program
-			// When running as a linked (jlink) program, there is not a jdk.module.path system property
 			// The java home can be used as the program home when running as a linked application
-			if( programHomeFolder == null && System.getProperty( "jdk.module.path" ) == null ) {
-				programHomeFolder = Paths.get( System.getProperty( "java.home" ) );
+			if( programHomeFolder == null && ProductCard.isJLinked() ) {
+				programHomeFolder = ProductCard.getProgramHome();
 			}
 
 			// Use the user folder as a last resort (usually for unit tests)
