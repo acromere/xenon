@@ -673,12 +673,12 @@ public class AboutTool extends GuidedTool {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append( "Mod layers:\n" );
-		getProgram().getProductManager().getModules().stream().sorted().forEach( m -> builder.append( m.getClass().getModule().getName() ).append( "\n" ) );
+		getProgram().getProductManager().getModules().stream().map( m -> m.getClass().getModule().getName() ).sorted().forEach( m -> builder.append( m ).append( "\n" ) );
 
 		// Java modules
 		builder.append( "\n" );
 		builder.append( "Boot layer:\n" );
-		ModuleLayer.boot().modules().stream().sorted( Comparator.comparing( Module::getName ) ).forEach( m -> builder.append( m.getName() ).append( "\n" ) );
+		ModuleLayer.boot().modules().stream().map( Module::getName ).sorted().forEach( m -> builder.append( m ).append( "\n" ) );
 
 		return builder.toString();
 	}
