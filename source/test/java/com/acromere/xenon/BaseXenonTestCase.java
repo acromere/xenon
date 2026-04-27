@@ -43,7 +43,7 @@ public abstract class BaseXenonTestCase extends BaseForAllTests {
 
 		// Remove the existing program data folder
 		String suffix = "-" + XenonMode.TEST;
-		ProductCard metadata = ProductCard.info( Xenon.class );
+		ProductCard metadata = ProductCard.card( Xenon.class );
 		Path programDataFolder = OperatingSystem.getUserProgramDataFolder( metadata.getArtifact() + suffix, metadata.getName() + suffix );
 
 		// Try to clean up the program data folder, but don't fail if we can't

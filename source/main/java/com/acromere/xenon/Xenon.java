@@ -245,7 +245,7 @@ public class Xenon extends Application implements XenonProgram {
 		time( "uncaught-exception-handler" );
 
 		// Init the product card
-		card = XenonLauncherConfig.loadProductInfo();
+		card = XenonLauncherConfig.loadProductCard();
 		time( "card" );
 
 		// Initialize the program parameters
@@ -429,8 +429,8 @@ public class Xenon extends Application implements XenonProgram {
 		time( "program-starting-event" );
 
 		// Update the product card
-		card = XenonLauncherConfig.loadProductCard();
-		time( "update-product-card" );
+		//card = XenonLauncherConfig.loadProductCard();
+		//time( "update-product-card" );
 
 		// Create the icon library
 		iconLibrary = new IconLibrary( this );

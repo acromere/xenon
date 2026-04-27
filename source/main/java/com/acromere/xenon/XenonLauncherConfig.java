@@ -7,16 +7,6 @@ class XenonLauncherConfig {
 
 	private static ProductCard card;
 
-	/**
-	 * This is an optimization to allow the program launcher to load as quickly as
-	 * possible.
-	 *
-	 * @return The product info for the program.
-	 */
-	static ProductCard loadProductInfo() {
-		return updateProductCard( ProductCard.info( Xenon.class ) );
-	}
-
 	static ProductCard loadProductCard() {
 		return updateProductCard( ProductCard.card( Xenon.class ) );
 	}
@@ -36,7 +26,7 @@ class XenonLauncherConfig {
 	 */
 	static void setCustomLauncherSystemProperty() {
 		if( System.getProperty( OperatingSystem.CUSTOM_LAUNCHER_PATH ) != null ) {
-			System.setProperty( OperatingSystem.CUSTOM_LAUNCHER_NAME, loadProductInfo().getName() );
+			System.setProperty( OperatingSystem.CUSTOM_LAUNCHER_NAME, loadProductCard().getName() );
 		}
 	}
 
