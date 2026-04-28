@@ -2,8 +2,9 @@
   <configuration default="false" name="Xenon with Recon" type="Application" factoryName="Application">
     <option name="INCLUDE_PROVIDED_SCOPE" value="true" />
     <option name="MAIN_CLASS_NAME" value="com.acromere.xenon.Launcher" />
+    <module name="recon" />
     <option name="PROGRAM_PARAMETERS" value="--profile dev --noupdate --log-level debug" />
-    <option name="VM_PARAMETERS" value="-Duser.language=es" />
+    <option name="VM_PARAMETERS" value="-Duser.language=es --enable-native-access=javafx.graphics" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

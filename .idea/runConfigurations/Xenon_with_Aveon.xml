@@ -5,7 +5,7 @@
     <option name="MAIN_CLASS_NAME" value="com.acromere.xenon.Launcher" />
     <module name="xenon" />
     <option name="PROGRAM_PARAMETERS" value="--noupdate --profile dev --log-level info --enable-mod com.avereon.aveon" />
-    <option name="VM_PARAMETERS" value="-Xmx64m -Duser.language=es -Dprism.forceGPU=true" />
+    <option name="VM_PARAMETERS" value="-Xmx64m -Duser.language=es -Dprism.forceGPU=true --enable-native-access=javafx.graphics" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
