@@ -7,3 +7,4 @@
 --module "com.acromere.xenon"
 --module-path "${jlink.module.path}"
 --java-options "-Dprism.forceGPU=true"
+--add-options "--enable-native-access=javafx.graphics"
