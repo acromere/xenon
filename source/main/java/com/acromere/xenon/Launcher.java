@@ -1,5 +1,6 @@
 package com.acromere.xenon;
 
+import com.acromere.util.OperatingSystem;
 import com.acromere.util.Parameters;
 import com.acromere.weave.ElevatedFlag;
 import com.acromere.weave.Weave;
@@ -13,7 +14,6 @@ import com.acromere.weave.WeaveFlag;
 public class Launcher {
 
 	public static void main( String[] commands ) {
-		XenonLauncherConfig.setDefaultSslContext();
 		XenonLauncherConfig.setCustomLauncherSystemProperty();
 
 		Parameters parameters = Parameters.parse( commands );
