@@ -1,5 +1,6 @@
 package com.acromere.xenon;
 
+import com.acromere.util.Parameters;
 import com.acromere.weave.ElevatedFlag;
 import com.acromere.weave.Weave;
 import com.acromere.weave.WeaveFlag;
@@ -14,7 +15,7 @@ public class Launcher {
 	public static void main( String[] commands ) {
 		XenonLauncherConfig.setCustomLauncherSystemProperty();
 
-		com.acromere.util.Parameters parameters = com.acromere.util.Parameters.parse( commands );
+		Parameters parameters = Parameters.parse( commands );
 		boolean callback = parameters.isSet( ElevatedFlag.CALLBACK_SECRET );
 		boolean update = parameters.isSet( WeaveFlag.UPDATE );
 		boolean updating = update || callback;

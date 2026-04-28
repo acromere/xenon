@@ -7,6 +7,16 @@ class XenonLauncherConfig {
 
 	private static ProductCard card;
 
+	/**
+	 * Set the custom launcher system property.
+	 * See {@link OperatingSystem#getJavaLauncherPath()} for more information.
+	 */
+	static void setCustomLauncherSystemProperty() {
+		if( System.getProperty( OperatingSystem.CUSTOM_LAUNCHER_PATH ) != null ) {
+			System.setProperty( OperatingSystem.CUSTOM_LAUNCHER_NAME, loadProductCard().getName() );
+		}
+	}
+
 	static ProductCard loadProductCard() {
 		return updateProductCard( ProductCard.card( Xenon.class ) );
 	}
@@ -18,16 +28,6 @@ class XenonLauncherConfig {
 			fullCard.setInstallFolder( card.getInstallFolder() );
 		}
 		return card = fullCard;
-	}
-
-	/**
-	 * Set the custom launcher system property.
-	 * See {@link OperatingSystem#getJavaLauncherPath()} for more information.
-	 */
-	static void setCustomLauncherSystemProperty() {
-		if( System.getProperty( OperatingSystem.CUSTOM_LAUNCHER_PATH ) != null ) {
-			System.setProperty( OperatingSystem.CUSTOM_LAUNCHER_NAME, loadProductCard().getName() );
-		}
 	}
 
 }
