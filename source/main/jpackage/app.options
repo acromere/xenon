@@ -6,5 +6,4 @@
 --copyright "Copyright ${project.inceptionYear} ${project.organization.name}"
 --module "com.acromere.xenon"
 --module-path "${jlink.module.path}"
---java-options "-Dprism.forceGPU=true"
---add-options "--enable-native-access=javafx.graphics"
+--java-options "-Dprism.forceGPU=true --enable-native-access=javafx.graphics"
