@@ -13,6 +13,7 @@ import com.acromere.weave.WeaveFlag;
 public class Launcher {
 
 	public static void main( String[] commands ) {
+		XenonLauncherConfig.setDefaultSslContext();
 		XenonLauncherConfig.setCustomLauncherSystemProperty();
 
 		Parameters parameters = Parameters.parse( commands );
