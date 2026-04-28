@@ -4,7 +4,7 @@
     <option name="MAIN_CLASS_NAME" value="com.acromere.xenon.Launcher" />
     <module name="acorn" />
     <option name="PROGRAM_PARAMETERS" value="--profile dev --noupdate --log-level debug --enable-mod com.avereon.acorn" />
-    <option name="VM_PARAMETERS" value="-Duser.language=es -Dprism.forceGPU=true" />
+    <option name="VM_PARAMETERS" value="-Duser.language=es -Dprism.forceGPU=true --enable-native-access=javafx.graphics" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="com.avereon.xenon.test.ProgramTestConfig" />
