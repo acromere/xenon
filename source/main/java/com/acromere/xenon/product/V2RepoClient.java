@@ -22,13 +22,23 @@ public class V2RepoClient implements RepoClient {
 		return UriUtil.addToPath( getRepoApi( repo ), "catalog" );
 	}
 
+	/**
+	 * Get the product URI. This implementation also ensures that the platform
+	 * is included in the URI.
+	 *
+	 * @param repo
+	 * @param product
+	 * @param asset
+	 * @param format
+	 * @return
+	 */
 	@Override
 	public URI getProductUri( RepoCard repo, String product, String asset, String format ) {
-		String os = OperatingSystem.getFamily().toString().toLowerCase();
+		String platform = OperatingSystem.getFamily().toString().toLowerCase();
 
 		URI uri = getRepoApi( repo );
 		uri = UriUtil.addToPath( uri, product );
-		uri = UriUtil.addToPath( uri, os );
+		uri = UriUtil.addToPath( uri, platform );
 		uri = UriUtil.addToPath( uri, asset );
 		uri = UriUtil.addToPath( uri, format );
 		return uri;
