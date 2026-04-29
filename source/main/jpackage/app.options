@@ -6,4 +6,5 @@
 --copyright "Copyright ${project.inceptionYear} ${project.organization.name}"
 --module "com.acromere.xenon"
 --module-path "${jlink.module.path}"
+--add-modules "jdk.crypto.mscapi"
 --java-options "-Dprism.forceGPU=true --enable-native-access=javafx.graphics"
