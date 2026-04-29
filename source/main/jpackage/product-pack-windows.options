@@ -1,3 +1,4 @@
 --icon "${basedir}/target/main/images/${project.artifactId}.ico"
 --description "${project.name}"
---add-modules jdk.crypto.mscapi
+--add-modules "jdk.crypto.mscapi"
+--java-options "-Djavax.net.ssl.trustStore=NUL -Djavax.net.ssl.trustStoreType=Windows-ROOT -Djavax.net.ssl.trustStoreProvider=SunMSCAPI"

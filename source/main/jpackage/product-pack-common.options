@@ -1,2 +1,2 @@
---type app-image
+--type "app-image"
 --dest "${basedir}/target/jpackage"
