@@ -185,7 +185,7 @@ public class Workspace extends Stage implements WritableIdentity {
 
 	public Workspace( final Xenon program, final String id ) {
 		super( TRANSPARENT_WINDOW_SUPPORTED ? StageStyle.TRANSPARENT : StageStyle.UNDECORATED );
-		if( !TRANSPARENT_WINDOW_SUPPORTED ) log.atWarn().log( "Transparent windows not supported" );
+		if( !TRANSPARENT_WINDOW_SUPPORTED ) log.atDebug().log( "Transparent windows not supported" );
 
 		this.program = program;
 		this.eventBus = new FxEventHub();
@@ -218,7 +218,7 @@ public class Workspace extends Stage implements WritableIdentity {
 		workareaMenu = createWorkareaMenu( program );
 
 		// Create the program menu bar
-		String defaultDescriptor = program.getSettings().get( "workspace-menu" );
+		String defaultDescriptor = program.getSettings().get( "workspace-menubar" );
 		String menuDescriptor = program.getSettings().get( "menubar", defaultDescriptor );
 		programMenuBar = MenuBarFactory.createMenuBar( program, menuDescriptor, false );
 		if( XenonMode.DEV.equals( program.getMode() ) ) insertDevMenu( program, programMenuBar.getMenus() );
