@@ -1,5 +1,6 @@
 package com.acromere.xenon;
 
+import com.acromere.product.ProductCard;
 import com.acromere.util.ThreadUtil;
 import com.acromere.zerra.javafx.Fx;
 import javafx.application.Application;
@@ -16,7 +17,9 @@ public class SplashScreenCheck extends Application {
 
 	@Override
 	public void start( Stage stage ) {
-		SplashScreenPane splash = new SplashScreenPane( "Xenon" );
+		ProductCard card = new ProductCard();
+		card.setName( "Xenon" );
+		SplashScreenPane splash = new SplashScreenPane( card );
 		stage.initStyle( StageStyle.UTILITY );
 		splash.show( stage );
 

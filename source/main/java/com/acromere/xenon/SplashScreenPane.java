@@ -1,9 +1,11 @@
 package com.acromere.xenon;
 
+import com.acromere.product.ProductCard;
+import com.acromere.product.Rebrand;
 import com.acromere.zenna.icon.XRingLargeIcon;
-import com.acromere.zerra.image.RenderedImage;
 import com.acromere.zerra.javafx.Fx;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -18,11 +20,11 @@ import lombok.Setter;
 @CustomLog
 public class SplashScreenPane extends Pane {
 
-	private static final double WIDTH = 480;
+	private static final double WIDTH = 640;
 
-	private static final double HEIGHT = 0.5625 * WIDTH;
+	private static final double HEIGHT = 0.5 * WIDTH;
 
-	private static final double BAR_SIZE = 5;
+	private static final double BAR_SIZE = 8;
 
 	private static final double BAR_PAD = 20;
 
@@ -38,13 +40,31 @@ public class SplashScreenPane extends Pane {
 
 	private final Rectangle progressBar;
 
-	public SplashScreenPane( String title ) {
-		this.title = title;
+	public SplashScreenPane( ProductCard card ) {
+		this.title = card.getName();
 		getStyleClass().addAll( "splashscreen" );
 
-		RenderedImage icon = new XRingLargeIcon().resize( 224 );
-		icon.setLayoutX( 0.5 * (WIDTH - icon.getWidth()) );
-		icon.setLayoutY( 0.5 * (HEIGHT - icon.getHeight() - BAR_PAD - BAR_SIZE) );
+		Rebrand rebrand = card.getRebrand();
+		// Get the title font size from the product card
+		double titleFontSize = rebrand == null ? 125.0 : rebrand.getSplashScreenTitleFontSize();
+
+		// Get the background image from the product card
+		Class<?> splashScreenBackgroundClass = rebrand == null ? null : rebrand.getSplashScreenBackgroundClass();
+
+		Canvas backgroundImage = null;
+		if( splashScreenBackgroundClass == null ) {
+			backgroundImage = new XRingLargeIcon().resize( 256 );
+			backgroundImage.setLayoutX( 0.5 * (WIDTH - backgroundImage.getWidth()) );
+			backgroundImage.setLayoutY( 0.5 * (HEIGHT - backgroundImage.getHeight() - BAR_PAD - BAR_SIZE) );
+		} else {
+			try {
+				backgroundImage = (Canvas) splashScreenBackgroundClass.getDeclaredConstructor().newInstance();
+				backgroundImage.setLayoutX( 0.5 * (WIDTH - backgroundImage.getWidth()) );
+				backgroundImage.setLayoutY( 0.5 * (HEIGHT - backgroundImage.getHeight() - BAR_PAD - BAR_SIZE) );
+			} catch( Exception exception ) {
+				log.atDebug().withCause( exception ).log( "Failed to create splash screen image from class {}", splashScreenBackgroundClass );
+			}
+		}
 
 		Rectangle tint = new Rectangle( 0, 0, WIDTH, HEIGHT );
 		tint.getStyleClass().addAll( "tint" );
@@ -52,7 +72,7 @@ public class SplashScreenPane extends Pane {
 		Text titleText = new Text( title );
 		titleText.getStyleClass().addAll( "title" );
 		titleText.setBoundsType( TextBoundsType.VISUAL );
-		titleText.setFont( new Font( 100 ) );
+		titleText.setFont( new Font( titleFontSize ) );
 
 		titleText.setX( 0.5 * (WIDTH - titleText.getLayoutBounds().getWidth()) );
 		titleText.setY( 0.5 * (HEIGHT - titleText.getLayoutBounds().getHeight() - BAR_PAD - BAR_SIZE) + titleText.getLayoutBounds().getHeight() );
@@ -63,7 +83,7 @@ public class SplashScreenPane extends Pane {
 		progressBar = new Rectangle( BAR_PAD, HEIGHT - BAR_PAD - BAR_SIZE, 0, BAR_SIZE );
 		progressBar.getStyleClass().addAll( "progress", "progress-incomplete" );
 
-		getChildren().addAll( icon, tint );
+		if( backgroundImage != null ) getChildren().addAll( backgroundImage, tint );
 		getChildren().addAll( titleText );
 		getChildren().addAll( progressTray, progressBar );
 

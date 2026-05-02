@@ -347,7 +347,7 @@ public class Xenon extends Application implements XenonProgram {
 		daemonRequested = parameters.isSet( XenonFlag.DAEMON ) && !parameters.isSet( XenonFlag.NO_DAEMON );
 		boolean nosplash = parameters.isSet( XenonFlag.NO_SPLASH );
 		if( !daemonRequested && !nosplash ) {
-			splashScreen = new SplashScreenPane( card.getName() );
+			splashScreen = new SplashScreenPane( card );
 			splashScreen.show( stage );
 			time( "splash-displayed" );
 		}
