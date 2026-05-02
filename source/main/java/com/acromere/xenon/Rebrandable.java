@@ -17,4 +17,5 @@ public interface Rebrandable {
 	 * @param program the XenonProgram instance being stopped
 	 */
 	void unregister( XenonProgram program );
+
 }
