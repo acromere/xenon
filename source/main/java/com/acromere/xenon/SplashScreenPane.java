@@ -46,7 +46,7 @@ public class SplashScreenPane extends Pane {
 
 		Rebrand rebrand = card.getRebrand();
 		// Get the title font size from the product card
-		double titleFontSize = rebrand == null ? 125.0 : rebrand.getSplashScreenTitleFontSize();
+		Double titleFontSize = rebrand == null ? null : rebrand.getSplashScreenTitleFontSize();
 
 		// Get the background image from the product card
 		Class<?> splashScreenBackgroundClass = null;
@@ -67,7 +67,7 @@ public class SplashScreenPane extends Pane {
 			backgroundImage.setLayoutY( 0.5 * (HEIGHT - backgroundImage.getHeight() - BAR_PAD - BAR_SIZE) );
 		} else {
 			try {
-				backgroundImage = (Canvas) splashScreenBackgroundClass.getDeclaredConstructor().newInstance();
+				backgroundImage = (Canvas)splashScreenBackgroundClass.getDeclaredConstructor().newInstance();
 				backgroundImage.setLayoutX( 0.5 * (WIDTH - backgroundImage.getWidth()) );
 				backgroundImage.setLayoutY( 0.5 * (HEIGHT - backgroundImage.getHeight() - BAR_PAD - BAR_SIZE) );
 			} catch( Exception exception ) {
@@ -81,7 +81,7 @@ public class SplashScreenPane extends Pane {
 		Text titleText = new Text( title );
 		titleText.getStyleClass().addAll( "title" );
 		titleText.setBoundsType( TextBoundsType.VISUAL );
-		titleText.setFont( new Font( titleFontSize ) );
+		titleText.setFont( new Font( titleFontSize == null ? 125 : titleFontSize ) );
 
 		titleText.setX( 0.5 * (WIDTH - titleText.getLayoutBounds().getWidth()) );
 		titleText.setY( 0.5 * (HEIGHT - titleText.getLayoutBounds().getHeight() - BAR_PAD - BAR_SIZE) + titleText.getLayoutBounds().getHeight() );
