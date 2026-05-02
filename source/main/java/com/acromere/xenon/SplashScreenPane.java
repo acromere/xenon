@@ -49,7 +49,16 @@ public class SplashScreenPane extends Pane {
 		double titleFontSize = rebrand == null ? 125.0 : rebrand.getSplashScreenTitleFontSize();
 
 		// Get the background image from the product card
-		Class<?> splashScreenBackgroundClass = rebrand == null ? null : rebrand.getSplashScreenBackgroundClass();
+		Class<?> splashScreenBackgroundClass = null;
+		String splashScreenBackgroundClassName = rebrand == null ? null : rebrand.getSplashScreenBackgroundClass();
+		if( splashScreenBackgroundClassName != null ) {
+			splashScreenBackgroundClassName = String.class.getName();
+			try {
+				splashScreenBackgroundClass = getClass().getClassLoader().loadClass( splashScreenBackgroundClassName );
+			} catch( ClassNotFoundException e ) {
+				log.atDebug().withCause( e ).log( "Failed to load splash screen background class {}", splashScreenBackgroundClassName );
+			}
+		}
 
 		Canvas backgroundImage = null;
 		if( splashScreenBackgroundClass == null ) {
