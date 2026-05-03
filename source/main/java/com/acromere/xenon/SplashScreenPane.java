@@ -3,10 +3,13 @@ package com.acromere.xenon;
 import com.acromere.product.ProductCard;
 import com.acromere.product.Rebrand;
 import com.acromere.zenna.icon.XRingLargeIcon;
+import com.acromere.zerra.image.VectorImage;
 import com.acromere.zerra.javafx.Fx;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -52,26 +55,27 @@ public class SplashScreenPane extends Pane {
 		Class<?> splashScreenBackgroundClass = null;
 		String splashScreenBackgroundClassName = rebrand == null ? null : rebrand.getSplashScreenBackgroundClass();
 		if( splashScreenBackgroundClassName != null ) {
-			splashScreenBackgroundClassName = String.class.getName();
 			try {
 				splashScreenBackgroundClass = getClass().getClassLoader().loadClass( splashScreenBackgroundClassName );
 			} catch( ClassNotFoundException e ) {
-				log.atDebug().withCause( e ).log( "Failed to load splash screen background class {}", splashScreenBackgroundClassName );
+				log.atWarn().withCause( e ).log( "Failed to load splash screen background class {0}", splashScreenBackgroundClassName );
 			}
 		}
 
-		Canvas backgroundImage = null;
+		Node backgroundImage = null;
 		if( splashScreenBackgroundClass == null ) {
-			backgroundImage = new XRingLargeIcon().resize( 256 );
-			backgroundImage.setLayoutX( 0.5 * (WIDTH - backgroundImage.getWidth()) );
-			backgroundImage.setLayoutY( 0.5 * (HEIGHT - backgroundImage.getHeight() - BAR_PAD - BAR_SIZE) );
+			VectorImage icon = new XRingLargeIcon().resize( 256 );
+			icon.setLayoutX( 0.5 * (WIDTH - icon.getWidth()) );
+			icon.setLayoutY( 0.5 * (HEIGHT - icon.getHeight() - BAR_PAD - BAR_SIZE) );
+			backgroundImage = icon;
 		} else {
 			try {
-				backgroundImage = (Canvas)splashScreenBackgroundClass.getDeclaredConstructor().newInstance();
-				backgroundImage.setLayoutX( 0.5 * (WIDTH - backgroundImage.getWidth()) );
-				backgroundImage.setLayoutY( 0.5 * (HEIGHT - backgroundImage.getHeight() - BAR_PAD - BAR_SIZE) );
+				Region region = (Region)splashScreenBackgroundClass.getDeclaredConstructor().newInstance();
+				region.setLayoutX( 0.5 * (WIDTH - region.getWidth()) );
+				region.setLayoutY( 0.5 * (HEIGHT - region.getHeight() - BAR_PAD - BAR_SIZE) );
+				backgroundImage = region;
 			} catch( Exception exception ) {
-				log.atDebug().withCause( exception ).log( "Failed to create splash screen image from class {}", splashScreenBackgroundClass );
+				log.atWarn().withCause( exception ).log( "Failed to create splash screen image from class {0}", splashScreenBackgroundClass );
 			}
 		}
 
