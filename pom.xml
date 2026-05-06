@@ -390,6 +390,10 @@
 											<class>com.acromere.zenna.icon.XRingLargeIcon</class>
 											<size>128</size>
 										</image>
+										<image>
+											<class>com.acromere.zenna.icon.XRingLargeIcon</class>
+											<size>256</size>
+										</image>
 									</images>
 								</icon>
 								<icon>
@@ -424,6 +428,10 @@
 											<class>com.acromere.zenna.icon.XRingLargeIcon</class>
 											<size>128</size>
 										</image>
+										<image>
+											<class>com.acromere.zenna.icon.XRingLargeIcon</class>
+											<size>256</size>
+										</image>
 									</images>
 								</icon>
 								<icon>
@@ -457,6 +465,10 @@
 										<image>
 											<class>com.acromere.zenna.icon.XRingLargeIcon</class>
 											<size>128</size>
+										</image>
+										<image>
+											<class>com.acromere.zenna.icon.XRingLargeIcon</class>
+											<size>256</size>
 										</image>
 									</images>
 								</icon>
