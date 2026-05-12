@@ -141,16 +141,19 @@ jobs:
           ssh -t ${{env.ACM_XENON_REPO_USERNAME}}@acromere.com "mkdir -p ${{env.JAVADOC_TARGET_PATH}};rm -rf ${{env.JAVADOC_TARGET_PATH}}/*;unzip -o ${{env.JAVADOC_DEPLOY_PATH}}/javadoc.jar -d ${{env.JAVADOC_TARGET_PATH}}"
           if [ $? -ne 0 ]; then exit 1; fi
 
-  trigger_dependent_builds:
+  trigger:
     needs: publish
     name: Trigger Dependent Builds
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/stable' || github.base_ref == 'refs/heads/main' || github.base_ref == 'refs/heads/stable'
+    timeout-minutes: 5
+    if: github.ref == 'refs/heads/main' && github.actor != 'dependabot[bot]'
     steps:
-      - name: Trigger Dependent Builds
-        run: |
-          curl -XPOST -u "${{secrets.ACM_CI_USERNAME}}:${{secrets.ACM_CI_PASSWORD}}" -H "Accept: application/vnd.github.v3+json" -H "Content-Type: application/json" https://api.github.com/repos/acromere/xenos/actions/workflows/ci.yml/dispatches --data '{"ref": "main"}'
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v4
+        with:
+          repository: acromere/xenos
+          event-type: dependency-trigger
+          token: ${{ secrets.ACM_CI_TOKEN }}
 
   screenshots1x:
     needs: build
