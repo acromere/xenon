@@ -8,6 +8,8 @@ on:
     # Noon Saturday UTC
     - cron: '0 12 * * 6'
   workflow_dispatch:
+  repository_dispatch:
+    types: dependency-trigger
 
 env:
   ACM_PRODUCT: "xenon"
