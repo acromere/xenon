@@ -38,12 +38,11 @@ public class ProgramPeer implements Controllable<ProgramPeer> {
 			log.atInfo().log( "Program already running" );
 		}
 
-		try {
-			socket = new Socket( InetAddress.getLoopbackAddress(), port );
+		try( Socket socket = new Socket( InetAddress.getLoopbackAddress(), port ) ) {
 			sendCommands( socket );
 			readMessages( socket );
 		} catch( IOException exception ) {
-			log.atSevere().withCause( exception ).log( "Error reading commands to program" );
+			log.atSevere().withCause( exception ).log( "Error connecting to host" );
 		}
 		return this;
 	}
