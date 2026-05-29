@@ -85,7 +85,7 @@ public class ProgramPeer implements Controllable<ProgramPeer> {
 			}
 			socket.close();
 		} catch( IOException exception ) {
-			log.atFine().log( "Host is done sending messages" );
+			log.atFine().log( "Peer is done sending messages" );
 		} catch( Exception exception ) {
 			log.atSevere().withCause( exception ).log( "Error reading commands from peer" );
 		}
