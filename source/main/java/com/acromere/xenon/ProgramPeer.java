@@ -42,7 +42,7 @@ public class ProgramPeer implements Controllable<ProgramPeer> {
 			sendCommands( socket );
 			readMessages( socket );
 		} catch( IOException exception ) {
-			log.atSevere().withCause( exception ).log( "Error connecting to host" );
+			log.atSevere().withCause( exception ).log( "Error connecting to peer" );
 		}
 		return this;
 	}
