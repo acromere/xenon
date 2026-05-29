@@ -72,7 +72,7 @@ public class ProgramPeer implements Controllable<ProgramPeer> {
 			commandStream.writeObject( commands );
 			commandStream.flush();
 		} catch( IOException exception ) {
-			log.atSevere().withCause( exception ).log( "Error sending commands to host" );
+			log.atSevere().withCause( exception ).log( "Error sending commands to peer" );
 		}
 	}
 
@@ -87,7 +87,7 @@ public class ProgramPeer implements Controllable<ProgramPeer> {
 		} catch( IOException exception ) {
 			log.atFine().log( "Host is done sending messages" );
 		} catch( Exception exception ) {
-			log.atSevere().withCause( exception ).log( "Error reading commands from host" );
+			log.atSevere().withCause( exception ).log( "Error reading commands from peer" );
 		}
 	}
 
