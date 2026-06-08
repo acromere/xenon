@@ -1,6 +1,7 @@
 package com.acromere.xenon;
 
 import com.acromere.product.ProductCard;
+import com.acromere.product.Rb;
 import com.acromere.settings.Settings;
 import com.acromere.settings.SettingsEvent;
 import com.acromere.settings.StoredSettings;
@@ -204,7 +205,7 @@ public class SettingsManager implements Controllable<SettingsManager> {
 		// Clear the guide nodes
 		guide.clear( node );
 
-		for( SettingsPage page : pages.values() ) {
+		for( SettingsPage page : orderedPages ) {
 			GuideNode pageNode = addGuideNode( node, pages.get( page.getId() ) );
 			pageNode.setOrder( page.getOrder() );
 		}
@@ -239,17 +240,6 @@ public class SettingsManager implements Controllable<SettingsManager> {
 	public SettingsManager stop() {
 		settings.flush();
 		return this;
-	}
-
-	private static class SettingsTitleComparator implements Comparator<SettingsPage> {
-
-		@Override
-		public int compare( SettingsPage o1, SettingsPage o2 ) {
-			if( GENERAL.equals( o1.getId() ) ) return -1;
-			if( GENERAL.equals( o2.getId() ) ) return 1;
-			return o1.getTitle().compareTo( o2.getTitle() );
-		}
-
 	}
 
 	private static class SettingsOrderComparator implements Comparator<SettingsPage> {
