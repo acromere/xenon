@@ -131,7 +131,9 @@ public abstract class BaseFullXenonTestCase extends BaseXenonTestCase {
 
 	protected void closeProgram( boolean skipUserChecks ) throws Exception {
 		Fx.run( () -> getProgram().requestExit( skipUserChecks ) );
-		Fx.waitForWithExceptions( 5, TimeUnit.SECONDS );
+		for( int index = 0; index < 10; index++ ) {
+			Fx.waitForWithExceptions( 1, TimeUnit.SECONDS );
+		}
 	}
 
 	protected Workspace getWorkspace() {
