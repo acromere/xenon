@@ -176,7 +176,7 @@ public abstract class ProgramTool extends Tool {
 
 	/**
 	 * Check if the tool is ready for use. Ready for use means that both the tool
-	 * and it's associated asset are initialized and loaded.
+	 * and its associated asset are initialized and loaded.
 	 *
 	 * @return True if ready for use, false otherwise.
 	 */
@@ -194,7 +194,7 @@ public abstract class ProgramTool extends Tool {
 	 * Called to open or reopen the tool. This is called at least once after
 	 * {@link #ready} has been called but may be called more than once. It is
 	 * called each time the asset handled by this tool is opened. If it is
-	 * opened another time it may have different request parameters such as
+	 * opened another time, it may have different request parameters such as
 	 * a different query string or fragment.
 	 *
 	 * @param request The request used to open the asset
