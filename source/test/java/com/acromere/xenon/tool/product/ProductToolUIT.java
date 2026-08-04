@@ -8,7 +8,7 @@ abstract class ProductToolUIT extends BaseToolUIT {
 
 	void openProductTool() throws Exception {
 		openMenuItem( "#menu-view", "#menu-item-product" );
-		Fx.waitForWithExceptions( ProgramTestConfig.LONG_TIMEOUT );
+		Fx.waitFor( ProgramTestConfig.LONG_TIMEOUT );
 	}
 
 }

@@ -51,7 +51,7 @@ public abstract class BaseFxPlatformTestCase extends BaseForAllTests {
 			stage.toBack();
 		} );
 
-		Fx.waitFor( TIMEOUT );
+		Fx.waitForDangerously( TIMEOUT );
 		return control;
 	}
 

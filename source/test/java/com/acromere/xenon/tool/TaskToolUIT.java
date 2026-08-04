@@ -8,7 +8,7 @@ abstract class TaskToolUIT extends BaseToolUIT {
 
 	void openTaskTool() throws Exception {
 		openMenuItem( "#menu-view", "#menu-item-task" );
-		Fx.waitForWithExceptions( ProgramTestConfig.LONG_TIMEOUT );
+		Fx.waitFor( ProgramTestConfig.LONG_TIMEOUT );
 	}
 
 }

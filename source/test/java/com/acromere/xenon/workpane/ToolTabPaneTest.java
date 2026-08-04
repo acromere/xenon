@@ -73,7 +73,7 @@ public class ToolTabPaneTest extends BaseFxPlatformTestCase {
 
 		// when
 		Fx.run( () -> toolTabPane.getTabs().remove( tab2 ) );
-		Fx.waitFor( TIMEOUT );
+		Fx.waitForDangerously( TIMEOUT );
 
 		assertThat( toolTabPane.getTabs().size() ).isEqualTo( 2 );
 		assertThat( toolTabPane.getTabs().get( 0 ) ).isSameAs( tab1 );

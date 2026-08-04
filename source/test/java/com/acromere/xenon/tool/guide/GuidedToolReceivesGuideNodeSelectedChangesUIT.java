@@ -16,7 +16,7 @@ public class GuidedToolReceivesGuideNodeSelectedChangesUIT extends GuidedToolUIT
 		assertThat( mockGuidedTool.getSelectedNodes().size() ).isEqualTo( 0 );
 
 		Fx.run( () -> mockGuidedTool.getGuideContext().setSelectedIds( Set.of( "general" ) ) );
-		Fx.waitForWithExceptions( LONG_TIMEOUT );
+		Fx.waitFor( LONG_TIMEOUT );
 		assertThat( mockGuidedTool.getSelectedNodes() ).contains( mockGuidedTool.getCurrentGuide().getNode( "general" ) );
 	}
 

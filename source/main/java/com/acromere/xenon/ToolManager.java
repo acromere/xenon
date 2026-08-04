@@ -157,7 +157,7 @@ public class ToolManager implements Controllable<ToolManager> {
 			if( !openDependencies( request, tool ) ) return null;
 
 			// Wait for FX to finish creating things to avoid race conditions checking for tools
-			Fx.waitForWithExceptions( WORK_TIME_LIMIT, WORK_TIME_UNIT );
+			Fx.waitFor( WORK_TIME_LIMIT, WORK_TIME_UNIT );
 		} catch( InterruptedException ignore ) {
 			Thread.currentThread().interrupt();
 		} catch( TimeoutException exception ) {

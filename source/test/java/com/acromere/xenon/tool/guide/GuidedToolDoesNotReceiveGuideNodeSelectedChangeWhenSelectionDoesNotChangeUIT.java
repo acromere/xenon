@@ -16,11 +16,11 @@ public class GuidedToolDoesNotReceiveGuideNodeSelectedChangeWhenSelectionDoesNot
 		assertThat( mockGuidedTool.getExpandedNodes().size() ).isEqualTo( 0 );
 
 		Fx.run( () -> mockGuidedTool.getGuideContext().setSelectedIds( Set.of( "general" ) ) );
-		Fx.waitForWithExceptions( LONG_TIMEOUT );
+		Fx.waitFor( LONG_TIMEOUT );
 		assertThat( mockGuidedTool.getGuideNodesSelectedEventCount() ).isEqualTo( 1 );
 
 		Fx.run( () -> mockGuidedTool.getGuideContext().setSelectedIds( Set.of( "general" ) ) );
-		Fx.waitForWithExceptions( LONG_TIMEOUT );
+		Fx.waitFor( LONG_TIMEOUT );
 		assertThat( mockGuidedTool.getGuideNodesSelectedEventCount() ).isEqualTo( 1 );
 	}
 

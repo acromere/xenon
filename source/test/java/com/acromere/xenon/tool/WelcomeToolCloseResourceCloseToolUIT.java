@@ -21,14 +21,14 @@ class WelcomeToolCloseResourceCloseToolUIT extends WelcomeToolUIT {
 
 		Future<ProgramTool> future = getProgram().getResourceManager().openAsset( ProgramWelcomeType.URI );
 		getWorkpaneWatcher().waitForEvent( ToolEvent.ADDED );
-		Fx.waitForWithExceptions( LONG_TIMEOUT );
+		Fx.waitFor( LONG_TIMEOUT );
 		assertThat( pane.getActiveTool() ).isInstanceOf( WelcomeTool.class );
 		assertThat( pane.getActiveView().isMaximized() ).isFalse();
 		assertToolCount( pane, 1 );
 
 		getProgram().getResourceManager().closeAssets( future.get().getResource() );
 		getWorkpaneWatcher().waitForEvent( ToolEvent.REMOVED );
-		Fx.waitForWithExceptions( LONG_TIMEOUT );
+		Fx.waitFor( LONG_TIMEOUT );
 		assertThat( pane.getMaximizedView() ).isNull();
 		assertToolCount( pane, 0 );
 	}

@@ -31,7 +31,7 @@ class AboutToolCloseResourceCloseToolUIT extends AboutToolUIT {
 		// when
 		getProgram().getResourceManager().closeAssets( future.get().getResource() );
 		getWorkpaneWatcher().waitForEvent( ToolEvent.REMOVED );
-		Fx.waitForWithExceptions( LONG_TIMEOUT );
+		Fx.waitFor( LONG_TIMEOUT );
 
 		// then
 		assertToolCount( pane, 1 );

@@ -16,12 +16,12 @@ public class GuideTest extends BaseFullXenonTestCase {
 
 		GuideNode node = new GuideNode( getProgram(), "test", "Test" );
 		guide.addNode( node );
-		Fx.waitForWithExceptions( LONG_TIMEOUT );
+		Fx.waitFor( LONG_TIMEOUT );
 		assertThat( guide.getRoot().getChildren().getFirst() ).isEqualTo( node.getTreeItem() );
 		assertThat( guide.getRoot().getChildren().size() ).isEqualTo( 1 );
 
 		guide.removeNode( node );
-		Fx.waitForWithExceptions( LONG_TIMEOUT );
+		Fx.waitFor( LONG_TIMEOUT );
 		assertThat( guide.getRoot().getChildren().size() ).isEqualTo( 0 );
 	}
 
@@ -34,18 +34,18 @@ public class GuideTest extends BaseFullXenonTestCase {
 		GuideNode child = new GuideNode( getProgram(), "child", "Child" );
 		guide.addNode( parent );
 		guide.addNode( parent, child );
-		Fx.waitForWithExceptions( LONG_TIMEOUT );
+		Fx.waitFor( LONG_TIMEOUT );
 		assertThat( guide.getRoot().getChildren().getFirst() ).isEqualTo( parent.getTreeItem() );
 		assertThat( guide.getRoot().getChildren().size() ).isEqualTo( 1 );
 		assertThat( parent.getTreeItem().getChildren().getFirst() ).isEqualTo( child.getTreeItem() );
 		assertThat( parent.getTreeItem().getChildren().size() ).isEqualTo( 1 );
 
 		guide.removeNode( child );
-		Fx.waitForWithExceptions( LONG_TIMEOUT );
+		Fx.waitFor( LONG_TIMEOUT );
 		assertThat( parent.getTreeItem().getChildren().size() ).isEqualTo( 0 );
 
 		guide.removeNode( parent );
-		Fx.waitForWithExceptions( LONG_TIMEOUT );
+		Fx.waitFor( LONG_TIMEOUT );
 		assertThat( guide.getRoot().getChildren().size() ).isEqualTo( 0 );
 	}
 

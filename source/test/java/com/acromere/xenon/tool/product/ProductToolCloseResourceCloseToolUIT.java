@@ -23,13 +23,13 @@ class ProductToolCloseResourceCloseToolUIT extends ProductToolUIT {
 		Future<ProgramTool> future = getProgram().getResourceManager().openAsset( ProgramModuleType.URI );
 		getWorkpaneWatcher().waitForEvent( ToolEvent.ADDED );
 		getWorkpaneWatcher().waitForEvent( ToolEvent.ADDED );
-		Fx.waitFor( LONG_TIMEOUT );
+		Fx.waitForDangerously( LONG_TIMEOUT );
 		assertThat( pane.getActiveTool() ).isInstanceOf( SettingsTool.class );
 		assertToolCount( pane, 2 );
 
 		getProgram().getResourceManager().closeAssets( future.get().getResource() );
 		getWorkpaneWatcher().waitForEvent( ToolEvent.REMOVED );
-		Fx.waitFor( LONG_TIMEOUT );
+		Fx.waitForDangerously( LONG_TIMEOUT );
 		assertToolCount( pane, 1 );
 	}
 

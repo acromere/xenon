@@ -8,7 +8,7 @@ abstract class WelcomeToolUIT extends BaseToolUIT {
 
 	protected void openWelcomeTool() throws Exception {
 		openMenuItem( "#menu-help", "#menu-item-welcome" );
-		Fx.waitForWithExceptions( ProgramTestConfig.LONG_TIMEOUT );
+		Fx.waitFor( ProgramTestConfig.LONG_TIMEOUT );
 	}
 
 }

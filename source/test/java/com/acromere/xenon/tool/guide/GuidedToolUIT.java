@@ -43,7 +43,7 @@ public abstract class GuidedToolUIT extends BaseToolUIT {
 		getWorkpaneWatcher().waitForEvent( ToolEvent.ADDED );
 		// We would expect the second tool event to be the guide tool
 		getWorkpaneWatcher().waitForEvent( ToolEvent.ADDED );
-		Fx.waitForWithExceptions( LONG_TIMEOUT );
+		Fx.waitFor( LONG_TIMEOUT );
 
 		System.out.println( "MockGuidedTool FX tool count asserting..." );
 		assertThat( getWorkarea().getActiveTool() ).isInstanceOf( MockGuidedTool.class );

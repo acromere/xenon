@@ -177,7 +177,7 @@ public abstract class ProgramScreenshots {
 				program.getWorkspaceManager().getActiveStage().setHeight( HEIGHT );
 				program.getWorkspaceManager().getActiveStage().centerOnScreen();
 			} );
-			Fx.waitForWithExceptions( programWatcher.getTimeout() );
+			Fx.waitFor( programWatcher.getTimeout() );
 		} catch( Exception exception ) {
 			exception.printStackTrace( System.err );
 		}
@@ -189,7 +189,7 @@ public abstract class ProgramScreenshots {
 		workspace = program.getWorkspaceManager().getActiveWorkspace();
 		workpane = workspace.getActiveWorkarea();
 		workpane.addEventHandler( WorkpaneEvent.ANY, workpaneWatcher );
-		Fx.waitForWithExceptions( workpaneWatcher.getTimeout() );
+		Fx.waitFor( workpaneWatcher.getTimeout() );
 		reset();
 	}
 

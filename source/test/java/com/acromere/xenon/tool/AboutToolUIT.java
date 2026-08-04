@@ -8,7 +8,7 @@ abstract class AboutToolUIT extends BaseToolUIT {
 
 	void openAboutTool() throws Exception {
 		openMenuItem( "#menu-help", "#menu-item-about" );
-		Fx.waitForWithExceptions( ProgramTestConfig.LONG_TIMEOUT );
+		Fx.waitFor( ProgramTestConfig.LONG_TIMEOUT );
 	}
 
 }

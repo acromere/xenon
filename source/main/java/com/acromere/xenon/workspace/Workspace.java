@@ -783,7 +783,7 @@ public class Workspace extends Stage implements WritableIdentity {
 	}
 
 	public void screenshot( Path file ) {
-		Fx.waitFor( 5, TimeUnit.SECONDS );
+		Fx.waitForDangerously( 5, TimeUnit.SECONDS );
 		Fx.run( () -> {
 			double renderScaleX = getRenderScaleX();
 			double renderScaleY = getRenderScaleY();
@@ -801,7 +801,7 @@ public class Workspace extends Stage implements WritableIdentity {
 				log.atWarn( exception );
 			}
 		} );
-		Fx.waitFor( 5, TimeUnit.SECONDS );
+		Fx.waitForDangerously( 5, TimeUnit.SECONDS );
 	}
 
 	@Override
