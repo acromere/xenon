@@ -26,7 +26,6 @@ import com.acromere.xenon.resource.type.*;
 import com.acromere.xenon.scheme.*;
 import com.acromere.xenon.task.Task;
 import com.acromere.xenon.task.TaskManager;
-import com.acromere.xenon.throwable.ProgramUncaughtExceptionHandler;
 import com.acromere.xenon.tool.*;
 import com.acromere.xenon.tool.guide.GuideTool;
 import com.acromere.xenon.tool.product.ProductTool;
@@ -91,8 +90,6 @@ public class Xenon extends Application implements XenonProgram {
 	private static final int SPLASH_SCREEN_PAUSE_TIME_MS = 200;
 
 	private static final long programStartTime = ManagementFactory.getRuntimeMXBean().getStartTime();
-
-	private final ProgramUncaughtExceptionHandler uncaughtExceptionHandler;
 
 	@Getter
 	private final FxEventHub fxEventHub;
@@ -210,10 +207,6 @@ public class Xenon extends Application implements XenonProgram {
 	public Xenon() {
 		time( "instantiate" );
 
-		// Add the uncaught exception handler to the JavaFX Application Thread
-		uncaughtExceptionHandler = new ProgramUncaughtExceptionHandler();
-		Thread.currentThread().setUncaughtExceptionHandler( uncaughtExceptionHandler );
-
 		// Create the product resource bundle
 		Rb.init( this );
 		time( "resource-bundle" );
@@ -239,10 +232,6 @@ public class Xenon extends Application implements XenonProgram {
 	public void init() throws Exception {
 		// NOTE Only do in init() what should be done before the splash screen is shown
 		time( "init" );
-
-		// Add the uncaught exception handler to the JavaFX-Launcher thread
-		Thread.currentThread().setUncaughtExceptionHandler( uncaughtExceptionHandler );
-		time( "uncaught-exception-handler" );
 
 		// Init the product card
 		card = XenonLauncherConfig.loadProductCard();

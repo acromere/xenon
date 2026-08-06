@@ -6,6 +6,8 @@ import lombok.CustomLog;
 @CustomLog
 public class ProgramUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
 
+	public static final ProgramUncaughtExceptionHandler INSTANCE = new ProgramUncaughtExceptionHandler();
+
 	@Override
 	public void uncaughtException( Thread thread, Throwable throwable ) {
 		log.atError( throwable ).log( "Uncaught exception on %s thread", LazyEval.of( thread::getName ) );

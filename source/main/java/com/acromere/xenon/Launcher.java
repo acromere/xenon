@@ -1,10 +1,10 @@
 package com.acromere.xenon;
 
-import com.acromere.util.OperatingSystem;
 import com.acromere.util.Parameters;
 import com.acromere.weave.ElevatedFlag;
 import com.acromere.weave.Weave;
 import com.acromere.weave.WeaveFlag;
+import com.acromere.xenon.throwable.ProgramUncaughtExceptionHandler;
 
 /**
  * The Launcher class is the entry point for the application. The Launcher is
@@ -14,6 +14,8 @@ import com.acromere.weave.WeaveFlag;
 public class Launcher {
 
 	public static void main( String[] commands ) {
+		Thread.setDefaultUncaughtExceptionHandler( ProgramUncaughtExceptionHandler.INSTANCE );
+
 		XenonLauncherConfig.setCustomLauncherSystemProperty();
 
 		Parameters parameters = Parameters.parse( commands );
