@@ -646,7 +646,7 @@ class WorkpaneTest extends WorkpaneTestCase {
 	}
 
 	@Test
-	void addTool() {
+	void addTool() throws Exception {
 		// given
 		Workpane workpane = resolve( new Workpane() );
 		Tool tool = new MockTool( resource );
@@ -665,7 +665,7 @@ class WorkpaneTest extends WorkpaneTestCase {
 	}
 
 	@Test
-	void addToolToNonDefaultView() {
+	void addToolToNonDefaultView() throws Exception {
 		// given
 		Workpane workpane = resolve( new Workpane() );
 		Tool tool = new MockTool( resource );
@@ -685,7 +685,7 @@ class WorkpaneTest extends WorkpaneTestCase {
 	}
 
 	@Test
-	void addToolWithMultipleViews() {
+	void addToolWithMultipleViews() throws Exception {
 		// given
 		Workpane workpane = resolve( new Workpane() );
 		WorkpaneView view = workpane.getDefaultView();
