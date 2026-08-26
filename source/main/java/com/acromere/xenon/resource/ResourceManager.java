@@ -833,7 +833,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	 * be completed.
 	 *
 	 * @param resource The asset to save
-	 * @throws ExecutionException If there was an exception saving the asset
+	 * @throws ExecutionException If there was an exception, saving the asset
 	 * @throws InterruptedException If the process of saving the asset was interrupted
 	 * @implNote Do not call from a UI thread
 	 */
