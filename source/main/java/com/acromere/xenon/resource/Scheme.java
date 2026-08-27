@@ -180,7 +180,7 @@ public interface Scheme {
 	/**
 	 * Get the child assets if this asset is a folder.
 	 */
-	default List<Resource> listAssets( Resource resource ) throws ResourceException {
+	default List<Resource> listResources( Resource resource ) throws ResourceException {
 		return List.of();
 	}
 

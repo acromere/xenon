@@ -35,7 +35,7 @@ public class ResourceManagerTest extends ProgramTestCase {
 	void testNewAsset() throws Exception {
 		// New assets have an asset type when created.
 		// The URI is assigned when the asset is saved.
-		Resource newResource = manager.createAsset( manager.getResourceType( MockScheme.ID ) );
+		Resource newResource = manager.createResource( manager.getResourceType( MockScheme.ID ) );
 		assertThat( newResource.isNew() ).isTrue();
 	}
 
@@ -44,23 +44,23 @@ public class ResourceManagerTest extends ProgramTestCase {
 		// Old assets have a URI when created.
 		// The asset type is assigned when the asset is opened.
 		String uri = "mock:///home/user/temp/test.txt";
-		Resource oldResource = manager.createAsset( uri );
+		Resource oldResource = manager.createResource( uri );
 		assertThat( oldResource.isNew() ).isFalse();
 	}
 
 	@Test
-	void testCreateAssetWithUri() throws Exception {
+	void testCreateResourceWithUri() throws Exception {
 		URI uri = URI.create( "mock:///home/user/temp/test.txt" );
-		Resource resource = manager.createAsset( uri );
+		Resource resource = manager.createResource( uri );
 		assertThat( resource.getScheme() ).isEqualTo( manager.getScheme( MockScheme.ID ) );
 		assertThat( resource.getUri() ).isEqualTo( uri );
 		assertThat( resource.isOpen() ).isFalse();
 	}
 
 	@Test
-	void testCreateAssetWithString() throws Exception {
+	void testCreateResourceWithString() throws Exception {
 		String uri = "mock:///home/user/temp/test.txt";
-		Resource resource = manager.createAsset( uri );
+		Resource resource = manager.createResource( uri );
 		assertThat( resource.getScheme() ).isEqualTo( manager.getScheme( MockScheme.ID ) );
 		assertThat( resource.getUri() ).isEqualTo( URI.create( uri ) );
 		assertThat( resource.isOpen() ).isFalse();
@@ -69,7 +69,7 @@ public class ResourceManagerTest extends ProgramTestCase {
 	@Test
 	void testOpenAssets() throws Exception {
 		String uri = "mock:///home/user/temp/test.txt";
-		Resource resource = manager.createAsset( uri );
+		Resource resource = manager.createResource( uri );
 		AssetWatcher watcher = new AssetWatcher();
 		resource.getEventHub().register( ResourceEvent.ANY, watcher );
 		assertThat( resource.isOpen() ).isFalse();
@@ -82,7 +82,7 @@ public class ResourceManagerTest extends ProgramTestCase {
 	@Test
 	void testOpenAssetsAndWait() throws Exception {
 		String uri = "mock:///home/user/temp/test.txt";
-		Resource resource = manager.createAsset( uri );
+		Resource resource = manager.createResource( uri );
 		AssetWatcher watcher = new AssetWatcher();
 		resource.getEventHub().register( ResourceEvent.ANY, watcher );
 		assertThat( resource.isOpen() ).isFalse();
@@ -94,7 +94,7 @@ public class ResourceManagerTest extends ProgramTestCase {
 	@Test
 	void testLoadAssets() throws Exception {
 		String uri = "mock:///home/user/temp/test.txt";
-		Resource resource = manager.createAsset( uri );
+		Resource resource = manager.createResource( uri );
 		AssetWatcher watcher = new AssetWatcher();
 		resource.getEventHub().register( ResourceEvent.ANY, watcher );
 		assertThat( resource.isLoaded() ).isFalse();
@@ -108,7 +108,7 @@ public class ResourceManagerTest extends ProgramTestCase {
 	@Test
 	void testLoadAssetsAndWait() throws Exception {
 		String uri = "mock:///home/user/temp/test.txt";
-		Resource resource = manager.createAsset( uri );
+		Resource resource = manager.createResource( uri );
 		AssetWatcher watcher = new AssetWatcher();
 		resource.getEventHub().register( ResourceEvent.ANY, watcher );
 		assertThat( resource.isLoaded() ).isFalse();
@@ -121,7 +121,7 @@ public class ResourceManagerTest extends ProgramTestCase {
 	@Test
 	void testReloadResources() throws Exception {
 		String uri = "mock:///home/user/temp/test.txt";
-		Resource resource = manager.createAsset( uri );
+		Resource resource = manager.createResource( uri );
 		AssetWatcher watcher = new AssetWatcher();
 		resource.getEventHub().register( ResourceEvent.ANY, watcher );
 		assertThat( resource.isLoaded() ).isFalse();
@@ -140,7 +140,7 @@ public class ResourceManagerTest extends ProgramTestCase {
 	@Test
 	void testSaveAssets() throws Exception {
 		String uri = "mock:///home/user/temp/test.txt";
-		Resource resource = manager.createAsset( uri );
+		Resource resource = manager.createResource( uri );
 		AssetWatcher watcher = new AssetWatcher();
 		resource.getEventHub().register( ResourceEvent.ANY, watcher );
 		assertThat( resource.isSaved() ).isFalse();
@@ -167,7 +167,7 @@ public class ResourceManagerTest extends ProgramTestCase {
 	@Test
 	void testSaveAssetsAndWait() throws Exception {
 		String uri = "mock:///home/user/temp/test.txt";
-		Resource resource = manager.createAsset( uri );
+		Resource resource = manager.createResource( uri );
 		AssetWatcher watcher = new AssetWatcher();
 		resource.getEventHub().register( ResourceEvent.ANY, watcher );
 		assertThat( resource.isSaved() ).isFalse();
@@ -192,7 +192,7 @@ public class ResourceManagerTest extends ProgramTestCase {
 	@Test
 	void testCloseResources() throws Exception {
 		String uri = "mock:///home/user/temp/test.txt";
-		Resource resource = manager.createAsset( uri );
+		Resource resource = manager.createResource( uri );
 		AssetWatcher watcher = new AssetWatcher();
 		resource.getEventHub().register( ResourceEvent.ANY, watcher );
 
@@ -209,7 +209,7 @@ public class ResourceManagerTest extends ProgramTestCase {
 	@Test
 	void testCloseResourcesAndWait() throws Exception {
 		String uri = "mock:///home/user/temp/test.txt";
-		Resource resource = manager.createAsset( uri );
+		Resource resource = manager.createResource( uri );
 		AssetWatcher watcher = new AssetWatcher();
 		resource.getEventHub().register( ResourceEvent.ANY, watcher );
 
@@ -223,7 +223,7 @@ public class ResourceManagerTest extends ProgramTestCase {
 
 	@Test
 	void testAutoDetectAssetTypeWithOpaqueUri() throws Exception {
-		Resource resource = manager.createAsset( URI.create( "mock:test" ) );
+		Resource resource = manager.createResource( URI.create( "mock:test" ) );
 		manager.autoDetectAssetType( resource );
 		assertThat( resource.getType() ).isInstanceOf( MockResourceType.class );
 	}
@@ -231,7 +231,7 @@ public class ResourceManagerTest extends ProgramTestCase {
 	@Test
 	void testAutoDetectCodecs() throws Exception {
 		ResourceType type = manager.getResourceType( new MockResourceType( getProgram() ).getKey() );
-		Resource resource = manager.createAsset( URI.create( "mock:test.mock" ) );
+		Resource resource = manager.createResource( URI.create( "mock:test.mock" ) );
 		Set<Codec> codecs = manager.autoDetectCodecs( resource );
 		assertThat( codecs ).isEqualTo( type.getCodecs() );
 	}
@@ -243,13 +243,13 @@ public class ResourceManagerTest extends ProgramTestCase {
 
 	@Test
 	void canRenameResourceWithNewResource() throws Exception {
-		Resource resource = manager.createAsset( manager.getResourceType( FileScheme.ID ), "mock://test.mock" );
+		Resource resource = manager.createResource( manager.getResourceType( FileScheme.ID ), "mock://test.mock" );
 		assertThat( manager.canRenameAsset( resource ) ).isFalse();
 	}
 
 	@Test
 	void canRenameAssetWithOldResource() throws Exception {
-		Resource resource = manager.createAsset( "mock://test.mock" );
+		Resource resource = manager.createResource( "mock://test.mock" );
 		manager.openAssetsAndWait( resource, 100, TimeUnit.MILLISECONDS );
 		assertThat( manager.canRenameAsset( resource ) ).isTrue();
 	}

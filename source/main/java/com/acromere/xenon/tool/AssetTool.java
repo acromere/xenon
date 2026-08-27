@@ -434,7 +434,7 @@ public class AssetTool extends GuidedTool {
 		}
 
 		try {
-			Resource resource = getProgram().getResourceManager().createAsset( path );
+			Resource resource = getProgram().getResourceManager().createResource( path );
 
 			uriField.setText( UriUtil.decode( path ) );
 
@@ -595,7 +595,7 @@ public class AssetTool extends GuidedTool {
 
 		boolean isFolder = resource.isFolder();
 		Resource parent = getProgram().getResourceManager().getParent( resource );
-		List<String> children = scheme.listAssets( parent ).stream().map( Resource::getName ).toList();
+		List<String> children = scheme.listResources( parent ).stream().map( Resource::getName ).toList();
 		String nextName = FileUtil.getNextIndexedName( children, resource.getName() ) + (isFolder ? "/" : "");
 		return getProgram().getResourceManager().resolve( parent, nextName );
 	}
@@ -660,7 +660,7 @@ public class AssetTool extends GuidedTool {
 	}
 
 	private GuideNode createGuideNode( String name, String icon, Path path ) throws ResourceException {
-		Resource resource = getProgram().getResourceManager().createAsset( path );
+		Resource resource = getProgram().getResourceManager().createResource( path );
 		GuideNode node = new GuideNode( getProgram(), resource.getUri().toString(), name, icon );
 		resource.register( Resource.ICON, e -> node.setIcon( e.getNewValue() ) );
 		return node;
@@ -677,7 +677,7 @@ public class AssetTool extends GuidedTool {
 			URI parent = UriUtil.getParent( resource.getUri() );
 			URI uri = parent.resolve( newName );
 
-			Resource newResource = getProgram().getResourceManager().createAsset( uri );
+			Resource newResource = getProgram().getResourceManager().createResource( uri );
 			resource.getScheme().rename( resource, newResource );
 		} catch( ResourceException exception ) {
 			handleAssetException( exception );

@@ -53,7 +53,7 @@ public class NoticeManager implements Controllable<NoticeManager> {
 		log.atTrace().log( "Notice manager starting..." );
 		try {
 			getProgram().register( ProgramEvent.STARTED, e -> startupNotices.forEach( this::addNotice ) );
-			resource = getProgram().getResourceManager().createAsset( ProgramNoticeType.URI );
+			resource = getProgram().getResourceManager().createResource( ProgramNoticeType.URI );
 			getProgram().getResourceManager().loadAssets( resource );
 			unreadCountProperty().addListener( ( p, o, n ) -> updateNoticeIcon( n.intValue() ) );
 		} catch( ResourceException exception ) {

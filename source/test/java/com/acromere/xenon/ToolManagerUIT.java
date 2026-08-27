@@ -15,7 +15,7 @@ public class ToolManagerUIT extends BaseFullXenonTestCase {
 	@Test
 	void testOpenDependencies() throws Exception {
 		// given
-		Resource resource = getProgram().getResourceManager().createAsset( ProgramAboutType.URI );
+		Resource resource = getProgram().getResourceManager().createResource( ProgramAboutType.URI );
 		ProgramTool tool = new AboutTool( getProgram(), resource );
 		OpenResourceRequest request = new OpenResourceRequest();
 
@@ -29,7 +29,7 @@ public class ToolManagerUIT extends BaseFullXenonTestCase {
 	@Test
 	void testOpenDependenciesReturnFalseOnException() throws Exception {
 		// given
-		Resource resource = getProgram().getResourceManager().createAsset( ProgramAboutType.URI );
+		Resource resource = getProgram().getResourceManager().createResource( ProgramAboutType.URI );
 		ProgramTool tool = new MockProgramTool( getProgram(), resource );
 		tool.getAssetDependencies().add( URI.create( "mock:///not-really-an-asset" ) );
 		OpenResourceRequest request = new OpenResourceRequest();

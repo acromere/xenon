@@ -190,7 +190,7 @@ public class FileScheme extends ProgramScheme {
 		if( roots == null ) {
 			roots = new ArrayList<>();
 			for( File root : File.listRoots() ) {
-				roots.add( program.getResourceManager().createAsset( root.getPath() ) );
+				roots.add( program.getResourceManager().createResource( root.getPath() ) );
 			}
 		}
 
@@ -198,7 +198,7 @@ public class FileScheme extends ProgramScheme {
 	}
 
 	@Override
-	public List<Resource> listAssets( Resource resource ) throws ResourceException {
+	public List<Resource> listResources( Resource resource ) throws ResourceException {
 		if( !isFolder( resource ) ) return new ArrayList<>();
 
 		File file = getFile( resource );

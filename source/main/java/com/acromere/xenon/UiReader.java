@@ -389,7 +389,7 @@ class UiReader {
 		ResourceType resourceType = getProgram().getResourceManager().getResourceType( assetTypeKey );
 		if( resourceType == null ) throw new AssetTypeNotFoundException( assetTypeKey );
 		try {
-			resource = getProgram().getResourceManager().createAsset( resourceType, uri );
+			resource = getProgram().getResourceManager().createResource( resourceType, uri );
 		} catch( ResourceException exception ) {
 			throw new ResourceNotFoundException( new Resource( resourceType, uri ), exception );
 		}

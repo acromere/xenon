@@ -549,25 +549,23 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		closeResources( resource );
 	}
 
-	public Resource createAsset( Object descriptor ) throws ResourceException {
-		if( descriptor instanceof URI ) {
-			return (createAsset( (URI)descriptor ));
-		} else if( descriptor instanceof File ) {
-			return (createAsset( ((File)descriptor).toURI() ));
-		} else if( descriptor instanceof Path ) {
-			return (createAsset( ((Path)descriptor).toUri() ));
-		} else {
-			return (createAsset( descriptor.toString() ));
-		}
+	public Resource createResource( Object descriptor ) throws ResourceException {
+		return switch( descriptor ) {
+			case URI uri -> (createResource( uri ));
+			case File file -> (createResource( file.toURI() ));
+			case Path path -> (createResource( path.toUri() ));
+			default -> (createResource( descriptor.toString() ));
+		};
 	}
 
 	/**
-	 * Create an asset from a string. This asset is considered to be an old asset. See {@link Resource#isNew()}
+	 * Create a resource from a string. This resource is considered to be an
+	 * existing resource. See {@link Resource#isNew()}
 	 *
-	 * @param string The asset string
-	 * @return A new asset based on the specified string.
+	 * @param string The resource string
+	 * @return A new resource based on the specified string.
 	 */
-	public Resource createAsset( String string ) throws ResourceException {
+	public Resource createResource( String string ) throws ResourceException {
 		if( string == null ) return null;
 
 		URI uri = UriUtil.resolve( string );
@@ -579,7 +577,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 			return null;
 		}
 
-		return createAsset( uri );
+		return createResource( uri );
 	}
 
 	/**
@@ -588,7 +586,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	 * @param uri The URI to create an asset from
 	 * @return The asset created from the URI
 	 */
-	public Resource createAsset( URI uri ) throws ResourceException {
+	public Resource createResource( URI uri ) throws ResourceException {
 		return doCreateAsset( null, uri );
 	}
 
@@ -599,7 +597,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	 * @return The asset created from the file
 	 */
 	@Deprecated
-	public Resource createAsset( File file ) throws ResourceException {
+	public Resource createResource( File file ) throws ResourceException {
 		return doCreateAsset( null, file.toURI() );
 	}
 
@@ -609,7 +607,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	 * @param path The path to create an asset from
 	 * @return The asset created from the path
 	 */
-	public Resource createAsset( Path path ) throws ResourceException {
+	public Resource createResource( Path path ) throws ResourceException {
 		return doCreateAsset( null, path.toUri() );
 	}
 
@@ -619,11 +617,11 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	 * @param type The asset type to create an asset from
 	 * @return The asset created from the asset type
 	 */
-	public Resource createAsset( ResourceType type ) throws ResourceException {
+	public Resource createResource( ResourceType type ) throws ResourceException {
 		return doCreateAsset( type, null );
 	}
 
-	public Resource createAsset( ResourceType type, String uri ) throws ResourceException {
+	public Resource createResource( ResourceType type, String uri ) throws ResourceException {
 		return doCreateAsset( type, UriUtil.resolve( uri ) );
 	}
 
@@ -634,7 +632,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	 * @param uri The asset uri
 	 * @return The created asset
 	 */
-	public Resource createAsset( ResourceType type, URI uri ) throws ResourceException {
+	public Resource createResource( ResourceType type, URI uri ) throws ResourceException {
 		return doCreateAsset( type, uri );
 	}
 
@@ -658,7 +656,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		List<Resource> resources = new ArrayList<>( descriptors.size() );
 
 		for( Object descriptor : descriptors ) {
-			resources.add( createAsset( descriptor ) );
+			resources.add( createResource( descriptor ) );
 		}
 
 		return resources;
@@ -934,14 +932,14 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	public Resource getParent( Resource resource ) throws ResourceException {
 		if( !UriUtil.hasParent( resource.getUri() ) ) return Resource.NONE;
 		Resource parent = resource.getParent();
-		if( parent == null ) parent = createAsset( UriUtil.getParent( resource.getUri() ) ).add( resource );
+		if( parent == null ) parent = createResource( UriUtil.getParent( resource.getUri() ) ).add( resource );
 		return parent;
 	}
 
 	public Resource resolve( Resource resource, String name ) throws ResourceException {
 		if( !resource.isFolder() ) return resource;
 		if( name == null ) return resource;
-		return createAsset( resource.getUri().resolve( name.replace( " ", "%20" ) ) );
+		return createResource( resource.getUri().resolve( name.replace( " ", "%20" ) ) );
 	}
 
 	private Settings getSettings() {
@@ -1472,7 +1470,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		@Override
 		public ProgramTool call() throws ResourceException, ExecutionException, TimeoutException, InterruptedException {
 			// Create and configure the asset
-			if( request.getResource() == null ) request.setResource( createAsset( request.getType(), request.getUri() ) );
+			if( request.getResource() == null ) request.setResource( createResource( request.getType(), request.getUri() ) );
 
 			Resource resource = request.getResource();
 			Object model = request.getModel();

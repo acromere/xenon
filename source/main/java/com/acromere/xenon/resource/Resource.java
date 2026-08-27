@@ -25,11 +25,11 @@ public class Resource extends Node {
 
 	public static final Resource NONE = new Resource( java.net.URI.create( XenonScheme.ID + ":none" ) );
 
+	public static final String MEDIA_TYPE_KEY = "asset-media-type";
+
 	public static final String SETTINGS_URI_KEY = "uri";
 
 	public static final String SETTINGS_TYPE_KEY = "asset-type-key";
-
-	public static final String MEDIA_TYPE_KEY = "asset-media-type";
 
 	public static final String UNKNOWN_MEDIA_TYPE = "unknown";
 
@@ -74,9 +74,9 @@ public class Resource extends Node {
 
 	private Resource parent;
 
-	// Ready to use flag. This indicates the asset is now ready to be used,
-	// particularly by tools. If the asset is new or has been loaded then the
-	// asset is "ready".
+	// The ready-to-use flag. This indicates the resource is now ready to be used,
+	// particularly by tools. If the resource is new or has been loaded, then the
+	// resource is "ready".
 
 	//private volatile boolean ready;
 
@@ -100,11 +100,11 @@ public class Resource extends Node {
 		setUri( uri == null ? NewScheme.uri() : uri );
 		setType( type );
 
-		if( isNew() && type == null ) throw new IllegalArgumentException( "New assets require an asset type" );
+		if( isNew() && type == null ) throw new IllegalArgumentException( "New resources require an resource type" );
 	}
 
 	/**
-	 * @return The URI for the asset
+	 * @return The URI for the resource
 	 */
 	public URI getUri() {
 		return getValue( URI );
@@ -117,11 +117,11 @@ public class Resource extends Node {
 	}
 
 	/**
-	 * Get the name of the asset. This returns the asset type name if the
+	 * Get the name of the resource. This returns the resource type name if the
 	 * URI is null, the entire URI if the path portion of the URI is null, or the
 	 * file portion of the URI path.
 	 *
-	 * @return The name of the asset.
+	 * @return The name of the resource.
 	 */
 	public String getName() {
 		return getValue( NAME, getDefaultName() );
@@ -150,11 +150,11 @@ public class Resource extends Node {
 	}
 
 	/**
-	 * The codec used to load/save the asset. The codec is usually null until
-	 * the asset is loaded or saved. Then the codec used for that operation is
+	 * The codec used to load/save the resource. The codec is usually null until
+	 * the resource is loaded or saved. Then the codec used for that operation is
 	 * stored for convenience to be used for later load or save operations.
 	 *
-	 * @return The codec used to load/save the asset.
+	 * @return The codec used to load/save the resource.
 	 */
 	public Codec getCodec() {
 		return getValue( CODEC );
@@ -166,7 +166,7 @@ public class Resource extends Node {
 
 	public Scheme getScheme() {
 		Scheme scheme = getValue( SCHEME );
-		//if( scheme == null ) log.atWarn().log( "Asset missing scheme: " + this );
+		//if( scheme == null ) log.atWarn().log( "Resource missing scheme: " + this );
 		if( scheme == null ) throw new IllegalStateException( "Unresolved scheme: " + this );
 		return scheme;
 	}
@@ -192,9 +192,9 @@ public class Resource extends Node {
 	}
 
 	/**
-	 * A convenience method to get the "simple" name of the asset.
+	 * A convenience method to get the "simple" name of the resource.
 	 *
-	 * @return The simple name of the asset.
+	 * @return The simple name of the resource.
 	 */
 	public String getSimpleName() {
 		return getFileName();
@@ -265,7 +265,7 @@ public class Resource extends Node {
 	}
 
 	/**
-	 * @return If the asset is "new"
+	 * @return If the resource is "new", as compared to an existing resource.
 	 */
 	public final synchronized boolean isNew() {
 		return NewScheme.ID.equals( getUri().getScheme() );
@@ -300,14 +300,14 @@ public class Resource extends Node {
 	}
 
 	public synchronized final void load( ResourceManager manager ) throws ResourceException {
-		if( !isOpen() ) throw new ResourceException( this, "Asset must be opened to be loaded" );
+		if( !isOpen() ) throw new ResourceException( this, "Resource must be opened to be loaded" );
 
 		Scheme scheme = getScheme();
 		if( scheme != null ) {
 			log.atDebug().log( "Loading with scheme=" + scheme.getName() );
 			scheme.load( this, getCodec() );
 		} else {
-			log.atWarn().log( "Undefined scheme for asset " + this );
+			log.atWarn().log( "Undefined scheme for resource " + this );
 		}
 		setModified( false );
 		loaded = true;
@@ -322,7 +322,7 @@ public class Resource extends Node {
 	}
 
 	public synchronized final void save( ResourceManager manager ) throws ResourceException {
-		if( !isOpen() ) throw new ResourceException( this, "Asset must be opened to be saved" );
+		if( !isOpen() ) throw new ResourceException( this, "Resource must be opened to be saved" );
 
 		saved = false;
 		Scheme scheme = getScheme();
@@ -362,7 +362,7 @@ public class Resource extends Node {
 	}
 
 	/**
-	 * Is the asset a container for other assets.
+	 * Is the resource a container for other resources.
 	 */
 	public boolean isFolder() throws ResourceException {
 		Scheme scheme = getScheme();
@@ -371,7 +371,9 @@ public class Resource extends Node {
 	}
 
 	/**
-	 * Is the asset hidden.
+	 * Is the resource hidden?
+	 *
+	 * @return True if the resource is hidden, false otherwise
 	 */
 	public boolean isHidden() throws ResourceException {
 		Scheme scheme = getScheme();
@@ -379,12 +381,12 @@ public class Resource extends Node {
 	}
 
 	/**
-	 * Get the child assets if this asset is a container for other
-	 * assets.
+	 * Get the child resources if this resource is a container for other
+	 * resources.
 	 */
-	public List<Resource> listAssets() throws ResourceException {
+	public List<Resource> listResources() throws ResourceException {
 		Scheme scheme = getScheme();
-		return scheme == null ? null : scheme.listAssets( this );
+		return scheme == null ? null : scheme.listResources( this );
 	}
 
 	Resource add( Resource child ) {
@@ -394,7 +396,7 @@ public class Resource extends Node {
 
 	public List<Resource> getChildren() throws ResourceException {
 		Scheme scheme = getScheme();
-		return scheme.listAssets( this );
+		return scheme.listResources( this );
 	}
 
 	public long getSize() throws ResourceException {
@@ -409,7 +411,7 @@ public class Resource extends Node {
 		//			//			if( e.getNode().getValue( "preview", false )) {
 		//			//				System.out.println( "Preview event leak=" + event.getEventType() );
 		//			//			}
-		//			System.out.println( "Asset.dispatch() event=" + event );
+		//			System.out.println( "Resource.dispatch() event=" + event );
 		//			if( e.getNode().getClass().getSimpleName().equals( "DesignLayer" ) ) {
 		//				System.out.println( "DesignLayer event=" + event.getEventType() );
 		//			}
@@ -442,8 +444,8 @@ public class Resource extends Node {
 	public String toString() {
 		URI uri = getUri();
 		ResourceType type = getType();
-		String assetTypeName = type == null ? "Unknown" : type.getName();
-		return "[" + assetTypeName + "](" + System.identityHashCode( this ) + ")" + (isNew() ? "" : " uri=" + uri);
+		String resourceTypeName = type == null ? "Unknown" : type.getName();
+		return "[" + resourceTypeName + "](" + System.identityHashCode( this ) + ")" + (isNew() ? "" : " uri=" + uri);
 	}
 
 	private String getDefaultName() {
@@ -452,10 +454,10 @@ public class Resource extends Node {
 		ResourceType type = getType();
 		String name = null;
 
-		// If the asset is new return the type name
+		// If the resource is new, return the type name
 		if( isNew() && type != null ) name = type.getName();
 
-		// If the uri path is empty return the entire URI
+		// If the uri path is empty, return the entire URI
 		if( name == null && TextUtil.isEmpty( path ) ) name = uri.toString();
 
 		// Get the name from the path
@@ -463,7 +465,7 @@ public class Resource extends Node {
 		//		if( name == null && !TextUtil.isEmpty( path ) ) {
 		//			try {
 		//				if( isFolder() && path.endsWith( "/" ) ) path = path.substring( 0, path.length() - 1 );
-		//			} catch( AssetException exception ) {
+		//			} catch( ResourceException exception ) {
 		//				// Intentionally ignore exception
 		//			}
 		//			name = path.substring( path.lastIndexOf( '/' ) + 1 );

@@ -111,7 +111,7 @@ public class ResourceWatchService implements Controllable<ResourceWatchService> 
 						try {
 							Path parentPath = (Path)key.watchable();
 							Path assetPath = parentPath.resolve( eventPath );
-							Resource resource = getProgram().getResourceManager().createAsset( assetPath );
+							Resource resource = getProgram().getResourceManager().createResource( assetPath );
 
 							// This logic is intended to catch double events and events from our own save.
 							long lastSavedTime = resource.getLastSaved();
