@@ -1435,20 +1435,20 @@ public class Xenon extends Application implements XenonProgram {
 	}
 
 	private void registerAssetTypes( ResourceManager manager ) {
-		manager.addAssetType( new ProgramGuideType( this ) );
-		manager.addAssetType( new ProgramAboutType( this ) );
-		manager.addAssetType( new ProgramSettingsType( this ) );
-		manager.addAssetType( new ProgramWelcomeType( this ) );
-		manager.addAssetType( new ProgramNoticeType( this ) );
-		manager.addAssetType( new ProgramSearchType( this ) );
-		manager.addAssetType( new ProgramHelpType( this ) );
-		manager.addAssetType( new ProgramModuleType( this ) );
-		manager.addAssetType( new ProgramTaskType( this ) );
-		manager.addAssetType( new ProgramResourceNewType( this ) );
-		manager.addAssetType( new ProgramResourceType( this ) );
-		manager.addAssetType( new ProgramThemesType( this ) );
-		manager.addAssetType( new ProgramFaultType( this ) );
-		manager.addAssetType( new ProgramPropertiesType( this ) );
+		manager.addResourceType( new ProgramGuideType( this ) );
+		manager.addResourceType( new ProgramAboutType( this ) );
+		manager.addResourceType( new ProgramSettingsType( this ) );
+		manager.addResourceType( new ProgramWelcomeType( this ) );
+		manager.addResourceType( new ProgramNoticeType( this ) );
+		manager.addResourceType( new ProgramSearchType( this ) );
+		manager.addResourceType( new ProgramHelpType( this ) );
+		manager.addResourceType( new ProgramModuleType( this ) );
+		manager.addResourceType( new ProgramTaskType( this ) );
+		manager.addResourceType( new ProgramResourceNewType( this ) );
+		manager.addResourceType( new ProgramResourceType( this ) );
+		manager.addResourceType( new ProgramThemesType( this ) );
+		manager.addResourceType( new ProgramFaultType( this ) );
+		manager.addResourceType( new ProgramPropertiesType( this ) );
 
 		registerProgramAssetAliases( manager );
 	}
@@ -1473,20 +1473,20 @@ public class Xenon extends Application implements XenonProgram {
 	}
 
 	private void unregisterAssetTypes( ResourceManager manager ) {
-		manager.removeAssetType( new ProgramPropertiesType( this ) );
-		manager.removeAssetType( new ProgramFaultType( this ) );
-		manager.removeAssetType( new ProgramThemesType( this ) );
-		manager.removeAssetType( new ProgramResourceType( this ) );
-		manager.removeAssetType( new ProgramResourceNewType( this ) );
-		manager.removeAssetType( new ProgramTaskType( this ) );
-		manager.removeAssetType( new ProgramModuleType( this ) );
-		manager.removeAssetType( new ProgramHelpType( this ) );
-		manager.removeAssetType( new ProgramSearchType( this ) );
-		manager.removeAssetType( new ProgramNoticeType( this ) );
-		manager.removeAssetType( new ProgramWelcomeType( this ) );
-		manager.removeAssetType( new ProgramSettingsType( this ) );
-		manager.removeAssetType( new ProgramAboutType( this ) );
-		manager.removeAssetType( new ProgramGuideType( this ) );
+		manager.removeResourceType( new ProgramPropertiesType( this ) );
+		manager.removeResourceType( new ProgramFaultType( this ) );
+		manager.removeResourceType( new ProgramThemesType( this ) );
+		manager.removeResourceType( new ProgramResourceType( this ) );
+		manager.removeResourceType( new ProgramResourceNewType( this ) );
+		manager.removeResourceType( new ProgramTaskType( this ) );
+		manager.removeResourceType( new ProgramModuleType( this ) );
+		manager.removeResourceType( new ProgramHelpType( this ) );
+		manager.removeResourceType( new ProgramSearchType( this ) );
+		manager.removeResourceType( new ProgramNoticeType( this ) );
+		manager.removeResourceType( new ProgramWelcomeType( this ) );
+		manager.removeResourceType( new ProgramSettingsType( this ) );
+		manager.removeResourceType( new ProgramAboutType( this ) );
+		manager.removeResourceType( new ProgramGuideType( this ) );
 	}
 
 	private void registerTools( ToolManager manager ) {
@@ -1529,7 +1529,7 @@ public class Xenon extends Application implements XenonProgram {
 
 	private void registerTool( ToolManager manager, ResourceType resourceType, Class<? extends ProgramTool> toolClass, ToolInstanceMode mode, String toolRbKey, String iconKey ) {
 		// The problem with using the class name is it can change if the class package or name is changed.
-		ResourceType type = resourceManager.getAssetType( resourceType.getKey() );
+		ResourceType type = resourceManager.getResourceType( resourceType.getKey() );
 		String name = Rb.text( "tool", toolRbKey + "-name" );
 		Node icon = getIconLibrary().getIcon( iconKey );
 
@@ -1539,7 +1539,7 @@ public class Xenon extends Application implements XenonProgram {
 	}
 
 	private void unregisterTool( ToolManager manager, ResourceType resourceType, Class<? extends ProgramTool> toolClass ) {
-		manager.unregisterTool( resourceManager.getAssetType( resourceType.getKey() ), toolClass );
+		manager.unregisterTool( resourceManager.getResourceType( resourceType.getKey() ), toolClass );
 	}
 
 	private boolean calcProgramUpdated() {

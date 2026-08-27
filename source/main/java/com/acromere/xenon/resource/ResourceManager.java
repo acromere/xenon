@@ -202,25 +202,25 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		program.getTaskManager().submit( new SetCurrentResourceTask( resource ) ).get();
 	}
 
-	public Set<Resource> getOpenAssets() {
+	public Set<Resource> getOpenResources() {
 		return new HashSet<>( openResources );
 	}
 
-	public Set<Resource> getModifiedAssets() {
-		return getOpenAssets().stream().filter( Resource::isModified ).collect( Collectors.toSet() );
+	public Set<Resource> getModifiedResources() {
+		return getOpenResources().stream().filter( Resource::isModified ).collect( Collectors.toSet() );
 	}
 
-	Set<ResourceType> getUserAssetTypes() {
+	Set<ResourceType> getUserResourceTypes() {
 		return resourceTypes.values().stream().filter( ResourceType::isUserType ).collect( Collectors.toSet() );
 	}
 
 	/**
-	 * Get the externally modified assets.
+	 * Get the externally modified resources.
 	 *
-	 * @return The set of externally modified assets
+	 * @return The set of externally modified resources
 	 */
-	public Set<Resource> getExternallyModifiedAssets() {
-		return getOpenAssets().stream().filter( Resource::isExternallyModified ).collect( Collectors.toSet() );
+	public Set<Resource> getExternallyModifiedResources() {
+		return getOpenResources().stream().filter( Resource::isExternallyModified ).collect( Collectors.toSet() );
 	}
 
 	/**
@@ -281,38 +281,38 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	}
 
 	/**
-	 * Get an asset type by the asset type key defined in the asset type. This is
-	 * useful for getting asset types from persisted data.
+	 * Get a resource type by the resource type key defined in the resource type.
+	 * This is useful for getting resource types from persisted data.
 	 *
-	 * @param key The asset type key
-	 * @return The asset type associated to the key
+	 * @param key The resource type key
+	 * @return The resource type associated with the key
 	 */
-	public ResourceType getAssetType( String key ) {
+	public ResourceType getResourceType( String key ) {
 		if( key == null ) return null;
 		ResourceType type = resourceTypes.get( key );
-		if( type == null ) log.atWarning().log( "Asset type not found: %s", key );
+		if( type == null ) log.atWarning().log( "Resource type not found: %s", key );
 		return type;
 	}
 
 	/**
-	 * Get the set of supported asset types.
+	 * Get the set of supported resource types.
 	 *
-	 * @return The set of supported asset types
+	 * @return The set of supported resource types
 	 */
 	public Collection<ResourceType> getResourceTypes() {
 		return Collections.unmodifiableCollection( resourceTypes.values() );
 	}
 
 	/**
-	 * Add an asset type to the set of supported asset types.
+	 * Add a resource type to the set of supported resource types.
 	 *
-	 * @param type The asset type to add
+	 * @param type The resource type to add
 	 */
-	public void addAssetType( ResourceType type ) {
+	public void addResourceType( ResourceType type ) {
 		if( type == null ) return;
 
 		synchronized( resourceTypes ) {
-			if( resourceTypes.get( type.getKey() ) != null ) throw new IllegalArgumentException( "AssetType already exists: " + type.getKey() );
+			if( resourceTypes.get( type.getKey() ) != null ) throw new IllegalArgumentException( "ResourceType already exists: " + type.getKey() );
 
 			// Register codecs
 			for( Codec codec : type.getCodecs() ) {
@@ -324,25 +324,25 @@ public class ResourceManager implements Controllable<ResourceManager> {
 				registerCodecs( Codec.Pattern.FIRSTLINE, codec );
 			}
 
-			// Add the asset type to the registered asset types.
+			// Add the resource type to the registered resource types
 			resourceTypes.put( type.getKey(), type );
 
-			// Update the actions.
+			// Update the actions
 			updateActionState();
 		}
 	}
 
 	/**
-	 * Remove an asset type from the set of supported asset types.
+	 * Remove a resource type from the set of supported resource types.
 	 *
-	 * @param type The asset type to remove
+	 * @param type The resource type to remove
 	 */
-	public void removeAssetType( ResourceType type ) {
+	public void removeResourceType( ResourceType type ) {
 		if( type == null ) return;
 		synchronized( resourceTypes ) {
 			if( !resourceTypes.containsKey( type.getKey() ) ) return;
 
-			// Remove the asset type from the registered asset types
+			// Remove the resource type from the registered resource types
 			type = resourceTypes.remove( type.getKey() );
 
 			for( Codec codec : type.getCodecs() ) {
@@ -365,7 +365,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	}
 
 	public Future<ProgramTool> newAsset( String key, Object model ) {
-		return newAsset( getAssetType( key ), model, null, true, true );
+		return newAsset( getResourceType( key ), model, null, true, true );
 	}
 
 	/**
@@ -805,7 +805,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	 * the task manager and returns immediately.
 	 */
 	public void saveAll() {
-		saveAssets( getModifiedAssets() );
+		saveAssets( getModifiedResources() );
 		autosave.reset();
 	}
 
@@ -1523,12 +1523,12 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 		@Override
 		public boolean isEnabled() {
-			return !getUserAssetTypes().isEmpty();
+			return !getUserResourceTypes().isEmpty();
 		}
 
 		@Override
 		public void handle( ActionEvent event ) {
-			Collection<ResourceType> types = getUserAssetTypes();
+			Collection<ResourceType> types = getUserResourceTypes();
 
 			if( types.size() == 1 ) {
 				newAsset( types.iterator().next() );
@@ -1549,7 +1549,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 		@Override
 		public boolean isEnabled() {
-			return !isHandling && !getUserAssetTypes().isEmpty();
+			return !isHandling && !getUserResourceTypes().isEmpty();
 		}
 
 		@Override
@@ -1613,7 +1613,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 		@Override
 		public boolean isEnabled() {
-			return canSaveAnyAssets( getModifiedAssets() );
+			return canSaveAnyAssets( getModifiedResources() );
 		}
 
 		@Override

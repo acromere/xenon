@@ -23,19 +23,19 @@ public class ResourceManagerTest extends ProgramTestCase {
 		manager = new ResourceManager( getProgram() );
 		manager.addScheme( new MockScheme( getProgram() ) );
 		manager.addScheme( new NewScheme( getProgram() ) );
-		manager.addAssetType( new MockResourceType( getProgram() ) );
+		manager.addResourceType( new MockResourceType( getProgram() ) );
 	}
 
 	@Test
 	void testGetNullAssetType() {
-		assertThat( manager.getAssetType( null ) ).isNull();
+		assertThat( manager.getResourceType( null ) ).isNull();
 	}
 
 	@Test
 	void testNewAsset() throws Exception {
 		// New assets have an asset type when created.
 		// The URI is assigned when the asset is saved.
-		Resource newResource = manager.createAsset( manager.getAssetType( MockScheme.ID ) );
+		Resource newResource = manager.createAsset( manager.getResourceType( MockScheme.ID ) );
 		assertThat( newResource.isNew() ).isTrue();
 	}
 
@@ -230,7 +230,7 @@ public class ResourceManagerTest extends ProgramTestCase {
 
 	@Test
 	void testAutoDetectCodecs() throws Exception {
-		ResourceType type = manager.getAssetType( new MockResourceType( getProgram() ).getKey() );
+		ResourceType type = manager.getResourceType( new MockResourceType( getProgram() ).getKey() );
 		Resource resource = manager.createAsset( URI.create( "mock:test.mock" ) );
 		Set<Codec> codecs = manager.autoDetectCodecs( resource );
 		assertThat( codecs ).isEqualTo( type.getCodecs() );
@@ -243,7 +243,7 @@ public class ResourceManagerTest extends ProgramTestCase {
 
 	@Test
 	void canRenameAssetWithNewAsset() throws Exception {
-		Resource resource = manager.createAsset( manager.getAssetType( FileScheme.ID ), "mock://test.mock" );
+		Resource resource = manager.createAsset( manager.getResourceType( FileScheme.ID ), "mock://test.mock" );
 		assertThat( manager.canRenameAsset( resource ) ).isFalse();
 	}
 

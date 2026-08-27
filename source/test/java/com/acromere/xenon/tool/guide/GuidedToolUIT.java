@@ -25,7 +25,7 @@ public abstract class GuidedToolUIT extends BaseToolUIT {
 		assertToolCount( getWorkarea(), 0 );
 
 		MockResourceType assetType = new MockResourceType( getProgram() );
-		getProgram().getResourceManager().addAssetType( assetType );
+		getProgram().getResourceManager().addResourceType( assetType );
 
 		ToolRegistration registration = new ToolRegistration( getProgram(), MockGuidedTool.class ).setName( "mock" ).setInstanceMode( ToolInstanceMode.SINGLETON );
 		getProgram().getToolManager().registerTool( assetType, registration );

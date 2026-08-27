@@ -123,7 +123,7 @@ public class AssetTypeSettingsPanel extends SettingsPanel {
 	}
 
 	private void doUpdateFields( String typeKey ) {
-		ResourceType type = getProduct().getProgram().getResourceManager().getAssetType( typeKey );
+		ResourceType type = getProduct().getProgram().getResourceManager().getResourceType( typeKey );
 
 		key.setText( type == null ? "" : type.getKey() );
 		name.setText( type == null ? "" : type.getName() );
