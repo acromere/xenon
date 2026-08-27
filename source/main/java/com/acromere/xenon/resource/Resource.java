@@ -25,11 +25,11 @@ public class Resource extends Node {
 
 	public static final Resource NONE = new Resource( java.net.URI.create( XenonScheme.ID + ":none" ) );
 
-	public static final String MEDIA_TYPE_KEY = "asset-media-type";
+	public static final String MEDIA_TYPE_KEY = "resource-media-type";
 
 	public static final String SETTINGS_URI_KEY = "uri";
 
-	public static final String SETTINGS_TYPE_KEY = "asset-type-key";
+	public static final String SETTINGS_TYPE_KEY = "resource-type-key";
 
 	public static final String UNKNOWN_MEDIA_TYPE = "unknown";
 

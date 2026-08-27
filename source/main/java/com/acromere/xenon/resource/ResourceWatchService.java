@@ -99,7 +99,7 @@ public class ResourceWatchService implements Controllable<ResourceWatchService> 
 				path = watchServicePaths.get( key );
 				if( path == null ) continue;
 
-				// It is common to have multiple events for a single asset.
+				// It is common to have multiple events for a single resource.
 				for( WatchEvent<?> event : key.pollEvents() ) {
 					WatchEvent.Kind<?> kind = event.kind();
 
@@ -110,14 +110,14 @@ public class ResourceWatchService implements Controllable<ResourceWatchService> 
 					if( event.context() instanceof Path eventPath ) {
 						try {
 							Path parentPath = (Path)key.watchable();
-							Path assetPath = parentPath.resolve( eventPath );
-							Resource resource = getProgram().getResourceManager().createResource( assetPath );
+							Path resourcePath = parentPath.resolve( eventPath );
+							Resource resource = getProgram().getResourceManager().createResource( resourcePath );
 
 							// This logic is intended to catch double events and events from our own save.
 							long lastSavedTime = resource.getLastSaved();
 
 							// This timeout needs to be long enough for the OS to react.
-							// In the case of network assets it can take a couple of seconds.
+							// In the case of network resources, it can take a couple of seconds.
 							if( System.currentTimeMillis() - lastSavedTime < OS_REACTION_TIME ) continue;
 							resource.setLastSaved( System.currentTimeMillis() );
 
@@ -148,7 +148,7 @@ public class ResourceWatchService implements Controllable<ResourceWatchService> 
 			}
 		}
 
-		// Dispatch to the parent folder if the asset is a file
+		// Dispatch to the parent folder if the resource is a file
 		if( !resource.isFolder() ) dispatch( getProgram().getResourceManager().getParent( resource ), event );
 	}
 
@@ -163,11 +163,11 @@ public class ResourceWatchService implements Controllable<ResourceWatchService> 
 		} catch( IOException exception ) {
 			throw new ResourceException( resource, exception );
 		}
-		//log.atConfig().log( "Registered watch for %s", asset );
+		//log.atConfig().log( "Registered watch for %s", resource );
 	}
 
 	public void removeWatch( Resource resource, Callback<ResourceWatchEvent, ?> callback ) {
-		//log.atConfig().log( "Removing watch for %s", asset );
+		//log.atConfig().log( "Removing watch for %s", resource );
 		WatchKey key = resource.getValue( JAVA_NIO_FILE_WATCH_KEY );
 		if( key == null ) return;
 		key.cancel();

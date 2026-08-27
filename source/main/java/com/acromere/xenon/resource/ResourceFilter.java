@@ -10,8 +10,8 @@ import java.util.function.Predicate;
  * {@link Resource}) objects.
  * <p>
  * {@link ResourceFilter} objects may be used in conjunction with many
- * asset classes to filter assets for display or any other purpose. A
- * typical use is with the <code>AssetTool</code> to filter the assets
+ * resource classes to filter resources for display or any other purpose. A
+ * typical use is with the <code>AssetTool</code> to filter the resources
  * shown.
  */
 public interface ResourceFilter extends DataFilter<Resource>, Predicate<Resource>, Comparable<ResourceFilter> {
@@ -31,10 +31,10 @@ public interface ResourceFilter extends DataFilter<Resource>, Predicate<Resource
 	String getDescription();
 
 	/**
-	 * Test the specified asset.
+	 * Test the specified resource.
 	 *
-	 * @param resource The asset to test.
-	 * @return True if the asset should be included, false otherwise.
+	 * @param resource The resource to test.
+	 * @return True if the resource should be included, false otherwise.
 	 */
 	@Override
 	boolean accept( Resource resource );

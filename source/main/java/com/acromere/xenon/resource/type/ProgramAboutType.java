@@ -34,7 +34,7 @@ public class ProgramAboutType extends ResourceType {
 
 	@Override
 	public boolean resourceOpen( Xenon program, Resource resource ) {
-		// Arguably "the program" is the asset model for the about data type. But
+		// Arguably "the program" is the resource model for the about data type. But
 		// that is a pretty big model. Not only that but the about tool needs to
 		// watch for changes in several things as well as things that do not
 		// produce events, like JVM information. In that case a timer will have to

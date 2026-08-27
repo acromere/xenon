@@ -8,7 +8,7 @@ import com.acromere.xenon.notice.Notice;
 import com.acromere.xenon.resource.OpenResourceRequest;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.ResourceType;
-import com.acromere.xenon.resource.exception.AssetTypeNotFoundException;
+import com.acromere.xenon.resource.exception.ResourceTypeNotFoundException;
 import com.acromere.xenon.resource.exception.ResourceException;
 import com.acromere.xenon.resource.exception.ResourceNotFoundException;
 import com.acromere.xenon.scheme.XenonScheme;
@@ -379,22 +379,22 @@ class UiReader {
 	ProgramTool loadTool( Settings settings ) throws ResourceException, ToolInstantiationException {
 		String toolClassName = settings.get( Tool.SETTINGS_TYPE_KEY );
 		URI uri = settings.get( Resource.SETTINGS_URI_KEY, URI.class );
-		String assetTypeKey = settings.get( Resource.SETTINGS_TYPE_KEY );
+		String resourceTypeKey = settings.get( Resource.SETTINGS_TYPE_KEY );
 		Integer order = settings.get( Tool.ORDER, Integer.class, -1 );
 
-		assetTypeKey = mapResourceType( assetTypeKey );
+		resourceTypeKey = mapResourceType( resourceTypeKey );
 
-		// Create the asset
+		// Create the resource
 		Resource resource;
-		ResourceType resourceType = getProgram().getResourceManager().getResourceType( assetTypeKey );
-		if( resourceType == null ) throw new AssetTypeNotFoundException( assetTypeKey );
+		ResourceType resourceType = getProgram().getResourceManager().getResourceType( resourceTypeKey );
+		if( resourceType == null ) throw new ResourceTypeNotFoundException( resourceTypeKey );
 		try {
 			resource = getProgram().getResourceManager().createResource( resourceType, uri );
 		} catch( ResourceException exception ) {
 			throw new ResourceNotFoundException( new Resource( resourceType, uri ), exception );
 		}
 
-		// Create the open asset request
+		// Create the open resource request
 		OpenResourceRequest openResourceRequest = new OpenResourceRequest();
 		openResourceRequest.setToolId( settings.getName() );
 		openResourceRequest.setResource( resource );
@@ -614,8 +614,8 @@ class UiReader {
 
 			if( exception instanceof ToolInstantiationException toolException ) {
 				messages.add( Rb.text( RbKey.PROGRAM, "tool-missing", toolException.getToolClass() ) );
-			} else if( exception instanceof ResourceNotFoundException assetException ) {
-				messages.add( Rb.text( RbKey.PROGRAM, "asset-missing", assetException.getAsset().getUri() ) );
+			} else if( exception instanceof ResourceNotFoundException resourceException ) {
+				messages.add( Rb.text( RbKey.PROGRAM, "resource-missing", resourceException.getResource().getUri() ) );
 			} else {
 				messages.add( exception.getMessage() );
 			}

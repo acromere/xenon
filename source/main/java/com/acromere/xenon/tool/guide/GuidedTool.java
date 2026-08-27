@@ -38,7 +38,7 @@ public abstract class GuidedTool extends ProgramTool {
 	}
 
 	@Override
-	public Set<URI> getAssetDependencies() {
+	public Set<URI> getResourceDependencies() {
 		return Set.of( ProgramGuideType.URI );
 	}
 

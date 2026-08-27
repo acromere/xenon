@@ -7,11 +7,11 @@ import java.util.List;
 /**
  * The Scheme class represents a URI scheme in the context of a {@link Resource} . See <a href="http://en.wikipedia.org/wiki/URI_scheme">URI_scheme on
  * Wikipedia</a> for more information regarding URI schemes. Scheme, {@link ResourceType}
- * and {@link Codec} are used together by the asset manager to manage assets.
+ * and {@link Codec} are used together by the resource manager to manage resources.
  * <p>
- * The scheme is responsible for defining and implementing how an asset is handled for connection and transport purposes. The scheme is solely responsible for
- * the connection and data transfer of the asset, not for interpreting the
- * content of the asset.
+ * The scheme is responsible for defining and implementing how an resource is handled for connection and transport purposes. The scheme is solely responsible for
+ * the connection and data transfer of the resource, not for interpreting the
+ * content of the resource.
  *
  * @author SoderquistMV
  */
@@ -26,9 +26,9 @@ public interface Scheme {
 	String getName();
 
 	/**
-	 * Get the root assets associated with this scheme.
+	 * Get the root resources associated with this scheme.
 	 *
-	 * @return The list of root assets for this scheme.
+	 * @return The list of root resources for this scheme.
 	 * @throws ResourceException If an error occurs
 	 */
 	default List<Resource> getRoots() throws ResourceException {
@@ -36,10 +36,10 @@ public interface Scheme {
 	}
 
 	/**
-	 * Determines whether the specified asset can be loaded.
+	 * Determines whether the specified resource can be loaded.
 	 *
-	 * @param resource The asset to check
-	 * @return If the asset can be loaded
+	 * @param resource The resource to check
+	 * @return If the resource can be loaded
 	 * @throws ResourceException If an error occurs
 	 */
 	default boolean canLoad( Resource resource ) throws ResourceException {
@@ -47,10 +47,10 @@ public interface Scheme {
 	}
 
 	/**
-	 * Determines whether the specified asset can be saved.
+	 * Determines whether the specified resource can be saved.
 	 *
-	 * @param resource The asset to check
-	 * @return If the asset can be saved
+	 * @param resource The resource to check
+	 * @return If the resource can be saved
 	 * @throws ResourceException If an error occurs
 	 */
 	default boolean canSave( Resource resource ) throws ResourceException {
@@ -60,7 +60,7 @@ public interface Scheme {
 	/**
 	 * Initialize the {@link Resource}. This is called from a {@link Resource} when the {@link Scheme} is set.
 	 *
-	 * @param resource The asset to init.
+	 * @param resource The resource to init.
 	 * @throws ResourceException If an error occurs
 	 */
 	default void init( Resource resource ) throws ResourceException {}
@@ -68,7 +68,7 @@ public interface Scheme {
 	/**
 	 * Open the {@link Resource}.
 	 *
-	 * @param resource The asset to open
+	 * @param resource The resource to open
 	 * @throws ResourceException If an error occurs
 	 */
 	default void open( Resource resource ) throws ResourceException {}
@@ -76,8 +76,8 @@ public interface Scheme {
 	/**
 	 * Load the {@link Resource}.
 	 *
-	 * @param resource The asset to load
-	 * @param codec The codec to use to load the asset
+	 * @param resource The resource to load
+	 * @param codec The codec to use to load the resource
 	 * @throws ResourceException If an error occurs
 	 */
 	default void load( Resource resource, Codec codec ) throws ResourceException {}
@@ -85,8 +85,8 @@ public interface Scheme {
 	/**
 	 * Save the {@link Resource}.
 	 *
-	 * @param resource The asset to save
-	 * @param codec The codec to use to save the asset
+	 * @param resource The resource to save
+	 * @param codec The codec to use to save the resource
 	 * @throws ResourceException If an error occurs
 	 */
 	default void save( Resource resource, Codec codec ) throws ResourceException {}
@@ -94,16 +94,16 @@ public interface Scheme {
 	/**
 	 * Close the {@link Resource}.
 	 *
-	 * @param resource The asset to close
+	 * @param resource The resource to close
 	 * @throws ResourceException If an error occurs
 	 */
 	default void close( Resource resource ) throws ResourceException {}
 
 	/**
-	 * Determine if the asset exists. If the correct value cannot be determined an exception is thrown.
+	 * Determine if the resource exists. If the correct value cannot be determined an exception is thrown.
 	 *
-	 * @param resource The asset to verify exists
-	 * @return true If the asset exists, false otherwise
+	 * @param resource The resource to verify exists
+	 * @return true If the resource exists, false otherwise
 	 * @throws ResourceException If the correct value cannot be determined
 	 */
 	default boolean exists( Resource resource ) throws ResourceException {
@@ -111,9 +111,9 @@ public interface Scheme {
 	}
 
 	/**
-	 * Create the external asset that the asset represents.
+	 * Create the external resource that the resource represents.
 	 *
-	 * @param resource The asset to create
+	 * @param resource The resource to create
 	 * @return true If the external source is created, false otherwise
 	 * @throws ResourceException If an error occurs during the operation
 	 */
@@ -122,9 +122,9 @@ public interface Scheme {
 	}
 
 	/**
-	 * Create the external folder asset that the asset represents.
+	 * Create the external folder resource that the resource represents.
 	 *
-	 * @param resource The asset folder to create
+	 * @param resource The resource folder to create
 	 * @return true If the external source is created, false otherwise
 	 * @throws ResourceException If an error occurs during the operation
 	 */
@@ -133,30 +133,30 @@ public interface Scheme {
 	}
 
 	/**
-	 * Save the asset as a different asset.
+	 * Save the resource as a different resource.
 	 *
-	 * @param resource The asset to save
-	 * @param target The destination asset
-	 * @throws ResourceException If the asset can not be saved
+	 * @param resource The resource to save
+	 * @param target The destination resource
+	 * @throws ResourceException If the resource can not be saved
 	 */
 	default void saveAs( Resource resource, Resource target ) throws ResourceException {}
 
 	/**
-	 * Rename the asset as a different asset.
+	 * Rename the resource as a different resource.
 	 *
-	 * @param resource The asset to rename
-	 * @param target The destination asset
-	 * @throws ResourceException If the asset can not be renamed
+	 * @param resource The resource to rename
+	 * @param target The destination resource
+	 * @throws ResourceException If the resource can not be renamed
 	 */
 	default boolean rename( Resource resource, Resource target ) throws ResourceException {
 		return false;
 	}
 
 	/**
-	 * Delete the asset.
+	 * Delete the resource.
 	 *
-	 * @param resource The asset to delete
-	 * @return true If and only if the asset is successfully deleted, false otherwise
+	 * @param resource The resource to delete
+	 * @return true If and only if the resource is successfully deleted, false otherwise
 	 * @throws ResourceException If an error occurred during deletion
 	 */
 	default boolean delete( Resource resource ) throws ResourceException {
@@ -164,31 +164,31 @@ public interface Scheme {
 	}
 
 	/**
-	 * Determine if the asset a folder for other assets.
+	 * Determine if the resource a folder for other resources.
 	 */
 	default boolean isFolder( Resource resource ) throws ResourceException {
 		return false;
 	}
 
 	/**
-	 * Determine if the asset is hidden.
+	 * Determine if the resource is hidden.
 	 */
 	default boolean isHidden( Resource resource ) throws ResourceException {
 		return false;
 	}
 
 	/**
-	 * Get the child assets if this asset is a folder.
+	 * Get the child resources if this resource is a folder.
 	 */
 	default List<Resource> listResources( Resource resource ) throws ResourceException {
 		return List.of();
 	}
 
 	/**
-	 * Get the size of the asset in bytes.
+	 * Get the size of the resource in bytes.
 	 *
-	 * @param resource The asset from which to get the size
-	 * @return The size of the asset in bytes
+	 * @param resource The resource from which to get the size
+	 * @return The size of the resource in bytes
 	 * @throws ResourceException If the size can not be determined
 	 */
 	default long getSize( Resource resource ) throws ResourceException {
@@ -198,7 +198,7 @@ public interface Scheme {
 	/**
 	 * Get the modified date.
 	 *
-	 * @return The last date the asset was modified
+	 * @return The last date the resource was modified
 	 * @throws ResourceException If the date can not be determined
 	 */
 	default long getModifiedDate( Resource resource ) throws ResourceException {
@@ -206,23 +206,23 @@ public interface Scheme {
 	}
 
 	/**
-	 * Get the media type for an asset
+	 * Get the media type for an resource
 	 */
 	default String getMediaType( Resource resource ) {
 		return StandardMediaTypes.DEFAULT;
 	}
 
 	/**
-	 * Get the first line of content for an asset
+	 * Get the first line of content for an resource
 	 */
 	default String getFirstLine( Resource resource ) {
 		return "";
 	}
 
 	/**
-	 * Check if an asset supported by this scheme.
+	 * Check if an resource supported by this scheme.
 	 *
-	 * @param resource The asset to check
+	 * @param resource The resource to check
 	 * @return True if supported, false otherwise
 	 */
 	default boolean isSupported( Resource resource ) {

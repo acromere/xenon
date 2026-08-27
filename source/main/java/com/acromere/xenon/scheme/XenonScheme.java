@@ -30,7 +30,7 @@ public class XenonScheme extends ProgramScheme {
 
 	@Override
 	public void load( Resource resource, Codec codec ) throws ResourceException {
-		// Most program assets don't actually load anything
+		// Most program resources don't actually load anything
 		// However, the following do:
 
 		// Help content

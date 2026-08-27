@@ -8,14 +8,14 @@ public class ProductCoordinates {
 
 	private String platform;
 
-	private String asset;
+	private String resource;
 
 	private String format;
 
-	public ProductCoordinates( String artifact, String platform, String asset, String format ) {
+	public ProductCoordinates( String artifact, String platform, String resource, String format ) {
 		this.artifact = artifact;
 		this.platform = platform;
-		this.asset = asset;
+		this.resource = resource;
 		this.format = format;
 	}
 
@@ -35,12 +35,12 @@ public class ProductCoordinates {
 		this.platform = platform;
 	}
 
-	public String getAsset() {
-		return asset;
+	public String getResource() {
+		return resource;
 	}
 
-	public void setAsset( String asset ) {
-		this.asset = asset;
+	public void setResource( String resource ) {
+		this.resource = resource;
 	}
 
 	public String getFormat() {
@@ -55,7 +55,7 @@ public class ProductCoordinates {
 	public String toString() {
 		StringBuilder builder = new StringBuilder( artifact );
 		if( platform != null ) builder.append( "/" ).append( platform );
-		builder.append( "/" ).append( asset );
+		builder.append( "/" ).append( resource );
 		if( format != null ) builder.append( "." ).append( format );
 		return builder.toString();
 	}
@@ -65,11 +65,11 @@ public class ProductCoordinates {
 		if( this == o ) return true;
 		if( o == null || getClass() != o.getClass() ) return false;
 		ProductCoordinates that = (ProductCoordinates)o;
-		return artifact.equals( that.artifact ) && Objects.equals( platform, that.platform ) && asset.equals( that.asset ) && Objects.equals( format, that.format );
+		return artifact.equals( that.artifact ) && Objects.equals( platform, that.platform ) && resource.equals( that.resource ) && Objects.equals( format, that.format );
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash( artifact, platform, asset, format );
+		return Objects.hash( artifact, platform, resource, format );
 	}
 }

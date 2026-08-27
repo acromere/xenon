@@ -10,7 +10,7 @@ import com.acromere.xenon.resource.ResourceType;
  */
 public class BitmapImageType extends ResourceType {
 
-	private static final String assetTypeKey = "image:bitmap";
+	private static final String resourceTypeKey = "image:bitmap";
 
 	private static final String gifMediaTypePattern = "image/gif";
 
@@ -34,7 +34,7 @@ public class BitmapImageType extends ResourceType {
 
 	@Override
 	public String getKey() {
-		return assetTypeKey;
+		return resourceTypeKey;
 	}
 
 }

@@ -21,38 +21,38 @@ import java.util.stream.Collectors;
 
 /**
  * <p>
- * The AssetType class represents an asset type. An asset must always
- * have an asset type and may be directly specified, or determined by the the
+ * The AssetType class represents an resource type. An resource must always
+ * have an resource type and may be directly specified, or determined by the the
  * URI. Asset types may have one or more associated codecs. {@link Scheme},
- * {@link ResourceType} and {@link Codec} work together to save and load assets.
+ * {@link ResourceType} and {@link Codec} work together to save and load resources.
  * <h2>Determining Asset Type</h2>
- * Asset types can usually be determined by using the asset URI. Some
- * asset types can be determined using just the URI scheme. If the asset
+ * Asset types can usually be determined by using the resource URI. Some
+ * resource types can be determined using just the URI scheme. If the resource
  * type cannot be determined by the URI scheme then it is usually a stateful
- * asset with transient connections.
- * <p>The asset type is determined by
- * comparing the asset name to registered codecs. It is possible to match
+ * resource with transient connections.
+ * <p>The resource type is determined by
+ * comparing the resource name to registered codecs. It is possible to match
  * more than one codec. In this case the user might need to choose which codec
- * to use to determine the asset type. If all the possible codecs belong to
- * the same asset type then the user does not have to choose.
+ * to use to determine the resource type. If all the possible codecs belong to
+ * the same resource type then the user does not have to choose.
  * <p>
- * If the asset type cannot be determined by name, then the first line of the
+ * If the resource type cannot be determined by name, then the first line of the
  * content can be used to match a codec.
  * <p>
- * If the fist line cannot determine the asset type then the content type may
+ * If the fist line cannot determine the resource type then the content type may
  * be able to be used. This may not be a reliable method since the content type
  * may be specified in a number of ways. No matter how it is specified it should
  * always be considered a best guess.
  * <p>
- * If the asset type still cannot be determined then one of the two default
- * asset types should be used. If, by reading the content, the asset is
- * determined to be text then the text asset type is used. Otherwise, the
+ * If the resource type still cannot be determined then one of the two default
+ * resource types should be used. If, by reading the content, the resource is
+ * determined to be text then the text resource type is used. Otherwise, the
  * binary data type is used.
  * <p>
- * When an asset is saved it might also be necessary to update the asset type.
+ * When an resource is saved it might also be necessary to update the resource type.
  * <h2>Determining a Asset Tool</h2>
- * Once the asset type is determined an appropriate tool can be created for
- * it. It is possible to have more than one tool registered for the asset
+ * Once the resource type is determined an appropriate tool can be created for
+ * it. It is possible to have more than one tool registered for the resource
  * type. In this case a default may be specified or the user will need to
  * choose.
  *
@@ -96,23 +96,23 @@ public abstract class ResourceType implements Comparable<ResourceType> {
 	}
 
 	public String getName() {
-		return Rb.text( getProduct(), "asset", rbKey + "-name" );
+		return Rb.text( getProduct(), "resource", rbKey + "-name" );
 	}
 
 	public String getDescription() {
-		return Rb.text( getProduct(), "asset", rbKey + "-description" );
+		return Rb.text( getProduct(), "resource", rbKey + "-description" );
 	}
 
 	public String getIcon() {
-		return Rb.textOr( getProduct(), "asset", rbKey + "-icon", "asset" );
+		return Rb.textOr( getProduct(), "resource", rbKey + "-icon", "resource" );
 	}
 
 	/**
-	 * Is this asset type a user defined asset type. Usually it is a user
-	 * defined asset type so this should return true. For program defined
-	 * asset types this should return false.
+	 * Is this resource type a user defined resource type. Usually it is a user
+	 * defined resource type so this should return true. For program defined
+	 * resource types this should return false.
 	 *
-	 * @return false if this asset type is program defined, true otherwise
+	 * @return false if this resource type is program defined, true otherwise
 	 */
 	public boolean isUserType() {
 		return true;
@@ -132,9 +132,9 @@ public abstract class ResourceType implements Comparable<ResourceType> {
 	}
 
 	/**
-	 * Get the set of codecs for this asset type.
+	 * Get the set of codecs for this resource type.
 	 *
-	 * @return The set of codecs for this asset type
+	 * @return The set of codecs for this resource type
 	 */
 	public Set<Codec> getCodecs() {
 		return Collections.unmodifiableSet( codecs );
@@ -166,21 +166,21 @@ public abstract class ResourceType implements Comparable<ResourceType> {
 	}
 
 	/**
-	 * This method is called when a new asset is requested to be opened. This
-	 * method is valuable if the asset requires user interaction when creating new
-	 * assets.
+	 * This method is called when a new resource is requested to be opened. This
+	 * method is valuable if the resource requires user interaction when creating new
+	 * resources.
 	 * <p>
 	 * Unlike the {@link #resourceOpen(Xenon, Resource)} method this method is
-	 * only called for new assets. If the asset is not new, this method will not
-	 * be called, unlike the process for opening or restoring existing assets.
+	 * only called for new resources. If the resource is not new, this method will not
+	 * be called, unlike the process for opening or restoring existing resources.
 	 * <p>
 	 * Note: This method is called using a task thread and is not safe to use
 	 * directly on UI components.
 	 *
 	 * @param program
 	 * @param resource
-	 * @return True if the asset was opened, false otherwise. A value of false will keep the asset from being opened and an editor from being created.
-	 * @throws ResourceException if the asset failed to be opened.
+	 * @return True if the resource was opened, false otherwise. A value of false will keep the resource from being opened and an editor from being created.
+	 * @throws ResourceException if the resource failed to be opened.
 	 */
 	public boolean resourceNew( Xenon program, Resource resource ) throws ResourceException {
 		return true;
@@ -194,7 +194,7 @@ public abstract class ResourceType implements Comparable<ResourceType> {
 		Fx.run( () -> {
 			synchronized( lock ) {
 				try {
-					log.atTrace().log( "Calling assetNew()..." );
+					log.atTrace().log( "Calling resourceNew()..." );
 					result.set( resourceNew( program, resource ) );
 				} catch( ResourceException exception ) {
 					resultException.set( exception );
@@ -212,19 +212,19 @@ public abstract class ResourceType implements Comparable<ResourceType> {
 			}
 		}
 
-		log.atDebug().log( "Done waiting for assetNew()." );
+		log.atDebug().log( "Done waiting for resourceNew()." );
 
 		if( resultException.get() != null ) throw resultException.get();
 		return result.get();
 	}
 
 	/**
-	 * This method is called as an asset is opened just before it is loaded. This
-	 * method can provide the specified asset with an initial state prior to being
+	 * This method is called as an resource is opened just before it is loaded. This
+	 * method can provide the specified resource with an initial state prior to being
 	 * loaded or used in a tool.
 	 * <p>
 	 * Unlike the {@link #resourceNew(Xenon, Resource)} method this method is
-	 * always called whenever an asset is opened, new or otherwise. This method
+	 * always called whenever an resource is opened, new or otherwise. This method
 	 * should not be used for user interaction. User interaction should be
 	 * implemented in the {@link #resourceNew(Xenon, Resource)} method.
 	 * <p>
@@ -233,8 +233,8 @@ public abstract class ResourceType implements Comparable<ResourceType> {
 	 *
 	 * @param program
 	 * @param resource
-	 * @return True if the asset was initialized, false otherwise. A value of false will keep the asset from being opened and a tool from being created.
-	 * @throws ResourceException if the asset failed to be initialized.
+	 * @return True if the resource was initialized, false otherwise. A value of false will keep the resource from being opened and a tool from being created.
+	 * @throws ResourceException if the resource failed to be initialized.
 	 */
 	public boolean resourceOpen( Xenon program, Resource resource ) throws ResourceException {
 		return true;

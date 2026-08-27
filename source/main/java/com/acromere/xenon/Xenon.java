@@ -438,21 +438,21 @@ public class Xenon extends Application implements XenonProgram {
 
 		if( splashScreen != null ) splashScreen.update();
 
-		// Start the asset manager
-		log.atFiner().log( "Starting asset manager..." );
+		// Start the resource manager
+		log.atFiner().log( "Starting resource manager..." );
 		resourceManager = new ResourceManager( Xenon.this ).start();
 		registerSchemes( resourceManager );
 		registerAssetTypes( resourceManager );
 		if( splashScreen != null ) splashScreen.update();
 		log.atFine().log( "Asset manager started." );
-		time( "asset-manager" );
+		time( "resource-manager" );
 
-		// Start the asset watch service
-		log.atFiner().log( "Starting asset watch service..." );
+		// Start the resource watch service
+		log.atFiner().log( "Starting resource watch service..." );
 		resourceWatchService = new ResourceWatchService( Xenon.this ).start();
 		if( splashScreen != null ) splashScreen.update();
 		log.atFine().log( "Asset watch service started." );
-		time( "asset-watch-service" );
+		time( "resource-watch-service" );
 
 		// Start the index service
 		log.atFiner().log( "Starting index service..." );
@@ -578,10 +578,10 @@ public class Xenon extends Application implements XenonProgram {
 		// Register the program checks
 		new ProgramChecks( this ).register();
 
-		// Initiate asset loading
+		// Initiate resource loading
 		uiReader.loadAssets();
 
-		// Open assets specified on the command line
+		// Open resources specified on the command line
 		processAssets( getProgramParameters() );
 	}
 
@@ -747,14 +747,14 @@ public class Xenon extends Application implements XenonProgram {
 
 		// Stop the file watch service
 		if( resourceWatchService != null ) {
-			log.atFiner().log( "Stopping asset watch service..." );
+			log.atFiner().log( "Stopping resource watch service..." );
 			resourceWatchService.stop();
 			log.atFine().log( "Asset watch service stopped." );
 		}
 
-		// Stop the asset manager
+		// Stop the resource manager
 		if( resourceManager != null ) {
-			log.atFiner().log( "Stopping asset manager..." );
+			log.atFiner().log( "Stopping resource manager..." );
 			resourceManager.stop();
 			unregisterAssetTypes( resourceManager );
 			unregisterSchemes( resourceManager );
@@ -1176,7 +1176,7 @@ public class Xenon extends Application implements XenonProgram {
 	}
 
 	/**
-	 * Process the assets specified on the command line.
+	 * Process the resources specified on the command line.
 	 *
 	 * @param parameters The command line parameters
 	 */
@@ -1186,11 +1186,11 @@ public class Xenon extends Application implements XenonProgram {
 
 		getWorkspaceManager().showActiveWorkspace();
 
-		// Open the assets provided on the command line
+		// Open the resources provided on the command line
 		try {
 			getResourceManager().openResourcesAndWait( getResourceManager().createResources( uris ), 5, TimeUnit.SECONDS );
 		} catch( ResourceException | ExecutionException | TimeoutException exception ) {
-			log.atWarning().log( "Unable to open assets: %s", uris );
+			log.atWarning().log( "Unable to open resources: %s", uris );
 		} catch( InterruptedException exception ) {
 			// Intentionally ignore exception
 		}
@@ -1454,8 +1454,8 @@ public class Xenon extends Application implements XenonProgram {
 	}
 
 	private void registerProgramAssetAliases( ResourceManager manager ) {
-		// This is a reflection way of going through all the current program asset types
-		List<String> programAliases = List.of( "about", "asset", "fault", "guide", "help", "new", "notice", "properties", "search", "settings", "task", "welcome" );
+		// This is a reflection way of going through all the current program resource types
+		List<String> programAliases = List.of( "about", "resource", "fault", "guide", "help", "new", "notice", "properties", "search", "settings", "task", "welcome" );
 		for( String alias : programAliases ) {
 			URI aliasUri = URI.create( "program:/" + alias );
 			char[] targetChars = alias.toCharArray();
@@ -1499,8 +1499,8 @@ public class Xenon extends Application implements XenonProgram {
 		registerTool( manager, new ProgramTaskType( this ), TaskTool.class, ToolInstanceMode.SINGLETON, "task", "task" );
 		registerTool( manager, new ProgramWelcomeType( this ), WelcomeTool.class, ToolInstanceMode.SINGLETON, "welcome", "welcome" );
 		registerTool( manager, new ProgramFaultType( this ), FaultTool.class, ToolInstanceMode.UNLIMITED, "fault", "fault" );
-		registerTool( manager, new ProgramResourceNewType( this ), NewAssetTool.class, ToolInstanceMode.SINGLETON, "asset", "asset" );
-		registerTool( manager, new ProgramResourceType( this ), ResourceTool.class, ToolInstanceMode.SINGLETON, "asset", "asset" );
+		registerTool( manager, new ProgramResourceNewType( this ), NewAssetTool.class, ToolInstanceMode.SINGLETON, "resource", "resource" );
+		registerTool( manager, new ProgramResourceType( this ), ResourceTool.class, ToolInstanceMode.SINGLETON, "resource", "resource" );
 		registerTool( manager, new ProgramThemesType( this ), ThemeTool.class, ToolInstanceMode.SINGLETON, "themes", "themes" );
 		registerTool( manager, new ProgramHelpType( this ), HelpTool.class, ToolInstanceMode.UNLIMITED, "help", "help" );
 		registerTool( manager, new ProgramPropertiesType( this ), PropertiesTool.class, ToolInstanceMode.SINGLETON, "properties", "properties" );

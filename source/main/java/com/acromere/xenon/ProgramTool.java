@@ -132,7 +132,7 @@ public abstract class ProgramTool extends Tool {
 		setGraphic( getProgram().getIconLibrary().getIcon( icon ) );
 	}
 
-	public Set<URI> getAssetDependencies() {
+	public Set<URI> getResourceDependencies() {
 		return Collections.emptySet();
 	}
 
@@ -185,7 +185,7 @@ public abstract class ProgramTool extends Tool {
 	}
 
 	/**
-	 * The tool and asset are ready.
+	 * The tool and resource are ready.
 	 */
 	// THREAD JavaFX Application Thread
 	protected void ready( OpenResourceRequest request ) throws ToolException {}
@@ -193,11 +193,11 @@ public abstract class ProgramTool extends Tool {
 	/**
 	 * Called to open or reopen the tool. This is called at least once after
 	 * {@link #ready} has been called but may be called more than once. It is
-	 * called each time the asset handled by this tool is opened. If it is
+	 * called each time the resource handled by this tool is opened. If it is
 	 * opened another time, it may have different request parameters such as
 	 * a different query string or fragment.
 	 *
-	 * @param request The request used to open the asset
+	 * @param request The request used to open the resource
 	 */
 	protected void open( OpenResourceRequest request ) throws ToolException {}
 
@@ -294,8 +294,8 @@ public abstract class ProgramTool extends Tool {
 			if( resource.exists() && !resource.isLoaded() ) {
 				boolean timeout = !latch.await( ASSET_READY_TIMEOUT, TimeUnit.SECONDS );
 				if( timeout ) {
-					//log.atWarning().log( "Timeout waiting for asset to load: %s", asset );
-					throw new TimeoutException( "Timeout waiting for asset to load: " + resource );
+					//log.atWarning().log( "Timeout waiting for resource to load: %s", resource );
+					throw new TimeoutException( "Timeout waiting for resource to load: " + resource );
 				}
 			}
 		} finally {
@@ -307,23 +307,23 @@ public abstract class ProgramTool extends Tool {
 		// Set the isReady flag to true
 		isReady = true;
 
-		// Determine if the asset is missing
-		// TODO This logic, and notice, about missing assets should be moved to the asset manager
-		boolean assetMissing;
+		// Determine if the resource is missing
+		// TODO This logic, and notice, about missing resources should be moved to the resource manager
+		boolean resourceMissing;
 		try {
-			assetMissing = !request.getResource().isNew() && !request.getResource().exists();
+			resourceMissing = !request.getResource().isNew() && !request.getResource().exists();
 		} catch( ResourceException exception ) {
-			assetMissing = true;
+			resourceMissing = true;
 		}
-		final boolean finalAssetMissing = assetMissing;
+		final boolean finalAssetMissing = resourceMissing;
 
 		final Workpane pane = getWorkpane();
 
 		Fx.run( () -> {
-			// Notify the user if the asset is missing
+			// Notify the user if the resource is missing
 			if( finalAssetMissing ) {
-				String title = Rb.text( RbKey.RESOURCE, "asset-missing" );
-				String message = Rb.text( RbKey.RESOURCE, "asset-is-missing", request.getResource().getSimpleName(), request.getResource().getUri() );
+				String title = Rb.text( RbKey.RESOURCE, "resource-missing" );
+				String message = Rb.text( RbKey.RESOURCE, "resource-is-missing", request.getResource().getSimpleName(), request.getResource().getUri() );
 				Notice notice = new Notice( title, message );
 				getProgram().getNoticeManager().addNotice( notice );
 			}

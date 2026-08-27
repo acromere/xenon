@@ -7,7 +7,7 @@ public class AnyResourceFilter implements ResourceFilter {
 
 	@Override
 	public String getDescription() {
-		return Rb.text( RbKey.LABEL, "all-assets" ) + " (*.*)";
+		return Rb.text( RbKey.LABEL, "all-resources" ) + " (*.*)";
 	}
 
 	@Override

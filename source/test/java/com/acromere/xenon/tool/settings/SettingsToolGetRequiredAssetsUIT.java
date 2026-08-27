@@ -16,8 +16,8 @@ class SettingsToolGetRequiredAssetsUIT extends SettingsToolUIT {
 	void execute() {
 		Resource resource = new Resource( ProgramSettingsType.URI );
 		SettingsTool tool = new SettingsTool( getProgram(), resource );
-		Set<URI> assets = tool.getAssetDependencies();
-		assertThat( assets ).contains( ProgramGuideType.URI );
+		Set<URI> resources = tool.getResourceDependencies();
+		assertThat( resources ).contains( ProgramGuideType.URI );
 	}
 
 }

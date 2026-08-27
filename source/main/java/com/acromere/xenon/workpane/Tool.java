@@ -16,7 +16,7 @@ import lombok.CustomLog;
 import lombok.Getter;
 
 /**
- * The Tool class is a pane that "works on" an asset.
+ * The Tool class is a pane that "works on" an resource.
  */
 @CustomLog
 public abstract class Tool extends StackPane implements WritableIdentity {
@@ -326,7 +326,7 @@ public abstract class Tool extends StackPane implements WritableIdentity {
 	protected void deallocate() throws ToolException {}
 
 	/**
-	 * Determine if this tool is the last tool of its type for the tool asset.
+	 * Determine if this tool is the last tool of its type for the tool resource.
 	 *
 	 * @return True if this is the last tool of its type, false otherwise.
 	 */

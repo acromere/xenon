@@ -22,10 +22,10 @@ public class ResourceEvent extends Event {
 
 	public static final EventType<ResourceEvent> UNMODIFIED = new EventType<>( ASSET, "UNMODIFIED" );
 
-	// The asset is the asset in the active tool
+	// The resource is the resource in the active tool
 	public static final EventType<ResourceEvent> ACTIVATED = new EventType<>( ASSET, "ACTIVATED" );
 
-	// The asset is not the asset in the active tool
+	// The resource is not the resource in the active tool
 	public static final EventType<ResourceEvent> DEACTIVATED = new EventType<>( ASSET, "DEACTIVATED" );
 
 	public static final EventType<ResourceEvent> SAVED = new EventType<>( ASSET, "SAVED" );

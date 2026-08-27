@@ -13,7 +13,7 @@ import java.net.URI;
 import java.util.Map;
 
 /**
- * The OpenAssetRequest holds all the metadata needed to open an asset, and
+ * The OpenAssetRequest holds all the metadata needed to open an resource, and
  * possibly a tool along with it. This class is used by the {@link ResourceManager}
  * and by the {@link ToolManager}. Because there is so much potential data, it
  * has been consolidated into this class. It is in turn passed on to the
@@ -51,7 +51,7 @@ public class OpenResourceRequest {
 	private boolean setActive;
 
 	/**
-	 * The asset created from the asset type and URI
+	 * The resource created from the resource type and URI
 	 */
 	private Resource resource;
 
@@ -84,7 +84,7 @@ public class OpenResourceRequest {
 	}
 
 	/**
-	 * If the asset has an exising model that should be used with this request,
+	 * If the resource has an exising model that should be used with this request,
 	 * the model should be set with this method.
 	 *
 	 * @param model The model to use with this request.

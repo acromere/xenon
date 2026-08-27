@@ -53,10 +53,10 @@ public class FileScheme extends ProgramScheme {
 		} catch( Throwable exception ) {
 			throw new ResourceException( resource, exception );
 		} finally {
-			// TODO asset.setExternallyModified( false );
+			// TODO resource.setExternallyModified( false );
 		}
 
-		//assetWatcher.registerWatch( asset );
+		//resourceWatcher.registerWatch( resource );
 	}
 
 	@Override
@@ -84,7 +84,7 @@ public class FileScheme extends ProgramScheme {
 			Files.deleteIfExists( temp );
 			if( Files.exists( file ) ) Files.copy( file, temp );
 
-			// Step two - save asset to file
+			// Step two - save resource to file
 			try( OutputStream stream = new FileOutputStream( file.toFile() ) ) {
 				codec.save( resource, stream );
 				if( !Files.exists( file ) ) throw new IOException( "File lost: " + file );
@@ -112,7 +112,7 @@ public class FileScheme extends ProgramScheme {
 
 	@Override
 	public void close( Resource resource ) throws ResourceException {
-		//assetWatcher.removeWatch( asset );
+		//resourceWatcher.removeWatch( resource );
 		super.close( resource );
 	}
 
@@ -137,14 +137,14 @@ public class FileScheme extends ProgramScheme {
 
 	@Override
 	public void saveAs( Resource source, Resource target ) throws ResourceException {
-		// NOTE This method should not modify the source asset
+		// NOTE This method should not modify the source resource
 
 		// Set the target model to the same as the source
 		target.setModel( source.getModel() );
 
 		log.atConfig().log( "Saving %s to %s", source, target );
 
-		// Save the asset
+		// Save the resource
 		try {
 			target.getScheme().save( target, target.getCodec() );
 		} catch( Throwable throwable ) {
@@ -154,7 +154,7 @@ public class FileScheme extends ProgramScheme {
 
 	@Override
 	public boolean rename( Resource source, Resource target ) throws ResourceException {
-		// NOTE This method should not modify the source asset
+		// NOTE This method should not modify the source resource
 
 		// Rename the file
 		try {
@@ -222,7 +222,7 @@ public class FileScheme extends ProgramScheme {
 	@Override
 	public long getModifiedDate( Resource resource ) throws ResourceException {
 		File file = getFile( resource );
-		//if( isFolder( asset ) || FileSystemView.getFileSystemView().isDrive( file ) ) throw new AssetException( asset, "Folders do not have a modified date." );
+		//if( isFolder( resource ) || FileSystemView.getFileSystemView().isDrive( file ) ) throw new AssetException( resource, "Folders do not have a modified date." );
 		return file.lastModified();
 	}
 
@@ -232,7 +232,7 @@ public class FileScheme extends ProgramScheme {
 			File file = getFile( resource );
 			return Files.probeContentType( file.toPath() );
 		} catch( IOException | ResourceException exception ) {
-			log.atWarning().withCause( exception ).log( "Error determining media type for asset" );
+			log.atWarning().withCause( exception ).log( "Error determining media type for resource" );
 			return StandardMediaTypes.APPLICATION_OCTET_STREAM;
 		}
 	}
@@ -242,7 +242,7 @@ public class FileScheme extends ProgramScheme {
 		try( FileInputStream input = new FileInputStream( getFile( resource ) ) ) {
 			return readFirstLine( input, resource.getEncoding() );
 		} catch( IOException | ResourceException exception ) {
-			log.atWarning().log( "Error determining first line for asset" );
+			log.atWarning().log( "Error determining first line for resource" );
 			log.atTrace().withCause( exception ).log();
 			return TextUtil.EMPTY;
 		}

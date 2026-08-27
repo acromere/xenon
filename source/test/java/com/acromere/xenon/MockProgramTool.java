@@ -45,7 +45,7 @@ public class MockProgramTool extends ProgramTool {
 
 	private boolean canFindWorkpaneFromSelf;
 
-	private Set<URI> assetDependencies = new CopyOnWriteArraySet<>();
+	private Set<URI> resourceDependencies = new CopyOnWriteArraySet<>();
 
 	public MockProgramTool( XenonProgramProduct product, Resource resource ) {
 		super( product, resource );

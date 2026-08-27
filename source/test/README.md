@@ -41,7 +41,7 @@ some parts of the program working in order for the feature to be tested.
 However, many features can be tested without starting the entire program. This
 is particularly useful to keep tests running quickly. Most of the program
 services (also called managers) can be tested in this mode of operation. This
-includes the asset, index, product, update, settings and task managers.
+includes the resource, index, product, update, settings and task managers.
 
 ### Full Program Tests
 

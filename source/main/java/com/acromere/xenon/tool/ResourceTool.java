@@ -77,7 +77,7 @@ public class ResourceTool extends GuidedTool {
 
 	private final TableColumn<Resource, Node> sizeColumn;
 
-	private final TableView<Resource> assetTable;
+	private final TableView<Resource> resourceTable;
 
 	private final ObservableList<Resource> resources;
 
@@ -116,7 +116,7 @@ public class ResourceTool extends GuidedTool {
 
 	public ResourceTool( XenonProgramProduct product, Resource resource ) {
 		super( product, resource );
-		setId( "tool-asset" );
+		setId( "tool-resource" );
 
 		this.eventCallback = this::handleExternalAssetEvent;
 
@@ -148,13 +148,13 @@ public class ResourceTool extends GuidedTool {
 		String uriColumnHeader = Rb.text( RbKey.LABEL, "uri", "URI" );
 		String sizeColumnHeader = Rb.text( RbKey.LABEL, "size", "Size" );
 
-		// The asset collections
+		// The resource collections
 		resources = FXCollections.observableArrayList();
 		filtered = new FilteredList<>( resources, i -> true );
 		sorted = new SortedList<>( filtered );
 
 		// Table columns -----------------------------------------------------------
-		Node icon = getProgram().getIconLibrary().getIcon( "asset" );
+		Node icon = getProgram().getIconLibrary().getIcon( "resource" );
 		double columnWidth = icon.getBoundsInLocal().getWidth() + 8;
 
 		iconColumn = new TableColumn<>( "" );
@@ -181,16 +181,16 @@ public class ResourceTool extends GuidedTool {
 		sizeColumn.setStyle( "-fx-alignment: CENTER-RIGHT;" );
 
 		// Asset table -------------------------------------------------------------
-		assetTable = new TableView<>( sorted );
-		assetTable.setEditable( true );
-		assetTable.getColumns().add( iconColumn );
-		assetTable.getColumns().add( nameColumn );
-		assetTable.getColumns().add( uriColumn );
-		assetTable.getColumns().add( sizeColumn );
-		assetTable.setColumnResizePolicy( TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN );
-		VBox.setVgrow( assetTable, Priority.ALWAYS );
+		resourceTable = new TableView<>( sorted );
+		resourceTable.setEditable( true );
+		resourceTable.getColumns().add( iconColumn );
+		resourceTable.getColumns().add( nameColumn );
+		resourceTable.getColumns().add( uriColumn );
+		resourceTable.getColumns().add( sizeColumn );
+		resourceTable.setColumnResizePolicy( TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN );
+		VBox.setVgrow( resourceTable, Priority.ALWAYS );
 
-		sorted.comparatorProperty().bind( assetTable.comparatorProperty() );
+		sorted.comparatorProperty().bind( resourceTable.comparatorProperty() );
 		filtered.predicateProperty().bind( filters.getSelectionModel().selectedItemProperty() );
 
 		// Tool layout
@@ -199,7 +199,7 @@ public class ResourceTool extends GuidedTool {
 		layout.getChildren().add( new HBox( Ui.PAD, uriField, goButton ) );
 		layout.getChildren().add( filters );
 		layout.getChildren().add( userNotice );
-		layout.getChildren().add( assetTable );
+		layout.getChildren().add( resourceTable );
 		getChildren().add( layout );
 
 		// Actions
@@ -219,8 +219,8 @@ public class ResourceTool extends GuidedTool {
 		} );
 		uriField.setOnAction( e -> selectAsset( uriField.getText() ) );
 		goButton.setOnAction( this::doGoAction );
-		assetTable.setOnMousePressed( this::doMousePressed );
-		assetTable.getSelectionModel().selectedItemProperty().addListener( ( p, o, n ) -> updateActionState() );
+		resourceTable.setOnMousePressed( this::doMousePressed );
+		resourceTable.getSelectionModel().selectedItemProperty().addListener( ( p, o, n ) -> updateActionState() );
 
 		Guide guide = createGuide();
 		getGuideContext().getGuides().add( guide );
@@ -248,8 +248,8 @@ public class ResourceTool extends GuidedTool {
 	@Override
 	protected void ready( OpenResourceRequest request ) {
 		// TODO Put the columns in the preferred order
-		assetTable.getSortOrder().clear();
-		assetTable.getSortOrder().add( nameColumn );
+		resourceTable.getSortOrder().clear();
+		resourceTable.getSortOrder().add( nameColumn );
 
 		// TODO Set the columns to the preferred size
 	}
@@ -262,13 +262,13 @@ public class ResourceTool extends GuidedTool {
 		// Set the title depending on the mode requested
 		String action = mode.name().toLowerCase();
 		setTitle( Rb.text( "action", action + ".name" ) );
-		setGraphic( getProgram().getIconLibrary().getIcon( "asset-" + action ) );
-		goButton.setGraphic( getProgram().getIconLibrary().getIcon( "asset-" + action ) );
+		setGraphic( getProgram().getIconLibrary().getIcon( "resource-" + action ) );
+		goButton.setGraphic( getProgram().getIconLibrary().getIcon( "resource-" + action ) );
 
 		// Determine the current folder
 		Path currentFolder = getProgram().getResourceManager().getCurrentFileFolder();
 
-		// Select the current asset
+		// Select the current resource
 		URI uri;
 		try {
 			uri = resolveUri( request.getQueryParameters() );
@@ -440,15 +440,15 @@ public class ResourceTool extends GuidedTool {
 
 			if( mode == Mode.OPEN ) {
 				if( !resource.exists() ) {
-					notifyUser( "asset-not-found", path );
+					notifyUser( "resource-not-found", path );
 				} else {
 					if( resource.isFolder() ) {
 						loadFolder( resource );
 					} else {
 						// TODO If the user chose "open with" then allow the user to chose a tool
-						//List<Class<? extends ProgramTool>> tools = getProgram().getToolManager().getRegisteredTools( asset.getType() );
+						//List<Class<? extends ProgramTool>> tools = getProgram().getToolManager().getRegisteredTools( resource.getType() );
 
-						// Use the asset manager to open the asset
+						// Use the resource manager to open the resource
 						getProgram().getResourceManager().openResource( resource.getUri() );
 
 						// Close this tool
@@ -474,9 +474,9 @@ public class ResourceTool extends GuidedTool {
 	}
 
 	private void editAssetName( Resource resource ) {
-		int index = assetTable.getItems().indexOf( resource );
-		log.at( LogLevel.DEBUG ).log( "Editing asset %s named: %s", index, resource.getName() );
-		if( index >= 0 ) Fx.run( () -> assetTable.edit( index, nameColumn ) );
+		int index = resourceTable.getItems().indexOf( resource );
+		log.at( LogLevel.DEBUG ).log( "Editing resource %s named: %s", index, resource.getName() );
+		if( index >= 0 ) Fx.run( () -> resourceTable.edit( index, nameColumn ) );
 	}
 
 	private void requestSaveAsset() throws ResourceException {
@@ -494,7 +494,7 @@ public class ResourceTool extends GuidedTool {
 	}
 
 	private Void handleExternalAssetEvent( ResourceWatchEvent event ) {
-		//log.atConfig().log( "External asset event: %s %s", event.type(), event.asset() );
+		//log.atConfig().log( "External resource event: %s %s", event.type(), event.resource() );
 		try {
 			Resource folder = event.resource();
 			if( !event.resource().isFolder() ) folder = getProgram().getResourceManager().getParent( event.resource() );
@@ -516,14 +516,14 @@ public class ResourceTool extends GuidedTool {
 		if( isEditing() ) return;
 
 		try {
-			// Unregister the asset from the watcher
+			// Unregister the resource from the watcher
 			if( FileScheme.ID.equals( resource.getScheme().getName() ) ) {
 				getProgram().getResourceWatchService().removeWatch( resource, eventCallback );
 			}
 
 			currentFolder = resource;
 
-			// Set the current folder with the asset manager
+			// Set the current folder with the resource manager
 			if( FileScheme.ID.equals( resource.getScheme().getName() ) ) {
 				getProgram().getResourceManager().setCurrentFileFolder( resource );
 			}
@@ -531,7 +531,7 @@ public class ResourceTool extends GuidedTool {
 			Fx.run( this::updateActionState );
 			Fx.run( this::closeUserNotice );
 
-			// Register the asset with the watcher
+			// Register the resource with the watcher
 			if( FileScheme.ID.equals( resource.getScheme().getName() ) ) {
 				getProgram().getResourceWatchService().registerWatch( resource, eventCallback );
 			}
@@ -540,7 +540,7 @@ public class ResourceTool extends GuidedTool {
 		}
 
 		getProgram().getTaskManager().submit( Task.of(
-			"load-asset", () -> {
+			"load-resource", () -> {
 				try {
 					parentResource = getProgram().getResourceManager().getParent( resource );
 					List<Resource> resources = resource.getChildren();
@@ -573,7 +573,7 @@ public class ResourceTool extends GuidedTool {
 			Resource resource = getProgram().getResourceManager().resolve( currentFolder, newFolderName );
 			Resource newFolder = getNextIndexedAsset( resource );
 
-			// Get next indexed asset
+			// Get next indexed resource
 			scheme.createFolder( newFolder );
 
 			// Reload the current folder, and start editing the new folder name
@@ -584,7 +584,7 @@ public class ResourceTool extends GuidedTool {
 	}
 
 	private void doDeleteSelectedFiles() {
-		List<Resource> selectedResources = new ArrayList<>( assetTable.getSelectionModel().getSelectedItems() );
+		List<Resource> selectedResources = new ArrayList<>( resourceTable.getSelectionModel().getSelectedItems() );
 		getProgram().getResourceManager().deleteResources( selectedResources );
 	}
 
@@ -618,10 +618,10 @@ public class ResourceTool extends GuidedTool {
 	private Guide createGuide() {
 		Guide guide = new Guide();
 
-		// TODO Load the asset roots
+		// TODO Load the resource roots
 		// Go through the supported schemes and get the roots
-		// or, let the roots be defined in asset manager
-		// or, let the roots be defined in asset tool
+		// or, let the roots be defined in resource manager
+		// or, let the roots be defined in resource tool
 
 		try {
 			// Bookmarks
@@ -630,19 +630,19 @@ public class ResourceTool extends GuidedTool {
 
 			// User folders
 			Path home = FileSystemView.getFileSystemView().getHomeDirectory().toPath();
-			guide.addNode( createGuideNode( "Home", "asset-home", home ) );
-			guide.addNode( createGuideNode( "Desktop", "asset-desktop", OperatingSystem.UserFolder.DESKTOP ) );
-			guide.addNode( createGuideNode( "Documents", "asset-documents", OperatingSystem.UserFolder.DOCUMENTS ) );
-			guide.addNode( createGuideNode( "Downloads", "asset-download", OperatingSystem.UserFolder.DOWNLOAD ) );
-			guide.addNode( createGuideNode( "Music", "asset-music", OperatingSystem.UserFolder.MUSIC ) );
-			guide.addNode( createGuideNode( "Photos", "asset-photos", OperatingSystem.UserFolder.PHOTOS ) );
-			guide.addNode( createGuideNode( "Videos", "asset-videos", OperatingSystem.UserFolder.VIDEOS ) );
+			guide.addNode( createGuideNode( "Home", "resource-home", home ) );
+			guide.addNode( createGuideNode( "Desktop", "resource-desktop", OperatingSystem.UserFolder.DESKTOP ) );
+			guide.addNode( createGuideNode( "Documents", "resource-documents", OperatingSystem.UserFolder.DOCUMENTS ) );
+			guide.addNode( createGuideNode( "Downloads", "resource-download", OperatingSystem.UserFolder.DOWNLOAD ) );
+			guide.addNode( createGuideNode( "Music", "resource-music", OperatingSystem.UserFolder.MUSIC ) );
+			guide.addNode( createGuideNode( "Photos", "resource-photos", OperatingSystem.UserFolder.PHOTOS ) );
+			guide.addNode( createGuideNode( "Videos", "resource-videos", OperatingSystem.UserFolder.VIDEOS ) );
 
 			// Recent
 
 			// Computer with all the drives
 			for( Path path : FileSystems.getDefault().getRootDirectories() ) {
-				guide.addNode( createGuideNode( UriUtil.parseName( path.toUri() ), "asset-root", path.toString() ) );
+				guide.addNode( createGuideNode( UriUtil.parseName( path.toUri() ), "resource-root", path.toString() ) );
 			}
 		} catch( ResourceException exception ) {
 			handleAssetException( exception );
@@ -667,7 +667,7 @@ public class ResourceTool extends GuidedTool {
 	}
 
 	private boolean isEditing() {
-		return assetTable.getEditingCell() != null;
+		return resourceTable.getEditingCell() != null;
 	}
 
 	private void doUpdateAssetName( TableColumn.CellEditEvent<Resource, Label> event ) {
@@ -685,12 +685,12 @@ public class ResourceTool extends GuidedTool {
 	}
 
 	private void handleAssetException( ResourceException exception ) {
-		notifyUser( "asset-error", exception.getMessage() );
+		notifyUser( "resource-error", exception.getMessage() );
 		log.atSevere().withCause( exception ).log();
 	}
 
 	/**
-	 * A table value factory for the asset icon.
+	 * A table value factory for the resource icon.
 	 */
 	private static class IconValueFactory implements Callback<TableColumn.CellDataFeatures<Resource, Node>, ObservableValue<Node>> {
 
@@ -701,51 +701,51 @@ public class ResourceTool extends GuidedTool {
 		}
 
 		@Override
-		public ObservableValue<Node> call( TableColumn.CellDataFeatures<Resource, Node> assetStringCellDataFeatures ) {
-			Resource resource = assetStringCellDataFeatures.getValue();
-			Node icon = program.getIconLibrary().getIcon( assetStringCellDataFeatures.getValue().getIcon() );
+		public ObservableValue<Node> call( TableColumn.CellDataFeatures<Resource, Node> resourceStringCellDataFeatures ) {
+			Resource resource = resourceStringCellDataFeatures.getValue();
+			Node icon = program.getIconLibrary().getIcon( resourceStringCellDataFeatures.getValue().getIcon() );
 			Label label = new Label( "", icon );
-			// Add the asset, as a property on the label, so it can be used for sorting
-			label.getProperties().put( "asset", resource );
+			// Add the resource, as a property on the label, so it can be used for sorting
+			label.getProperties().put( "resource", resource );
 			return new ReadOnlyObjectWrapper<>( label );
 		}
 
 	}
 
 	/**
-	 * A table value factory for the asset label.
+	 * A table value factory for the resource label.
 	 */
 	private static class NameValueFactory implements Callback<TableColumn.CellDataFeatures<Resource, Label>, ObservableValue<Label>> {
 
 		@Override
-		public ObservableValue<Label> call( TableColumn.CellDataFeatures<Resource, Label> assetStringCellDataFeatures ) {
-			Resource resource = assetStringCellDataFeatures.getValue();
+		public ObservableValue<Label> call( TableColumn.CellDataFeatures<Resource, Label> resourceStringCellDataFeatures ) {
+			Resource resource = resourceStringCellDataFeatures.getValue();
 			String name = resource.getName();
 			Label label = new Label( name );
-			// Add the asset, as a property on the label, so it can be used for sorting
-			label.getProperties().put( "asset", resource );
+			// Add the resource, as a property on the label, so it can be used for sorting
+			label.getProperties().put( "resource", resource );
 			return new ReadOnlyObjectWrapper<>( label );
 		}
 
 	}
 
 	/**
-	 * A table value factory for the asset size.
+	 * A table value factory for the resource size.
 	 */
 	private static class SizeValueFactory implements Callback<TableColumn.CellDataFeatures<Resource, Node>, ObservableValue<Node>> {
 
 		@Override
-		public ObservableValue<Node> call( TableColumn.CellDataFeatures<Resource, Node> assetStringCellDataFeatures ) {
+		public ObservableValue<Node> call( TableColumn.CellDataFeatures<Resource, Node> resourceStringCellDataFeatures ) {
 			try {
-				Resource resource = assetStringCellDataFeatures.getValue();
+				Resource resource = resourceStringCellDataFeatures.getValue();
 				long size = resource.getSize();
 
-				String text = Rb.text( "asset", "asset-open-folder-size", size );
+				String text = Rb.text( "resource", "resource-open-folder-size", size );
 				if( !resource.isFolder() ) text = FileUtil.getHumanSize( size, false, true );
 
 				Label label = new Label( text );
-				// Add the asset, as a property on the label, so it can be used for sorting
-				label.getProperties().put( "asset", resource );
+				// Add the resource, as a property on the label, so it can be used for sorting
+				label.getProperties().put( "resource", resource );
 				return new ReadOnlyObjectWrapper<>( label );
 			} catch( ResourceException exception ) {
 				log.atWarn().withCause( exception ).log();
@@ -757,26 +757,26 @@ public class ResourceTool extends GuidedTool {
 
 	private static final class AssetLabelComparator implements Comparator<Label> {
 
-		private final Comparator<Resource> assetComparator = new ResourceTypeAndNameComparator();
+		private final Comparator<Resource> resourceComparator = new ResourceTypeAndNameComparator();
 
 		@Override
 		public int compare( Label o1, Label o2 ) {
-			Resource resource1 = (Resource)o1.getProperties().get( "asset" );
-			Resource resource2 = (Resource)o2.getProperties().get( "asset" );
-			return assetComparator.compare( resource1, resource2 );
+			Resource resource1 = (Resource)o1.getProperties().get( "resource" );
+			Resource resource2 = (Resource)o2.getProperties().get( "resource" );
+			return resourceComparator.compare( resource1, resource2 );
 		}
 
 	}
 
 	private static final class AssetSizeComparator implements Comparator<Node> {
 
-		private final Comparator<Resource> assetComparator = new ResourceTypeAndSizeComparator();
+		private final Comparator<Resource> resourceComparator = new ResourceTypeAndSizeComparator();
 
 		@Override
 		public int compare( Node o1, Node o2 ) {
-			Resource resource1 = (Resource)o1.getProperties().get( "asset" );
-			Resource resource2 = (Resource)o2.getProperties().get( "asset" );
-			return assetComparator.compare( resource1, resource2 );
+			Resource resource1 = (Resource)o1.getProperties().get( "resource" );
+			Resource resource2 = (Resource)o2.getProperties().get( "resource" );
+			return resourceComparator.compare( resource1, resource2 );
 		}
 
 	}
@@ -901,7 +901,7 @@ public class ResourceTool extends GuidedTool {
 
 		@Override
 		public boolean isEnabled() {
-			return !assetTable.getSelectionModel().getSelectedItems().isEmpty();
+			return !resourceTable.getSelectionModel().getSelectedItems().isEmpty();
 		}
 
 		@Override

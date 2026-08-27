@@ -395,8 +395,8 @@ class UiReaderUIT extends BaseFullXenonTestCase {
 		settings.set( Tool.SETTINGS_TYPE_KEY, AboutTool.class.getName() );
 		settings.set( Tool.ORDER, 5 );
 
-		String assetTypeKey = new ProgramAboutType( program ).getKey();
-		settings.set( Resource.SETTINGS_TYPE_KEY, assetTypeKey );
+		String resourceTypeKey = new ProgramAboutType( program ).getKey();
+		settings.set( Resource.SETTINGS_TYPE_KEY, resourceTypeKey );
 		settings.set( Resource.SETTINGS_URI_KEY, ProgramAboutType.URI.toString() );
 
 		return settings;

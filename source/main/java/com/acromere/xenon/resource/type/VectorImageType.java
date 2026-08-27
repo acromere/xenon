@@ -10,7 +10,7 @@ import com.acromere.xenon.resource.ResourceType;
  */
 public class VectorImageType extends ResourceType {
 
-	private static final String assetTypeKey = "image:vector";
+	private static final String resourceTypeKey = "image:vector";
 
 	private static final String svgMediaTypePattern = "image/svg+xml";
 
@@ -25,7 +25,7 @@ public class VectorImageType extends ResourceType {
 
 	@Override
 	public String getKey() {
-		return assetTypeKey;
+		return resourceTypeKey;
 	}
 
 }

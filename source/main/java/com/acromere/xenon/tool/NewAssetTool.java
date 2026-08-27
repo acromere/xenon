@@ -29,7 +29,7 @@ public class NewAssetTool extends ProgramTool {
 
 	public NewAssetTool( XenonProgramProduct product, Resource resource ) {
 		super( product, resource );
-		setId( "tool-asset-new" );
+		setId( "tool-resource-new" );
 
 		view = new AssetTypeView();
 
@@ -42,8 +42,8 @@ public class NewAssetTool extends ProgramTool {
 
 	@Override
 	protected void ready( OpenResourceRequest request ) {
-		setTitle( Rb.text( RbKey.TOOL, "asset-name" ) );
-		setGraphic( getProgram().getIconLibrary().getIcon( Rb.text( RbKey.TOOL, "asset-icon" ) ) );
+		setTitle( Rb.text( RbKey.TOOL, "resource-name" ) );
+		setGraphic( getProgram().getIconLibrary().getIcon( Rb.text( RbKey.TOOL, "resource-icon" ) ) );
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class NewAssetTool extends ProgramTool {
 
 		AssetTypeTile( ResourceType type ) {
 			this.type = type;
-			getStyleClass().add( "asset-type-tile" );
+			getStyleClass().add( "resource-type-tile" );
 
 			setAlignment( Pos.CENTER );
 

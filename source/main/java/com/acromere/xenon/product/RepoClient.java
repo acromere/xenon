@@ -8,6 +8,6 @@ public interface RepoClient {
 
 	URI getCatalogUri( RepoCard repo );
 
-	URI getProductUri( RepoCard repo, String product, String asset, String format );
+	URI getProductUri( RepoCard repo, String product, String resource, String format );
 
 }

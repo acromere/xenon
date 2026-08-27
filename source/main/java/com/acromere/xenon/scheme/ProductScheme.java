@@ -35,7 +35,7 @@ public abstract class ProductScheme extends BaseScheme {
 			try {
 				codec.save( resource, null );
 			} catch( IOException exception ) {
-				throw new ResourceException( resource, "Unable to save asset", exception );
+				throw new ResourceException( resource, "Unable to save resource", exception );
 			}
 		}
 	}

@@ -9,15 +9,15 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class GuideToolGetRequiredAssetsUIT extends GuideToolUIT {
+class GuideToolGetRequiredResourcesUIT extends GuideToolUIT {
 
 	@Test
 	void execute() {
 		Resource resource = new Resource( ProgramGuideType.URI );
 		GuideTool tool = new GuideTool( getProgram(), resource );
 
-		Set<URI> assets = tool.getAssetDependencies();
-		assertThat( assets.size() ).isEqualTo( 0 );
+		Set<URI> resources = tool.getResourceDependencies();
+		assertThat( resources.size() ).isEqualTo( 0 );
 	}
 
 }

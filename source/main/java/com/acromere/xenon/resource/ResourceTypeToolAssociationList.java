@@ -45,7 +45,7 @@ public class ResourceTypeToolAssociationList extends VBox {
 		items.getChildren().clear();
 		if( resourceType == null ) return;
 
-		// Reload the asset type associations
+		// Reload the resource type associations
 		int row = 0;
 
 		Class<? extends ProgramTool> defaultTool = getProgram().getToolManager().getDefaultTool( resourceType );
@@ -56,7 +56,7 @@ public class ResourceTypeToolAssociationList extends VBox {
 			// Tool label
 			ToolRegistration registration = getProgram().getToolManager().getToolRegistration( tool );
 			Label toolName = new Label( registration.getName() );
-			toolName.getStyleClass().add( isDefault ? "asset-type-settings-default-tool" : "asset-type-settings-normal-tool" );
+			toolName.getStyleClass().add( isDefault ? "resource-type-settings-default-tool" : "resource-type-settings-normal-tool" );
 			GridPane.setHgrow( toolName, Priority.ALWAYS );
 
 			// Default tool icon

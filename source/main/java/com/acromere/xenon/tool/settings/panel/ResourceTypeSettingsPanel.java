@@ -28,13 +28,13 @@ import java.util.List;
  */
 public class ResourceTypeSettingsPanel extends SettingsPanel {
 
-	private static final String ASSET_TYPE_DEFAULT_TOOL = "/asset-types/{type-key}/default/tool";
+	private static final String RESOURCE_TYPE_DEFAULT_TOOL = "/resource-types/{type-key}/default/tool";
 
-	private final GridPane assetTypeGrid;
+	private final GridPane resourceTypeGrid;
 
-	private final Label assetTypesLabel;
+	private final Label resourceTypesLabel;
 
-	private final ComboBox<ResourceType> assetTypes;
+	private final ComboBox<ResourceType> resourceTypes;
 
 	private final Label keyLabel;
 
@@ -56,44 +56,44 @@ public class ResourceTypeSettingsPanel extends SettingsPanel {
 		super( product );
 
 		// Add the title to the panel
-		addTitle( Rb.text( product, RbKey.SETTINGS, "asset-types" ) );
+		addTitle( Rb.text( product, RbKey.SETTINGS, "resource-types" ) );
 
-		// Create the asset type group pane
-		TitledPane pane = createGroupPane( Rb.text( product, RbKey.SETTINGS, "asset-type" ) );
+		// Create the resource type group pane
+		TitledPane pane = createGroupPane( Rb.text( product, RbKey.SETTINGS, "resource-type" ) );
 		getChildren().add( pane );
-		assetTypeGrid = (GridPane)pane.getContent();
+		resourceTypeGrid = (GridPane)pane.getContent();
 		int row = 0;
 
 		// Asset type selector
-		assetTypesLabel = new Label( Rb.text( product, RbKey.SETTINGS, "asset-type" ) + ":" );
-		assetTypes = new ComboBox<>();
-		assetTypes.getItems().setAll( getUserAssetTypes( product ) );
-		GridPane.setColumnSpan( assetTypes, GridPane.REMAINING );
-		assetTypeGrid.addRow( row++, assetTypesLabel, assetTypes );
+		resourceTypesLabel = new Label( Rb.text( product, RbKey.SETTINGS, "resource-type" ) + ":" );
+		resourceTypes = new ComboBox<>();
+		resourceTypes.getItems().setAll( getUserAssetTypes( product ) );
+		GridPane.setColumnSpan( resourceTypes, GridPane.REMAINING );
+		resourceTypeGrid.addRow( row++, resourceTypesLabel, resourceTypes );
 
 		// Asset type name
 		nameLabel = new Label( Rb.text( product, RbKey.LABEL, "name" ) );
 		name = new Label();
 		GridPane.setColumnSpan( name, GridPane.REMAINING );
-		assetTypeGrid.addRow( row++, nameLabel, name );
+		resourceTypeGrid.addRow( row++, nameLabel, name );
 
 		// Asset type description
 		descriptionLabel = new Label( Rb.text( product, RbKey.LABEL, "description" ) );
 		description = new Label();
 		GridPane.setColumnSpan( description, GridPane.REMAINING );
-		assetTypeGrid.addRow( row++, descriptionLabel, description );
+		resourceTypeGrid.addRow( row++, descriptionLabel, description );
 
 		// Asset type key
 		keyLabel = new Label( Rb.text( product, RbKey.LABEL, "key" ) );
 		key = new Label();
 		GridPane.setColumnSpan( key, GridPane.REMAINING );
-		assetTypeGrid.addRow( row++, keyLabel, key );
+		resourceTypeGrid.addRow( row++, keyLabel, key );
 
 		// Add a spacer row
-		assetTypeGrid.addRow( row++ );
+		resourceTypeGrid.addRow( row++ );
 
 		// Create the codec associations group pane
-		TitledPane codecAssocPane = createGroupPane( Rb.text( product, RbKey.SETTINGS, "asset-type-codec-associations" ) );
+		TitledPane codecAssocPane = createGroupPane( Rb.text( product, RbKey.SETTINGS, "resource-type-codec-associations" ) );
 		getChildren().add( codecAssocPane );
 		GridPane codecAssocGrid = (GridPane)codecAssocPane.getContent();
 		row = 0;
@@ -106,7 +106,7 @@ public class ResourceTypeSettingsPanel extends SettingsPanel {
 		codecAssocGrid.addRow( row++, associations );
 
 		// Create the codec associations group pane
-		TitledPane toolAssocPane = createGroupPane( Rb.text( product, RbKey.SETTINGS, "asset-type-tool-associations" ) );
+		TitledPane toolAssocPane = createGroupPane( Rb.text( product, RbKey.SETTINGS, "resource-type-tool-associations" ) );
 		getChildren().add( toolAssocPane );
 		GridPane toolAssocGrid = (GridPane)toolAssocPane.getContent();
 		row = 0;
@@ -118,8 +118,8 @@ public class ResourceTypeSettingsPanel extends SettingsPanel {
 		GridPane.setHgrow( toolRegistrations, Priority.ALWAYS );
 		toolAssocGrid.addRow( row++, toolRegistrations );
 
-		assetTypes.valueProperty().addListener( ( p, o, n ) -> doUpdateFields( n.getKey() ) );
-		assetTypes.getSelectionModel().select( 0 );
+		resourceTypes.valueProperty().addListener( ( p, o, n ) -> doUpdateFields( n.getKey() ) );
+		resourceTypes.getSelectionModel().select( 0 );
 	}
 
 	private void doUpdateFields( String typeKey ) {

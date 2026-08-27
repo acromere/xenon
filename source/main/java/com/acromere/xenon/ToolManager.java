@@ -203,7 +203,7 @@ public class ToolManager implements Controllable<ToolManager> {
 
 	boolean openDependencies( OpenResourceRequest request, ProgramTool tool ) {
 		ResourceManager resourceManager = getProgram().getResourceManager();
-		Collection<URI> resourceDependencies = tool.getAssetDependencies();
+		Collection<URI> resourceDependencies = tool.getResourceDependencies();
 
 		Collection<Future<ProgramTool>> futures = resourceDependencies.stream().map( uri -> resourceManager.openResource( uri, request.getPane(), true, false ) ).toList();
 
@@ -225,9 +225,9 @@ public class ToolManager implements Controllable<ToolManager> {
 	/**
 	 * Called from the {@link UiReader} to restore a tool.
 	 * <p>
-	 * NOTE: This method does not request the asset to be loaded.
+	 * NOTE: This method does not request the resource to be loaded.
 	 *
-	 * @param request The open asset request for restoring the tool
+	 * @param request The open resource request for restoring the tool
 	 * @return The restored tool
 	 * @apiNote Could be called from a {@code task thread} or an {@code FX application thread}
 	 */
@@ -285,7 +285,7 @@ public class ToolManager implements Controllable<ToolManager> {
 	}
 
 	public void updateDefaultToolsFromSettings() {
-		// Go through each asset type and set the default tool from the settings
+		// Go through each resource type and set the default tool from the settings
 		for( Map.Entry<ResourceType, List<Class<? extends ProgramTool>>> entry : resourceTypeToolClasses.entrySet() ) {
 			ResourceType resourceType = entry.getKey();
 			Settings settings = getProgram().getSettingsManager().getResourceTypeSettings( resourceType ).getNode( "default" );
@@ -312,15 +312,15 @@ public class ToolManager implements Controllable<ToolManager> {
 		List<Class<? extends ProgramTool>> toolClasses = resourceTypeToolClasses.get( resourceType );
 
 		if( toolClasses == null || toolClasses.isEmpty() ) {
-			// There are no registered tools for the asset type
-			log.atWarning().log( "No tools registered for asset type %s", resourceType.getKey() );
+			// There are no registered tools for the resource type
+			log.atWarning().log( "No tools registered for resource type %s", resourceType.getKey() );
 		} else if( toolClasses.size() == 1 ) {
-			// There is exactly one tool registered for the asset type
-			log.atFine().log( "One tool registered for asset type %s", resourceType.getKey() );
+			// There is exactly one tool registered for the resource type
+			log.atFine().log( "One tool registered for resource type %s", resourceType.getKey() );
 			toolClass = toolClasses.getFirst();
 		} else {
-			// There is more than one tool registered for the asset type
-			log.atFine().log( "Multiple tools registered for asset type %s", resourceType.getKey() );
+			// There is more than one tool registered for the resource type
+			log.atFine().log( "Multiple tools registered for resource type %s", resourceType.getKey() );
 			toolClasses.forEach( c -> log.atFiner().log( "  %s", c.getName() ) );
 			toolClass = toolClasses.getFirst();
 		}
@@ -416,10 +416,10 @@ public class ToolManager implements Controllable<ToolManager> {
 
 	/**
 	 * This method creates a task that waits for both the tool to be added
-	 * and asset to be loaded then calls the tool ready() method.
+	 * and resource to be loaded then calls the tool ready() method.
 	 *
 	 * @param request The open tool request object
-	 * @param tool The tool that should be notified when the asset is ready
+	 * @param tool The tool that should be notified when the resource is ready
 	 */
 	private void scheduleWaitForReady( OpenResourceRequest request, ProgramTool tool ) {
 		ProgramTool.waitForReady( request, tool );

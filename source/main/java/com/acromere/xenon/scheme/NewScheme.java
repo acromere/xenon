@@ -18,7 +18,7 @@ public class NewScheme extends ProgramScheme {
 
 	public static final String ID = "new";
 
-	public static final String NEW_ASSET_TEMP_PATH = "new-asset-temp-path";
+	public static final String NEW_ASSET_TEMP_PATH = "new-resource-temp-path";
 
 	public static final String NEW_ASSET_TEMP_STORAGE_FOLDER = "storage";
 
@@ -44,7 +44,7 @@ public class NewScheme extends ProgramScheme {
 
 	@Override
 	public void load( Resource resource, Codec codec ) throws ResourceException {
-		// New assets should be loadable from a temporary location
+		// New resources should be loadable from a temporary location
 		if( codec != null ) {
 			Path temporaryPath = getTemporaryPath( resource );
 			if( temporaryPath != null && Files.exists( temporaryPath ) ) {
@@ -59,7 +59,7 @@ public class NewScheme extends ProgramScheme {
 
 	@Override
 	public void save( Resource resource, Codec codec ) throws ResourceException {
-		// New assets should be savable to a temporary location
+		// New resources should be savable to a temporary location
 		if( codec != null ) {
 			Path temporaryPath = getTemporaryPath( resource );
 			if( temporaryPath != null ) {

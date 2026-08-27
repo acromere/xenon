@@ -23,7 +23,7 @@ class WorkpaneDockTopTest extends WorkpaneTestCase {
 		assertThat( workpane.isDockSpace( Side.LEFT, view ) ).isTrue();
 		assertThat( workpane.isDockSpace( Side.RIGHT, view ) ).isTrue();
 
-		Resource resource = new Resource( "mock:asset" );
+		Resource resource = new Resource( "mock:resource" );
 		MockTool tool = new MockTool( resource );
 		tool.setPlacement( Workpane.Placement.DOCK_TOP );
 
@@ -44,7 +44,7 @@ class WorkpaneDockTopTest extends WorkpaneTestCase {
 
 	@Test
 	void testTopDockSizeMovesWithTool() {
-		Resource resource = new Resource( "mock:asset" );
+		Resource resource = new Resource( "mock:resource" );
 		MockTool tool = new MockTool( resource );
 		tool.setPlacement( Workpane.Placement.DOCK_TOP );
 
@@ -67,7 +67,7 @@ class WorkpaneDockTopTest extends WorkpaneTestCase {
 
 	@Test
 	void testDockTopInLandscapeMode() {
-		Resource resource = new Resource( "mock:asset" );
+		Resource resource = new Resource( "mock:resource" );
 		MockTool tool = new MockTool( resource );
 		tool.setPlacement( Workpane.Placement.DOCK_TOP );
 
@@ -86,7 +86,7 @@ class WorkpaneDockTopTest extends WorkpaneTestCase {
 
 	@Test
 	void testDockTopInLandscapeModeWithTopAndBottomDocks() {
-		Resource resource = new Resource( "mock:asset" );
+		Resource resource = new Resource( "mock:resource" );
 
 		MockTool leftTool = new MockTool( resource );
 		leftTool.setPlacement( Workpane.Placement.DOCK_LEFT );
@@ -118,7 +118,7 @@ class WorkpaneDockTopTest extends WorkpaneTestCase {
 
 	@Test
 	void testDockTopInPortraitMode() {
-		Resource resource = new Resource( "mock:asset" );
+		Resource resource = new Resource( "mock:resource" );
 		MockTool tool = new MockTool( resource );
 		tool.setPlacement( Workpane.Placement.DOCK_TOP );
 
@@ -137,7 +137,7 @@ class WorkpaneDockTopTest extends WorkpaneTestCase {
 
 	@Test
 	void testDockTopInPortraitModeWithTopAndBottomDocks() {
-		Resource resource = new Resource( "mock:asset" );
+		Resource resource = new Resource( "mock:resource" );
 
 		MockTool leftTool = new MockTool( resource );
 		leftTool.setPlacement( Workpane.Placement.DOCK_LEFT );

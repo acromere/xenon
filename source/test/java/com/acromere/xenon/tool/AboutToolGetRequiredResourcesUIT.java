@@ -10,14 +10,14 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class AboutToolGetRequiredAssetsUIT extends AboutToolUIT {
+class AboutToolGetRequiredResourcesUIT extends AboutToolUIT {
 
 	@Test
 	void execute() {
 		Resource resource = new Resource( ProgramAboutType.URI );
 		AboutTool tool = new AboutTool( getProgram(), resource );
-		Set<URI> assets = tool.getAssetDependencies();
-		assertThat( assets ).contains( ProgramGuideType.URI );
+		Set<URI> resources = tool.getResourceDependencies();
+		assertThat( resources ).contains( ProgramGuideType.URI );
 	}
 
 }

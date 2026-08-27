@@ -13,7 +13,7 @@ public class ProgramResourceNewType extends ResourceType {
 	public static final java.net.URI URI = java.net.URI.create( uriPattern );
 
 	public ProgramResourceNewType( XenonProgramProduct product ) {
-		super( product, "asset-new" );
+		super( product, "resource-new" );
 
 		PlaceholderCodec codec = new PlaceholderCodec();
 		codec.addSupported( Codec.Pattern.URI, uriPattern );

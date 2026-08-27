@@ -25,7 +25,7 @@ public class ResourceException extends Exception {
 		this.resource = resource;
 	}
 
-	public Resource getAsset() {
+	public Resource getResource() {
 		return resource;
 	}
 

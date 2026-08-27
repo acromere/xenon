@@ -62,7 +62,7 @@ public class ResourceTypeCodecAssociationList extends VBox {
 		items.getChildren().clear();
 		if( resourceType == null ) return;
 
-		// Reload the asset type associations
+		// Reload the resource type associations
 		int row = 0;
 
 		for( Codec.Association association : resourceType.getAssociations() ) {

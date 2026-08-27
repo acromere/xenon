@@ -28,18 +28,18 @@ public class V2RepoClient implements RepoClient {
 	 *
 	 * @param repo
 	 * @param product
-	 * @param asset
+	 * @param resource
 	 * @param format
 	 * @return
 	 */
 	@Override
-	public URI getProductUri( RepoCard repo, String product, String asset, String format ) {
+	public URI getProductUri( RepoCard repo, String product, String resource, String format ) {
 		String platform = OperatingSystem.getFamily().toString().toLowerCase();
 
 		URI uri = getRepoApi( repo );
 		uri = UriUtil.addToPath( uri, product );
 		uri = UriUtil.addToPath( uri, platform );
-		uri = UriUtil.addToPath( uri, asset );
+		uri = UriUtil.addToPath( uri, resource );
 		uri = UriUtil.addToPath( uri, format );
 		return uri;
 	}

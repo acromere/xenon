@@ -8,7 +8,7 @@ import com.acromere.xenon.scheme.XenonScheme;
 
 public class ProgramResourceType extends ResourceType {
 
-	private static final String uriPattern = XenonScheme.ID + ":/asset";
+	private static final String uriPattern = XenonScheme.ID + ":/resource";
 
 	public static final java.net.URI URI = java.net.URI.create( uriPattern );
 
@@ -21,7 +21,7 @@ public class ProgramResourceType extends ResourceType {
 	public static final java.net.URI SAVE_URI = java.net.URI.create( URI + MODE_SAVE );
 
 	public ProgramResourceType( XenonProgramProduct product ) {
-		super( product, "asset-open" );
+		super( product, "resource-open" );
 
 		PlaceholderCodec codec = new PlaceholderCodec();
 		codec.addSupported( Codec.Pattern.URI, uriPattern );

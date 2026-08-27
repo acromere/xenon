@@ -40,8 +40,8 @@ public class HelpTool extends GuidedTool {
 
 	@Override
 	protected void ready( OpenResourceRequest request ) throws ToolException {
-		// The asset type should load the help content
-		// The asset model should be a Markdown document
+		// The resource type should load the help content
+		// The resource model should be a Markdown document
 		String content = request.getResource().getModel();
 		//log.atConfig().log( "content=" + content );
 		//content = content == null ? "null" : content;

@@ -23,7 +23,7 @@ class WorkpaneDockLeftTest extends WorkpaneTestCase {
 		assertThat( workpane.isDockSpace( Side.LEFT, view ) ).isTrue();
 		assertThat( workpane.isDockSpace( Side.RIGHT, view ) ).isTrue();
 
-		Resource resource = new Resource( "mock:asset" );
+		Resource resource = new Resource( "mock:resource" );
 		MockTool tool = new MockTool( resource );
 		tool.setPlacement( Workpane.Placement.DOCK_LEFT );
 
@@ -44,7 +44,7 @@ class WorkpaneDockLeftTest extends WorkpaneTestCase {
 
 	@Test
 	void testLeftDockSizeMovesWithTool() {
-		Resource resource = new Resource( "mock:asset" );
+		Resource resource = new Resource( "mock:resource" );
 		MockTool tool = new MockTool( resource );
 		tool.setPlacement( Workpane.Placement.DOCK_LEFT );
 
@@ -67,7 +67,7 @@ class WorkpaneDockLeftTest extends WorkpaneTestCase {
 
 	@Test
 	void testDockLeftInLandscapeMode() {
-		Resource resource = new Resource( "mock:asset" );
+		Resource resource = new Resource( "mock:resource" );
 		MockTool tool = new MockTool( resource );
 		tool.setPlacement( Workpane.Placement.DOCK_LEFT );
 
@@ -86,7 +86,7 @@ class WorkpaneDockLeftTest extends WorkpaneTestCase {
 
 	@Test
 	void testDockLeftInLandscapeModeWithTopAndBottomDocks() {
-		Resource resource = new Resource( "mock:asset" );
+		Resource resource = new Resource( "mock:resource" );
 
 		MockTool topTool = new MockTool( resource );
 		topTool.setPlacement( Workpane.Placement.DOCK_TOP );
@@ -114,7 +114,7 @@ class WorkpaneDockLeftTest extends WorkpaneTestCase {
 
 	@Test
 	void testDockLeftInPortraitMode() {
-		Resource resource = new Resource( "mock:asset" );
+		Resource resource = new Resource( "mock:resource" );
 		MockTool tool = new MockTool( resource );
 		tool.setPlacement( Workpane.Placement.DOCK_LEFT );
 
@@ -133,7 +133,7 @@ class WorkpaneDockLeftTest extends WorkpaneTestCase {
 
 	@Test
 	void testDockLeftInPortraitModeWithTopAndBottomDocks() {
-		Resource resource = new Resource( "mock:asset" );
+		Resource resource = new Resource( "mock:resource" );
 
 		MockTool topTool = new MockTool( resource );
 		topTool.setPlacement( Workpane.Placement.DOCK_TOP );

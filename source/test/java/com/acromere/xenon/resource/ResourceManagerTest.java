@@ -33,16 +33,16 @@ public class ResourceManagerTest extends ProgramTestCase {
 
 	@Test
 	void testNewAsset() throws Exception {
-		// New assets have an asset type when created.
-		// The URI is assigned when the asset is saved.
+		// New resources have an resource type when created.
+		// The URI is assigned when the resource is saved.
 		Resource newResource = manager.createResource( manager.getResourceType( MockScheme.ID ) );
 		assertThat( newResource.isNew() ).isTrue();
 	}
 
 	@Test
 	void testOldAsset() throws Exception {
-		// Old assets have a URI when created.
-		// The asset type is assigned when the asset is opened.
+		// Old resources have a URI when created.
+		// The resource type is assigned when the resource is opened.
 		String uri = "mock:///home/user/temp/test.txt";
 		Resource oldResource = manager.createResource( uri );
 		assertThat( oldResource.isNew() ).isFalse();
@@ -155,7 +155,7 @@ public class ResourceManagerTest extends ProgramTestCase {
 		watcher.waitForEvent( ResourceEvent.LOADED );
 		assertThat( resource.isLoaded() ).isTrue();
 
-		// And an asset must be modified to be saved
+		// And an resource must be modified to be saved
 		resource.setModified( true );
 		assertThat( resource.isSafeToSave() ).isTrue();
 
@@ -181,7 +181,7 @@ public class ResourceManagerTest extends ProgramTestCase {
 		watcher.waitForEvent( ResourceEvent.LOADED );
 		assertThat( resource.isLoaded() ).isTrue();
 
-		// And an asset must be modified to be saved
+		// And an resource must be modified to be saved
 		resource.setModified( true );
 		assertThat( resource.isSafeToSave() ).isTrue();
 

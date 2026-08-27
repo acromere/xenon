@@ -31,7 +31,7 @@ public class ToolManagerUIT extends BaseFullXenonTestCase {
 		// given
 		Resource resource = getProgram().getResourceManager().createResource( ProgramAboutType.URI );
 		ProgramTool tool = new MockProgramTool( getProgram(), resource );
-		tool.getAssetDependencies().add( URI.create( "mock:///not-really-an-asset" ) );
+		tool.getResourceDependencies().add( URI.create( "mock:///not-really-an-resource" ) );
 		OpenResourceRequest request = new OpenResourceRequest();
 
 		// when
