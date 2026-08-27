@@ -246,7 +246,7 @@ public class AssetTool extends GuidedTool {
 	}
 
 	@Override
-	protected void ready( OpenAssetRequest request ) {
+	protected void ready( OpenResourceRequest request ) {
 		// TODO Put the columns in the preferred order
 		assetTable.getSortOrder().clear();
 		assetTable.getSortOrder().add( nameColumn );
@@ -255,7 +255,7 @@ public class AssetTool extends GuidedTool {
 	}
 
 	@Override
-	protected void open( OpenAssetRequest request ) {
+	protected void open( OpenResourceRequest request ) {
 		// Update the mode
 		mode = resolveMode( request.getUri() );
 

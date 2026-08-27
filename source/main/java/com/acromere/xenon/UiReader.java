@@ -5,7 +5,7 @@ import com.acromere.log.LogLevel;
 import com.acromere.product.Rb;
 import com.acromere.settings.Settings;
 import com.acromere.xenon.notice.Notice;
-import com.acromere.xenon.resource.OpenAssetRequest;
+import com.acromere.xenon.resource.OpenResourceRequest;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.ResourceType;
 import com.acromere.xenon.resource.exception.AssetTypeNotFoundException;
@@ -395,13 +395,13 @@ class UiReader {
 		}
 
 		// Create the open asset request
-		OpenAssetRequest openAssetRequest = new OpenAssetRequest();
-		openAssetRequest.setToolId( settings.getName() );
-		openAssetRequest.setResource( resource );
-		openAssetRequest.setToolClassName( toolClassName );
+		OpenResourceRequest openResourceRequest = new OpenResourceRequest();
+		openResourceRequest.setToolId( settings.getName() );
+		openResourceRequest.setResource( resource );
+		openResourceRequest.setToolClassName( toolClassName );
 
 		// Restore the tool
-		ProgramTool tool = getProgram().getToolManager().restoreTool( openAssetRequest );
+		ProgramTool tool = getProgram().getToolManager().restoreTool( openResourceRequest );
 		if( tool == null ) {
 			settings.delete();
 			throw new ToolInstantiationException( settings.getName(), toolClassName );

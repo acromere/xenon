@@ -6,7 +6,7 @@ import com.acromere.xenon.ThemeMetadata;
 import com.acromere.xenon.Ui;
 import com.acromere.xenon.Xenon;
 import com.acromere.xenon.XenonProgramProduct;
-import com.acromere.xenon.resource.OpenAssetRequest;
+import com.acromere.xenon.resource.OpenResourceRequest;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.tool.guide.GuidedTool;
 import javafx.css.*;
@@ -65,7 +65,7 @@ public class ThemeTool extends GuidedTool {
 	}
 
 	@Override
-	protected void ready( OpenAssetRequest request ) {
+	protected void ready( OpenResourceRequest request ) {
 		setTitle( Rb.text( "tool", "themes-name" ) );
 		setGraphic( getProgram().getIconLibrary().getIcon( "themes" ) );
 	}

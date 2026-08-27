@@ -13,7 +13,7 @@ import com.acromere.xenon.Xenon;
 import com.acromere.xenon.XenonProgramProduct;
 import com.acromere.xenon.product.ModEvent;
 import com.acromere.xenon.product.ProductManager;
-import com.acromere.xenon.resource.OpenAssetRequest;
+import com.acromere.xenon.resource.OpenResourceRequest;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.tool.guide.Guide;
 import com.acromere.xenon.tool.guide.GuideNode;
@@ -101,7 +101,7 @@ public class AboutTool extends GuidedTool {
 	}
 
 	@Override
-	protected void ready( OpenAssetRequest request ) {
+	protected void ready( OpenResourceRequest request ) {
 		setTitle( getProduct().getCard().getName() );
 		setGraphic( getProgram().getIconLibrary().getIcon( "about" ) );
 
@@ -115,7 +115,7 @@ public class AboutTool extends GuidedTool {
 	}
 
 	@Override
-	protected void open( OpenAssetRequest request ) {
+	protected void open( OpenResourceRequest request ) {
 		updatePages();
 
 		// TODO Can this be generalized in GuidedTool?

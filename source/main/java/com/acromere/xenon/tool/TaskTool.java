@@ -7,7 +7,7 @@ import com.acromere.xenon.ProgramTool;
 import com.acromere.xenon.Ui;
 import com.acromere.xenon.XenonMode;
 import com.acromere.xenon.XenonProgramProduct;
-import com.acromere.xenon.resource.OpenAssetRequest;
+import com.acromere.xenon.resource.OpenResourceRequest;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.task.Task;
 import com.acromere.xenon.task.TaskChain;
@@ -73,7 +73,7 @@ public class TaskTool extends ProgramTool {
 	}
 
 	@Override
-	protected void ready( OpenAssetRequest request ) {
+	protected void ready( OpenResourceRequest request ) {
 		setTitle( Rb.text( "tool", "task-name" ) );
 		setGraphic( getProgram().getIconLibrary().getIcon( "task" ) );
 

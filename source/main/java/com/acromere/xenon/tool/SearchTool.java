@@ -9,7 +9,7 @@ import com.acromere.xenon.ProgramTool;
 import com.acromere.xenon.RbKey;
 import com.acromere.xenon.Ui;
 import com.acromere.xenon.XenonProgramProduct;
-import com.acromere.xenon.resource.OpenAssetRequest;
+import com.acromere.xenon.resource.OpenResourceRequest;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.workpane.ToolException;
 import com.acromere.xenon.workpane.Workpane;
@@ -70,7 +70,7 @@ public class SearchTool extends ProgramTool {
 
 	// THREAD JavaFX Application Thread
 	@Override
-	protected void ready( OpenAssetRequest request ) throws ToolException {
+	protected void ready( OpenResourceRequest request ) throws ToolException {
 		super.ready( request );
 		setTitle( Rb.text( RbKey.TOOL, "search-name" ) );
 		setGraphic( getProgram().getIconLibrary().getIcon( "search" ) );

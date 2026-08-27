@@ -4,7 +4,7 @@ import com.acromere.product.Rb;
 import com.acromere.xenon.*;
 import com.acromere.xenon.action.DesktopBrowserAction;
 import com.acromere.xenon.action.SettingsAction;
-import com.acromere.xenon.resource.OpenAssetRequest;
+import com.acromere.xenon.resource.OpenResourceRequest;
 import com.acromere.xenon.resource.Resource;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -74,7 +74,7 @@ public class WelcomeTool extends ProgramTool {
 	}
 
 	@Override
-	protected void ready( OpenAssetRequest request ) {
+	protected void ready( OpenResourceRequest request ) {
 		setTitle( Rb.text( RbKey.TOOL, "welcome-name" ) );
 		setGraphic( getProgram().getIconLibrary().getIcon( "welcome" ) );
 	}

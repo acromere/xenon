@@ -26,7 +26,7 @@ import java.util.Map;
 @Getter
 @Setter
 @Accessors( chain = true )
-public class OpenAssetRequest {
+public class OpenResourceRequest {
 
 	private ResourceType type;
 
@@ -91,7 +91,7 @@ public class OpenAssetRequest {
 	 * @param <M> The model type.
 	 * @return This request.
 	 */
-	public <M> OpenAssetRequest setModel( M model ) {
+	public <M> OpenResourceRequest setModel( M model ) {
 		this.model = model;
 		return this;
 	}

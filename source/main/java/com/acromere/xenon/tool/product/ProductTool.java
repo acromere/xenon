@@ -6,7 +6,7 @@ import com.acromere.product.Rb;
 import com.acromere.xenon.Xenon;
 import com.acromere.xenon.XenonProgramProduct;
 import com.acromere.xenon.product.ProgramProductCardComparator;
-import com.acromere.xenon.resource.OpenAssetRequest;
+import com.acromere.xenon.resource.OpenResourceRequest;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.tool.guide.Guide;
 import com.acromere.xenon.tool.guide.GuideNode;
@@ -84,13 +84,13 @@ public class ProductTool extends GuidedTool {
 	}
 
 	@Override
-	protected void ready( OpenAssetRequest request ) {
+	protected void ready( OpenResourceRequest request ) {
 		setTitle( Rb.text( getProduct(), "tool", "product-name" ) );
 		setGraphic( getProgram().getIconLibrary().getIcon( "product" ) );
 	}
 
 	@Override
-	protected void open( OpenAssetRequest request ) {
+	protected void open( OpenResourceRequest request ) {
 		// TODO Can this be generalized in GuidedTool?
 		String pageId = request.getFragment();
 		if( pageId == null ) pageId = currentPageId;

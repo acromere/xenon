@@ -4,7 +4,7 @@ import com.acromere.event.EventHandler;
 import com.acromere.xenon.ProgramEvent;
 import com.acromere.xenon.ProgramTool;
 import com.acromere.xenon.XenonProgramProduct;
-import com.acromere.xenon.resource.OpenAssetRequest;
+import com.acromere.xenon.resource.OpenResourceRequest;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.task.Task;
 import javafx.scene.control.TextArea;
@@ -32,7 +32,7 @@ public class FaultTool extends ProgramTool {
 	}
 
 	@Override
-	protected void ready( OpenAssetRequest request ) {
+	protected void ready( OpenResourceRequest request ) {
 		setTitle( getResource().getName() );
 		setGraphic( getProgram().getIconLibrary().getIcon( "fault" ) );
 		// Tasks have to finish before the program exits so this ensures the tool will close
@@ -40,7 +40,7 @@ public class FaultTool extends ProgramTool {
 	}
 
 	@Override
-	protected void open( OpenAssetRequest request ) {
+	protected void open( OpenResourceRequest request ) {
 		Throwable throwable = getResource().getModel();
 
 		if( throwable != null ) {

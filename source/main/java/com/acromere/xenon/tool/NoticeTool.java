@@ -9,7 +9,7 @@ import com.acromere.xenon.XenonProgramProduct;
 import com.acromere.xenon.notice.Notice;
 import com.acromere.xenon.notice.NoticeModel;
 import com.acromere.xenon.notice.NoticePane;
-import com.acromere.xenon.resource.OpenAssetRequest;
+import com.acromere.xenon.resource.OpenResourceRequest;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.workpane.Workpane;
 import com.acromere.zerra.javafx.Fx;
@@ -60,14 +60,14 @@ public class NoticeTool extends ProgramTool {
 	}
 
 	@Override
-	protected void ready( OpenAssetRequest request ) {
+	protected void ready( OpenResourceRequest request ) {
 		setTitle( Rb.text( "tool", "notice-name" ) );
 		setGraphic( getProgram().getIconLibrary().getIcon( "notice" ) );
 		((NoticeModel)getAssetModel()).register( NodeEvent.NODE_CHANGED, assetHandler = ( e ) -> updateNotices() );
 	}
 
 	@Override
-	protected void open( OpenAssetRequest request ) {
+	protected void open( OpenResourceRequest request ) {
 		getProgram().getNoticeManager().markAllAsRead();
 		updateNotices();
 	}

@@ -5,7 +5,7 @@ import com.acromere.xenon.ProgramTool;
 import com.acromere.xenon.RbKey;
 import com.acromere.xenon.XenonProgramProduct;
 import com.acromere.xenon.compare.AssetTypeNameComparator;
-import com.acromere.xenon.resource.OpenAssetRequest;
+import com.acromere.xenon.resource.OpenResourceRequest;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.ResourceType;
 import javafx.geometry.Pos;
@@ -41,13 +41,13 @@ public class NewAssetTool extends ProgramTool {
 	}
 
 	@Override
-	protected void ready( OpenAssetRequest request ) {
+	protected void ready( OpenResourceRequest request ) {
 		setTitle( Rb.text( RbKey.TOOL, "asset-name" ) );
 		setGraphic( getProgram().getIconLibrary().getIcon( Rb.text( RbKey.TOOL, "asset-icon" ) ) );
 	}
 
 	@Override
-	protected void open( OpenAssetRequest request ) {
+	protected void open( OpenResourceRequest request ) {
 		view.update();
 	}
 
@@ -64,7 +64,7 @@ public class NewAssetTool extends ProgramTool {
 			getChildren().clear();
 			getChildren().addAll( types.stream().filter( ResourceType::isUserType ).map( AssetTypeTile::new ).peek( tile -> tile.addEventFilter(
 				MouseEvent.MOUSE_PRESSED, e -> {
-					getProgram().getResourceManager().newAsset( tile.getAssetType() );
+					getProgram().getResourceManager().newResource( tile.getAssetType() );
 					NewAssetTool.this.close();
 				}
 			) ).collect( Collectors.toList() ) );

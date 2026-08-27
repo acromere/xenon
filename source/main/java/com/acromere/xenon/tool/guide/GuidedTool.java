@@ -2,7 +2,7 @@ package com.acromere.xenon.tool.guide;
 
 import com.acromere.xenon.ProgramTool;
 import com.acromere.xenon.XenonProgramProduct;
-import com.acromere.xenon.resource.OpenAssetRequest;
+import com.acromere.xenon.resource.OpenResourceRequest;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.type.ProgramGuideType;
 import com.acromere.xenon.workpane.ToolException;
@@ -51,7 +51,7 @@ public abstract class GuidedTool extends ProgramTool {
 	}
 
 	@Override
-	protected void open( OpenAssetRequest request ) throws ToolException {
+	protected void open( OpenResourceRequest request ) throws ToolException {
 		super.open( request );
 
 		// Set the expanded and selected ids after ready() has been called

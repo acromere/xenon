@@ -360,51 +360,51 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		}
 	}
 
-	public Future<ProgramTool> newAsset( String key ) {
-		return newAsset( key, null );
+	public Future<ProgramTool> newResource( String key ) {
+		return newResource( key, null );
 	}
 
-	public Future<ProgramTool> newAsset( String key, Object model ) {
-		return newAsset( getResourceType( key ), model, null, true, true );
-	}
-
-	/**
-	 * This method starts the process of creating a new asset by asset type. The
-	 * returned future allows the caller to get the tool created for the new
-	 * asset. It is possible that a tool was not created for the asset, in which
-	 * case the tool is null.
-	 *
-	 * @param type The new asset type
-	 * @return The future to get the new asset tool
-	 */
-	public Future<ProgramTool> newAsset( ResourceType type ) {
-		return newAsset( type, true, true );
+	public Future<ProgramTool> newResource( String key, Object model ) {
+		return newResource( getResourceType( key ), model, null, true, true );
 	}
 
 	/**
-	 * This method starts the process of creating a new asset by asset type. The
-	 * returned future allows the caller to get the tool created for the new
-	 * asset. It is possible that a tool was not created for the asset, in which
-	 * case the tool is null.
+	 * This method starts the process of creating a new resource by resource type.
+	 * The returned future allows the caller to get the tool created for the new
+	 * resource. It is possible that a tool was not created for the resource, in
+	 * which case the tool is null.
 	 *
-	 * @param type The new asset type
-	 * @return The future to get the new asset tool
+	 * @param type The new resource type
+	 * @return The future to get the new resource tool
 	 */
-	public Future<ProgramTool> newAsset( ResourceType type, boolean openTool, boolean setActive ) {
-		return newAsset( type, null, null, openTool, setActive );
+	public Future<ProgramTool> newResource( ResourceType type ) {
+		return newResource( type, true, true );
 	}
 
 	/**
-	 * This method starts the process of creating a new asset by asset type. The
-	 * returned future allows the caller to get the tool created for the new
-	 * asset. It is possible that a tool was not created for the asset, in which
-	 * case the tool is null.
+	 * This method starts the process of creating a new resource by resource type.
+	 * The returned future allows the caller to get the tool created for the new
+	 * resource. It is possible that a tool was not created for the resource, in
+	 * which case the tool is null.
 	 *
-	 * @param type The new asset type
-	 * @return The future to get the new asset tool
+	 * @param type The new resource type
+	 * @return The future to get the new resource tool
 	 */
-	private Future<ProgramTool> newAsset( ResourceType type, Object model, WorkpaneView view, boolean openTool, boolean setActive ) {
-		OpenAssetRequest request = new OpenAssetRequest();
+	public Future<ProgramTool> newResource( ResourceType type, boolean openTool, boolean setActive ) {
+		return newResource( type, null, null, openTool, setActive );
+	}
+
+	/**
+	 * This method starts the process of creating a new resource by resource type.
+	 * The returned future allows the caller to get the tool created for the new
+	 * resource. It is possible that a tool was not created for the resource, in
+	 * which case the tool is null.
+	 *
+	 * @param type The new resource type
+	 * @return The future to get the new resource tool
+	 */
+	private Future<ProgramTool> newResource( ResourceType type, Object model, WorkpaneView view, boolean openTool, boolean setActive ) {
+		OpenResourceRequest request = new OpenResourceRequest();
 		request.setUri( null );
 		request.setType( type );
 		request.setModel( model );
@@ -452,7 +452,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	}
 
 	private Future<ProgramTool> openAsset( URI uri, Object model, Workpane pane, WorkpaneView view, Class<? extends ProgramTool> toolClass, boolean openTool, boolean setActive ) {
-		OpenAssetRequest request = new OpenAssetRequest();
+		OpenResourceRequest request = new OpenResourceRequest();
 		request.setUri( uri );
 		request.setPane( pane );
 		request.setView( view );
@@ -481,7 +481,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 	public Future<ProgramTool> openAsset( Resource resource, WorkpaneView view, Side side, Class<? extends ProgramTool> toolClass ) {
 		if( side != null ) view = view.getWorkpane().split( view, side );
-		OpenAssetRequest request = new OpenAssetRequest();
+		OpenResourceRequest request = new OpenResourceRequest();
 		request.setResource( resource );
 		request.setView( view );
 		request.setOpenTool( true );
@@ -1463,9 +1463,9 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 	private class NewOrOpenAssetTask extends Task<ProgramTool> {
 
-		private final OpenAssetRequest request;
+		private final OpenResourceRequest request;
 
-		public NewOrOpenAssetTask( OpenAssetRequest request ) {
+		public NewOrOpenAssetTask( OpenResourceRequest request ) {
 			this.request = request;
 		}
 
@@ -1531,7 +1531,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 			Collection<ResourceType> types = getUserResourceTypes();
 
 			if( types.size() == 1 ) {
-				newAsset( types.iterator().next() );
+				newResource( types.iterator().next() );
 			} else {
 				openAsset( ProgramResourceNewType.URI );
 			}

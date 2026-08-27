@@ -2,7 +2,7 @@ package com.acromere.xenon.tool.settings;
 
 import com.acromere.product.Rb;
 import com.acromere.xenon.XenonProgramProduct;
-import com.acromere.xenon.resource.OpenAssetRequest;
+import com.acromere.xenon.resource.OpenResourceRequest;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.tool.guide.Guide;
 import com.acromere.xenon.tool.guide.GuideNode;
@@ -42,13 +42,13 @@ public class SettingsTool extends GuidedTool {
 	}
 
 	@Override
-	protected void ready( OpenAssetRequest request ) {
+	protected void ready( OpenResourceRequest request ) {
 		setTitle( Rb.text( "tool", "settings-name" ) );
 		setGraphic( getProgram().getIconLibrary().getIcon( "settings" ) );
 	}
 
 	@Override
-	protected void open( OpenAssetRequest request ) {
+	protected void open( OpenResourceRequest request ) {
 		// TODO Can this be generalized in GuidedTool?
 		String pageId = request.getFragment();
 		if( pageId == null ) pageId = currentPageId;

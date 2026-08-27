@@ -6,7 +6,7 @@ import com.acromere.util.TextUtil;
 import com.acromere.xenon.ProgramSettings;
 import com.acromere.xenon.ProgramTool;
 import com.acromere.xenon.XenonProgramProduct;
-import com.acromere.xenon.resource.OpenAssetRequest;
+import com.acromere.xenon.resource.OpenResourceRequest;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.workpane.Tool;
 import com.acromere.xenon.workpane.ToolEvent;
@@ -106,7 +106,7 @@ public class GuideTool extends ProgramTool {
 	}
 
 	@Override
-	protected void ready( OpenAssetRequest request ) {
+	protected void ready( OpenResourceRequest request ) {
 		setTitle( Rb.text( "tool", "guide-name" ) );
 		setGraphic( getProduct().getProgram().getIconLibrary().getIcon( "guide" ) );
 	}

@@ -5,7 +5,7 @@ import com.acromere.product.Rb;
 import com.acromere.settings.Settings;
 import com.acromere.skill.Controllable;
 import com.acromere.util.IdGenerator;
-import com.acromere.xenon.resource.OpenAssetRequest;
+import com.acromere.xenon.resource.OpenResourceRequest;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.ResourceManager;
 import com.acromere.xenon.resource.ResourceType;
@@ -89,7 +89,7 @@ public class ToolManager implements Controllable<ToolManager> {
 	 * @apiNote Should be called from a {@link TaskManager} thread
 	 * @apiNote This method is synchronized in order to enforce singleton instance mode
 	 */
-	public ProgramTool openTool( OpenAssetRequest request ) throws NoToolRegisteredException {
+	public ProgramTool openTool( OpenResourceRequest request ) throws NoToolRegisteredException {
 		// Check the calling thread
 		TaskManager.taskThreadCheck();
 
@@ -201,7 +201,7 @@ public class ToolManager implements Controllable<ToolManager> {
 		}
 	}
 
-	boolean openDependencies( OpenAssetRequest request, ProgramTool tool ) {
+	boolean openDependencies( OpenResourceRequest request, ProgramTool tool ) {
 		ResourceManager resourceManager = getProgram().getResourceManager();
 		Collection<URI> assetDependencies = tool.getAssetDependencies();
 
@@ -231,7 +231,7 @@ public class ToolManager implements Controllable<ToolManager> {
 	 * @return The restored tool
 	 * @apiNote Could be called from a {@code task thread} or an {@code FX application thread}
 	 */
-	ProgramTool restoreTool( OpenAssetRequest request ) {
+	ProgramTool restoreTool( OpenResourceRequest request ) {
 		// Run this class through the alias map
 		String toolClassName = getToolClassName( request.getToolClassName() );
 
@@ -364,7 +364,7 @@ public class ToolManager implements Controllable<ToolManager> {
 	}
 
 	// Safe to call on any thread
-	private ProgramTool getToolInstance( OpenAssetRequest request ) throws Exception {
+	private ProgramTool getToolInstance( OpenResourceRequest request ) throws Exception {
 		Resource resource = request.getResource();
 		Class<? extends ProgramTool> toolClass = request.getToolClass();
 
@@ -421,7 +421,7 @@ public class ToolManager implements Controllable<ToolManager> {
 	 * @param request The open tool request object
 	 * @param tool The tool that should be notified when the asset is ready
 	 */
-	private void scheduleWaitForReady( OpenAssetRequest request, ProgramTool tool ) {
+	private void scheduleWaitForReady( OpenResourceRequest request, ProgramTool tool ) {
 		ProgramTool.waitForReady( request, tool );
 	}
 

@@ -5,7 +5,7 @@ import com.acromere.product.Rb;
 import com.acromere.settings.Settings;
 import com.acromere.skill.Identity;
 import com.acromere.xenon.notice.Notice;
-import com.acromere.xenon.resource.OpenAssetRequest;
+import com.acromere.xenon.resource.OpenResourceRequest;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.ResourceEvent;
 import com.acromere.xenon.resource.exception.ResourceException;
@@ -48,7 +48,7 @@ import java.util.concurrent.TimeoutException;
  *   when both the tool and asset are ready to be used. Specifically it is
  *   called when the tool has been added to the workarea and the asset data
  *   model has been populated. Asset data model event handlers should be
- *   registered in this step. The {@link OpenAssetRequest} parameter can be used
+ *   registered in this step. The {@link OpenResourceRequest} parameter can be used
  *   to find other information about opening the asset, usually with the query
  *   parameters. Note, while it is safe to update the tool UI in this step,
  *   {@link #open} will be called immediately afterward, so it is usually more
@@ -57,7 +57,7 @@ import java.util.concurrent.TimeoutException;
  *   <dt>{@link #open} [FX thread]</dt>
  *   <dd>Called when the tool is opened. This method is not called before
  *   {@link #ready} has been called and may be called any number of times after
- *   {@link #ready} is called. The {@link OpenAssetRequest} parameter can be used
+ *   {@link #ready} is called. The {@link OpenResourceRequest} parameter can be used
  *   to find other information about opening the asset, usually with the query
  *   parameters. It is recommended to update the tool UI state from the asset
  *   model in this step.</dd>
@@ -188,7 +188,7 @@ public abstract class ProgramTool extends Tool {
 	 * The tool and asset are ready.
 	 */
 	// THREAD JavaFX Application Thread
-	protected void ready( OpenAssetRequest request ) throws ToolException {}
+	protected void ready( OpenResourceRequest request ) throws ToolException {}
 
 	/**
 	 * Called to open or reopen the tool. This is called at least once after
@@ -199,7 +199,7 @@ public abstract class ProgramTool extends Tool {
 	 *
 	 * @param request The request used to open the asset
 	 */
-	protected void open( OpenAssetRequest request ) throws ToolException {}
+	protected void open( OpenResourceRequest request ) throws ToolException {}
 
 	@Override
 	protected void activate() throws ToolException {
@@ -255,7 +255,7 @@ public abstract class ProgramTool extends Tool {
 		this.setActiveWhenOpen = true;
 	}
 
-	static void waitForReady( OpenAssetRequest request, ProgramTool tool ) {
+	static void waitForReady( OpenResourceRequest request, ProgramTool tool ) {
 		TaskChain.of(
 			"wait for ready", () -> {
 				waitForTool( tool );
@@ -303,7 +303,7 @@ public abstract class ProgramTool extends Tool {
 		}
 	}
 
-	private void callToolReady( OpenAssetRequest request ) {
+	private void callToolReady( OpenResourceRequest request ) {
 		// Set the isReady flag to true
 		isReady = true;
 

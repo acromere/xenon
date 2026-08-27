@@ -242,7 +242,7 @@ public class ResourceManagerTest extends ProgramTestCase {
 	}
 
 	@Test
-	void canRenameAssetWithNewAsset() throws Exception {
+	void canRenameAssetWithNewResource() throws Exception {
 		Resource resource = manager.createAsset( manager.getResourceType( FileScheme.ID ), "mock://test.mock" );
 		assertThat( manager.canRenameAsset( resource ) ).isFalse();
 	}

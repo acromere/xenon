@@ -2,7 +2,7 @@ package com.acromere.xenon.tool;
 
 import com.acromere.util.FileUtil;
 import com.acromere.xenon.XenonProgramProduct;
-import com.acromere.xenon.resource.OpenAssetRequest;
+import com.acromere.xenon.resource.OpenResourceRequest;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.tool.guide.GuidedTool;
 import com.acromere.xenon.workpane.ToolException;
@@ -39,7 +39,7 @@ public class HelpTool extends GuidedTool {
 	}
 
 	@Override
-	protected void ready( OpenAssetRequest request ) throws ToolException {
+	protected void ready( OpenResourceRequest request ) throws ToolException {
 		// The asset type should load the help content
 		// The asset model should be a Markdown document
 		String content = request.getResource().getModel();
