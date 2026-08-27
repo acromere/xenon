@@ -131,9 +131,9 @@ public abstract class Module implements XenonProgramProduct, Comparable<Module> 
 	}
 
 	/**
-	 * A convenience method to register an asset type.
+	 * A convenience method to register an resource type.
 	 *
-	 * @param type The asset type to register
+	 * @param type The resource type to register
 	 * @return This module
 	 */
 	protected Module registerAssetType( ResourceType type ) {
@@ -142,9 +142,9 @@ public abstract class Module implements XenonProgramProduct, Comparable<Module> 
 	}
 
 	/**
-	 * A convenience method to unregister an asset type.
+	 * A convenience method to unregister an resource type.
 	 *
-	 * @param type The asset type to unregister
+	 * @param type The resource type to unregister
 	 * @return This module
 	 */
 	protected Module unregisterAssetType( ResourceType type ) {
@@ -155,7 +155,7 @@ public abstract class Module implements XenonProgramProduct, Comparable<Module> 
 	/**
 	 * A convenience method to register a tool.
 	 *
-	 * @param resourceType The asset type associated with the tool
+	 * @param resourceType The resource type associated with the tool
 	 * @param metadata The tool registration
 	 * @return This module
 	 */
@@ -167,8 +167,8 @@ public abstract class Module implements XenonProgramProduct, Comparable<Module> 
 	/**
 	 * A convenience method to register a tool.
 	 *
-	 * @param product The program product providing the asset type and tool
-	 * @param resourceType The asset type associated with the tool
+	 * @param product The program product providing the resource type and tool
+	 * @param resourceType The resource type associated with the tool
 	 * @param toolClass The tool class
 	 * @return The tool registration
 	 */
@@ -181,7 +181,7 @@ public abstract class Module implements XenonProgramProduct, Comparable<Module> 
 	/**
 	 * A convenience method to unregister a tool.
 	 *
-	 * @param resourceType The asset type associated with the tool
+	 * @param resourceType The resource type associated with the tool
 	 * @param type The tool class
 	 * @return This module
 	 */
@@ -228,7 +228,7 @@ public abstract class Module implements XenonProgramProduct, Comparable<Module> 
 	/**
 	 * Called by the program to register a module instance. This method is typically
 	 * called before the program frame and workspaces are created and allows the
-	 * module to register icons, actions, asset types, tools, etc. This method is
+	 * module to register icons, actions, resource types, tools, etc. This method is
 	 * also called as part of the module installation process before the
 	 * {@link #startup} method is called.
 	 */
@@ -257,7 +257,7 @@ public abstract class Module implements XenonProgramProduct, Comparable<Module> 
 	/**
 	 * Called by the program to unregister a module instance. This method is
 	 * typically called after the program frame and workspaces are destroyed and
-	 * allows the module to unregister icons, actions, asset types, tools, etc.
+	 * allows the module to unregister icons, actions, resource types, tools, etc.
 	 * This method is also called as part of the module uninstallation process after
 	 * the {@link #shutdown} method is called.
 	 */

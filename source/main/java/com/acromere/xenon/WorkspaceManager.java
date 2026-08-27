@@ -197,20 +197,20 @@ public class WorkspaceManager implements Controllable<WorkspaceManager> {
 	}
 
 	/**
-	 * Get the modified assets in the workspace.
+	 * Get the modified resources in the workspace.
 	 *
 	 * @param workspace This workspace to check
-	 * @return The modified assets in the workspace
+	 * @return The modified resources in the workspace
 	 */
 	public Set<Resource> getModifiedAssets( Workspace workspace ) {
 		return workspace.getWorkareas().stream().flatMap( a -> a.getTools().stream() ).map( Tool::getResource ).filter( Resource::isNewOrModified ).collect( Collectors.toSet() );
 	}
 
 	/**
-	 * Handle modified assets by asking the user what to do with them. The assets
+	 * Handle modified resources by asking the user what to do with them. The resources
 	 * can be provided from any scope (program, workspace, workarea, tool, etc.).
 	 *
-	 * @param resources The modified assets to handle
+	 * @param resources The modified resources to handle
 	 * @return False if the user chooses to cancel the operation
 	 */
 	public boolean handleModifiedAssets( ProgramScope scope, Set<Resource> resources ) {

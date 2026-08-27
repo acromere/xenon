@@ -40,16 +40,16 @@ import java.util.concurrent.TimeoutException;
  *   <dd>The {@link Tool constructor} is called only once and should
  *   create all the UI components needed for the tool. However, the provided
  *   {@link Resource} may not be loaded and should not be used in the constructor
- *   other than to call {@code super(asset)}. After the constructor completes,
- *   the tool will added to the workarea, possibly before the asset is loaded.</dd>
+ *   other than to call {@code super(resource)}. After the constructor completes,
+ *   the tool will added to the workarea, possibly before the resource is loaded.</dd>
  *
  *   <dt>{@link #ready} [FX thread]</dt>
  *   <dd>The {@link #ready} method is called one time
- *   when both the tool and asset are ready to be used. Specifically it is
- *   called when the tool has been added to the workarea and the asset data
+ *   when both the tool and resource are ready to be used. Specifically it is
+ *   called when the tool has been added to the workarea and the resource data
  *   model has been populated. Asset data model event handlers should be
  *   registered in this step. The {@link OpenResourceRequest} parameter can be used
- *   to find other information about opening the asset, usually with the query
+ *   to find other information about opening the resource, usually with the query
  *   parameters. Note, while it is safe to update the tool UI in this step,
  *   {@link #open} will be called immediately afterward, so it is usually more
  *   efficient just to update the UI there.</dd>
@@ -58,43 +58,43 @@ import java.util.concurrent.TimeoutException;
  *   <dd>Called when the tool is opened. This method is not called before
  *   {@link #ready} has been called and may be called any number of times after
  *   {@link #ready} is called. The {@link OpenResourceRequest} parameter can be used
- *   to find other information about opening the asset, usually with the query
- *   parameters. It is recommended to update the tool UI state from the asset
+ *   to find other information about opening the resource, usually with the query
+ *   parameters. It is recommended to update the tool UI state from the resource
  *   model in this step.</dd>
  *
  *   <dt>{@link #allocate} [FX thread]</dt>
  *   <dd>Called when the tool is added to the workarea. This step may be called
- *   before the asset is ready and before open is called, the state of the asset
+ *   before the resource is ready and before open is called, the state of the resource
  *   should not be assumed.</dd>
  *
  *   <dt>{@link #display} [FX thread]</dt>
  *   <dd>Called when the tool is displayed (made the visible tool in the view
- *   pane). This step may be called before the asset is ready and before open is
- *   called, the state of the asset should not be assumed. This method is often,
+ *   pane). This step may be called before the resource is ready and before open is
+ *   called, the state of the resource should not be assumed. This method is often,
  *   but not always, followed by the activate step. This step is a good place to
  *   restart animation threads or other work that is paused when the tool is
  *   concealed.</dd>
  *
  *   <dt>{@link #activate} [FX thread]</dt>
  *   <dd>Called when the tool is activated. This step may be called before the
- *   asset is ready and before open is called, the state of the asset should not
+ *   resource is ready and before open is called, the state of the resource should not
  *   be assumed.</dd>
  *
  *   <dt>{@link #deactivate} [FX thread]</dt>
  *   <dd>Called when the tool is deactivated. This step may be called before the
- *   asset is ready and before open is called, the state of the asset should not
+ *   resource is ready and before open is called, the state of the resource should not
  *   be assumed.</dd>
  *
  *   <dt>{@link #conceal} [FX thread]</dt>
  *   <dd>Called when the tool is concealed. This step may be called before the
- *   asset is ready and before open is called, the state of the asset should not
+ *   resource is ready and before open is called, the state of the resource should not
  *   be assumed. This step is a good place to pause animation threads or other
  *   work that can or should be paused while the tool is not visible.</dd>
  *
  *   <dt>{@link #deallocate} [FX thread]</dt>
  *   <dd>Called when the tool is removed from the workarea. This step may be
- *   called before the asset is ready and before open is called, the state of
- *   the asset should not be assumed.</dd>
+ *   called before the resource is ready and before open is called, the state of
+ *   the resource should not be assumed.</dd>
  * </dl>
  * <ul>
  *   <li>Constructor</li>
@@ -136,7 +136,7 @@ public abstract class ProgramTool extends Tool {
 		return Collections.emptySet();
 	}
 
-	public Settings getAssetSettings() {
+	public Settings getResourceSettings() {
 		return getProgram().getSettingsManager().getResourceSettings( getResource() );
 	}
 
@@ -176,7 +176,7 @@ public abstract class ProgramTool extends Tool {
 
 	/**
 	 * Check if the tool is ready for use. Ready for use means that both the tool
-	 * and its associated asset are initialized and loaded.
+	 * and its associated resource are initialized and loaded.
 	 *
 	 * @return True if ready for use, false otherwise.
 	 */

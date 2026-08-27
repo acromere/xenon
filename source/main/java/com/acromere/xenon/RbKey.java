@@ -9,7 +9,7 @@ public interface RbKey {
 	String PROGRAM = "program";
 	String PROMPT = "prompt";
 	String PROPS = "props";
-	String RESOURCE = "asset";
+	String RESOURCE = "resource";
 	String SETTINGS = "settings";
 	String TOOL = "tool";
 	String UPDATE = "update";

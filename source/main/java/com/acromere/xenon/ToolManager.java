@@ -42,14 +42,14 @@ public class ToolManager implements Controllable<ToolManager> {
 
 	private final Map<Class<? extends ProgramTool>, ToolRegistration> toolClassMetadata;
 
-	private final Map<ResourceType, List<Class<? extends ProgramTool>>> assetTypeToolClasses;
+	private final Map<ResourceType, List<Class<? extends ProgramTool>>> resourceTypeToolClasses;
 
 	private final Set<Class<?>> singletonLocks = new CopyOnWriteArraySet<>();
 
 	public ToolManager( Xenon program ) {
 		this.program = program;
 		toolClassMetadata = new ConcurrentHashMap<>();
-		assetTypeToolClasses = new ConcurrentHashMap<>();
+		resourceTypeToolClasses = new ConcurrentHashMap<>();
 		aliases = new ConcurrentHashMap<>();
 	}
 
@@ -65,26 +65,26 @@ public class ToolManager implements Controllable<ToolManager> {
 		Class<? extends ProgramTool> type = metadata.getType();
 		toolClassMetadata.put( type, metadata );
 
-		List<Class<? extends ProgramTool>> assetTypeToolClasses = this.assetTypeToolClasses.computeIfAbsent( resourceType, k -> new CopyOnWriteArrayList<>() );
-		assetTypeToolClasses.add( type );
+		List<Class<? extends ProgramTool>> resourceTypeToolClasses = this.resourceTypeToolClasses.computeIfAbsent( resourceType, k -> new CopyOnWriteArrayList<>() );
+		resourceTypeToolClasses.add( type );
 
-		log.atFine().log( "Tool registered: assetType=%s -> tool=%s", resourceType.getKey(), type.getName() );
+		log.atFine().log( "Tool registered: resourceType=%s -> tool=%s", resourceType.getKey(), type.getName() );
 	}
 
 	public void unregisterTool( ResourceType resourceType, Class<? extends ProgramTool> type ) {
 		toolClassMetadata.remove( type );
 
-		List<Class<? extends ProgramTool>> assetTypeTools = assetTypeToolClasses.get( resourceType );
-		if( assetTypeTools != null ) assetTypeTools.remove( type );
+		List<Class<? extends ProgramTool>> resourceTypeTools = resourceTypeToolClasses.get( resourceType );
+		if( resourceTypeTools != null ) resourceTypeTools.remove( type );
 
-		log.atFine().log( "Tool unregistered: assetType=%s -> tool=%s", resourceType.getKey(), type.getName() );
+		log.atFine().log( "Tool unregistered: resourceType=%s -> tool=%s", resourceType.getKey(), type.getName() );
 	}
 
 	/**
 	 * Open a tool using the specified request. The request contains all the
-	 * information regarding the request including the asset.
+	 * information regarding the request including the resource.
 	 *
-	 * @param request The open asset request
+	 * @param request The open resource request
 	 * @return The tool for the request or null if a tool was not created
 	 * @apiNote Should be called from a {@link TaskManager} thread
 	 * @apiNote This method is synchronized in order to enforce singleton instance mode
@@ -97,7 +97,7 @@ public class ToolManager implements Controllable<ToolManager> {
 		Resource resource = request.getResource();
 		if( resource == null ) throw new NullPointerException( "Asset cannot be null" );
 
-		// Get the asset type to look up the registered tool classes
+		// Get the resource type to look up the registered tool classes
 		ResourceType resourceType = resource.getType();
 
 		// Determine which tool class will be used
@@ -153,7 +153,7 @@ public class ToolManager implements Controllable<ToolManager> {
 			}
 			scheduleWaitForReady( request, finalTool );
 
-			// Now that we have a tool...open dependent assets and associated tools
+			// Now that we have a tool...open dependent resources and associated tools
 			if( !openDependencies( request, tool ) ) return null;
 
 			// Wait for FX to finish creating things to avoid race conditions checking for tools
@@ -203,9 +203,9 @@ public class ToolManager implements Controllable<ToolManager> {
 
 	boolean openDependencies( OpenResourceRequest request, ProgramTool tool ) {
 		ResourceManager resourceManager = getProgram().getResourceManager();
-		Collection<URI> assetDependencies = tool.getAssetDependencies();
+		Collection<URI> resourceDependencies = tool.getAssetDependencies();
 
-		Collection<Future<ProgramTool>> futures = assetDependencies.stream().map( uri -> resourceManager.openResource( uri, request.getPane(), true, false ) ).toList();
+		Collection<Future<ProgramTool>> futures = resourceDependencies.stream().map( uri -> resourceManager.openResource( uri, request.getPane(), true, false ) ).toList();
 
 		for( Future<ProgramTool> future : futures ) {
 			try {
@@ -268,7 +268,7 @@ public class ToolManager implements Controllable<ToolManager> {
 	}
 
 	public List<Class<? extends ProgramTool>> getRegisteredTools( ResourceType resourceType ) {
-		return new ArrayList<>( assetTypeToolClasses.get( resourceType ) );
+		return new ArrayList<>( resourceTypeToolClasses.get( resourceType ) );
 	}
 
 	public Class<? extends ProgramTool> getDefaultTool( ResourceType resourceType ) {
@@ -276,7 +276,7 @@ public class ToolManager implements Controllable<ToolManager> {
 	}
 
 	public void setDefaultTool( ResourceType resourceType, Class<? extends ProgramTool> tool ) {
-		List<Class<? extends ProgramTool>> toolClasses = assetTypeToolClasses.get( resourceType );
+		List<Class<? extends ProgramTool>> toolClasses = resourceTypeToolClasses.get( resourceType );
 		if( toolClasses.remove( tool ) ) toolClasses.addFirst( tool );
 
 		// Set the default tool setting
@@ -286,7 +286,7 @@ public class ToolManager implements Controllable<ToolManager> {
 
 	public void updateDefaultToolsFromSettings() {
 		// Go through each asset type and set the default tool from the settings
-		for( Map.Entry<ResourceType, List<Class<? extends ProgramTool>>> entry : assetTypeToolClasses.entrySet() ) {
+		for( Map.Entry<ResourceType, List<Class<? extends ProgramTool>>> entry : resourceTypeToolClasses.entrySet() ) {
 			ResourceType resourceType = entry.getKey();
 			Settings settings = getProgram().getSettingsManager().getResourceTypeSettings( resourceType ).getNode( "default" );
 			String defaultTool = settings.get( "tool" );
@@ -309,7 +309,7 @@ public class ToolManager implements Controllable<ToolManager> {
 		if( resourceType == null ) return null;
 
 		Class<? extends ProgramTool> toolClass = null;
-		List<Class<? extends ProgramTool>> toolClasses = assetTypeToolClasses.get( resourceType );
+		List<Class<? extends ProgramTool>> toolClasses = resourceTypeToolClasses.get( resourceType );
 
 		if( toolClasses == null || toolClasses.isEmpty() ) {
 			// There are no registered tools for the asset type

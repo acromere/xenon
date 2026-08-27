@@ -77,7 +77,7 @@ class UiReader {
 
 	private boolean spacesRestored;
 
-	private Future<Collection<Resource>> assetLoadFuture;
+	private Future<Collection<Resource>> resourceLoadFuture;
 
 	public UiReader( Xenon program ) {
 		this.program = program;
@@ -219,7 +219,7 @@ class UiReader {
 
 	private void doStartAssetLoading() {
 		try {
-			assetLoadFuture = getProgram().getResourceManager().loadResources( resources );
+			resourceLoadFuture = getProgram().getResourceManager().loadResources( resources );
 		} catch( Exception exception ) {
 			log.atWarn( exception ).log();
 		}
@@ -601,7 +601,7 @@ class UiReader {
 
 	private void doAwaitForAssetLoad( long duration, TimeUnit unit ) throws InterruptedException, TimeoutException {
 		try {
-			assetLoadFuture.get( duration, unit );
+			resourceLoadFuture.get( duration, unit );
 		} catch( ExecutionException exception ) {
 			log.atWarn( exception ).log();
 		}
