@@ -359,15 +359,17 @@ class UiReader {
 			resourceTypeKey = resourceTypeKey.replaceFirst( "com.avereon", "com.acromere" );
 		}
 
-		// Swap ResourceType for ResourceType
-		if( resourceTypeKey.startsWith( "com.acromere." ) ) {
-			// com.acromere.cartesia.Design2dResourceType
-			int startIndex = resourceTypeKey.lastIndexOf( "ResourceType" );
+		// Swap AssetType for ResourceType
+		String assetType = "AssetType";
+		int assetTypeSize = assetType.length();
+		if( resourceTypeKey.startsWith( "com.acromere." ) && resourceTypeKey.endsWith( assetType ) ) {
+			// com.acromere.cartesia.Design2dAssetType
+			int startIndex = resourceTypeKey.lastIndexOf( assetType );
 			if( startIndex >= 0 ) {
-				int endIndex = startIndex + 9;
+				int endIndex = startIndex + assetTypeSize;
 				String prefix = resourceTypeKey.substring( 0, startIndex );
 				String suffix = resourceTypeKey.substring( endIndex );
-				resourceTypeKey = prefix + "ResourceType" + suffix;
+				resourceTypeKey = prefix + ResourceType.class.getSimpleName() + suffix;
 			}
 
 			if( "program:/guide".equals( resourceTypeKey ) ) resourceTypeKey = XenonScheme.ID + ":/guide";
