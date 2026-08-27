@@ -411,47 +411,47 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		request.setView( view );
 		request.setOpenTool( openTool );
 		request.setSetActive( setActive );
-		return program.getTaskManager().submit( new NewOrOpenAssetTask( request ) );
+		return program.getTaskManager().submit( new NewOrOpenResourceTask( request ) );
 	}
 
-	public Future<ProgramTool> openAsset( URI uri ) {
-		return openAsset( uri, true, true );
+	public Future<ProgramTool> openResource( URI uri ) {
+		return openResource( uri, true, true );
 	}
 
-	public Future<ProgramTool> openAsset( URI uri, Object model ) {
-		return openAsset( uri, model, null, null, null, true, true );
+	public Future<ProgramTool> openResource( URI uri, Object model ) {
+		return openResource( uri, model, null, null, null, true, true );
 	}
 
-	public Future<ProgramTool> openAsset( URI uri, Workpane pane ) {
-		return openAsset( uri, null, pane, null, null, true, true );
+	public Future<ProgramTool> openResource( URI uri, Workpane pane ) {
+		return openResource( uri, null, pane, null, null, true, true );
 	}
 
-	public Future<ProgramTool> openAsset( URI uri, Class<? extends ProgramTool> toolClass ) {
-		return openAsset( uri, null, null, null, toolClass, true, true );
+	public Future<ProgramTool> openResource( URI uri, Class<? extends ProgramTool> toolClass ) {
+		return openResource( uri, null, null, null, toolClass, true, true );
 	}
 
-	public Future<ProgramTool> openAsset( URI uri, boolean openTool, boolean setActive ) {
-		return openAsset( uri, null, null, null, null, openTool, setActive );
+	public Future<ProgramTool> openResource( URI uri, boolean openTool, boolean setActive ) {
+		return openResource( uri, null, null, null, null, openTool, setActive );
 	}
 
-	public Future<ProgramTool> openAsset( URI uri, Workpane pane, boolean openTool, boolean setActive ) {
-		return openAsset( uri, null, pane, null, null, openTool, setActive );
+	public Future<ProgramTool> openResource( URI uri, Workpane pane, boolean openTool, boolean setActive ) {
+		return openResource( uri, null, pane, null, null, openTool, setActive );
 	}
 
-	public Future<ProgramTool> openAsset( URI uri, WorkpaneView view ) {
-		return openAsset( uri, null, null, view, null, true, true );
+	public Future<ProgramTool> openResource( URI uri, WorkpaneView view ) {
+		return openResource( uri, null, null, view, null, true, true );
 	}
 
-	public Future<ProgramTool> openAsset( URI uri, WorkpaneView view, Side side ) {
+	public Future<ProgramTool> openResource( URI uri, WorkpaneView view, Side side ) {
 		if( side != null ) view = view.getWorkpane().split( view, side );
-		return openAsset( uri, null, null, view, null, true, true );
+		return openResource( uri, null, null, view, null, true, true );
 	}
 
-	public Set<Future<ProgramTool>> openDependencyAssets( Set<URI> uris, Workpane pane ) {
-		return uris.stream().map( uri -> openAsset( uri, null, pane, null, null, true, false ) ).collect( Collectors.toSet() );
+	public Set<Future<ProgramTool>> openDependencyResources( Set<URI> uris, Workpane pane ) {
+		return uris.stream().map( uri -> openResource( uri, null, pane, null, null, true, false ) ).collect( Collectors.toSet() );
 	}
 
-	private Future<ProgramTool> openAsset( URI uri, Object model, Workpane pane, WorkpaneView view, Class<? extends ProgramTool> toolClass, boolean openTool, boolean setActive ) {
+	private Future<ProgramTool> openResource( URI uri, Object model, Workpane pane, WorkpaneView view, Class<? extends ProgramTool> toolClass, boolean openTool, boolean setActive ) {
 		OpenResourceRequest request = new OpenResourceRequest();
 		request.setUri( uri );
 		request.setPane( pane );
@@ -460,26 +460,26 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		request.setSetActive( setActive );
 		request.setModel( model );
 		request.setToolClass( toolClass );
-		return program.getTaskManager().submit( new NewOrOpenAssetTask( request ) );
+		return program.getTaskManager().submit( new NewOrOpenResourceTask( request ) );
 	}
 
-	public Future<ProgramTool> openAsset( Resource resource ) {
-		return openAsset( resource, null, null, null );
+	public Future<ProgramTool> openResource( Resource resource ) {
+		return openResource( resource, null, null, null );
 	}
 
-	public Future<ProgramTool> openAsset( Resource resource, Class<? extends ProgramTool> toolClass ) {
-		return openAsset( resource, null, null, toolClass );
+	public Future<ProgramTool> openResource( Resource resource, Class<? extends ProgramTool> toolClass ) {
+		return openResource( resource, null, null, toolClass );
 	}
 
-	public Future<ProgramTool> openAsset( Resource resource, WorkpaneView view ) {
-		return openAsset( resource, view, null, null );
+	public Future<ProgramTool> openResource( Resource resource, WorkpaneView view ) {
+		return openResource( resource, view, null, null );
 	}
 
-	public Future<ProgramTool> openAsset( Resource resource, WorkpaneView view, Side side ) {
-		return openAsset( resource, view, side, null );
+	public Future<ProgramTool> openResource( Resource resource, WorkpaneView view, Side side ) {
+		return openResource( resource, view, side, null );
 	}
 
-	public Future<ProgramTool> openAsset( Resource resource, WorkpaneView view, Side side, Class<? extends ProgramTool> toolClass ) {
+	public Future<ProgramTool> openResource( Resource resource, WorkpaneView view, Side side, Class<? extends ProgramTool> toolClass ) {
 		if( side != null ) view = view.getWorkpane().split( view, side );
 		OpenResourceRequest request = new OpenResourceRequest();
 		request.setResource( resource );
@@ -487,10 +487,10 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		request.setOpenTool( true );
 		request.setSetActive( true );
 		request.setToolClass( toolClass );
-		return program.getTaskManager().submit( new NewOrOpenAssetTask( request ) );
+		return program.getTaskManager().submit( new NewOrOpenResourceTask( request ) );
 	}
 
-	public void reloadAsset( Resource resource ) {
+	public void reloadResource( Resource resource ) {
 		if( !resource.isLoaded() ) return;
 		reloadAssets( resource );
 	}
@@ -1352,7 +1352,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		program.getTaskManager().submit( Task.of( () -> {
 			try {
 				Map<Codec, ResourceFilter> filters = generateAssetFilters( finalResource.getType() );
-				AssetTool tool = (AssetTool)openAsset( URI.create( uriString ) ).get();
+				AssetTool tool = (AssetTool)openResource( URI.create( uriString ) ).get();
 				tool.getFilters().addAll( 0, filters.values() );
 				tool.setSelectedFilter( filters.get( finalCodec ) );
 				tool.setSaveActionConsumer( target -> doAfterAssetTool( tool, filters, source, target, saveAs, rename ) );
@@ -1400,7 +1400,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		target.getScheme().saveAs( source, target );
 
 		if( source.isNew() ) closeAssets( source );
-		openAsset( target.getUri() );
+		openResource( target.getUri() );
 	}
 
 	private void doRenameAsset( Resource source, Resource target ) throws ResourceException {
@@ -1411,7 +1411,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		// Use the scheme to rename the source to the target
 		target.getScheme().rename( source, target );
 
-		openAsset( target.getUri() );
+		openResource( target.getUri() );
 		closeAssets( source );
 	}
 
@@ -1461,11 +1461,11 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		return true;
 	}
 
-	private class NewOrOpenAssetTask extends Task<ProgramTool> {
+	private class NewOrOpenResourceTask extends Task<ProgramTool> {
 
 		private final OpenResourceRequest request;
 
-		public NewOrOpenAssetTask( OpenResourceRequest request ) {
+		public NewOrOpenResourceTask( OpenResourceRequest request ) {
 			this.request = request;
 		}
 
@@ -1533,7 +1533,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 			if( types.size() == 1 ) {
 				newResource( types.iterator().next() );
 			} else {
-				openAsset( ProgramResourceNewType.URI );
+				openResource( ProgramResourceNewType.URI );
 			}
 		}
 
@@ -1558,7 +1558,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 			isHandling = true;
 			updateEnabled();
 
-			openAsset( ProgramResourceType.OPEN_URI );
+			openResource( ProgramResourceType.OPEN_URI );
 
 			isHandling = false;
 			updateActionState();
@@ -1579,7 +1579,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 		@Override
 		public void handle( ActionEvent event ) {
-			reloadAsset( getCurrentResource() );
+			reloadResource( getCurrentResource() );
 		}
 
 	}

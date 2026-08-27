@@ -205,7 +205,7 @@ public class ToolManager implements Controllable<ToolManager> {
 		ResourceManager resourceManager = getProgram().getResourceManager();
 		Collection<URI> assetDependencies = tool.getAssetDependencies();
 
-		Collection<Future<ProgramTool>> futures = assetDependencies.stream().map( uri -> resourceManager.openAsset( uri, request.getPane(), true, false ) ).toList();
+		Collection<Future<ProgramTool>> futures = assetDependencies.stream().map( uri -> resourceManager.openResource( uri, request.getPane(), true, false ) ).toList();
 
 		for( Future<ProgramTool> future : futures ) {
 			try {

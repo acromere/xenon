@@ -26,7 +26,7 @@ public class SearchToggleAction extends ProgramAction {
 
 		if( tools.isEmpty() ) {
 			// Open the index search tool
-			getProgram().getResourceManager().openAsset( ProgramSearchType.URI );
+			getProgram().getResourceManager().openResource( ProgramSearchType.URI );
 		} else {
 			// Close the index search tool
 			tools.forEach( Tool::close );

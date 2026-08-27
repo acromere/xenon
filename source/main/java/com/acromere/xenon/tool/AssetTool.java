@@ -449,7 +449,7 @@ public class AssetTool extends GuidedTool {
 						//List<Class<? extends ProgramTool>> tools = getProgram().getToolManager().getRegisteredTools( asset.getType() );
 
 						// Use the asset manager to open the asset
-						getProgram().getResourceManager().openAsset( resource.getUri() );
+						getProgram().getResourceManager().openResource( resource.getUri() );
 
 						// Close this tool
 						close();

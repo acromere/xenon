@@ -90,7 +90,7 @@ public class NoticeManager implements Controllable<NoticeManager> {
 		notice.setAction( () -> {
 			ResourceManager manager = getProgram().getResourceManager();
 			URI uri = URI.create( String.format( "%s:%d", FaultScheme.ID, System.identityHashCode( throwable ) ) );
-			manager.openAsset( uri, throwable );
+			manager.openResource( uri, throwable );
 		} );
 		addNotice( notice );
 	}

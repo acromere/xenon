@@ -18,7 +18,7 @@ public class ProductAction extends ProgramAction {
 
 	@Override
 	public void handle( ActionEvent event ) {
-		getProgram().getResourceManager().openAsset( ProgramModuleType.URI );
+		getProgram().getResourceManager().openResource( ProgramModuleType.URI );
 	}
 
 }

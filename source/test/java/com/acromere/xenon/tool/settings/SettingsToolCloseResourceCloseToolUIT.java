@@ -19,7 +19,7 @@ class SettingsToolCloseResourceCloseToolUIT extends SettingsToolUIT {
 		Workarea area = getProgram().getWorkspaceManager().getActiveWorkspace().getActiveWorkarea();
 		assertToolCount( area, 0 );
 
-		Future<ProgramTool> future = getProgram().getResourceManager().openAsset( ProgramSettingsType.URI );
+		Future<ProgramTool> future = getProgram().getResourceManager().openResource( ProgramSettingsType.URI );
 		getWorkpaneWatcher().waitForEvent( ToolEvent.ADDED );
 		getWorkpaneWatcher().waitForEvent( ToolEvent.ADDED );
 		Fx.waitFor( LONG_TIMEOUT );

@@ -20,7 +20,7 @@ class ProductToolCloseResourceCloseToolUIT extends ProductToolUIT {
 		Workpane pane = getWorkarea();
 		assertToolCount( pane, 0 );
 
-		Future<ProgramTool> future = getProgram().getResourceManager().openAsset( ProgramModuleType.URI );
+		Future<ProgramTool> future = getProgram().getResourceManager().openResource( ProgramModuleType.URI );
 		getWorkpaneWatcher().waitForEvent( ToolEvent.ADDED );
 		getWorkpaneWatcher().waitForEvent( ToolEvent.ADDED );
 		Fx.waitForDangerously( LONG_TIMEOUT );

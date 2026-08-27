@@ -19,7 +19,7 @@ class WelcomeToolCloseResourceCloseToolUIT extends WelcomeToolUIT {
 		Workpane pane = getWorkarea();
 		assertToolCount( pane, 0 );
 
-		Future<ProgramTool> future = getProgram().getResourceManager().openAsset( ProgramWelcomeType.URI );
+		Future<ProgramTool> future = getProgram().getResourceManager().openResource( ProgramWelcomeType.URI );
 		getWorkpaneWatcher().waitForEvent( ToolEvent.ADDED );
 		Fx.waitFor( LONG_TIMEOUT );
 		assertThat( pane.getActiveTool() ).isInstanceOf( WelcomeTool.class );

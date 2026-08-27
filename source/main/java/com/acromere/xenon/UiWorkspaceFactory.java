@@ -42,7 +42,7 @@ class UiWorkspaceFactory {
 
 		// Add the welcome tool to the default workarea
 		boolean isEmptyWorkspace = program.getProgramParameters().isSet( XenonTestFlag.EMPTY_WORKSPACE );
-		if( !isEmptyWorkspace ) program.getResourceManager().openAsset( ProgramWelcomeType.URI );
+		if( !isEmptyWorkspace ) program.getResourceManager().openResource( ProgramWelcomeType.URI );
 		return space;
 	}
 

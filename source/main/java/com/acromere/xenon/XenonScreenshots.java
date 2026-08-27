@@ -33,7 +33,7 @@ public class XenonScreenshots extends ProgramScreenshots {
 
 	private void screenshotThemes() throws InterruptedException, TimeoutException {
 		// Set an example tool
-		getProgram().getResourceManager().openAsset( ProgramAboutType.URI );
+		getProgram().getResourceManager().openResource( ProgramAboutType.URI );
 		getWorkpaneWatcher().waitForEvent( ToolEvent.ADDED );
 
 		getProgram().getThemeManager().getThemes().stream().map( ThemeMetadata::getId ).forEach( id -> {

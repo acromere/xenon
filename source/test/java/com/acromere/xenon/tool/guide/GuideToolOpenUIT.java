@@ -14,7 +14,7 @@ class GuideToolOpenUIT extends GuideToolUIT {
 		Workpane pane = getWorkarea();
 		assertToolCount( pane, 0 );
 
-		getProgram().getResourceManager().openAsset( ProgramGuideType.URI );
+		getProgram().getResourceManager().openResource( ProgramGuideType.URI );
 		getWorkpaneWatcher().waitForEvent( ToolEvent.ADDED );
 		assertThat( pane.getActiveTool() ).isInstanceOf( GuideTool.class );
 		assertToolCount( pane, 1 );

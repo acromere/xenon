@@ -21,7 +21,7 @@ class AboutToolCloseResourceCloseToolUIT extends AboutToolUIT {
 		assertToolCount( pane, 0 );
 
 		// NOTE Returns immediately
-		Future<ProgramTool> future = getProgram().getResourceManager().openAsset( ProgramAboutType.URI );
+		Future<ProgramTool> future = getProgram().getResourceManager().openResource( ProgramAboutType.URI );
 		getWorkpaneWatcher().waitForEvent( ToolEvent.ADDED );
 		getWorkpaneWatcher().waitForEvent( ToolEvent.ADDED );
 

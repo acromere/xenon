@@ -26,7 +26,7 @@ public class SettingsToggleAction extends ProgramAction {
 
 		if( tools.isEmpty() ) {
 			// Open the settings tool
-			getProgram().getResourceManager().openAsset( ProgramSettingsType.URI );
+			getProgram().getResourceManager().openResource( ProgramSettingsType.URI );
 		} else {
 			// Close the settings tools
 			tools.forEach( Tool::close );

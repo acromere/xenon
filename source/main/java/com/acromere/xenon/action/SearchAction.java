@@ -19,7 +19,7 @@ public class SearchAction extends ProgramAction {
 	@Override
 	public void handle( ActionEvent event ) {
 		// Open the index search tool
-		getProgram().getResourceManager().openAsset( ProgramSearchType.URI );
+		getProgram().getResourceManager().openResource( ProgramSearchType.URI );
 	}
 
 }

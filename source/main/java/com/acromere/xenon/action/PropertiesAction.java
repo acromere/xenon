@@ -38,7 +38,7 @@ public class PropertiesAction extends ProgramAction {
 		getProgram().getTaskManager().submit( Task.of( () -> {
 			try {
 				// Show the properties tool
-				getProgram().getResourceManager().openAsset( ProgramPropertiesType.URI ).get();
+				getProgram().getResourceManager().openResource( ProgramPropertiesType.URI ).get();
 
 				// Fire the event on the FX thread
 				Workspace workspace = getProgram().getWorkspaceManager().getActiveWorkspace();

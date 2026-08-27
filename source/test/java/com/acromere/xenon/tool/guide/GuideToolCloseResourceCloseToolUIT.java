@@ -17,7 +17,7 @@ class GuideToolCloseResourceCloseToolUIT extends GuideToolUIT {
 		Workarea area = getProgram().getWorkspaceManager().getActiveWorkspace().getActiveWorkarea();
 		assertToolCount( area, 0 );
 
-		Future<ProgramTool> future = getProgram().getResourceManager().openAsset( ProgramGuideType.URI );
+		Future<ProgramTool> future = getProgram().getResourceManager().openResource( ProgramGuideType.URI );
 		getWorkpaneWatcher().waitForEvent( ToolEvent.ADDED );
 		assertThat( area.getActiveTool() ).isInstanceOf( GuideTool.class );
 		assertToolCount( area, 1 );
