@@ -266,8 +266,8 @@ need a path attribute to specify the path to the settings node.
 		</page>
 	</page>
 
-	<page id="assets">
-		<page id="asset-types" panel="asset-type" tagIds="file-type, resource-type, extension, media-type, mime-type, first-line"/>
+	<page id="resources">
+		<page id="resource-types" panel="resource-type" tagIds="file-type, resource-type, extension, media-type, mime-type, first-line"/>
 	</page>
 
 	<page id="modules" panel="modules-installed" tagIds="product, modules, module, mod, plugin, extension">
@@ -339,14 +339,14 @@ need a path attribute to specify the path to the settings node.
 			</group>
 		</page>
 		<!--
-		<page id="asset-manager">
+		<page id="resource-manager">
 			<group id="options">
-				<setting key="asset-showuri" editor="checkbox" />
+				<setting key="resource-showuri" editor="checkbox" />
 			</group>
 			<group id="colors">
-				<setting key="asset-color-hidden" editor="color" />
-				<setting key="asset-color-disabled" editor="color" />
-				<setting key="asset-color-modified" editor="color" />
+				<setting key="resource-color-hidden" editor="color" />
+				<setting key="resource-color-disabled" editor="color" />
+				<setting key="resource-color-modified" editor="color" />
 			</group>
 		</page>
 		-->

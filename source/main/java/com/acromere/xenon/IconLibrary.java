@@ -46,13 +46,13 @@ public class IconLibrary {
 		register( "new-folder", new NewFolderIcon() );
 
 		register( "document", new DocumentIcon() );
-		register( "asset", new DocumentIcon() );
-		register( "asset-new", new DocumentIcon() );
-		register( "asset-open", new FolderIcon() );
-		register( "asset-save", new SaveIcon() );
-		register( "asset-save-all", new SaveIcon() );
-		register( "asset-rename", new SaveIcon() );
-		register( "asset-close", new CloseToolIcon() );
+		register( "resource", new DocumentIcon() );
+		register( "resource-new", new DocumentIcon() );
+		register( "resource-open", new FolderIcon() );
+		register( "resource-save", new SaveIcon() );
+		register( "resource-save-all", new SaveIcon() );
+		register( "resource-rename", new SaveIcon() );
+		register( "resource-close", new CloseToolIcon() );
 		register( "properties", new PropertiesIcon() );
 		register( "print", new PrinterIcon() );
 
@@ -117,14 +117,14 @@ public class IconLibrary {
 
 		register( "file", new DocumentIcon() );
 		register( "folder", new FolderIcon() );
-		register( "asset-home", new HomeIcon() );
-		register( "asset-root", new FileSystemIcon() );
-		register( "asset-desktop", new FolderIcon() );
-		register( "asset-documents", new DocumentIcon() );
-		register( "asset-download", new DownloadIcon() );
-		register( "asset-music", new FolderIcon() );
-		register( "asset-photos", new FolderIcon() );
-		register( "asset-videos", new FolderIcon() );
+		register( "resource-home", new HomeIcon() );
+		register( "resource-root", new FileSystemIcon() );
+		register( "resource-desktop", new FolderIcon() );
+		register( "resource-documents", new DocumentIcon() );
+		register( "resource-download", new DownloadIcon() );
+		register( "resource-music", new FolderIcon() );
+		register( "resource-photos", new FolderIcon() );
+		register( "resource-videos", new FolderIcon() );
 
 		register( "add", new PlusIcon() );
 		register( "refresh", new RefreshIcon() );

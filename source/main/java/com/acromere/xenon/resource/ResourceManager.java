@@ -571,8 +571,8 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		URI uri = UriUtil.resolve( string );
 
 		if( uri == null ) {
-			String title = Rb.text( "asset", "assets" );
-			String message = Rb.text( "program", "asset-unable-to-resolve" );
+			String title = Rb.text( "resource", "resources" );
+			String message = Rb.text( "program", "resource-unable-to-resolve" );
 			program.getNoticeManager().warning( title, message, string );
 			return null;
 		}
@@ -970,7 +970,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 	/**
 	 * Determine the resource type for the given resource. The resource URI is
-	 * used to find the asset type in the following order:
+	 * used to find the resource type in the following order:
 	 * <ol>
 	 *   <li>Look up the resource type by the full URI</li>
 	 *   <li>Look up the resource type by the URI scheme</li>
@@ -1201,8 +1201,8 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 		if( type == null ) {
 			log.atWarn().log( "Resource type not found: " + resource.getMediaType() );
-			String title = Rb.text( RbKey.LABEL, "asset" );
-			String message = Rb.text( RbKey.RESOURCE, "asset-type-not-supported", resource.getFileName() );
+			String title = Rb.text( RbKey.LABEL, "resource" );
+			String message = Rb.text( RbKey.RESOURCE, "resource-type-not-supported", resource.getFileName() );
 			Notice notice = new Notice( title, message ).setType( Notice.Type.WARN );
 			getProgram().getNoticeManager().addNotice( notice );
 			return false;
@@ -1522,13 +1522,13 @@ public class ResourceManager implements Controllable<ResourceManager> {
 				if( request.isOpenTool() ) tool = program.getToolManager().openTool( request );
 			} catch( NoToolRegisteredException exception ) {
 				log.atConfig().log( "No tool registered for: %s", resource );
-				String title = Rb.text( "program", "no-tool-for-asset-title" );
-				String message = Rb.text( "program", "no-tool-for-asset-message", resource.getUri().toString() );
+				String title = Rb.text( "program", "no-tool-for-resource-title" );
+				String message = Rb.text( "program", "no-tool-for-resource-message", resource.getUri().toString() );
 				program.getNoticeManager().warning( title, message, resource.getName() );
 				return null;
 			}
 
-			// Start loading the asset after the tool has been created
+			// Start loading the resource after the tool has been created
 			if( !resource.isLoaded() ) loadResources( resource );
 
 			return tool;
@@ -1710,11 +1710,11 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 	}
 
-	private abstract class AssetTask extends ProgramTask<Collection<Resource>> {
+	private abstract class ResourceTask extends ProgramTask<Collection<Resource>> {
 
 		private final Collection<Resource> resources;
 
-		private AssetTask( Collection<Resource> resources ) {
+		private ResourceTask( Collection<Resource> resources ) {
 			super( program );
 			this.resources = resources;
 		}
@@ -1762,7 +1762,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 	}
 
-	private class OpenResourceTask extends AssetTask {
+	private class OpenResourceTask extends ResourceTask {
 
 		private OpenResourceTask( Collection<Resource> resources ) {
 			super( resources );
@@ -1775,7 +1775,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 	}
 
-	private class LoadResourceTask extends AssetTask {
+	private class LoadResourceTask extends ResourceTask {
 
 		private LoadResourceTask( Collection<Resource> resources ) {
 			super( resources );
@@ -1788,7 +1788,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 	}
 
-	private class ReloadResourceTask extends AssetTask {
+	private class ReloadResourceTask extends ResourceTask {
 
 		private ReloadResourceTask( Collection<Resource> resources ) {
 			super( resources );
@@ -1801,7 +1801,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 	}
 
-	private class SaveResourceTask extends AssetTask {
+	private class SaveResourceTask extends ResourceTask {
 
 		private SaveResourceTask( Collection<Resource> resources ) {
 			super( resources );
@@ -1814,7 +1814,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 	}
 
-	private class CloseResourceTask extends AssetTask {
+	private class CloseResourceTask extends ResourceTask {
 
 		private CloseResourceTask( Collection<Resource> resources ) {
 			super( resources );
@@ -1827,7 +1827,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 	}
 
-	private class DeleteResourceTask extends AssetTask {
+	private class DeleteResourceTask extends ResourceTask {
 
 		private DeleteResourceTask( Collection<Resource> resources ) {
 			super( resources );
@@ -1840,7 +1840,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 	}
 
-	private class SetCurrentResourceTask extends AssetTask {
+	private class SetCurrentResourceTask extends ResourceTask {
 
 		private SetCurrentResourceTask( Resource resource ) {
 			// A null collection will call the operation with a null value
@@ -1858,7 +1858,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 		@Override
 		public void handle( ResourceEvent event ) {
-			//System.err.println( "asset event=" + event );
+			//System.err.println( "resource event=" + event );
 			if( event.getEventType() == ResourceEvent.MODIFIED ) updateActionState();
 			if( event.getEventType() == ResourceEvent.UNMODIFIED ) updateActionState();
 		}

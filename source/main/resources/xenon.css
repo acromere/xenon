@@ -829,7 +829,7 @@ Derived from modena.css
 /*******************************************************************************
  * New Asset Tool
  ******************************************************************************/
-#tool-asset-new .asset-type-tile {
+#tool-resource-new .resource-type-tile {
 	-fx-min-width: 250px;
 	-fx-min-height: 200px;
 	-fx-max-width: 250px;
@@ -843,7 +843,7 @@ Derived from modena.css
 	-fx-border-width: 5px;
 }
 
-#tool-asset #user-notice {
+#tool-resource #user-notice {
 	-fx-background-color: -ex-background-warning;
 }
 
@@ -958,11 +958,11 @@ Derived from modena.css
 	-fx-background-color: transparent;
 }
 
-.asset-type-settings-default-tool {
+.resource-type-settings-default-tool {
 	-fx-font-weight: bold;
 }
 
-.asset-type-settings-normal-tool {
+.resource-type-settings-normal-tool {
 }
 
 /*******************************************************************************
