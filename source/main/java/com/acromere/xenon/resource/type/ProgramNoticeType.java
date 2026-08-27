@@ -29,7 +29,7 @@ public class ProgramNoticeType extends ResourceType {
 	}
 
 	@Override
-	public boolean assetOpen( Xenon program, Resource resource ) throws ResourceException {
+	public boolean resourceOpen( Xenon program, Resource resource ) throws ResourceException {
 		resource.setModel( new NoticeModel() );
 		return true;
 	}

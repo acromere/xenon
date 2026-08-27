@@ -38,7 +38,7 @@ public class ProgramSettingsType extends ResourceType {
 	}
 
 	@Override
-	public boolean assetOpen( Xenon program, Resource resource ) {
+	public boolean resourceOpen( Xenon program, Resource resource ) {
 		resource.setModel( program.getSettingsManager().getSettings( ProgramSettings.PROGRAM ) );
 		return true;
 	}
