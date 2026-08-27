@@ -8,12 +8,12 @@ mod changes.
 
 * resource - A resource represents something that can be opened or connected to.
 Local files are the most common type resources. Other resources are connections 
-to servers, databases or even files on other computers. Assets are defined
+to servers, databases or even files on other computers. Resources are defined
 by a URI. Using the URI and/or the content of the resource the program 
 determines what type of resource it is and opens a tool to handle it.
 
 * resource type - A resource type represents common types of computer resources
-that can be associated to tools in the program. Asset types are determined
+that can be associated to tools in the program. Resource types are determined
 in several ways based on the URI, resource content and/or the 
 [media type](https://developer.mozilla.org/en-US/docs/Glossary/MIME_type). All
 resources are associated to a resource type in the program. New resource types

@@ -355,7 +355,7 @@ public class Xenon extends Application implements XenonProgram {
 		resourceManager = new ResourceManager( Xenon.this ).start();
 		resourceManager.getEventBus().parent( getFxEventHub() );
 		registerSchemes( resourceManager );
-		registerAssetTypes( resourceManager );
+		registerResourceTypes( resourceManager );
 		uiManager = new UiManager( Xenon.this ).start();
 		toolManager = new ToolManager( Xenon.this ).start();
 		themeManager = new ThemeManager( Xenon.this ).start();
@@ -442,16 +442,16 @@ public class Xenon extends Application implements XenonProgram {
 		log.atFiner().log( "Starting resource manager..." );
 		resourceManager = new ResourceManager( Xenon.this ).start();
 		registerSchemes( resourceManager );
-		registerAssetTypes( resourceManager );
+		registerResourceTypes( resourceManager );
 		if( splashScreen != null ) splashScreen.update();
-		log.atFine().log( "Asset manager started." );
+		log.atFine().log( "Resource manager started." );
 		time( "resource-manager" );
 
 		// Start the resource watch service
 		log.atFiner().log( "Starting resource watch service..." );
 		resourceWatchService = new ResourceWatchService( Xenon.this ).start();
 		if( splashScreen != null ) splashScreen.update();
-		log.atFine().log( "Asset watch service started." );
+		log.atFine().log( "Resource watch service started." );
 		time( "resource-watch-service" );
 
 		// Start the index service
@@ -749,16 +749,16 @@ public class Xenon extends Application implements XenonProgram {
 		if( resourceWatchService != null ) {
 			log.atFiner().log( "Stopping resource watch service..." );
 			resourceWatchService.stop();
-			log.atFine().log( "Asset watch service stopped." );
+			log.atFine().log( "Resource watch service stopped." );
 		}
 
 		// Stop the resource manager
 		if( resourceManager != null ) {
 			log.atFiner().log( "Stopping resource manager..." );
 			resourceManager.stop();
-			unregisterAssetTypes( resourceManager );
+			unregisterResourceTypes( resourceManager );
 			unregisterSchemes( resourceManager );
-			log.atFine().log( "Asset manager stopped." );
+			log.atFine().log( "Resource manager stopped." );
 		}
 
 		// Disconnect the settings listener
@@ -1434,7 +1434,7 @@ public class Xenon extends Application implements XenonProgram {
 		manager.removeScheme( NewScheme.ID );
 	}
 
-	private void registerAssetTypes( ResourceManager manager ) {
+	private void registerResourceTypes( ResourceManager manager ) {
 		manager.addResourceType( new ProgramGuideType( this ) );
 		manager.addResourceType( new ProgramAboutType( this ) );
 		manager.addResourceType( new ProgramSettingsType( this ) );
@@ -1450,10 +1450,10 @@ public class Xenon extends Application implements XenonProgram {
 		manager.addResourceType( new ProgramFaultType( this ) );
 		manager.addResourceType( new ProgramPropertiesType( this ) );
 
-		registerProgramAssetAliases( manager );
+		registerProgramResourceAliases( manager );
 	}
 
-	private void registerProgramAssetAliases( ResourceManager manager ) {
+	private void registerProgramResourceAliases( ResourceManager manager ) {
 		// This is a reflection way of going through all the current program resource types
 		List<String> programAliases = List.of( "about", "resource", "fault", "guide", "help", "new", "notice", "properties", "search", "settings", "task", "welcome" );
 		for( String alias : programAliases ) {
@@ -1472,7 +1472,7 @@ public class Xenon extends Application implements XenonProgram {
 		}
 	}
 
-	private void unregisterAssetTypes( ResourceManager manager ) {
+	private void unregisterResourceTypes( ResourceManager manager ) {
 		manager.removeResourceType( new ProgramPropertiesType( this ) );
 		manager.removeResourceType( new ProgramFaultType( this ) );
 		manager.removeResourceType( new ProgramThemesType( this ) );

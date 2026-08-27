@@ -35,7 +35,7 @@ public class MockCodec extends Codec {
 
 	@Override
 	public String getName() {
-		return "Mock Asset (*." + EXTENSION + ")";
+		return "Mock Resource (*." + EXTENSION + ")";
 	}
 
 	@Override

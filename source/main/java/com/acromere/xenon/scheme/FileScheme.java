@@ -222,7 +222,7 @@ public class FileScheme extends ProgramScheme {
 	@Override
 	public long getModifiedDate( Resource resource ) throws ResourceException {
 		File file = getFile( resource );
-		//if( isFolder( resource ) || FileSystemView.getFileSystemView().isDrive( file ) ) throw new AssetException( resource, "Folders do not have a modified date." );
+		//if( isFolder( resource ) || FileSystemView.getFileSystemView().isDrive( file ) ) throw new ResourceException( resource, "Folders do not have a modified date." );
 		return file.lastModified();
 	}
 

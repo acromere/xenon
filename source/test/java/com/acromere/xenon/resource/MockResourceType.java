@@ -5,9 +5,9 @@ import com.acromere.xenon.XenonProgramProduct;
 
 public class MockResourceType extends ResourceType {
 
-	private static final String NAME = "Mock Asset";
+	private static final String NAME = "Mock Resource";
 
-	private static final String DESCRIPTION = "Mock Asset Type";
+	private static final String DESCRIPTION = "Mock Resource Type";
 
 	private final String key;
 

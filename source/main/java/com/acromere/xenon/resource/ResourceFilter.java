@@ -11,7 +11,7 @@ import java.util.function.Predicate;
  * <p>
  * {@link ResourceFilter} objects may be used in conjunction with many
  * resource classes to filter resources for display or any other purpose. A
- * typical use is with the <code>AssetTool</code> to filter the resources
+ * typical use is with the <code>ResourceTool</code> to filter the resources
  * shown.
  */
 public interface ResourceFilter extends DataFilter<Resource>, Predicate<Resource>, Comparable<ResourceFilter> {

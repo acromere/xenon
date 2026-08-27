@@ -359,10 +359,10 @@ class UiReader {
 			resourceTypeKey = resourceTypeKey.replaceFirst( "com.avereon", "com.acromere" );
 		}
 
-		// Swap AssetType for ResourceType
+		// Swap ResourceType for ResourceType
 		if( resourceTypeKey.startsWith( "com.acromere." ) ) {
-			// com.acromere.cartesia.Design2dAssetType
-			int startIndex = resourceTypeKey.lastIndexOf( "AssetType" );
+			// com.acromere.cartesia.Design2dResourceType
+			int startIndex = resourceTypeKey.lastIndexOf( "ResourceType" );
 			if( startIndex >= 0 ) {
 				int endIndex = startIndex + 9;
 				String prefix = resourceTypeKey.substring( 0, startIndex );
@@ -599,7 +599,7 @@ class UiReader {
 		}
 	}
 
-	private void doAwaitForAssetLoad( long duration, TimeUnit unit ) throws InterruptedException, TimeoutException {
+	private void doAwaitForResourceLoad( long duration, TimeUnit unit ) throws InterruptedException, TimeoutException {
 		try {
 			resourceLoadFuture.get( duration, unit );
 		} catch( ExecutionException exception ) {

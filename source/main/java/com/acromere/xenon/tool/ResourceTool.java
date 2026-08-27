@@ -180,7 +180,7 @@ public class ResourceTool extends GuidedTool {
 		sizeColumn.setComparator( new ResourceSizeComparator() );
 		sizeColumn.setStyle( "-fx-alignment: CENTER-RIGHT;" );
 
-		// Asset table -------------------------------------------------------------
+		// Resource table -------------------------------------------------------------
 		resourceTable = new TableView<>( sorted );
 		resourceTable.setEditable( true );
 		resourceTable.getColumns().add( iconColumn );
@@ -217,7 +217,7 @@ public class ResourceTool extends GuidedTool {
 		uriField.setOnKeyPressed( e -> {
 			if( e.getCode().getCode() == KeyEvent.VK_ESCAPE && userNotice.isVisible() ) closeUserNotice();
 		} );
-		uriField.setOnAction( e -> selectAsset( uriField.getText() ) );
+		uriField.setOnAction( e -> selectResource( uriField.getText() ) );
 		goButton.setOnAction( this::doGoAction );
 		resourceTable.setOnMousePressed( this::doMousePressed );
 		resourceTable.getSelectionModel().selectedItemProperty().addListener( ( p, o, n ) -> updateActionState() );
@@ -274,7 +274,7 @@ public class ResourceTool extends GuidedTool {
 			uri = resolveUri( request.getQueryParameters() );
 			if( uri != null && !uri.isAbsolute() ) uri = currentFolder.resolve( uri.getPath() ).toUri();
 			if( uri == null ) uri = currentFolder.toUri();
-			selectAsset( uri );
+			selectResource( uri );
 		} catch( URISyntaxException exception ) {
 			log.atWarn( exception ).log();
 		}
@@ -313,7 +313,7 @@ public class ResourceTool extends GuidedTool {
 	@Override
 	protected void guideNodesSelected( Set<GuideNode> oldNodes, Set<GuideNode> newNodes ) {
 		if( newNodes.isEmpty() ) return;
-		selectAsset( newNodes.stream().findAny().get().getId() );
+		selectResource( newNodes.stream().findAny().get().getId() );
 	}
 
 	private static Mode resolveMode( URI uri ) {
@@ -361,14 +361,14 @@ public class ResourceTool extends GuidedTool {
 
 	private void doMousePressed( MouseEvent event ) {
 		if( event.isPrimaryButtonDown() ) {
-			selectAssetFromTable( event );
+			selectResourceFromTable( event );
 		} else if( event.isSecondaryButtonDown() ) {
-			editAssetFromTable( event );
+			editResourceFromTable( event );
 		}
 	}
 
 	@SuppressWarnings( "unchecked" )
-	private void selectAssetFromTable( MouseEvent event ) {
+	private void selectResourceFromTable( MouseEvent event ) {
 		int clickCount = Integer.parseInt( getSettings().get( "click-count", "2" ) );
 		if( event.getClickCount() < clickCount ) return;
 
@@ -378,51 +378,51 @@ public class ResourceTool extends GuidedTool {
 
 		try {
 			if( mode == Mode.OPEN ) {
-				selectAsset( item.getUri() );
+				selectResource( item.getUri() );
 			} else if( mode == Mode.SAVE ) {
 				if( item.isFolder() ) {
-					selectAsset( item.getUri().resolve( currentFilename ) );
+					selectResource( item.getUri().resolve( currentFilename ) );
 				} else {
-					selectAsset( item.getUri() );
+					selectResource( item.getUri() );
 				}
 			}
 		} catch( ResourceException exception ) {
-			handleAssetException( exception );
+			handleResourceException( exception );
 		}
 	}
 
 	@SuppressWarnings( "unchecked" )
-	private void editAssetFromTable( MouseEvent event ) {
+	private void editResourceFromTable( MouseEvent event ) {
 		TableView<Resource> table = (TableView<Resource>)event.getSource();
 		Resource item = table.getSelectionModel().getSelectedItem();
 		if( item == null ) return;
 
-		editAssetName( item );
+		editResourceName( item );
 	}
 
 	private void doGoAction( ActionEvent event ) {
-		selectAsset( uriField.getText() );
+		selectResource( uriField.getText() );
 		try {
-			if( mode == Mode.SAVE ) requestSaveAsset();
+			if( mode == Mode.SAVE ) requestSaveResource();
 		} catch( ResourceException exception ) {
-			handleAssetException( exception );
+			handleResourceException( exception );
 		}
 		event.consume();
 	}
 
-	private void selectAsset( Resource resource ) {
-		selectAsset( resource.getUri() );
+	private void selectResource( Resource resource ) {
+		selectResource( resource.getUri() );
 	}
 
-	private void selectAsset( URI uri ) {
-		selectAsset( uri.toString() );
+	private void selectResource( URI uri ) {
+		selectResource( uri.toString() );
 	}
 
-	private void selectAsset( String path ) {
-		selectAsset( path, true );
+	private void selectResource( String path ) {
+		selectResource( path, true );
 	}
 
-	private void selectAsset( final String path, boolean updateHistory ) {
+	private void selectResource( final String path, boolean updateHistory ) {
 		Objects.requireNonNull( path );
 
 		if( updateHistory ) {
@@ -467,19 +467,19 @@ public class ResourceTool extends GuidedTool {
 			}
 			activateUriField();
 		} catch( ResourceException exception ) {
-			handleAssetException( exception );
+			handleResourceException( exception );
 		} finally {
 			updateActionState();
 		}
 	}
 
-	private void editAssetName( Resource resource ) {
+	private void editResourceName( Resource resource ) {
 		int index = resourceTable.getItems().indexOf( resource );
 		log.at( LogLevel.DEBUG ).log( "Editing resource %s named: %s", index, resource.getName() );
 		if( index >= 0 ) Fx.run( () -> resourceTable.edit( index, nameColumn ) );
 	}
 
-	private void requestSaveAsset() throws ResourceException {
+	private void requestSaveResource() throws ResourceException {
 		Resource target = getProgram().getResourceManager().resolve( currentFolder, currentFilename );
 		if( saveActionConsumer != null ) saveActionConsumer.accept( target );
 		close();
@@ -502,7 +502,7 @@ public class ResourceTool extends GuidedTool {
 			// If the event is for the current folder...reload the folder
 			if( folder.equals( currentFolder ) ) loadFolder( currentFolder );
 		} catch( ResourceException exception ) {
-			handleAssetException( exception );
+			handleResourceException( exception );
 		}
 
 		return null;
@@ -536,7 +536,7 @@ public class ResourceTool extends GuidedTool {
 				getProgram().getResourceWatchService().registerWatch( resource, eventCallback );
 			}
 		} catch( ResourceException exception ) {
-			handleAssetException( exception );
+			handleResourceException( exception );
 		}
 
 		getProgram().getTaskManager().submit( Task.of(
@@ -546,10 +546,10 @@ public class ResourceTool extends GuidedTool {
 					List<Resource> resources = resource.getChildren();
 					Fx.run( () -> {
 						this.resources.setAll( resources );
-						if( editResource != null ) editAssetName( editResource );
+						if( editResource != null ) editResourceName( editResource );
 					} );
 				} catch( ResourceException exception ) {
-					handleAssetException( exception );
+					handleResourceException( exception );
 				}
 			}
 		) );
@@ -571,7 +571,7 @@ public class ResourceTool extends GuidedTool {
 			// Start with the current folder
 			String newFolderName = Rb.textOr( RbKey.LABEL, "new-folder", "New Folder" ) + "/";
 			Resource resource = getProgram().getResourceManager().resolve( currentFolder, newFolderName );
-			Resource newFolder = getNextIndexedAsset( resource );
+			Resource newFolder = getNextIndexedResource( resource );
 
 			// Get next indexed resource
 			scheme.createFolder( newFolder );
@@ -579,7 +579,7 @@ public class ResourceTool extends GuidedTool {
 			// Reload the current folder, and start editing the new folder name
 			loadFolder( currentFolder, newFolder );
 		} catch( ResourceException exception ) {
-			handleAssetException( exception );
+			handleResourceException( exception );
 		}
 	}
 
@@ -588,7 +588,7 @@ public class ResourceTool extends GuidedTool {
 		getProgram().getResourceManager().deleteResources( selectedResources );
 	}
 
-	private Resource getNextIndexedAsset( Resource resource ) throws ResourceException {
+	private Resource getNextIndexedResource( Resource resource ) throws ResourceException {
 		Scheme scheme = resource.getScheme();
 
 		if( !scheme.exists( resource ) ) return resource;
@@ -645,7 +645,7 @@ public class ResourceTool extends GuidedTool {
 				guide.addNode( createGuideNode( UriUtil.parseName( path.toUri() ), "resource-root", path.toString() ) );
 			}
 		} catch( ResourceException exception ) {
-			handleAssetException( exception );
+			handleResourceException( exception );
 		}
 
 		return guide;
@@ -680,11 +680,11 @@ public class ResourceTool extends GuidedTool {
 			Resource newResource = getProgram().getResourceManager().createResource( uri );
 			resource.getScheme().rename( resource, newResource );
 		} catch( ResourceException exception ) {
-			handleAssetException( exception );
+			handleResourceException( exception );
 		}
 	}
 
-	private void handleAssetException( ResourceException exception ) {
+	private void handleResourceException( ResourceException exception ) {
 		notifyUser( "resource-error", exception.getMessage() );
 		log.atSevere().withCause( exception ).log();
 	}
@@ -829,7 +829,7 @@ public class ResourceTool extends GuidedTool {
 		@Override
 		public void handle( ActionEvent event ) {
 			if( currentIndex > 0 ) currentIndex--;
-			selectAsset( history.get( currentIndex ), false );
+			selectResource( history.get( currentIndex ), false );
 		}
 
 	}
@@ -848,7 +848,7 @@ public class ResourceTool extends GuidedTool {
 		@Override
 		public void handle( ActionEvent event ) {
 			if( currentIndex < history.size() - 1 ) currentIndex++;
-			selectAsset( history.get( currentIndex ), false );
+			selectResource( history.get( currentIndex ), false );
 		}
 
 	}
@@ -867,9 +867,9 @@ public class ResourceTool extends GuidedTool {
 		@Override
 		public void handle( ActionEvent event ) {
 			if( mode == Mode.OPEN ) {
-				selectAsset( parentResource );
+				selectResource( parentResource );
 			} else if( mode == Mode.SAVE ) {
-				selectAsset( parentResource.getUri().resolve( currentFilename ) );
+				selectResource( parentResource.getUri().resolve( currentFilename ) );
 			}
 		}
 

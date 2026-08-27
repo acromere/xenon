@@ -18,11 +18,11 @@ public class NewScheme extends ProgramScheme {
 
 	public static final String ID = "new";
 
-	public static final String NEW_ASSET_TEMP_PATH = "new-resource-temp-path";
+	public static final String NEW_RESOURCE_TEMP_PATH = "new-resource-temp-path";
 
-	public static final String NEW_ASSET_TEMP_STORAGE_FOLDER = "storage";
+	public static final String NEW_RESOURCE_TEMP_STORAGE_FOLDER = "storage";
 
-	public static final String NEW_ASSET_TEMP_STORAGE_CONTENT = "content";
+	public static final String NEW_RESOURCE_TEMP_STORAGE_CONTENT = "content";
 
 	public NewScheme( Xenon program ) {
 		super( program, ID );
@@ -88,11 +88,11 @@ public class NewScheme extends ProgramScheme {
 		String id = uri.getSchemeSpecificPart();
 		if( id == null ) return null;
 
-		Path path = resource.getValue( NEW_ASSET_TEMP_PATH );
+		Path path = resource.getValue( NEW_RESOURCE_TEMP_PATH );
 		if( path != null ) return path;
 
-		Path tempPath = getProgram().getDataFolder().resolve( NEW_ASSET_TEMP_STORAGE_FOLDER ).resolve( id ).resolve( NEW_ASSET_TEMP_STORAGE_CONTENT );
-		resource.setValue( NEW_ASSET_TEMP_PATH, tempPath );
+		Path tempPath = getProgram().getDataFolder().resolve( NEW_RESOURCE_TEMP_STORAGE_FOLDER ).resolve( id ).resolve( NEW_RESOURCE_TEMP_STORAGE_CONTENT );
+		resource.setValue( NEW_RESOURCE_TEMP_PATH, tempPath );
 		return tempPath;
 	}
 

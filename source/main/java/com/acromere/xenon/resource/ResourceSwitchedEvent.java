@@ -4,11 +4,11 @@ import com.acromere.event.EventType;
 
 public class ResourceSwitchedEvent extends ResourceEvent {
 
-	public static final EventType<ResourceSwitchedEvent> ASSET_SWITCHED = new EventType<>( ResourceEvent.ANY, "CURRENT_ASSET" );
+	public static final EventType<ResourceSwitchedEvent> RESOURCE_SWITCHED = new EventType<>( ResourceEvent.ANY, "RESOURCE_SWITCHED" );
 
-	public static final EventType<ResourceSwitchedEvent> ANY = ASSET_SWITCHED;
+	public static final EventType<ResourceSwitchedEvent> ANY = RESOURCE_SWITCHED;
 
-	public static final EventType<ResourceSwitchedEvent> SWITCHED = new EventType<>( ASSET_SWITCHED, "SWITCHED" );
+	public static final EventType<ResourceSwitchedEvent> SWITCHED = new EventType<>( RESOURCE_SWITCHED, "SWITCHED" );
 
 	private Resource oldResource;
 

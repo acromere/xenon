@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeoutException;
 
-public class AssetWatcher implements EventHandler<ResourceEvent> {
+public class ResourceWatcher implements EventHandler<ResourceEvent> {
 
 	private static final long DEFAULT_WAIT_TIMEOUT = 2500;
 

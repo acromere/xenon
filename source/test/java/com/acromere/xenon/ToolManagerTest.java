@@ -51,7 +51,7 @@ public class ToolManagerTest extends BasePartXenonTestCase {
 
 	@Test
 	@SuppressWarnings( { "ConstantConditions", "CatchMayIgnoreException" } )
-	void testOpenToolWithNullAsset() {
+	void testOpenToolWithNullResource() {
 		taskManager.submit( Task.of(
 			"", () -> {
 				try {

@@ -88,9 +88,9 @@ public class NewSchemeTest extends BasePartXenonTestCase {
 	void getTemporaryPath() {
 		// given
 		Resource resource = new Resource( new MockResourceType( getProgram() ), NewScheme.uri() );
-		Path expected = Path.of( NewScheme.NEW_ASSET_TEMP_STORAGE_FOLDER );
+		Path expected = Path.of( NewScheme.NEW_RESOURCE_TEMP_STORAGE_FOLDER );
 		expected = expected.resolve( resource.getUri().getSchemeSpecificPart() );
-		expected = expected.resolve( NewScheme.NEW_ASSET_TEMP_STORAGE_CONTENT );
+		expected = expected.resolve( NewScheme.NEW_RESOURCE_TEMP_STORAGE_CONTENT );
 
 		// when
 		Path path = scheme.getTemporaryPath( resource );

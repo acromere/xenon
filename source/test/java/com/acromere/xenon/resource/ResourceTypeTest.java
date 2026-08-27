@@ -21,7 +21,7 @@ public class ResourceTypeTest extends BaseResourceTestCase {
 	@Test
 	void testGetName() {
 		ResourceType type = new MockResourceType( getProduct() );
-		assertThat( type.getName() ).isEqualTo( "Mock Asset (mock)" );
+		assertThat( type.getName() ).isEqualTo( "Mock Resource (mock)" );
 	}
 
 	@Test

@@ -291,7 +291,7 @@ public class ToolManager implements Controllable<ToolManager> {
 			Settings settings = getProgram().getSettingsManager().getResourceTypeSettings( resourceType ).getNode( "default" );
 			String defaultTool = settings.get( "tool" );
 			if( defaultTool != null ) {
-				Class<? extends ProgramTool> toolClass = findAssetTypeToolClassByName( entry.getValue(), defaultTool );
+				Class<? extends ProgramTool> toolClass = findResourceTypeToolClassByName( entry.getValue(), defaultTool );
 				if( toolClass != null ) {
 					setDefaultTool( resourceType, toolClass );
 				} else {
@@ -301,7 +301,7 @@ public class ToolManager implements Controllable<ToolManager> {
 		}
 	}
 
-	private Class<? extends ProgramTool> findAssetTypeToolClassByName( @NonNull List<Class<? extends ProgramTool>> toolClasses, String name ) {
+	private Class<? extends ProgramTool> findResourceTypeToolClassByName( @NonNull List<Class<? extends ProgramTool>> toolClasses, String name ) {
 		return toolClasses.stream().filter( c -> c.getName().equals( name ) ).findFirst().orElse( null );
 	}
 

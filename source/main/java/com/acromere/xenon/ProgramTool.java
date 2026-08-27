@@ -103,7 +103,7 @@ import java.util.concurrent.TimeoutException;
 @CustomLog
 public abstract class ProgramTool extends Tool {
 
-	public static final int ASSET_READY_TIMEOUT = 10;
+	public static final int RESOURCE_READY_TIMEOUT = 10;
 
 	public static final int TOOL_READY_TIMEOUT = 2;
 
@@ -292,7 +292,7 @@ public abstract class ProgramTool extends Tool {
 		resource.register( ResourceEvent.LOADED, handler );
 		try {
 			if( resource.exists() && !resource.isLoaded() ) {
-				boolean timeout = !latch.await( ASSET_READY_TIMEOUT, TimeUnit.SECONDS );
+				boolean timeout = !latch.await( RESOURCE_READY_TIMEOUT, TimeUnit.SECONDS );
 				if( timeout ) {
 					//log.atWarning().log( "Timeout waiting for resource to load: %s", resource );
 					throw new TimeoutException( "Timeout waiting for resource to load: " + resource );
