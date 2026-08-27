@@ -1,6 +1,6 @@
 package com.acromere.xenon;
 
-import com.acromere.xenon.compare.AssetTypeNameComparator;
+import com.acromere.xenon.compare.ResourceTypeNameComparator;
 import com.acromere.xenon.resource.ResourceType;
 import com.acromere.xenon.tool.settings.SettingOptionProvider;
 
@@ -18,15 +18,15 @@ public class ResourceTypeOptionProvider implements SettingOptionProvider {
 
 	@Override
 	public List<String> getKeys() {
-		return program.getResourceManager().getResourceTypes().stream().filter( ResourceType::isUserType ).sorted( new AssetTypeNameComparator() ).map( ResourceType::getKey ).toList();
+		return program.getResourceManager().getResourceTypes().stream().filter( ResourceType::isUserType ).sorted( new ResourceTypeNameComparator() ).map( ResourceType::getKey ).toList();
 	}
 
 	@Override
 	public String getName( String key ) {
-		return getAssetTypeMap().get( key ).getName();
+		return getResourceTypeMap().get( key ).getName();
 	}
 
-	private Map<String, ResourceType> getAssetTypeMap() {
+	private Map<String, ResourceType> getResourceTypeMap() {
 		return program.getResourceManager().getResourceTypes().stream().collect( Collectors.toMap( ResourceType::getKey, t -> t ) );
 	}
 

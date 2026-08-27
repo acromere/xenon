@@ -51,8 +51,8 @@ public class Workarea extends Workpane implements WritableIdentity {
 
 		visibleProperty().bind( activeProperty() );
 
-		addEventHandler( ToolEvent.ACTIVATED, this::doSetCurrentAsset );
-		addEventHandler( ToolEvent.CONCEALED, this::doClearCurrentAsset );
+		addEventHandler( ToolEvent.ACTIVATED, this::doSetCurrentResource );
+		addEventHandler( ToolEvent.CONCEALED, this::doClearCurrentResource );
 		addEventHandler( ToolEvent.ANY, this::doDispatchToolEventToWorkspace );
 
 		// TODO Could be moved to UiFactory
@@ -155,12 +155,12 @@ public class Workarea extends Workpane implements WritableIdentity {
 		return getWorkspace().getProgram();
 	}
 
-	public Set<Resource> getAssets() {
+	public Set<Resource> getResources() {
 		return getTools().stream().map( Tool::getResource ).collect( Collectors.toSet() );
 	}
 
-	public Set<Resource> getModifiedAssets() {
-		return getAssets().stream().filter( Resource::isNewOrModified ).collect( Collectors.toSet() );
+	public Set<Resource> getModifiedResources() {
+		return getResources().stream().filter( Resource::isNewOrModified ).collect( Collectors.toSet() );
 	}
 
 	//	@Override
@@ -178,13 +178,13 @@ public class Workarea extends Workpane implements WritableIdentity {
 		return getName();
 	}
 
-	private void doSetCurrentAsset( ToolEvent e ) {
+	private void doSetCurrentResource( ToolEvent e ) {
 		ProgramTool tool = (ProgramTool)e.getTool();
-		if( !tool.changeCurrentAsset() ) return;
+		if( !tool.changeCurrentResource() ) return;
 		getWorkspace().getProgram().getResourceManager().setCurrentResource( tool.getResource() );
 	}
 
-	private void doClearCurrentAsset( ToolEvent e ) {
+	private void doClearCurrentResource( ToolEvent e ) {
 		getWorkspace().getProgram().getResourceManager().setCurrentResource( null );
 	}
 

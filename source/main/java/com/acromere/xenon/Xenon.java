@@ -579,10 +579,10 @@ public class Xenon extends Application implements XenonProgram {
 		new ProgramChecks( this ).register();
 
 		// Initiate resource loading
-		uiReader.loadAssets();
+		uiReader.loadResources();
 
 		// Open resources specified on the command line
-		processAssets( getProgramParameters() );
+		processResources( getProgramParameters() );
 	}
 
 	// THREAD TaskPool-worker
@@ -826,7 +826,7 @@ public class Xenon extends Application implements XenonProgram {
 
 	@Override
 	public boolean requestExit( boolean skipVerifyCheck, boolean skipKeepAliveCheck ) {
-		if( workspaceManager != null && !workspaceManager.handleModifiedAssets( ProgramScope.PROGRAM, workspaceManager.getModifiedAssets() ) ) {
+		if( workspaceManager != null && !workspaceManager.handleModifiedResources( ProgramScope.PROGRAM, workspaceManager.getModifiedResources() ) ) {
 			return false;
 		}
 
@@ -1180,7 +1180,7 @@ public class Xenon extends Application implements XenonProgram {
 	 *
 	 * @param parameters The command line parameters
 	 */
-	void processAssets( com.acromere.util.Parameters parameters ) {
+	void processResources( com.acromere.util.Parameters parameters ) {
 		List<String> uris = parameters.getUris();
 		if( uris.isEmpty() ) return;
 
@@ -1499,7 +1499,7 @@ public class Xenon extends Application implements XenonProgram {
 		registerTool( manager, new ProgramTaskType( this ), TaskTool.class, ToolInstanceMode.SINGLETON, "task", "task" );
 		registerTool( manager, new ProgramWelcomeType( this ), WelcomeTool.class, ToolInstanceMode.SINGLETON, "welcome", "welcome" );
 		registerTool( manager, new ProgramFaultType( this ), FaultTool.class, ToolInstanceMode.UNLIMITED, "fault", "fault" );
-		registerTool( manager, new ProgramResourceNewType( this ), NewAssetTool.class, ToolInstanceMode.SINGLETON, "resource", "resource" );
+		registerTool( manager, new ProgramResourceNewType( this ), NewResourceTool.class, ToolInstanceMode.SINGLETON, "resource", "resource" );
 		registerTool( manager, new ProgramResourceType( this ), ResourceTool.class, ToolInstanceMode.SINGLETON, "resource", "resource" );
 		registerTool( manager, new ProgramThemesType( this ), ThemeTool.class, ToolInstanceMode.SINGLETON, "themes", "themes" );
 		registerTool( manager, new ProgramHelpType( this ), HelpTool.class, ToolInstanceMode.UNLIMITED, "help", "help" );
@@ -1515,7 +1515,7 @@ public class Xenon extends Application implements XenonProgram {
 		unregisterTool( manager, new ProgramPropertiesType( this ), PropertiesTool.class );
 		unregisterTool( manager, new ProgramHelpType( this ), HelpTool.class );
 		unregisterTool( manager, new ProgramResourceType( this ), ResourceTool.class );
-		unregisterTool( manager, new ProgramResourceNewType( this ), NewAssetTool.class );
+		unregisterTool( manager, new ProgramResourceNewType( this ), NewResourceTool.class );
 		unregisterTool( manager, new ProgramFaultType( this ), FaultTool.class );
 		unregisterTool( manager, new ProgramTaskType( this ), TaskTool.class );
 		unregisterTool( manager, new ProgramModuleType( this ), ProductTool.class );

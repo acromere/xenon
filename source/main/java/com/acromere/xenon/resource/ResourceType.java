@@ -21,12 +21,12 @@ import java.util.stream.Collectors;
 
 /**
  * <p>
- * The AssetType class represents an resource type. An resource must always
+ * The ResourceType class represents an resource type. An resource must always
  * have an resource type and may be directly specified, or determined by the the
- * URI. Asset types may have one or more associated codecs. {@link Scheme},
+ * URI. Resource types may have one or more associated codecs. {@link Scheme},
  * {@link ResourceType} and {@link Codec} work together to save and load resources.
- * <h2>Determining Asset Type</h2>
- * Asset types can usually be determined by using the resource URI. Some
+ * <h2>Determining Resource Type</h2>
+ * Resource types can usually be determined by using the resource URI. Some
  * resource types can be determined using just the URI scheme. If the resource
  * type cannot be determined by the URI scheme then it is usually a stateful
  * resource with transient connections.
@@ -50,7 +50,7 @@ import java.util.stream.Collectors;
  * binary data type is used.
  * <p>
  * When an resource is saved it might also be necessary to update the resource type.
- * <h2>Determining a Asset Tool</h2>
+ * <h2>Determining a Resource Tool</h2>
  * Once the resource type is determined an appropriate tool can be created for
  * it. It is possible to have more than one tool registered for the resource
  * type. In this case a default may be specified or the user will need to

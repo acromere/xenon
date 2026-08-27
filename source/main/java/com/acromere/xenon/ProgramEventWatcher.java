@@ -25,7 +25,7 @@ public class ProgramEventWatcher implements EventHandler<Event> {
 		LEVELS.put( ProgramEvent.STOPPED, Level.INFO );
 		LEVELS.put( TaskEvent.PROGRESS, Level.FINER );
 
-		//LEVELS.put( AssetEvent.ANY, Log.WARN );
+		//LEVELS.put( ResourceEvent.ANY, Log.WARN );
 	}
 
 	public void handle( Event event ) {

@@ -118,14 +118,14 @@ public class ResourceTool extends GuidedTool {
 		super( product, resource );
 		setId( "tool-resource" );
 
-		this.eventCallback = this::handleExternalAssetEvent;
+		this.eventCallback = this::handleExternalResourceEvent;
 
 		// URI input bar
 		uriField = new TextField();
 		HBox.setHgrow( uriField, Priority.ALWAYS );
 		goButton = new Button();
 
-		// Asset filters
+		// Resource filters
 		filters = new ComboBox<>();
 		ResourceFilter anyResourceFilter = new AnyResourceFilter();
 		filters.getItems().add( anyResourceFilter );
@@ -166,18 +166,18 @@ public class ResourceTool extends GuidedTool {
 
 		nameColumn = new TableColumn<>( nameColumnHeader );
 		nameColumn.setCellValueFactory( new NameValueFactory() );
-		nameColumn.setComparator( new AssetLabelComparator() );
+		nameColumn.setComparator( new ResourceLabelComparator() );
 		nameColumn.setSortType( TableColumn.SortType.ASCENDING );
 		// TODO Make custom TextFieldTableCell to avoid the double-click to edit
 		nameColumn.setCellFactory( TextFieldTableCell.forTableColumn( new StringLabelConverter() ) );
-		nameColumn.onEditCommitProperty().set( this::doUpdateAssetName );
+		nameColumn.onEditCommitProperty().set( this::doUpdateResourceName );
 
 		uriColumn = new TableColumn<>( uriColumnHeader );
 		uriColumn.setCellValueFactory( new PropertyValueFactory<>( "uri" ) );
 
 		sizeColumn = new TableColumn<>( sizeColumnHeader );
 		sizeColumn.setCellValueFactory( new SizeValueFactory() );
-		sizeColumn.setComparator( new AssetSizeComparator() );
+		sizeColumn.setComparator( new ResourceSizeComparator() );
 		sizeColumn.setStyle( "-fx-alignment: CENTER-RIGHT;" );
 
 		// Asset table -------------------------------------------------------------
@@ -493,7 +493,7 @@ public class ResourceTool extends GuidedTool {
 		newFolderAction.updateEnabled();
 	}
 
-	private Void handleExternalAssetEvent( ResourceWatchEvent event ) {
+	private Void handleExternalResourceEvent( ResourceWatchEvent event ) {
 		//log.atConfig().log( "External resource event: %s %s", event.type(), event.resource() );
 		try {
 			Resource folder = event.resource();
@@ -670,7 +670,7 @@ public class ResourceTool extends GuidedTool {
 		return resourceTable.getEditingCell() != null;
 	}
 
-	private void doUpdateAssetName( TableColumn.CellEditEvent<Resource, Label> event ) {
+	private void doUpdateResourceName( TableColumn.CellEditEvent<Resource, Label> event ) {
 		try {
 			Resource resource = event.getRowValue();
 			String newName = UriUtil.encode( event.getNewValue().getText() );
@@ -755,7 +755,7 @@ public class ResourceTool extends GuidedTool {
 
 	}
 
-	private static final class AssetLabelComparator implements Comparator<Label> {
+	private static final class ResourceLabelComparator implements Comparator<Label> {
 
 		private final Comparator<Resource> resourceComparator = new ResourceTypeAndNameComparator();
 
@@ -768,7 +768,7 @@ public class ResourceTool extends GuidedTool {
 
 	}
 
-	private static final class AssetSizeComparator implements Comparator<Node> {
+	private static final class ResourceSizeComparator implements Comparator<Node> {
 
 		private final Comparator<Resource> resourceComparator = new ResourceTypeAndSizeComparator();
 

@@ -136,7 +136,7 @@ public abstract class Module implements XenonProgramProduct, Comparable<Module> 
 	 * @param type The resource type to register
 	 * @return This module
 	 */
-	protected Module registerAssetType( ResourceType type ) {
+	protected Module registerResourceType( ResourceType type ) {
 		getProgram().getResourceManager().addResourceType( type );
 		return this;
 	}
@@ -147,7 +147,7 @@ public abstract class Module implements XenonProgramProduct, Comparable<Module> 
 	 * @param type The resource type to unregister
 	 * @return This module
 	 */
-	protected Module unregisterAssetType( ResourceType type ) {
+	protected Module unregisterResourceType( ResourceType type ) {
 		getProgram().getResourceManager().removeResourceType( type );
 		return this;
 	}

@@ -17,15 +17,15 @@
   - Different buses in different scopes
     - Program
     - Workarea - Future
-    - Asset - Future
+    - Resource - Future
     - Other???
 
 - Data Model API - Node
 
 - Settings API
 
-- Asset API
-  - Asset Types
+- Resource API
+  - Resource Types
     - Codecs
 
 - Tools

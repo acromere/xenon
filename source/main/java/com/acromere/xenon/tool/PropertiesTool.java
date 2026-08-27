@@ -50,7 +50,7 @@ public class PropertiesTool extends ProgramTool {
 	}
 
 	@Override
-	public boolean changeCurrentAsset() {
+	public boolean changeCurrentResource() {
 		return false;
 	}
 

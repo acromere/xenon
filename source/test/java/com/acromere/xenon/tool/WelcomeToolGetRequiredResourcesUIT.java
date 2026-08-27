@@ -1,17 +1,17 @@
 package com.acromere.xenon.tool;
 
 import com.acromere.xenon.resource.Resource;
-import com.acromere.xenon.resource.type.ProgramTaskType;
+import com.acromere.xenon.resource.type.ProgramWelcomeType;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class TaskToolGetRequiredAssetsUIT extends TaskToolUIT {
+class WelcomeToolGetRequiredResourcesUIT extends WelcomeToolUIT {
 
 	@Test
 	void execute() {
-		Resource resource = new Resource( ProgramTaskType.URI );
-		TaskTool tool = new TaskTool( getProgram(), resource );
+		Resource resource = new Resource( ProgramWelcomeType.URI );
+		WelcomeTool tool = new WelcomeTool( getProgram(), resource );
 		assertThat( tool.getResourceDependencies() ).isEmpty();
 	}
 

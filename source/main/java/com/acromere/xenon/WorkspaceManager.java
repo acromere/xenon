@@ -182,11 +182,11 @@ public class WorkspaceManager implements Controllable<WorkspaceManager> {
 		throw new IllegalStateException( "No workspace stages available" );
 	}
 
-	public Set<Tool> getAssetTools( Resource resource ) {
+	public Set<Tool> getResourceTools( Resource resource ) {
 		return workspaces.stream().flatMap( w -> w.getWorkareas().stream() ).flatMap( a -> a.getTools().stream() ).filter( t -> t.getResource() == resource ).collect( Collectors.toSet() );
 	}
 
-	public Set<Resource> getModifiedAssets() {
+	public Set<Resource> getModifiedResources() {
 		return workspaces
 			.stream()
 			.flatMap( w -> w.getWorkareas().stream() )
@@ -202,7 +202,7 @@ public class WorkspaceManager implements Controllable<WorkspaceManager> {
 	 * @param workspace This workspace to check
 	 * @return The modified resources in the workspace
 	 */
-	public Set<Resource> getModifiedAssets( Workspace workspace ) {
+	public Set<Resource> getModifiedResources( Workspace workspace ) {
 		return workspace.getWorkareas().stream().flatMap( a -> a.getTools().stream() ).map( Tool::getResource ).filter( Resource::isNewOrModified ).collect( Collectors.toSet() );
 	}
 
@@ -213,7 +213,7 @@ public class WorkspaceManager implements Controllable<WorkspaceManager> {
 	 * @param resources The modified resources to handle
 	 * @return False if the user chooses to cancel the operation
 	 */
-	public boolean handleModifiedAssets( ProgramScope scope, Set<Resource> resources ) {
+	public boolean handleModifiedResources( ProgramScope scope, Set<Resource> resources ) {
 		if( resources.isEmpty() ) return true;
 
 		boolean autoSave = getProgram().getSettings().get( "shutdown-autosave", Boolean.class, false );
@@ -247,7 +247,7 @@ public class WorkspaceManager implements Controllable<WorkspaceManager> {
 		if( closeProgram ) {
 			program.requestExit( false, false );
 		} else {
-			if( !handleModifiedAssets( ProgramScope.WORKSPACE, getModifiedAssets( workspace ) ) ) return;
+			if( !handleModifiedResources( ProgramScope.WORKSPACE, getModifiedResources( workspace ) ) ) return;
 
 			boolean shouldContinue = !shutdownVerify;
 			if( shutdownVerify ) {

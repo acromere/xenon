@@ -86,7 +86,7 @@ public abstract class Tool extends StackPane implements WritableIdentity {
 		return resource;
 	}
 
-	public final <T> T getAssetModel() {
+	public final <T> T getResourceModel() {
 		return resource.getModel();
 	}
 

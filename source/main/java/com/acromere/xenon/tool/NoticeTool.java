@@ -63,7 +63,7 @@ public class NoticeTool extends ProgramTool {
 	protected void ready( OpenResourceRequest request ) {
 		setTitle( Rb.text( "tool", "notice-name" ) );
 		setGraphic( getProgram().getIconLibrary().getIcon( "notice" ) );
-		((NoticeModel)getAssetModel()).register( NodeEvent.NODE_CHANGED, resourceHandler = ( e ) -> updateNotices() );
+		((NoticeModel)getResourceModel()).register( NodeEvent.NODE_CHANGED, resourceHandler = ( e ) -> updateNotices() );
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class NoticeTool extends ProgramTool {
 
 	@Override
 	protected void deallocate() {
-		((NoticeModel)getAssetModel()).unregister( NodeEvent.NODE_CHANGED, resourceHandler );
+		((NoticeModel)getResourceModel()).unregister( NodeEvent.NODE_CHANGED, resourceHandler );
 	}
 
 	private void clearAll() {

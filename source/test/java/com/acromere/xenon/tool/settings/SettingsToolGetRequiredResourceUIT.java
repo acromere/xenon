@@ -10,7 +10,7 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class SettingsToolGetRequiredAssetsUIT extends SettingsToolUIT {
+class SettingsToolGetRequiredResourceUIT extends SettingsToolUIT {
 
 	@Test
 	void execute() {

@@ -9,7 +9,7 @@ public class ResourceNotFoundException extends ResourceException {
 	}
 
 	public ResourceNotFoundException( Resource resource, Throwable cause ) {
-		super( resource, "Asset not found", cause );
+		super( resource, "Resource not found", cause );
 	}
 
 }

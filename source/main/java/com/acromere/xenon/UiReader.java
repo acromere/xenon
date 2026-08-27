@@ -93,8 +93,8 @@ class UiReader {
 		doAwaitForSpaceLoad( duration, unit );
 	}
 
-	public void loadAssets() {
-		doStartAssetLoading();
+	public void loadResources() {
+		doStartResourceLoading();
 	}
 
 	private void doWorkspaceLoad() {
@@ -217,7 +217,7 @@ class UiReader {
 		}
 	}
 
-	private void doStartAssetLoading() {
+	private void doStartResourceLoading() {
 		try {
 			resourceLoadFuture = getProgram().getResourceManager().loadResources( resources );
 		} catch( Exception exception ) {

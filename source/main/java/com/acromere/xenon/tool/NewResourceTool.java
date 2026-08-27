@@ -4,7 +4,7 @@ import com.acromere.product.Rb;
 import com.acromere.xenon.ProgramTool;
 import com.acromere.xenon.RbKey;
 import com.acromere.xenon.XenonProgramProduct;
-import com.acromere.xenon.compare.AssetTypeNameComparator;
+import com.acromere.xenon.compare.ResourceTypeNameComparator;
 import com.acromere.xenon.resource.OpenResourceRequest;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.ResourceType;
@@ -20,18 +20,17 @@ import lombok.CustomLog;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @CustomLog
-public class NewAssetTool extends ProgramTool {
+public class NewResourceTool extends ProgramTool {
 
-	private final AssetTypeView view;
+	private final ResourceTypeView view;
 
-	public NewAssetTool( XenonProgramProduct product, Resource resource ) {
+	public NewResourceTool( XenonProgramProduct product, Resource resource ) {
 		super( product, resource );
 		setId( "tool-resource-new" );
 
-		view = new AssetTypeView();
+		view = new ResourceTypeView();
 
 		ScrollPane scroller = new ScrollPane( view );
 		scroller.setFitToHeight( true );
@@ -51,32 +50,32 @@ public class NewAssetTool extends ProgramTool {
 		view.update();
 	}
 
-	private class AssetTypeView extends FlowPane {
+	private class ResourceTypeView extends FlowPane {
 
-		private AssetTypeView() {
+		private ResourceTypeView() {
 			setAlignment( Pos.CENTER );
 		}
 
 		public void update() {
 			List<ResourceType> types = new ArrayList<>( getProgram().getResourceManager().getResourceTypes() );
-			types.sort( new AssetTypeNameComparator() );
+			types.sort( new ResourceTypeNameComparator() );
 
 			getChildren().clear();
-			getChildren().addAll( types.stream().filter( ResourceType::isUserType ).map( AssetTypeTile::new ).peek( tile -> tile.addEventFilter(
+			getChildren().addAll( types.stream().filter( ResourceType::isUserType ).map( ResourceTypeTile::new ).peek( tile -> tile.addEventFilter(
 				MouseEvent.MOUSE_PRESSED, e -> {
-					getProgram().getResourceManager().newResource( tile.getAssetType() );
-					NewAssetTool.this.close();
+					getProgram().getResourceManager().newResource( tile.getResourceType() );
+					NewResourceTool.this.close();
 				}
-			) ).collect( Collectors.toList() ) );
+			) ).toList() );
 		}
 
 	}
 
-	private class AssetTypeTile extends VBox {
+	private class ResourceTypeTile extends VBox {
 
 		private final ResourceType type;
 
-		AssetTypeTile( ResourceType type ) {
+		ResourceTypeTile( ResourceType type ) {
 			this.type = type;
 			getStyleClass().add( "resource-type-tile" );
 
@@ -94,7 +93,7 @@ public class NewAssetTool extends ProgramTool {
 			getChildren().add( description );
 		}
 
-		ResourceType getAssetType() {
+		ResourceType getResourceType() {
 			return type;
 		}
 

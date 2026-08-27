@@ -29,7 +29,7 @@ public class CloseWorkareaAction extends ProgramAction {
 		//Program program = getProgram();
 		Workarea workarea = getProgram().getWorkspaceManager().getActiveWorkspace().getActiveWorkarea();
 
-		if( !getProgram().getWorkspaceManager().handleModifiedAssets( ProgramScope.WORKAREA, workarea.getModifiedAssets() ) ) return;
+		if( !getProgram().getWorkspaceManager().handleModifiedResources( ProgramScope.WORKAREA, workarea.getModifiedResources() ) ) return;
 
 		Alert alert = new Alert( Alert.AlertType.CONFIRMATION );
 		alert.setTitle( Rb.text( "workarea", "workarea-close-title" ) );

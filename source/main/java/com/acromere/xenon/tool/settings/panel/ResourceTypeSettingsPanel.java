@@ -3,7 +3,7 @@ package com.acromere.xenon.tool.settings.panel;
 import com.acromere.product.Rb;
 import com.acromere.xenon.RbKey;
 import com.acromere.xenon.XenonProgramProduct;
-import com.acromere.xenon.compare.AssetTypeNameComparator;
+import com.acromere.xenon.compare.ResourceTypeNameComparator;
 import com.acromere.xenon.resource.ResourceType;
 import com.acromere.xenon.resource.ResourceTypeCodecAssociationList;
 import com.acromere.xenon.resource.ResourceTypeToolAssociationList;
@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * <p>
  * This settings panel is used to manage the relationships between media types
- * (Asset Types) and other resources like tools.
+ * (Resource Types) and other resources like tools.
  * </p>
  * <p>
  * The settings define the differences between the default configuration and
@@ -64,26 +64,26 @@ public class ResourceTypeSettingsPanel extends SettingsPanel {
 		resourceTypeGrid = (GridPane)pane.getContent();
 		int row = 0;
 
-		// Asset type selector
+		// Resource type selector
 		resourceTypesLabel = new Label( Rb.text( product, RbKey.SETTINGS, "resource-type" ) + ":" );
 		resourceTypes = new ComboBox<>();
-		resourceTypes.getItems().setAll( getUserAssetTypes( product ) );
+		resourceTypes.getItems().setAll( getUserResourceTypes( product ) );
 		GridPane.setColumnSpan( resourceTypes, GridPane.REMAINING );
 		resourceTypeGrid.addRow( row++, resourceTypesLabel, resourceTypes );
 
-		// Asset type name
+		// Resource type name
 		nameLabel = new Label( Rb.text( product, RbKey.LABEL, "name" ) );
 		name = new Label();
 		GridPane.setColumnSpan( name, GridPane.REMAINING );
 		resourceTypeGrid.addRow( row++, nameLabel, name );
 
-		// Asset type description
+		// Resource type description
 		descriptionLabel = new Label( Rb.text( product, RbKey.LABEL, "description" ) );
 		description = new Label();
 		GridPane.setColumnSpan( description, GridPane.REMAINING );
 		resourceTypeGrid.addRow( row++, descriptionLabel, description );
 
-		// Asset type key
+		// Resource type key
 		keyLabel = new Label( Rb.text( product, RbKey.LABEL, "key" ) );
 		key = new Label();
 		GridPane.setColumnSpan( key, GridPane.REMAINING );
@@ -162,12 +162,12 @@ public class ResourceTypeSettingsPanel extends SettingsPanel {
 		//		//defaultCodec.getSupported( Codec.Pattern.EXTENSION );
 	}
 
-	private List<ResourceType> getUserAssetTypes( XenonProgramProduct product ) {
-		return product.getProgram().getResourceManager().getResourceTypes().stream().filter( ResourceType::isUserType ).sorted( new AssetTypeNameComparator() ).toList();
+	private List<ResourceType> getUserResourceTypes( XenonProgramProduct product ) {
+		return product.getProgram().getResourceManager().getResourceTypes().stream().filter( ResourceType::isUserType ).sorted( new ResourceTypeNameComparator() ).toList();
 	}
 
-	private List<ResourceType> getAssetTypes( XenonProgramProduct product ) {
-		return product.getProgram().getResourceManager().getResourceTypes().stream().sorted( new AssetTypeNameComparator() ).toList();
+	private List<ResourceType> getResourceTypes( XenonProgramProduct product ) {
+		return product.getProgram().getResourceManager().getResourceTypes().stream().sorted( new ResourceTypeNameComparator() ).toList();
 	}
 
 }

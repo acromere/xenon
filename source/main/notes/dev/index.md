@@ -4,7 +4,7 @@ Thank you for using ${project.name}, a lightweight Java application framework
 for modularized programs. ${project.name} provides the basic functionality for
 an integrated workspace experience. The features include: 
 
-  * Asset management
+  * Resource management
   * Workspace management
   * Module management
   * Online mod discovery

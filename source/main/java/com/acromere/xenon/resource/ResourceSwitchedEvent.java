@@ -20,11 +20,11 @@ public class ResourceSwitchedEvent extends ResourceEvent {
 		this.newResource = newResource;
 	}
 
-	public Resource getOldAsset() {
+	public Resource getOldResource() {
 		return oldResource;
 	}
 
-	public Resource getNewAsset() {
+	public Resource getNewResource() {
 		return newResource;
 	}
 

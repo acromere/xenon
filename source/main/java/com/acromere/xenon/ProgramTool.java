@@ -47,7 +47,7 @@ import java.util.concurrent.TimeoutException;
  *   <dd>The {@link #ready} method is called one time
  *   when both the tool and resource are ready to be used. Specifically it is
  *   called when the tool has been added to the workarea and the resource data
- *   model has been populated. Asset data model event handlers should be
+ *   model has been populated. Resource data model event handlers should be
  *   registered in this step. The {@link OpenResourceRequest} parameter can be used
  *   to find other information about opening the resource, usually with the query
  *   parameters. Note, while it is safe to update the tool UI in this step,
@@ -144,7 +144,7 @@ public abstract class ProgramTool extends Tool {
 		return getProgram().getSettingsManager().getSettings( ProgramSettings.TOOL, getUid() );
 	}
 
-	public boolean changeCurrentAsset() {
+	public boolean changeCurrentResource() {
 		return true;
 	}
 
@@ -160,12 +160,12 @@ public abstract class ProgramTool extends Tool {
 
 	@Override
 	public void close() {
-		Set<Tool> tools = getProgram().getWorkspaceManager().getAssetTools( getResource() );
+		Set<Tool> tools = getProgram().getWorkspaceManager().getResourceTools( getResource() );
 		if( !tools.contains( this ) ) return;
 
 		Fx.run( () -> {
 			if( getResource().isNewOrModified() ) {
-				if( getProgram().getWorkspaceManager().handleModifiedAssets( ProgramScope.TOOL, Set.of( getResource() ) ) ) super.close();
+				if( getProgram().getWorkspaceManager().handleModifiedResources( ProgramScope.TOOL, Set.of( getResource() ) ) ) super.close();
 			} else if( tools.size() == 1 ) {
 				getProgram().getResourceManager().close( getResource() );
 			} else {
@@ -203,8 +203,8 @@ public abstract class ProgramTool extends Tool {
 
 	@Override
 	protected void activate() throws ToolException {
-		if( changeCurrentAsset() ) pullMenus();
-		if( changeCurrentAsset() ) pullTools();
+		if( changeCurrentResource() ) pullMenus();
+		if( changeCurrentResource() ) pullTools();
 		super.conceal();
 	}
 
@@ -262,7 +262,7 @@ public abstract class ProgramTool extends Tool {
 				return null;
 			}
 		).link( () -> {
-			waitForAsset( request.getResource() );
+			waitForResource( request.getResource() );
 			return null;
 		} ).link( () -> {
 			tool.callToolReady( request );
@@ -286,7 +286,7 @@ public abstract class ProgramTool extends Tool {
 		}
 	}
 
-	private static void waitForAsset( Resource resource ) throws ResourceException, TimeoutException, InterruptedException {
+	private static void waitForResource( Resource resource ) throws ResourceException, TimeoutException, InterruptedException {
 		CountDownLatch latch = new CountDownLatch( 1 );
 		EventHandler<ResourceEvent> handler = e -> latch.countDown();
 		resource.register( ResourceEvent.LOADED, handler );
@@ -315,13 +315,13 @@ public abstract class ProgramTool extends Tool {
 		} catch( ResourceException exception ) {
 			resourceMissing = true;
 		}
-		final boolean finalAssetMissing = resourceMissing;
+		final boolean finalResourceMissing = resourceMissing;
 
 		final Workpane pane = getWorkpane();
 
 		Fx.run( () -> {
 			// Notify the user if the resource is missing
-			if( finalAssetMissing ) {
+			if( finalResourceMissing ) {
 				String title = Rb.text( RbKey.RESOURCE, "resource-missing" );
 				String message = Rb.text( RbKey.RESOURCE, "resource-is-missing", request.getResource().getSimpleName(), request.getResource().getUri() );
 				Notice notice = new Notice( title, message );

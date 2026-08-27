@@ -17,9 +17,9 @@
  *   	     <ul>
  *   	       <li>Task - {@link com.acromere.xenon.task.TaskEvent TaskEvent}</li>
  *   	     </ul>
- *   	   <li>Asset Manager
+ *   	   <li>Resource Manager
  *   	     <ul>
- *   	       <li>Asset - {@link com.acromere.xenon.resource.ResourceEvent AssetEvent}</li>
+ *   	       <li>Resource - {@link com.acromere.xenon.resource.ResourceEvent ResourceEvent}</li>
  *   	     </ul>
  *   	   </li>
  *   	   <li>Product Manager - {@link com.acromere.xenon.product.ModEvent ModEvent}</li>

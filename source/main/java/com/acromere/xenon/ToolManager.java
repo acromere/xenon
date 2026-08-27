@@ -95,14 +95,14 @@ public class ToolManager implements Controllable<ToolManager> {
 
 		// Verify the request parameters
 		Resource resource = request.getResource();
-		if( resource == null ) throw new NullPointerException( "Asset cannot be null" );
+		if( resource == null ) throw new NullPointerException( "Resource cannot be null" );
 
 		// Get the resource type to look up the registered tool classes
 		ResourceType resourceType = resource.getType();
 
 		// Determine which tool class will be used
 		Class<? extends ProgramTool> requestedToolClass = request.getToolClass();
-		if( requestedToolClass == null ) requestedToolClass = determineToolClassForAssetType( resourceType );
+		if( requestedToolClass == null ) requestedToolClass = determineToolClassForResourceType( resourceType );
 		if( requestedToolClass == null ) throw new NoToolRegisteredException( "No tools registered for: " + resourceType );
 		final Class<? extends ProgramTool> toolClass = requestedToolClass;
 		request.setToolClass( toolClass );
@@ -272,7 +272,7 @@ public class ToolManager implements Controllable<ToolManager> {
 	}
 
 	public Class<? extends ProgramTool> getDefaultTool( ResourceType resourceType ) {
-		return determineToolClassForAssetType( resourceType );
+		return determineToolClassForResourceType( resourceType );
 	}
 
 	public void setDefaultTool( ResourceType resourceType, Class<? extends ProgramTool> tool ) {
@@ -305,7 +305,7 @@ public class ToolManager implements Controllable<ToolManager> {
 		return toolClasses.stream().filter( c -> c.getName().equals( name ) ).findFirst().orElse( null );
 	}
 
-	private Class<? extends ProgramTool> determineToolClassForAssetType( @Nullable ResourceType resourceType ) {
+	private Class<? extends ProgramTool> determineToolClassForResourceType( @Nullable ResourceType resourceType ) {
 		if( resourceType == null ) return null;
 
 		Class<? extends ProgramTool> toolClass = null;

@@ -92,7 +92,7 @@ public class PeerServer implements Controllable<PeerServer> {
 					Handler peerLogHandler = new LogHandler( client );
 					LogManager.getLogManager().getLogger( "" ).addHandler( peerLogHandler );
 					program.processPeerCommands( parameters, false );
-					program.processAssets( parameters );
+					program.processResources( parameters );
 					//LogManager.getLogManager().getLogger( "" ).removeHandler( peerLogHandler );
 				} catch( ClassNotFoundException exception ) {
 					log.atSevere().withCause( exception ).log( "Error reading commands from client" );
