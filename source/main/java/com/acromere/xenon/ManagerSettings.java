@@ -2,7 +2,7 @@ package com.acromere.xenon;
 
 public interface ManagerSettings {
 
-	String ASSET = ProgramSettings.MANAGER + "asset/";
+	String RESOURCE = ProgramSettings.MANAGER + "asset/";
 
 	String NOTICE = ProgramSettings.MANAGER + "notice/";
 

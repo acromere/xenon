@@ -219,7 +219,7 @@ class UiReader {
 
 	private void doStartAssetLoading() {
 		try {
-			assetLoadFuture = getProgram().getResourceManager().loadAssets( resources );
+			assetLoadFuture = getProgram().getResourceManager().loadResources( resources );
 		} catch( Exception exception ) {
 			log.atWarn( exception ).log();
 		}

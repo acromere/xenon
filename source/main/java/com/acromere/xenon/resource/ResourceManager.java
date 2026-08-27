@@ -581,78 +581,85 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	}
 
 	/**
-	 * Create an asset from a URI. This asset is considered to be an old asset. See {@link Resource#isNew()}
+	 * Create a resource from a URI. This resource is considered to be an
+	 * existing resource. See {@link Resource#isNew()}
 	 *
-	 * @param uri The URI to create an asset from
-	 * @return The asset created from the URI
+	 * @param uri The URI to create a resource from
+	 * @return The resource created from the URI
 	 */
 	public Resource createResource( URI uri ) throws ResourceException {
-		return doCreateAsset( null, uri );
+		return doCreateResource( null, uri );
 	}
 
 	/**
-	 * Create an asset from a file. This asset is considered to be an old asset. See {@link Resource#isNew()}
+	 * Create a resource from a file. This resource is considered to be an
+	 * existing resource. See {@link Resource#isNew()}
 	 *
-	 * @param file The file to create an asset from
-	 * @return The asset created from the file
+	 * @param file The file to create a resource from
+	 * @return The resource created from the file
+	 * @deprecated Use {@link #createResource(Path)} instead
 	 */
 	@Deprecated
 	public Resource createResource( File file ) throws ResourceException {
-		return doCreateAsset( null, file.toURI() );
+		return doCreateResource( null, file.toURI() );
 	}
 
 	/**
-	 * Create an asset from a path. This asset is considered to be an old asset. See {@link Resource#isNew()}
+	 * Create a resource from a path. This resource is considered to be an
+	 * existing resource. See {@link Resource#isNew()}
 	 *
-	 * @param path The path to create an asset from
-	 * @return The asset created from the path
+	 * @param path The path to create a resource from
+	 * @return The resource created from the path
 	 */
 	public Resource createResource( Path path ) throws ResourceException {
-		return doCreateAsset( null, path.toUri() );
+		return doCreateResource( null, path.toUri() );
 	}
 
 	/**
-	 * Create an asset from an asset type. This asset is considered to be a new asset. See {@link Resource#isNew()}
+	 * Create a resource from a resource type. This resource is considered to be
+	 * a new resource. See {@link Resource#isNew()}
 	 *
-	 * @param type The asset type to create an asset from
-	 * @return The asset created from the asset type
+	 * @param type The resource type to create a resource from
+	 * @return The resource created from the resource type
 	 */
 	public Resource createResource( ResourceType type ) throws ResourceException {
-		return doCreateAsset( type, null );
+		return doCreateResource( type, null );
 	}
 
 	public Resource createResource( ResourceType type, String uri ) throws ResourceException {
-		return doCreateAsset( type, UriUtil.resolve( uri ) );
+		return doCreateResource( type, UriUtil.resolve( uri ) );
 	}
 
 	/**
-	 * Create an asset from an asset type and uri.
+	 * Create a resource from a resource type and uri.
 	 *
-	 * @param type The asset type
-	 * @param uri The asset uri
-	 * @return The created asset
+	 * @param type The resource type
+	 * @param uri The resource uri
+	 * @return The created resource
 	 */
 	public Resource createResource( ResourceType type, URI uri ) throws ResourceException {
-		return doCreateAsset( type, uri );
+		return doCreateResource( type, uri );
 	}
 
 	/**
-	 * Create assets from an array of descriptors. Descriptors are preferred in the following order: URI, File, String, Object
+	 * Create resources from an array of descriptors. Descriptors are preferred in
+	 * the following order: URI, Path, String, Object
 	 *
-	 * @param descriptors The descriptors from which to create assets
-	 * @return The list of assets created from the descriptors
+	 * @param descriptors The descriptors from which to create resources
+	 * @return The list of resources created from the descriptors
 	 */
-	public Collection<Resource> createAssets( Object... descriptors ) throws ResourceException {
-		return createAssets( List.of( descriptors ) );
+	public Collection<Resource> createResources( Object... descriptors ) throws ResourceException {
+		return createResources( List.of( descriptors ) );
 	}
 
 	/**
-	 * Create assets from a collection of descriptors. Descriptors are preferred in the following order: URI, File, String, Object
+	 * Create resources from a collection of descriptors. Descriptors are
+	 * preferred in the following order: URI, Path, String, Object
 	 *
-	 * @param descriptors The descriptors from which to create assets
-	 * @return The list of assets created from the descriptors
+	 * @param descriptors The descriptors from which to create resources
+	 * @return The list of resources created from the descriptors
 	 */
-	public Collection<Resource> createAssets( Collection<?> descriptors ) throws ResourceException {
+	public Collection<Resource> createResources( Collection<?> descriptors ) throws ResourceException {
 		List<Resource> resources = new ArrayList<>( descriptors.size() );
 
 		for( Object descriptor : descriptors ) {
@@ -663,261 +670,276 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	}
 
 	/**
-	 * Request that the specified assets be opened. This method submits a task to the task manager and returns immediately.
-	 *
-	 * @param resources The assets to open
-	 */
-	public void openAssets( Resource... resources ) throws ResourceException {
-		openAssets( List.of( resources ) );
-	}
-
-	/**
-	 * Request that the specified assets be opened. This method submits a task to the task manager and returns immediately.
-	 *
-	 * @param resources The assets to open
-	 */
-	public void openAssets( Collection<Resource> resources ) throws ResourceException {
-		program.getTaskManager().submit( new OpenAssetTask( removeAlreadyOpenAssets( resources ) ) );
-	}
-
-	/**
-	 * Request that the specified assets be opened and wait until the task is complete. This method submits a task to the task manager and waits for the task
-	 * to be completed.
-	 *
-	 * @param resource The asset to open
-	 * @throws ExecutionException If there was an exception opening the asset
-	 * @throws InterruptedException If the process of opening the asset was interrupted
-	 * @implNote Do not call from a UI thread
-	 */
-	public void openAssetsAndWait( Resource resource, long time, TimeUnit unit ) throws ExecutionException, InterruptedException, TimeoutException {
-		openAssetsAndWait( List.of( resource ), time, unit );
-	}
-
-	/**
-	 * Request that the specified assets be opened and wait until the task is complete. This method submits a task to the task manager and waits for the task
-	 * to be completed.
-	 *
-	 * @param resources The assets to open
-	 * @throws ExecutionException If there was an exception opening an asset
-	 * @throws InterruptedException If the process of opening an asset was interrupted
-	 * @implNote Do not call from a UI thread
-	 */
-	public void openAssetsAndWait( Collection<Resource> resources, long time, TimeUnit unit ) throws ExecutionException, InterruptedException, TimeoutException {
-		program.getTaskManager().submit( new OpenAssetTask( removeAlreadyOpenAssets( resources ) ) ).get( time, unit );
-	}
-
-	/**
-	 * Request that the specified assets be loaded. This method submits a task to the task manager and returns immediately.
-	 *
-	 * @param resources The assets to load
-	 */
-	public Future<Collection<Resource>> loadAssets( Resource... resources ) {
-		return loadAssets( List.of( resources ) );
-	}
-
-	/**
-	 * Request that the specified assets be loaded. This method submits a task to the task manager and returns immediately.
-	 *
-	 * @param resources The assets to load
-	 */
-	public Future<Collection<Resource>> loadAssets( Collection<Resource> resources ) {
-		return program.getTaskManager().submit( new LoadAssetTask( resources ) );
-	}
-
-	/**
-	 * Request that the specified assets be loaded and wait until the task is complete. This method submits a task to the task manager and waits for the task
-	 * to be completed.
-	 *
-	 * @param resources The assets to load
-	 * @throws ExecutionException If there was an exception loading the asset
-	 * @throws InterruptedException If the process of loading the asset was interrupted
-	 * @implNote Do not call from a UI thread
-	 */
-	public void loadAssetsAndWait( Resource... resources ) throws ExecutionException, InterruptedException {
-		loadAssetsAndWait( List.of( resources ) );
-	}
-
-	/**
-	 * Request that the specified assets be loaded and wait until the task is complete. This method submits a task to the task manager and waits for the task
-	 * to be completed.
-	 *
-	 * @param resources The assets to load
-	 * @throws ExecutionException If there was an exception loading the assets
-	 * @throws InterruptedException If the process of loading the assets was interrupted
-	 * @implNote Do not call from a UI thread
-	 */
-	public void loadAssetsAndWait( Collection<Resource> resources ) throws ExecutionException, InterruptedException {
-		program.getTaskManager().submit( new LoadAssetTask( resources ) ).get();
-	}
-
-	/**
-	 * Request that the specified assets be reloaded. This method submits a task
+	 * Request that the specified resources be opened. This method submits a task
 	 * to the task manager and returns immediately.
 	 *
-	 * @param resource The asset to reload
+	 * @param resources The resources to open
+	 */
+	public void openResources( Resource... resources ) throws ResourceException {
+		openResources( List.of( resources ) );
+	}
+
+	/**
+	 * Request that the specified resources be opened. This method submits a task
+	 * to the task manager and returns immediately.
+	 *
+	 * @param resources The resources to open
+	 */
+	public void openResources( Collection<Resource> resources ) throws ResourceException {
+		program.getTaskManager().submit( new OpenResourceTask( removeAlreadyOpenResources( resources ) ) );
+	}
+
+	/**
+	 * Request that the specified resources be opened and wait until the task is
+	 * complete. This method submits a task to the task manager and waits for the
+	 * task to be completed.
+	 *
+	 * @param resource The resource to open
+	 * @throws ExecutionException If there was an exception, opening the resource
+	 * @throws InterruptedException If the process of opening the resource was interrupted
+	 * @implNote Do not call from the UI thread
+	 */
+	public void openResourcesAndWait( Resource resource, long time, TimeUnit unit ) throws ExecutionException, InterruptedException, TimeoutException {
+		openResourcesAndWait( List.of( resource ), time, unit );
+	}
+
+	/**
+	 * Request that the specified resources be opened and wait until the task is
+	 * complete. This method submits a task to the task manager and waits for the
+	 * task to be completed.
+	 *
+	 * @param resources The resources to open
+	 * @throws ExecutionException If there was an exception, opening a resource
+	 * @throws InterruptedException If the process of opening a resource was interrupted
+	 * @implNote Do not call from a UI thread
+	 */
+	public void openResourcesAndWait( Collection<Resource> resources, long time, TimeUnit unit ) throws ExecutionException, InterruptedException, TimeoutException {
+		program.getTaskManager().submit( new OpenResourceTask( removeAlreadyOpenResources( resources ) ) ).get( time, unit );
+	}
+
+	/**
+	 * Request that the specified resources be loaded. This method submits a task
+	 * to the task manager and returns immediately.
+	 *
+	 * @param resources The resources to load
+	 */
+	public Future<Collection<Resource>> loadResources( Resource... resources ) {
+		return loadResources( List.of( resources ) );
+	}
+
+	/**
+	 * Request that the specified resources be loaded. This method submits a task
+	 * to the task manager and returns immediately.
+	 *
+	 * @param resources The resources to load
+	 */
+	public Future<Collection<Resource>> loadResources( Collection<Resource> resources ) {
+		return program.getTaskManager().submit( new LoadResourceTask( resources ) );
+	}
+
+	/**
+	 * Request that the specified resources be loaded and wait until the task is
+	 * complete. This method submits a task to the task manager and waits for the
+	 * task to be completed.
+	 *
+	 * @param resources The resources to load
+	 * @throws ExecutionException If there was an exception, loading the resource
+	 * @throws InterruptedException If the process of loading the resource was interrupted
+	 * @implNote Do not call from a UI thread
+	 */
+	public void loadResourcesAndWait( Resource... resources ) throws ExecutionException, InterruptedException {
+		loadResourcesAndWait( List.of( resources ) );
+	}
+
+	/**
+	 * Request that the specified resources be loaded and wait until the task is
+	 * complete. This method submits a task to the task manager and waits for the
+	 * task to be completed.
+	 *
+	 * @param resources The resources to load
+	 * @throws ExecutionException If there was an exception, loading the resources
+	 * @throws InterruptedException If the process of loading the resources was interrupted
+	 * @implNote Do not call from a UI thread
+	 */
+	public void loadResourcesAndWait( Collection<Resource> resources ) throws ExecutionException, InterruptedException {
+		program.getTaskManager().submit( new LoadResourceTask( resources ) ).get();
+	}
+
+	/**
+	 * Request that the specified resources be reloaded. This method submits a
+	 * task to the task manager and returns immediately.
+	 *
+	 * @param resource The resource to reload
 	 */
 	public void reloadResources( Resource resource ) {
 		reloadResources( Collections.singletonList( resource ) );
 	}
 
 	/**
-	 * Request that the specified assets be reloaded. This method submits a task
+	 * Request that the specified resources be reloaded. This method submits a task
 	 * to the task manager and returns immediately.
 	 *
-	 * @param resources The assets to reload
+	 * @param resources The resources to reload
 	 */
 	public void reloadResources( Collection<Resource> resources ) {
-		program.getTaskManager().submit( new ReloadAssetTask( resources ) );
+		program.getTaskManager().submit( new ReloadResourceTask( resources ) );
 	}
 
 	/**
-	 * Request that the specified assets be reloaded and wait until the task is
+	 * Request that the specified resource be reloaded and wait until the task is
 	 * complete. This method submits a task to the task manager and waits for the
 	 * task to be completed.
 	 *
-	 * @param resource The asset to reload
-	 * @throws ExecutionException If there was an exception reloading the asset
-	 * @throws InterruptedException If the process of reloading the asset was interrupted
+	 * @param resource The resource to reload
+	 * @throws ExecutionException If there was an exception, reloading the resource
+	 * @throws InterruptedException If the process of reloading the resource was interrupted
 	 * @implNote Do not call from a UI thread
 	 */
-	public void reloadAssetsAndWait( Resource resource ) throws ExecutionException, InterruptedException {
-		reloadAssetsAndWait( Collections.singletonList( resource ) );
+	public void reloadResourcesAndWait( Resource resource ) throws ExecutionException, InterruptedException {
+		reloadResourcesAndWait( Collections.singletonList( resource ) );
 	}
 
 	/**
-	 * Request that the specified assets be reloaded and wait until the task is
+	 * Request that the specified resources be reloaded and wait until the task is
 	 * complete. This method submits a task to the task manager and waits for the
 	 * task to be completed.
 	 *
-	 * @param resources The assets to reload
-	 * @throws ExecutionException If there was an exception reloading the assets
-	 * @throws InterruptedException If the process of reloading the assets was interrupted
+	 * @param resources The resources to reload
+	 * @throws ExecutionException If there was an exception reloading the resources
+	 * @throws InterruptedException If the process of reloading the resources was interrupted
 	 * @implNote Do not call from a UI thread
 	 */
-	public void reloadAssetsAndWait( Collection<Resource> resources ) throws ExecutionException, InterruptedException {
-		program.getTaskManager().submit( new ReloadAssetTask( resources ) ).get();
+	public void reloadResourcesAndWait( Collection<Resource> resources ) throws ExecutionException, InterruptedException {
+		program.getTaskManager().submit( new ReloadResourceTask( resources ) ).get();
 	}
 
 	/**
-	 * Request that all modified assets be saved. This method submits a task to
+	 * Request that all modified resources be saved. This method submits a task to
 	 * the task manager and returns immediately.
 	 */
 	public void saveAll() {
-		saveAssets( getModifiedResources() );
+		saveResources( getModifiedResources() );
 		autosave.reset();
 	}
 
 	/**
-	 * Request that the specified assets be saved. This method submits a task to
-	 * the task manager and returns immediately.
+	 * Request that the specified resources be saved. This method submits a task
+	 * to the task manager and returns immediately.
 	 *
-	 * @param resource The asset to save
+	 * @param resource The resource to save
 	 */
-	public void saveAssets( Resource resource ) {
-		saveAssets( Collections.singletonList( resource ) );
+	public void saveResources( Resource resource ) {
+		saveResources( Collections.singletonList( resource ) );
 	}
 
 	/**
-	 * Request that the specified assets be saved. This method submits a task to the task manager and returns immediately.
+	 * Request that the specified resources be saved. This method submits a task
+	 * to the task manager and returns immediately.
 	 *
-	 * @param resources The assets to save
+	 * @param resources The resources to save
 	 */
-	public void saveAssets( Collection<Resource> resources ) {
-		program.getTaskManager().submit( new SaveAssetTask( resources ) );
+	public void saveResources( Collection<Resource> resources ) {
+		program.getTaskManager().submit( new SaveResourceTask( resources ) );
 	}
 
 	/**
-	 * Request that the specified assets be saved and wait until the task is complete. This method submits a task to the task manager and waits for the task to
-	 * be completed.
+	 * Request that the specified resources be saved and wait until the task is
+	 * complete. This method submits a task to the task manager and waits for the
+	 * task to be completed.
 	 *
-	 * @param resource The asset to save
-	 * @throws ExecutionException If there was an exception, saving the asset
-	 * @throws InterruptedException If the process of saving the asset was interrupted
+	 * @param resource The resource to save
+	 * @throws ExecutionException If there was an exception, saving the resource
+	 * @throws InterruptedException If the process of saving the resource was interrupted
 	 * @implNote Do not call from a UI thread
 	 */
-	public void saveAssetsAndWait( Resource resource ) throws ExecutionException, InterruptedException {
-		saveAssetsAndWait( Collections.singletonList( resource ) );
+	public void saveResourcesAndWait( Resource resource ) throws ExecutionException, InterruptedException {
+		saveResourcesAndWait( Collections.singletonList( resource ) );
 	}
 
 	/**
-	 * Request that the specified assets be saved and wait until the task is complete. This method submits a task to the task manager and waits for the task to
-	 * be completed.
+	 * Request that the specified resources be saved and wait until the task is
+	 * complete. This method submits a task to the task manager and waits for the
+	 * task to be completed.
 	 *
-	 * @param resources The assets to save
-	 * @throws ExecutionException If there was an exception saving the assets
-	 * @throws InterruptedException If the process of saving the assets was interrupted
+	 * @param resources The resources to save
+	 * @throws ExecutionException If there was an exception, saving the resources
+	 * @throws InterruptedException If the process of saving the resources was interrupted
 	 * @implNote Do not call from a UI thread
 	 */
-	public void saveAssetsAndWait( Collection<Resource> resources ) throws ExecutionException, InterruptedException {
-		program.getTaskManager().submit( new SaveAssetTask( resources ) ).get();
+	public void saveResourcesAndWait( Collection<Resource> resources ) throws ExecutionException, InterruptedException {
+		program.getTaskManager().submit( new SaveResourceTask( resources ) ).get();
 	}
 
 	/**
-	 * Request that the specified assets be closed. This method submits a task to the task manager and returns immediately.
+	 * Request that the specified resources be closed. This method submits a task
+	 * to the task manager and returns immediately.
 	 *
-	 * @param resource The asset to close.
+	 * @param resource The resource to close.
 	 */
 	public void closeResources( Resource resource ) {
 		closeResources( Collections.singletonList( resource ) );
 	}
 
 	/**
-	 * Request that the specified assets be closed. This method submits a task to the task manager and returns immediately.
+	 * Request that the specified resources be closed. This method submits a task
+	 * to the task manager and returns immediately.
 	 *
-	 * @param resources The assets to close.
+	 * @param resources The resources to close.
 	 */
 	public void closeResources( Collection<Resource> resources ) {
-		program.getTaskManager().submit( new CloseAssetTask( resources ) );
+		program.getTaskManager().submit( new CloseResourceTask( resources ) );
 	}
 
 	/**
-	 * Request that the specified assets be closed and wait until the task is complete. This method submits a task to the task manager and waits for the task
-	 * to be completed.
-	 *
-	 * @param resource The assets to close.
-	 * @throws ExecutionException If there was an exception closing the asset
-	 * @throws InterruptedException If the process of closing the asset was interrupted
-	 * @implNote Do not call from a UI thread
-	 */
-	public void closeAssetsAndWait( Resource resource ) throws ExecutionException, InterruptedException {
-		closeAssetsAndWait( Collections.singletonList( resource ) );
-	}
-
-	/**
-	 * Request that the specified assets be closed and wait until the task is complete. This method submits a task to the task manager and waits for the task
-	 * to be completed.
-	 *
-	 * @param resources The assets to close.
-	 * @throws ExecutionException If there was an exception closing the assets
-	 * @throws InterruptedException If the process of closing the assets was interrupted
-	 * @implNote Do not call from a UI thread
-	 */
-	public void closeAssetsAndWait( Collection<Resource> resources ) throws ExecutionException, InterruptedException {
-		program.getTaskManager().submit( new CloseAssetTask( resources ) ).get();
-	}
-
-	/**
-	 * Request that the specified assets be deleted. This method submits a task to
-	 * the task manager and returns immediately.
-	 *
-	 * @param resources The assets to close.
-	 */
-	public void deleteAssets( Collection<Resource> resources ) {
-		program.getTaskManager().submit( new DeleteAssetTask( resources ) );
-	}
-
-	/**
-	 * Request that the specified assets be deleted and wait until the task is
+	 * Request that the specified resource be closed and wait until the task is
 	 * complete. This method submits a task to the task manager and waits for the
 	 * task to be completed.
 	 *
-	 * @param resources The assets to delete.
-	 * @throws ExecutionException If there was an exception deleting the assets
-	 * @throws InterruptedException If the process of deleting the assets was interrupted
+	 * @param resource The resource to close.
+	 * @throws ExecutionException If there was an exception closing the resource
+	 * @throws InterruptedException If the process of closing the resource was interrupted
 	 * @implNote Do not call from a UI thread
 	 */
-	public void deleteAssetsAndWait( Collection<Resource> resources ) throws ExecutionException, InterruptedException {
-		program.getTaskManager().submit( new DeleteAssetTask( resources ) ).get();
+	public void closeResourceAndWait( Resource resource ) throws ExecutionException, InterruptedException {
+		closeResourcesAndWait( Collections.singletonList( resource ) );
+	}
+
+	/**
+	 * Request that the specified resources be closed and wait until the task is
+	 * complete. This method submits a task to the task manager and waits for the
+	 * task to be completed.
+	 *
+	 * @param resources The resources to close.
+	 * @throws ExecutionException If there was an exception closing the resources
+	 * @throws InterruptedException If the process of closing the resources was interrupted
+	 * @implNote Do not call from a UI thread
+	 */
+	public void closeResourcesAndWait( Collection<Resource> resources ) throws ExecutionException, InterruptedException {
+		program.getTaskManager().submit( new CloseResourceTask( resources ) ).get();
+	}
+
+	/**
+	 * Request that the specified resources be deleted. This method submits a task to
+	 * the task manager and returns immediately.
+	 *
+	 * @param resources The resources to close.
+	 */
+	public void deleteResources( Collection<Resource> resources ) {
+		program.getTaskManager().submit( new DeleteResourceTask( resources ) );
+	}
+
+	/**
+	 * Request that the specified resources be deleted and wait until the task is
+	 * complete. This method submits a task to the task manager and waits for the
+	 * task to be completed.
+	 *
+	 * @param resources The resources to delete.
+	 * @throws ExecutionException If there was an exception, deleting the resources
+	 * @throws InterruptedException If the process of deleting the resources was interrupted
+	 * @implNote Do not call from a UI thread
+	 */
+	public void deleteResourcesAndWait( Collection<Resource> resources ) throws ExecutionException, InterruptedException {
+		program.getTaskManager().submit( new DeleteResourceTask( resources ) ).get();
 	}
 
 	/**
@@ -943,33 +965,33 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	}
 
 	private Settings getSettings() {
-		return program.getSettingsManager().getSettings( ManagerSettings.ASSET );
+		return program.getSettingsManager().getSettings( ManagerSettings.RESOURCE );
 	}
 
 	/**
-	 * Determine the asset type for the given asset. The asset URI is used to find
-	 * the asset type in the following order:
+	 * Determine the resource type for the given resource. The resource URI is
+	 * used to find the asset type in the following order:
 	 * <ol>
-	 *   <li>Lookup the asset type by the full URI</li>
-	 *   <li>Lookup the asset type by the URI scheme</li>
+	 *   <li>Look up the resource type by the full URI</li>
+	 *   <li>Look up the resource type by the URI scheme</li>
 	 *   <li>Find all the codecs that match the URI</li>
 	 *   <li>Sort the codecs by priority, select the highest</li>
-	 *   <li>Use the asset type associated to the codec</li>
+	 *   <li>Use the resource type associated with the codec</li>
 	 * </ol>
 	 *
-	 * @param resource The asset for which to resolve the asset type
-	 * @return The auto detected asset type
+	 * @param resource The resource for which to resolve the resource type
+	 * @return The auto-detected resource type
 	 */
-	public ResourceType autoDetectAssetType( Resource resource ) {
+	public ResourceType autoDetectResourceType( Resource resource ) {
 		ResourceType type = null;
 
-		// Look for asset types assigned to specific codecs
+		// Look for resource types assigned to specific codecs
 		List<Codec> codecs = new ArrayList<>( autoDetectCodecs( resource ) );
 		codecs.sort( new CodecPriorityComparator().reversed() );
 		Codec codec = codecs.isEmpty() ? null : codecs.getFirst();
 		if( codec != null ) type = codec.getResourceType();
 
-		// Assign values to asset
+		// Assign values to resource
 		if( codec != null ) resource.setCodec( codec );
 		if( type != null ) resource.setType( type );
 
@@ -977,19 +999,19 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	}
 
 	/**
-	 * Determine the codec for the given asset by checking the file name, the
-	 * first line, and the content type for a match with a supported asset
-	 * type. When calling this method the asset needs to already be open so
+	 * Determine the codec for the given resource by checking the file name, the
+	 * first line, and the content type for a match with a supported resource
+	 * type. When calling this method, the resource needs to already be open so
 	 * that the information needed to determine the correct codec is defined in
-	 * the asset.
+	 * the resource.
 	 * <p>
 	 * Note: This method uses a URLConnection object to get the first line and
-	 * content type of the asset. This means that the calling thread will be
+	 * content type of the resource. This means that the calling thread will be
 	 * blocked during the IO operations used in URLConnection if the first line
-	 * or the content type is needed to determine the asset type.
+	 * or the content type is needed to determine the resource type.
 	 *
-	 * @param resource The asset for which to find codecs
-	 * @return The set of codecs that match the asset
+	 * @param resource The resource for which to find codecs
+	 * @return The set of codecs that match the resource
 	 */
 	public Set<Codec> autoDetectCodecs( Resource resource ) {
 		String uri = UriUtil.removeQueryAndFragment( resource.getUri() ).toString();
@@ -1011,7 +1033,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		return codecs;
 	}
 
-	private Collection<Resource> removeAlreadyOpenAssets( Collection<Resource> resources ) {
+	private Collection<Resource> removeAlreadyOpenResources( Collection<Resource> resources ) {
 		Collection<Resource> filteredResources = new ArrayList<>( resources );
 		for( Resource resource : openResources ) {
 			filteredResources.remove( resource );
@@ -1019,14 +1041,14 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		return filteredResources;
 	}
 
-	private boolean isManagedAssetOpen( Resource resource ) {
-		boolean isAssetOpen = resource.isOpen();
-		boolean isInOpenAssets = openResources.contains( resource );
+	private boolean isManagedResourceOpen( Resource resource ) {
+		boolean isResourceOpen = resource.isOpen();
+		boolean isInOpenResources = openResources.contains( resource );
 
 		// This is a double check to ensure things are consistent
-		if( isAssetOpen != isInOpenAssets ) log.atWarn().log( "Asset open: %s, %s", isAssetOpen, isInOpenAssets );
+		if( isResourceOpen != isInOpenResources ) log.atWarn().log( "Resource open: %s, %s", isResourceOpen, isInOpenResources );
 
-		return isAssetOpen;
+		return isResourceOpen;
 	}
 
 	private void updateActionState() {
@@ -1054,43 +1076,43 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	}
 
 	/**
-	 * Determine if the asset can be reloaded. The asset can be reloaded if the
-	 * asset is not new and is already loaded.
+	 * Determine if the resource can be reloaded. The resource can be reloaded if
+	 * the resource is not new and is already loaded.
 	 *
-	 * @param resource The asset to check
-	 * @return True if the asset can be reloaded, false otherwise.
+	 * @param resource The resource to check
+	 * @return True if the resource can be reloaded, false otherwise.
 	 */
-	private boolean canReloadAsset( Resource resource ) {
+	private boolean canReloadResource( Resource resource ) {
 		if( resource == null || resource.isNew() ) return false;
 		return resource.isLoaded();
 	}
 
 	/**
-	 * Determine if all the assets can be saved.
+	 * Determine if all the resources can be saved.
 	 *
-	 * @param resources The set of assets to check
-	 * @return True if all the assets can be saved
+	 * @param resources The set of resources to check
+	 * @return True if all the resources can be saved
 	 */
-	private boolean canSaveAllAssets( Collection<Resource> resources ) {
+	private boolean canSaveAllResources( Collection<Resource> resources ) {
 		return resources.stream().mapToInt( a -> canSaveResource( a ) ? 0 : 1 ).sum() == 0;
 	}
 
 	/**
-	 * Determine if any of the assets can be saved.
+	 * Determine if any of the resources can be saved.
 	 *
-	 * @param resources The set of assets to check
-	 * @return True if any of the assets can be saved
+	 * @param resources The set of resources to check
+	 * @return True if any of the resources can be saved
 	 */
-	private boolean canSaveAnyAssets( Collection<Resource> resources ) {
+	private boolean canSaveAnyResources( Collection<Resource> resources ) {
 		return resources.stream().mapToInt( a -> canSaveResource( a ) ? 1 : 0 ).sum() > 0;
 	}
 
 	/**
-	 * Determine if the asset can be saved. The asset can be saved if the URI is
-	 * null or if the URI scheme and codec can both save assets.
+	 * Determine if the resource can be saved. The resource can be saved if the
+	 * URI is null or if the URI scheme and codec can both save resources.
 	 *
-	 * @param resource The asset to check
-	 * @return True if the asset can be saved, false otherwise.
+	 * @param resource The resource to check
+	 * @return True if the resource can be saved, false otherwise.
 	 */
 	private boolean canSaveResource( Resource resource ) {
 		if( resource == null ) return false;
@@ -1107,32 +1129,32 @@ public class ResourceManager implements Controllable<ResourceManager> {
 			Codec codec = resource.getCodec();
 			result = scheme.canSave( resource ) && (codec == null || codec.canSave());
 		} catch( ResourceException exception ) {
-			log.atSevere().withCause( exception ).log( "Error checking if asset can be saved" );
+			log.atSevere().withCause( exception ).log( "Error checking if resource can be saved" );
 		}
 
 		return result;
 	}
 
 	/**
-	 * Determine if the asset can be renamed. The asset can be renamed if the
-	 * asset is not new and is open.
+	 * Determine if the resource can be renamed. The resource can be renamed if
+	 * the resource is not new and is open.
 	 *
-	 * @param resource The asset to check
-	 * @return True if the asset can be renamed, false otherwise.
+	 * @param resource The resource to check
+	 * @return True if the resource can be renamed, false otherwise.
 	 */
-	boolean canRenameAsset( Resource resource ) {
+	boolean canRenameResource( Resource resource ) {
 		return resource != null && !resource.isNew() && resource.isOpen();
 	}
 
-	public void registerAssetAlias( URI alias, URI uri ) {
+	public void registerResourceAlias( URI alias, URI uri ) {
 		aliases.put( alias, uri );
 	}
 
-	public void unregisterAssetAlias( URI alias ) {
+	public void unregisterResourceAlias( URI alias ) {
 		aliases.remove( alias );
 	}
 
-	private URI resolveAssetAlias( URI uri ) {
+	private URI resolveResourceAlias( URI uri ) {
 		URI resolved = aliases.get( uri );
 		if( resolved == null ) return uri;
 		return resolved;
@@ -1146,10 +1168,10 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	 * @param uri The URI of the asset
 	 * @return The asset created from the asset type and URI
 	 */
-	private synchronized Resource doCreateAsset( ResourceType type, URI uri ) throws ResourceException {
+	private synchronized Resource doCreateResource( ResourceType type, URI uri ) throws ResourceException {
 		if( uri == null ) uri = URI.create( NewScheme.ID + ":" + IdGenerator.getId() );
 
-		uri = resolveAssetAlias( uri );
+		uri = resolveResourceAlias( uri );
 
 		// Many assets use query parameters and fragments in the URI,
 		// so we need to clean up the URI before using it
@@ -1170,11 +1192,11 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	}
 
 	private boolean doOpenAsset( Resource resource ) throws ResourceException {
-		if( isManagedAssetOpen( resource ) ) return true;
+		if( isManagedResourceOpen( resource ) ) return true;
 
 		// Determine the asset type
 		ResourceType type = resource.getType();
-		if( type == null ) type = autoDetectAssetType( resource );
+		if( type == null ) type = autoDetectResourceType( resource );
 
 		if( type == null ) {
 			log.atWarn().log( "Asset type not found: " + resource.getMediaType() );
@@ -1246,7 +1268,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	}
 
 	private boolean doSaveAsset( Resource resource ) throws ResourceException {
-		if( resource == null || !isManagedAssetOpen( resource ) || !resource.isSafeToSave() ) return false;
+		if( resource == null || !isManagedResourceOpen( resource ) || !resource.isSafeToSave() ) return false;
 
 		if( !resource.getScheme().canSave( resource ) ) return false;
 
@@ -1266,7 +1288,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 	private boolean doCloseAsset( Resource resource ) throws ResourceException {
 		if( resource == null ) return false;
-		if( !isManagedAssetOpen( resource ) ) return false;
+		if( !isManagedResourceOpen( resource ) ) return false;
 
 		// Close the asset
 		resource.close( this );
@@ -1321,7 +1343,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 			if( needsTargetAsset ) {
 				askForTargetAsset( source, saveAs, rename );
 			} else {
-				saveAssets( source );
+				saveResources( source );
 			}
 		} catch( ResourceException exception ) {
 			log.atSevere().withCause( exception ).log();
@@ -1479,7 +1501,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 			if( codec != null ) resource.setCodec( codec );
 
 			// Open the asset
-			openAssetsAndWait( resource, 5, TimeUnit.SECONDS );
+			openResourcesAndWait( resource, 5, TimeUnit.SECONDS );
 			//if( !isManagedAssetOpen( asset ) ) return null;
 
 			// Create the tool if needed
@@ -1506,7 +1528,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 			}
 
 			// Start loading the asset after the tool has been created
-			if( !resource.isLoaded() ) loadAssets( resource );
+			if( !resource.isLoaded() ) loadResources( resource );
 
 			return tool;
 		}
@@ -1572,7 +1594,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 		@Override
 		public boolean isEnabled() {
-			return canReloadAsset( getCurrentResource() );
+			return canReloadResource( getCurrentResource() );
 		}
 
 		@Override
@@ -1611,7 +1633,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 		@Override
 		public boolean isEnabled() {
-			return canSaveAnyAssets( getModifiedResources() );
+			return canSaveAnyResources( getModifiedResources() );
 		}
 
 		@Override
@@ -1633,7 +1655,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 		@Override
 		public boolean isEnabled() {
-			return canRenameAsset( getCurrentResource() );
+			return canRenameResource( getCurrentResource() );
 		}
 
 		@Override
@@ -1739,9 +1761,9 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 	}
 
-	private class OpenAssetTask extends AssetTask {
+	private class OpenResourceTask extends AssetTask {
 
-		private OpenAssetTask( Collection<Resource> resources ) {
+		private OpenResourceTask( Collection<Resource> resources ) {
 			super( resources );
 		}
 
@@ -1752,9 +1774,9 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 	}
 
-	private class LoadAssetTask extends AssetTask {
+	private class LoadResourceTask extends AssetTask {
 
-		private LoadAssetTask( Collection<Resource> resources ) {
+		private LoadResourceTask( Collection<Resource> resources ) {
 			super( resources );
 		}
 
@@ -1765,9 +1787,9 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 	}
 
-	private class ReloadAssetTask extends AssetTask {
+	private class ReloadResourceTask extends AssetTask {
 
-		private ReloadAssetTask( Collection<Resource> resources ) {
+		private ReloadResourceTask( Collection<Resource> resources ) {
 			super( resources );
 		}
 
@@ -1778,9 +1800,9 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 	}
 
-	private class SaveAssetTask extends AssetTask {
+	private class SaveResourceTask extends AssetTask {
 
-		private SaveAssetTask( Collection<Resource> resources ) {
+		private SaveResourceTask( Collection<Resource> resources ) {
 			super( resources );
 		}
 
@@ -1791,9 +1813,9 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 	}
 
-	private class CloseAssetTask extends AssetTask {
+	private class CloseResourceTask extends AssetTask {
 
-		private CloseAssetTask( Collection<Resource> resources ) {
+		private CloseResourceTask( Collection<Resource> resources ) {
 			super( resources );
 		}
 
@@ -1804,9 +1826,9 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 	}
 
-	private class DeleteAssetTask extends AssetTask {
+	private class DeleteResourceTask extends AssetTask {
 
-		private DeleteAssetTask( Collection<Resource> resources ) {
+		private DeleteResourceTask( Collection<Resource> resources ) {
 			super( resources );
 		}
 

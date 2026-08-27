@@ -1188,7 +1188,7 @@ public class Xenon extends Application implements XenonProgram {
 
 		// Open the assets provided on the command line
 		try {
-			getResourceManager().openAssetsAndWait( getResourceManager().createAssets( uris ), 5, TimeUnit.SECONDS );
+			getResourceManager().openResourcesAndWait( getResourceManager().createResources( uris ), 5, TimeUnit.SECONDS );
 		} catch( ResourceException | ExecutionException | TimeoutException exception ) {
 			log.atWarning().log( "Unable to open assets: %s", uris );
 		} catch( InterruptedException exception ) {
@@ -1465,7 +1465,7 @@ public class Xenon extends Application implements XenonProgram {
 				Class<?> targetClass = Class.forName( ResourceType.class.getPackageName() + ".type." + targetClassName );
 				Field uriField = targetClass.getField( "URI" );
 				URI targetUri = (URI)uriField.get( null );
-				manager.registerAssetAlias( aliasUri, targetUri );
+				manager.registerResourceAlias( aliasUri, targetUri );
 			} catch( ClassNotFoundException | NoSuchFieldException | IllegalAccessException ignore ) {
 				// Intentionally ignore exception
 			}

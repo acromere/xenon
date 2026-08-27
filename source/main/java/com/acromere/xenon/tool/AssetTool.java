@@ -585,7 +585,7 @@ public class AssetTool extends GuidedTool {
 
 	private void doDeleteSelectedFiles() {
 		List<Resource> selectedResources = new ArrayList<>( assetTable.getSelectionModel().getSelectedItems() );
-		getProgram().getResourceManager().deleteAssets( selectedResources );
+		getProgram().getResourceManager().deleteResources( selectedResources );
 	}
 
 	private Resource getNextIndexedAsset( Resource resource ) throws ResourceException {

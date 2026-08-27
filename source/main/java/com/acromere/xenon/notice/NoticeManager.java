@@ -54,7 +54,7 @@ public class NoticeManager implements Controllable<NoticeManager> {
 		try {
 			getProgram().register( ProgramEvent.STARTED, e -> startupNotices.forEach( this::addNotice ) );
 			resource = getProgram().getResourceManager().createResource( ProgramNoticeType.URI );
-			getProgram().getResourceManager().loadAssets( resource );
+			getProgram().getResourceManager().loadResources( resource );
 			unreadCountProperty().addListener( ( p, o, n ) -> updateNoticeIcon( n.intValue() ) );
 		} catch( ResourceException exception ) {
 			log.atWarn( exception ).log( "Error starting notice manager." );
@@ -67,7 +67,7 @@ public class NoticeManager implements Controllable<NoticeManager> {
 	@Override
 	public NoticeManager stop() {
 		log.atTrace().log( "Notice manager stopping..." );
-		getProgram().getResourceManager().saveAssets( resource );
+		getProgram().getResourceManager().saveResources( resource );
 		log.atDebug().log( "Notice manager stopped." );
 		return this;
 	}

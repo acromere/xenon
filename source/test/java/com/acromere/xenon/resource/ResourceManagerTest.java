@@ -67,53 +67,53 @@ public class ResourceManagerTest extends ProgramTestCase {
 	}
 
 	@Test
-	void testOpenAssets() throws Exception {
+	void testOpenResources() throws Exception {
 		String uri = "mock:///home/user/temp/test.txt";
 		Resource resource = manager.createResource( uri );
 		AssetWatcher watcher = new AssetWatcher();
 		resource.getEventHub().register( ResourceEvent.ANY, watcher );
 		assertThat( resource.isOpen() ).isFalse();
 
-		manager.openAssets( resource );
+		manager.openResources( resource );
 		watcher.waitForEvent( ResourceEvent.OPENED );
 		assertThat( resource.isOpen() ).isTrue();
 	}
 
 	@Test
-	void testOpenAssetsAndWait() throws Exception {
+	void testOpenResourcesAndWait() throws Exception {
 		String uri = "mock:///home/user/temp/test.txt";
 		Resource resource = manager.createResource( uri );
 		AssetWatcher watcher = new AssetWatcher();
 		resource.getEventHub().register( ResourceEvent.ANY, watcher );
 		assertThat( resource.isOpen() ).isFalse();
 
-		manager.openAssetsAndWait( resource, 1, TimeUnit.SECONDS );
+		manager.openResourcesAndWait( resource, 1, TimeUnit.SECONDS );
 		assertThat( resource.isOpen() ).isTrue();
 	}
 
 	@Test
-	void testLoadAssets() throws Exception {
+	void testLoadResources() throws Exception {
 		String uri = "mock:///home/user/temp/test.txt";
 		Resource resource = manager.createResource( uri );
 		AssetWatcher watcher = new AssetWatcher();
 		resource.getEventHub().register( ResourceEvent.ANY, watcher );
 		assertThat( resource.isLoaded() ).isFalse();
 
-		manager.loadAssets( resource );
+		manager.loadResources( resource );
 		watcher.waitForEvent( ResourceEvent.LOADED );
 		assertThat( resource.isOpen() ).isTrue();
 		assertThat( resource.isLoaded() ).isTrue();
 	}
 
 	@Test
-	void testLoadAssetsAndWait() throws Exception {
+	void testLoadResourcesAndWait() throws Exception {
 		String uri = "mock:///home/user/temp/test.txt";
 		Resource resource = manager.createResource( uri );
 		AssetWatcher watcher = new AssetWatcher();
 		resource.getEventHub().register( ResourceEvent.ANY, watcher );
 		assertThat( resource.isLoaded() ).isFalse();
 
-		manager.loadAssetsAndWait( resource );
+		manager.loadResourcesAndWait( resource );
 		assertThat( resource.isOpen() ).isTrue();
 		assertThat( resource.isLoaded() ).isTrue();
 	}
@@ -126,19 +126,19 @@ public class ResourceManagerTest extends ProgramTestCase {
 		resource.getEventHub().register( ResourceEvent.ANY, watcher );
 		assertThat( resource.isLoaded() ).isFalse();
 
-		manager.loadAssetsAndWait( resource );
+		manager.loadResourcesAndWait( resource );
 		assertThat( resource.isOpen() ).isTrue();
 		assertThat( resource.isLoaded() ).isTrue();
 		assertThat( watcher.getLastEvent().getEventType() ).isEqualTo( ResourceEvent.LOADED );
 		ResourceEvent event = watcher.getLastEvent();
 
-		manager.reloadAssetsAndWait( resource );
+		manager.reloadResourcesAndWait( resource );
 		assertThat( watcher.getLastEvent().getEventType() ).isEqualTo( ResourceEvent.LOADED );
 		assertThat( event ).isNotEqualTo( watcher.getLastEvent() );
 	}
 
 	@Test
-	void testSaveAssets() throws Exception {
+	void testSaveResources() throws Exception {
 		String uri = "mock:///home/user/temp/test.txt";
 		Resource resource = manager.createResource( uri );
 		AssetWatcher watcher = new AssetWatcher();
@@ -146,12 +146,12 @@ public class ResourceManagerTest extends ProgramTestCase {
 		assertThat( resource.isSaved() ).isFalse();
 
 		// Asset must be open to be saved
-		manager.openAssets( resource );
+		manager.openResources( resource );
 		watcher.waitForEvent( ResourceEvent.OPENED );
 		assertThat( resource.isOpen() ).isTrue();
 
 		// Asset must be loaded to be saved
-		manager.loadAssets( resource );
+		manager.loadResources( resource );
 		watcher.waitForEvent( ResourceEvent.LOADED );
 		assertThat( resource.isLoaded() ).isTrue();
 
@@ -159,13 +159,13 @@ public class ResourceManagerTest extends ProgramTestCase {
 		resource.setModified( true );
 		assertThat( resource.isSafeToSave() ).isTrue();
 
-		manager.saveAssets( resource );
+		manager.saveResources( resource );
 		watcher.waitForEvent( ResourceEvent.SAVED );
 		assertThat( resource.isSaved() ).isTrue();
 	}
 
 	@Test
-	void testSaveAssetsAndWait() throws Exception {
+	void testSaveResourcesAndWait() throws Exception {
 		String uri = "mock:///home/user/temp/test.txt";
 		Resource resource = manager.createResource( uri );
 		AssetWatcher watcher = new AssetWatcher();
@@ -173,11 +173,11 @@ public class ResourceManagerTest extends ProgramTestCase {
 		assertThat( resource.isSaved() ).isFalse();
 
 		// Asset must be open to be saved
-		manager.openAssetsAndWait( resource, 1, TimeUnit.SECONDS );
+		manager.openResourcesAndWait( resource, 1, TimeUnit.SECONDS );
 		assertThat( resource.isOpen() ).isTrue();
 
 		// Asset must be loaded to be saved
-		manager.loadAssets( resource );
+		manager.loadResources( resource );
 		watcher.waitForEvent( ResourceEvent.LOADED );
 		assertThat( resource.isLoaded() ).isTrue();
 
@@ -185,7 +185,7 @@ public class ResourceManagerTest extends ProgramTestCase {
 		resource.setModified( true );
 		assertThat( resource.isSafeToSave() ).isTrue();
 
-		manager.saveAssetsAndWait( resource );
+		manager.saveResourcesAndWait( resource );
 		assertThat( resource.isSaved() ).isTrue();
 	}
 
@@ -197,7 +197,7 @@ public class ResourceManagerTest extends ProgramTestCase {
 		resource.getEventHub().register( ResourceEvent.ANY, watcher );
 
 		// Asset must be open to be closed
-		manager.openAssets( resource );
+		manager.openResources( resource );
 		watcher.waitForEvent( ResourceEvent.OPENED );
 		assertThat( resource.isOpen() ).isTrue();
 
@@ -214,17 +214,17 @@ public class ResourceManagerTest extends ProgramTestCase {
 		resource.getEventHub().register( ResourceEvent.ANY, watcher );
 
 		// Asset must be open to be closed
-		manager.openAssetsAndWait( resource, 1, TimeUnit.SECONDS );
+		manager.openResourcesAndWait( resource, 1, TimeUnit.SECONDS );
 		assertThat( resource.isOpen() ).isTrue();
 
-		manager.closeAssetsAndWait( resource );
+		manager.closeResourceAndWait( resource );
 		assertThat( resource.isOpen() ).isFalse();
 	}
 
 	@Test
-	void testAutoDetectAssetTypeWithOpaqueUri() throws Exception {
+	void testAutoDetectResourceTypeWithOpaqueUri() throws Exception {
 		Resource resource = manager.createResource( URI.create( "mock:test" ) );
-		manager.autoDetectAssetType( resource );
+		manager.autoDetectResourceType( resource );
 		assertThat( resource.getType() ).isInstanceOf( MockResourceType.class );
 	}
 
@@ -238,20 +238,20 @@ public class ResourceManagerTest extends ProgramTestCase {
 
 	@Test
 	void canRenameResourceWithNull() {
-		assertThat( manager.canRenameAsset( null ) ).isFalse();
+		assertThat( manager.canRenameResource( null ) ).isFalse();
 	}
 
 	@Test
 	void canRenameResourceWithNewResource() throws Exception {
 		Resource resource = manager.createResource( manager.getResourceType( FileScheme.ID ), "mock://test.mock" );
-		assertThat( manager.canRenameAsset( resource ) ).isFalse();
+		assertThat( manager.canRenameResource( resource ) ).isFalse();
 	}
 
 	@Test
-	void canRenameAssetWithOldResource() throws Exception {
+	void canRenameResourceWithOldResource() throws Exception {
 		Resource resource = manager.createResource( "mock://test.mock" );
-		manager.openAssetsAndWait( resource, 100, TimeUnit.MILLISECONDS );
-		assertThat( manager.canRenameAsset( resource ) ).isTrue();
+		manager.openResourcesAndWait( resource, 100, TimeUnit.MILLISECONDS );
+		assertThat( manager.canRenameResource( resource ) ).isTrue();
 	}
 
 	@Test

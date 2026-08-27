@@ -205,7 +205,7 @@ public class FileScheme extends ProgramScheme {
 		File[] children = file.listFiles();
 		if( children == null ) return new ArrayList<>();
 
-		return (List<Resource>)program.getResourceManager().createAssets( Arrays.asList( children ) );
+		return (List<Resource>)program.getResourceManager().createResources( Arrays.asList( children ) );
 	}
 
 	@Override
