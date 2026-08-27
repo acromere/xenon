@@ -26,7 +26,7 @@ import java.util.List;
  * what the user chooses.
  * </p>
  */
-public class AssetTypeSettingsPanel extends SettingsPanel {
+public class ResourceTypeSettingsPanel extends SettingsPanel {
 
 	private static final String ASSET_TYPE_DEFAULT_TOOL = "/asset-types/{type-key}/default/tool";
 
@@ -52,7 +52,7 @@ public class AssetTypeSettingsPanel extends SettingsPanel {
 
 	private final ResourceTypeToolAssociationList toolRegistrations;
 
-	public AssetTypeSettingsPanel( XenonProgramProduct product ) {
+	public ResourceTypeSettingsPanel( XenonProgramProduct product ) {
 		super( product );
 
 		// Add the title to the panel

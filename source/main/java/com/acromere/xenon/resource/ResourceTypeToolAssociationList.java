@@ -35,7 +35,7 @@ public class ResourceTypeToolAssociationList extends VBox {
 	public void setResourceType( ResourceType resourceType ) {
 		this.resourceType = resourceType;
 		if( resourceType != null ) {
-			Settings settings = getProgram().getSettingsManager().getAssetTypeSettings( resourceType ).getNode( "default" );
+			Settings settings = getProgram().getSettingsManager().getResourceTypeSettings( resourceType ).getNode( "default" );
 			settings.register( "tool", e -> this.update() );
 		}
 		update();

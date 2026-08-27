@@ -186,7 +186,7 @@ public abstract class ResourceType implements Comparable<ResourceType> {
 		return true;
 	}
 
-	boolean callAssetNew( Xenon program, Resource resource ) throws ResourceException {
+	boolean callResourceNew( Xenon program, Resource resource ) throws ResourceException {
 		Object lock = new Object();
 		AtomicBoolean result = new AtomicBoolean();
 		AtomicReference<ResourceException> resultException = new AtomicReference<>();
@@ -240,7 +240,7 @@ public abstract class ResourceType implements Comparable<ResourceType> {
 		return true;
 	}
 
-	boolean callAssetOpen( Xenon program, Resource resource ) throws ResourceException {
+	boolean callResourceOpen( Xenon program, Resource resource ) throws ResourceException {
 		return assetOpen( program, resource );
 	}
 

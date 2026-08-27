@@ -1,7 +1,6 @@
 package com.acromere.xenon;
 
 import com.acromere.product.ProductCard;
-import com.acromere.product.Rb;
 import com.acromere.settings.Settings;
 import com.acromere.settings.SettingsEvent;
 import com.acromere.settings.StoredSettings;
@@ -57,14 +56,14 @@ public class SettingsManager implements Controllable<SettingsManager> {
 		eventBus.parent( program.getFxEventHub() );
 
 		// Add setting editors
-		putPagePanel( "asset-type", AssetTypeSettingsPanel.class );
+		putPagePanel( "resource-type", ResourceTypeSettingsPanel.class );
 		putPagePanel( "modules-installed", ModulesInstalledSettingsPanel.class );
 		putPagePanel( "modules-available", ModulesAvailableSettingsPanel.class );
 		putPagePanel( "modules-updates", ModulesUpdatesSettingsPanel.class );
 		putPagePanel( "modules-sources", ModulesSourcesSettingsPanel.class );
 
 		// Add options providers
-		putOptionProvider( "program-asset-type-provider", new AssetTypeOptionProvider( program ) );
+		putOptionProvider( "program-resource-type-provider", new ResourceTypeOptionProvider( program ) );
 
 		guide.setSelectionMode( SelectionMode.MULTIPLE );
 
@@ -177,12 +176,12 @@ public class SettingsManager implements Controllable<SettingsManager> {
 		return ids;
 	}
 
-	public Settings getAssetSettings( Resource resource ) {
-		return program.getSettingsManager().getSettings( ProgramSettings.ASSET, IdGenerator.getId( String.valueOf( resource.getUri() ) ) );
+	public Settings getResourceSettings( Resource resource ) {
+		return program.getSettingsManager().getSettings( ProgramSettings.RESOURCE, IdGenerator.getId( String.valueOf( resource.getUri() ) ) );
 	}
 
-	public Settings getAssetTypeSettings( ResourceType type ) {
-		return program.getSettingsManager().getSettings( ProgramSettings.ASSET_TYPE, IdGenerator.getId( String.valueOf( type.getKey() ) ) );
+	public Settings getResourceTypeSettings( ResourceType type ) {
+		return program.getSettingsManager().getSettings( ProgramSettings.RESOURCE_TYPE, IdGenerator.getId( String.valueOf( type.getKey() ) ) );
 	}
 
 	public SettingsPage getSettingsPage( String id ) {

@@ -137,7 +137,7 @@ public abstract class ProgramTool extends Tool {
 	}
 
 	public Settings getAssetSettings() {
-		return getProgram().getSettingsManager().getAssetSettings( getResource() );
+		return getProgram().getSettingsManager().getResourceSettings( getResource() );
 	}
 
 	public Settings getSettings() {

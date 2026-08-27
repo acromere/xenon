@@ -1500,7 +1500,7 @@ public class Xenon extends Application implements XenonProgram {
 		registerTool( manager, new ProgramWelcomeType( this ), WelcomeTool.class, ToolInstanceMode.SINGLETON, "welcome", "welcome" );
 		registerTool( manager, new ProgramFaultType( this ), FaultTool.class, ToolInstanceMode.UNLIMITED, "fault", "fault" );
 		registerTool( manager, new ProgramResourceNewType( this ), NewAssetTool.class, ToolInstanceMode.SINGLETON, "asset", "asset" );
-		registerTool( manager, new ProgramResourceType( this ), AssetTool.class, ToolInstanceMode.SINGLETON, "asset", "asset" );
+		registerTool( manager, new ProgramResourceType( this ), ResourceTool.class, ToolInstanceMode.SINGLETON, "asset", "asset" );
 		registerTool( manager, new ProgramThemesType( this ), ThemeTool.class, ToolInstanceMode.SINGLETON, "themes", "themes" );
 		registerTool( manager, new ProgramHelpType( this ), HelpTool.class, ToolInstanceMode.UNLIMITED, "help", "help" );
 		registerTool( manager, new ProgramPropertiesType( this ), PropertiesTool.class, ToolInstanceMode.SINGLETON, "properties", "properties" );
@@ -1514,7 +1514,7 @@ public class Xenon extends Application implements XenonProgram {
 	private void unregisterTools( ToolManager manager ) {
 		unregisterTool( manager, new ProgramPropertiesType( this ), PropertiesTool.class );
 		unregisterTool( manager, new ProgramHelpType( this ), HelpTool.class );
-		unregisterTool( manager, new ProgramResourceType( this ), AssetTool.class );
+		unregisterTool( manager, new ProgramResourceType( this ), ResourceTool.class );
 		unregisterTool( manager, new ProgramResourceNewType( this ), NewAssetTool.class );
 		unregisterTool( manager, new ProgramFaultType( this ), FaultTool.class );
 		unregisterTool( manager, new ProgramTaskType( this ), TaskTool.class );

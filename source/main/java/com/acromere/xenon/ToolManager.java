@@ -280,7 +280,7 @@ public class ToolManager implements Controllable<ToolManager> {
 		if( toolClasses.remove( tool ) ) toolClasses.addFirst( tool );
 
 		// Set the default tool setting
-		Settings settings = getProgram().getSettingsManager().getAssetTypeSettings( resourceType ).getNode( "default" );
+		Settings settings = getProgram().getSettingsManager().getResourceTypeSettings( resourceType ).getNode( "default" );
 		settings.set( "tool", tool.getName() );
 	}
 
@@ -288,7 +288,7 @@ public class ToolManager implements Controllable<ToolManager> {
 		// Go through each asset type and set the default tool from the settings
 		for( Map.Entry<ResourceType, List<Class<? extends ProgramTool>>> entry : assetTypeToolClasses.entrySet() ) {
 			ResourceType resourceType = entry.getKey();
-			Settings settings = getProgram().getSettingsManager().getAssetTypeSettings( resourceType ).getNode( "default" );
+			Settings settings = getProgram().getSettingsManager().getResourceTypeSettings( resourceType ).getNode( "default" );
 			String defaultTool = settings.get( "tool" );
 			if( defaultTool != null ) {
 				Class<? extends ProgramTool> toolClass = findAssetTypeToolClassByName( entry.getValue(), defaultTool );

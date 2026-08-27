@@ -15,7 +15,7 @@ import com.acromere.xenon.scheme.NewScheme;
 import com.acromere.xenon.task.Task;
 import com.acromere.xenon.throwable.NoToolRegisteredException;
 import com.acromere.xenon.throwable.SchemeNotRegisteredException;
-import com.acromere.xenon.tool.AssetTool;
+import com.acromere.xenon.tool.ResourceTool;
 import com.acromere.xenon.workpane.Workpane;
 import com.acromere.xenon.workpane.WorkpaneView;
 import com.acromere.zerra.event.FxEventHub;
@@ -1161,19 +1161,20 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	}
 
 	/**
-	 * Create an asset from an asset type and/or a URI. The asset is considered to be a new asset if the URI is null. Otherwise, the asset is
-	 * considered an old asset. See {@link Resource#isNew()}
+	 * Create a resource from a resource type and/or a URI. The resource is
+	 * considered to be a new resource if the URI is null. Otherwise, the resource
+	 * is considered an existing resource. See {@link Resource#isNew()}
 	 *
-	 * @param type The asset type of the asset
-	 * @param uri The URI of the asset
-	 * @return The asset created from the asset type and URI
+	 * @param type The resource type of the resource
+	 * @param uri The URI of the resource
+	 * @return The resource created from the resource type and URI
 	 */
 	private synchronized Resource doCreateResource( ResourceType type, URI uri ) throws ResourceException {
 		if( uri == null ) uri = URI.create( NewScheme.ID + ":" + IdGenerator.getId() );
 
 		uri = resolveResourceAlias( uri );
 
-		// Many assets use query parameters and fragments in the URI,
+		// Many resources use query parameters and fragments in the URI,
 		// so we need to clean up the URI before using it
 		uri = uriCleanup( uri );
 
@@ -1183,23 +1184,23 @@ public class ResourceManager implements Controllable<ResourceManager> {
 			resolveScheme( resource );
 			identifiedResources.put( uri, resource );
 			resource.setIcon( resource.isFolder() ? "folder" : "file" );
-			log.atDebug().log( "Asset create: %s", resource );
+			log.atDebug().log( "Resource create: %s", resource );
 		} else {
-			log.atDebug().log( "Asset exists: %s", resource );
+			log.atDebug().log( "Resource exists: %s", resource );
 		}
 
 		return resource;
 	}
 
-	private boolean doOpenAsset( Resource resource ) throws ResourceException {
+	private boolean doOpenResource( Resource resource ) throws ResourceException {
 		if( isManagedResourceOpen( resource ) ) return true;
 
-		// Determine the asset type
+		// Determine the resource type
 		ResourceType type = resource.getType();
 		if( type == null ) type = autoDetectResourceType( resource );
 
 		if( type == null ) {
-			log.atWarn().log( "Asset type not found: " + resource.getMediaType() );
+			log.atWarn().log( "Resource type not found: " + resource.getMediaType() );
 			String title = Rb.text( RbKey.LABEL, "asset" );
 			String message = Rb.text( RbKey.RESOURCE, "asset-type-not-supported", resource.getFileName() );
 			Notice notice = new Notice( title, message ).setType( Notice.Type.WARN );
@@ -1213,41 +1214,41 @@ public class ResourceManager implements Controllable<ResourceManager> {
 			codec = resource.getType().getDefaultCodec();
 			resource.setCodec( codec );
 		}
-		log.atFiner().log( "Asset codec: %s", codec );
+		log.atFiner().log( "Resource codec: %s", codec );
 
-		// Initialize the asset
-		if( !type.callAssetOpen( program, resource ) ) return false;
-		log.atFiner().log( "Asset initialized with default values." );
+		// Initialize the resource
+		if( !type.callResourceOpen( program, resource ) ) return false;
+		log.atFiner().log( "Resource initialized with default values." );
 
-		// Register the general asset listener
+		// Register the general resource listener
 		resource.register( ResourceEvent.ANY, generalResourceWatcher );
 
-		// Open the asset
+		// Open the resource
 		resource.open( this );
 
-		// Add the asset to the list of open assets
+		// Add the resource to the list of open resources
 		openResources.add( resource );
 
 		getEventBus().dispatch( new ResourceEvent( this, ResourceEvent.OPENED, resource ) );
-		log.atDebug().log( "Asset opened: %s", resource );
+		log.atDebug().log( "Resource opened: %s", resource );
 
 		updateActionState();
 		return true;
 	}
 
-	private boolean doLoadAsset( Resource resource ) throws ResourceException {
+	private boolean doLoadResource( Resource resource ) throws ResourceException {
 		if( resource == null ) return false;
 
 		if( !resource.isNew() && !resource.exists() ) {
-			log.atWarn().log( "Asset not found: " + resource );
+			log.atWarn().log( "Resource not found: " + resource );
 			return false;
 		}
 
-		if( !resource.isOpen() ) doOpenAsset( resource );
+		if( !resource.isOpen() ) doOpenResource( resource );
 		if( !resource.getScheme().canLoad( resource ) ) return false;
 
-		// Load the asset
-		log.atTrace().log( "Loading asset " + resource.getUri() );
+		// Load the resource
+		log.atTrace().log( "Loading resource " + resource.getUri() );
 		resource.load( this );
 		getEventBus().dispatch( new ResourceEvent( this, ResourceEvent.LOADED, resource ) );
 		log.atInfo().log( "Loaded: %s", resource );
@@ -1256,18 +1257,18 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		return true;
 	}
 
-	private boolean doReloadAsset( Resource resource ) throws ResourceException {
+	private boolean doReloadResource( Resource resource ) throws ResourceException {
 		if( resource == null || !resource.isLoaded() ) return false;
 
 		resource.load( this );
 		getEventBus().dispatch( new ResourceEvent( this, ResourceEvent.LOADED, resource ) );
-		log.atFiner().log( "Asset reloaded: %s", resource );
+		log.atFiner().log( "Resource reloaded: %s", resource );
 
 		updateActionState();
 		return true;
 	}
 
-	private boolean doSaveAsset( Resource resource ) throws ResourceException {
+	private boolean doSaveResource( Resource resource ) throws ResourceException {
 		if( resource == null || !isManagedResourceOpen( resource ) || !resource.isSafeToSave() ) return false;
 
 		if( !resource.getScheme().canSave( resource ) ) return false;
@@ -1275,9 +1276,9 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		resource.save( this );
 		identifiedResources.put( resource.getUri(), resource );
 
-		// TODO If the asset is changing URI the settings need to be moved
+		// TODO If the resource is changing URI the settings need to be moved
 
-		// TODO Update the asset type.
+		// TODO Update the resource type.
 
 		getEventBus().dispatch( new ResourceEvent( this, ResourceEvent.SAVED, resource ) );
 		log.atInfo().log( "Saved: %s", resource );
@@ -1286,62 +1287,62 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		return true;
 	}
 
-	private boolean doCloseAsset( Resource resource ) throws ResourceException {
+	private boolean doCloseResource( Resource resource ) throws ResourceException {
 		if( resource == null ) return false;
 		if( !isManagedResourceOpen( resource ) ) return false;
 
-		// Close the asset
+		// Close the resource
 		resource.close( this );
 
-		// Unregister the general asset listener
+		// Unregister the general resource listener
 		resource.unregister( ResourceEvent.ANY, generalResourceWatcher );
 
-		// Remove the asset from the list of open assets
+		// Remove the resource from the list of open resources
 		openResources.remove( resource );
 		identifiedResources.remove( resource.getUri() );
 
-		if( openResources.isEmpty() ) doSetCurrentAsset( null );
+		if( openResources.isEmpty() ) doSetCurrentResource( null );
 
-		// TODO Delete the asset settings?
+		// TODO Delete the resource settings?
 		// Should the settings be removed? Or left for later?
-		// Recommended not to delete the asset settings.
+		// Recommended not to delete the resource settings.
 		// Maybe have a settings cleanup task and/or user actions
 
 		getEventBus().dispatch( new ResourceEvent( this, ResourceEvent.CLOSED, resource ) );
-		log.atDebug().log( "Asset closed: %s", resource );
+		log.atDebug().log( "Resource closed: %s", resource );
 
 		updateActionState();
 		return true;
 	}
 
-	private boolean doDeleteAsset( Resource resource ) throws ResourceException {
+	private boolean doDeleteResource( Resource resource ) throws ResourceException {
 		if( resource == null ) return false;
-		if( resource.isOpen() ) doCloseAsset( resource );
+		if( resource.isOpen() ) doCloseResource( resource );
 
-		// Delete the asset
+		// Delete the resource
 		resource.delete();
 
 		getEventBus().dispatch( new ResourceEvent( this, ResourceEvent.DELETED, resource ) );
-		log.atDebug().log( "Asset deleted: %s", resource );
+		log.atDebug().log( "Resource deleted: %s", resource );
 
 		updateActionState();
 		return true;
 	}
 
 	/**
-	 * Save the asset, prompting the user if necessary.
+	 * Save the resource, prompting the user if necessary.
 	 *
-	 * @param source The asset to be saved
-	 * @param target The asset to save as
-	 * @param saveAs The save as flag
+	 * @param source The resource to be saved
+	 * @param target The resource to save as
+	 * @param saveAs The save-as flag
 	 * @param rename The rename flag
 	 * @implNote This method makes calls to the FX platform.
 	 */
 	private void doSaveOrRenameResource( Resource source, Resource target, boolean saveAs, boolean rename ) {
 		try {
-			boolean needsTargetAsset = source.isNew() || ((saveAs || rename) && target == null);
-			if( needsTargetAsset ) {
-				askForTargetAsset( source, saveAs, rename );
+			boolean needsTargetResource = source.isNew() || ((saveAs || rename) && target == null);
+			if( needsTargetResource ) {
+				askForTargetResource( source, saveAs, rename );
 			} else {
 				saveResources( source );
 			}
@@ -1351,67 +1352,67 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	}
 
 	private String generateFilename() {
-		return "asset" + (currentResource == null ? "" : "." + currentResource.getCodec().getDefaultExtension());
+		return "resource" + (currentResource == null ? "" : "." + currentResource.getCodec().getDefaultExtension());
 	}
 
-	private void askForTargetAsset( Resource source, boolean saveAs, boolean rename ) throws ResourceException {
+	private void askForTargetResource( Resource source, boolean saveAs, boolean rename ) throws ResourceException {
 		Codec codec = source.getCodec();
 		if( codec == null ) codec = source.getType().getDefaultCodec();
 
-		// Determine the asset path
+		// Determine the resource path
 		Path folder = source.isNew() ? getCurrentFileFolder() : Path.of( getParent( source ).getUri() );
 		String filename = source.isNew() ? generateFilename() : source.getFileName();
-		Path assetPath = folder.resolve( filename );
+		Path resourcePath = folder.resolve( filename );
 
-		// Build a URI to open the asset tool
-		String uriString = ProgramResourceType.URI + "?mode=" + AssetTool.Mode.SAVE + "&uri=" + assetPath.toUri();
-		log.atTrace().log( "save asset uri=%s", URI.create( uriString ) );
+		// Build a URI to open the resource tool
+		String uriString = ProgramResourceType.URI + "?mode=" + ResourceTool.Mode.SAVE + "&uri=" + resourcePath.toUri();
+		log.atTrace().log( "save resource uri=%s", URI.create( uriString ) );
 
 		final Resource finalResource = source;
 		final Codec finalCodec = codec;
 		program.getTaskManager().submit( Task.of( () -> {
 			try {
-				Map<Codec, ResourceFilter> filters = generateAssetFilters( finalResource.getType() );
-				AssetTool tool = (AssetTool)openResource( URI.create( uriString ) ).get();
+				Map<Codec, ResourceFilter> filters = generateResourceFilters( finalResource.getType() );
+				ResourceTool tool = (ResourceTool)openResource( URI.create( uriString ) ).get();
 				tool.getFilters().addAll( 0, filters.values() );
 				tool.setSelectedFilter( filters.get( finalCodec ) );
-				tool.setSaveActionConsumer( target -> doAfterAssetTool( tool, filters, source, target, saveAs, rename ) );
+				tool.setSaveActionConsumer( target -> doAfterResourceTool( tool, filters, source, target, saveAs, rename ) );
 			} catch( Exception exception ) {
 				log.atWarn().withCause( exception ).log();
 			}
 		} ) );
 	}
 
-	private void doAfterAssetTool( AssetTool tool, Map<Codec, ResourceFilter> filters, Resource source, Resource target, boolean saveAs, boolean rename ) {
+	private void doAfterResourceTool( ResourceTool tool, Map<Codec, ResourceFilter> filters, Resource source, Resource target, boolean saveAs, boolean rename ) {
 		try {
 			Resource folder = target.isFolder() ? target : getParent( target );
 
 			// Store the current folder in the settings
 			setCurrentFileFolder( folder );
 
-			// If the user specified a codec use it to set the codec and asset type
+			// If the user specified a codec, use it to set the codec and resource type
 			Map<ResourceFilter, Codec> filterCodecs = MapUtil.mirror( filters );
 			Codec selectedCodec = filterCodecs.get( tool.getSelectedFilter() );
 
-			// If the extension is not already supported use the default extension from the codec
+			// If the extension is not already supported, use the default extension from the codec
 			if( !target.exists() && selectedCodec != null && !selectedCodec.isSupported( Codec.Pattern.EXTENSION, target.getFileName() ) ) {
 				target = resolve( folder, target.getFileName() + "." + selectedCodec.getDefaultExtension() );
 			}
 
-			// Update the target asset
+			// Update the target resource
 			if( selectedCodec != null ) target.setCodec( selectedCodec );
 
 			if( source.isNew() || saveAs ) {
-				doSaveAsAsset( source, target );
+				doSaveAsResource( source, target );
 			} else if( rename ) {
-				doRenameAsset( source, target );
+				doRenameResource( source, target );
 			}
 		} catch( ResourceException exception ) {
 			log.atError( exception ).log();
 		}
 	}
 
-	private void doSaveAsAsset( Resource source, Resource target ) throws ResourceException {
+	private void doSaveAsResource( Resource source, Resource target ) throws ResourceException {
 		if( source == null || target == null ) return;
 
 		copySettings( source, target, false );
@@ -1423,7 +1424,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		openResource( target.getUri() );
 	}
 
-	private void doRenameAsset( Resource source, Resource target ) throws ResourceException {
+	private void doRenameResource( Resource source, Resource target ) throws ResourceException {
 		if( source == null || target == null ) return;
 
 		copySettings( source, target, true );
@@ -1436,13 +1437,13 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	}
 
 	private void copySettings( Resource source, Resource target, boolean delete ) {
-		Settings sourceSettings = getProgram().getSettingsManager().getAssetSettings( source );
-		Settings targetSettings = getProgram().getSettingsManager().getAssetSettings( target );
+		Settings sourceSettings = getProgram().getSettingsManager().getResourceSettings( source );
+		Settings targetSettings = getProgram().getSettingsManager().getResourceSettings( target );
 		targetSettings.copyFrom( sourceSettings );
 		if( delete ) sourceSettings.delete();
 	}
 
-	private Map<Codec, ResourceFilter> generateAssetFilters( ResourceType type ) {
+	private Map<Codec, ResourceFilter> generateResourceFilters( ResourceType type ) {
 		Map<Codec, ResourceFilter> filters = new HashMap<>();
 		type.getCodecs().forEach( c -> filters.put( c, new CodecResourceFilter( c ) ) );
 		return filters;
@@ -1452,29 +1453,29 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		return UriUtil.removeQueryAndFragment( uri ).normalize();
 	}
 
-	private boolean doSetCurrentAsset( Resource resource ) {
+	private boolean doSetCurrentResource( Resource resource ) {
 		synchronized( currentResourceLock ) {
-			//log.log( Log.WARN,  "Current asset: " + currentAsset + " new asset: " + asset );
+			//log.log( Log.WARN,  "Current resource: " + currentResource + " new resource: " + resource );
 			Resource previous = currentResource;
 
-			// "Disconnect" the old current asset
+			// "Disconnect" the old current resource
 			if( currentResource != null ) {
 				currentResource.getEventHub().dispatch( new ResourceEvent( this, ResourceEvent.DEACTIVATED, currentResource ) );
 				currentResource.getEventHub().unregister( ResourceEvent.ANY, currentResourceWatcher );
 			}
 
-			// Change current asset
+			// Change current resource
 			currentResource = resource;
 
-			// "Connect" the new current asset
+			// "Connect" the new current resource
 			if( currentResource != null ) {
 				currentResource.getEventHub().register( ResourceEvent.ANY, currentResourceWatcher );
 				currentResource.getEventHub().dispatch( new ResourceEvent( this, ResourceEvent.ACTIVATED, currentResource ) );
 			}
 
-			// Notify program of current asset change
+			// Notify program of current resource change
 			getEventBus().dispatch( new ResourceSwitchedEvent( this, ResourceSwitchedEvent.SWITCHED, previous, currentResource ) );
-			log.atFiner().log( "Asset select: %s", resource );
+			log.atFiner().log( "Resource select: %s", resource );
 		}
 
 		updateActionState();
@@ -1491,7 +1492,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 		@Override
 		public ProgramTool call() throws ResourceException, ExecutionException, TimeoutException, InterruptedException {
-			// Create and configure the asset
+			// Create and configure the resource
 			if( request.getResource() == null ) request.setResource( createResource( request.getType(), request.getUri() ) );
 
 			Resource resource = request.getResource();
@@ -1500,23 +1501,23 @@ public class ResourceManager implements Controllable<ResourceManager> {
 			if( model != null ) resource.setModel( model );
 			if( codec != null ) resource.setCodec( codec );
 
-			// Open the asset
+			// Open the resource
 			openResourcesAndWait( resource, 5, TimeUnit.SECONDS );
-			//if( !isManagedAssetOpen( asset ) ) return null;
+			//if( !isManagedResourceOpen( resource ) ) return null;
 
 			// Create the tool if needed
 			ProgramTool tool = null;
 			try {
-				// If the asset is "new", get user input from the asset type
+				// If the resource is "new", get user input from the resource type
 				if( resource.isNew() ) {
-					if( !resource.getType().callAssetNew( program, resource ) ) return null;
-					log.atFiner().log( "Asset initialized with user values." );
+					if( !resource.getType().callResourceNew( program, resource ) ) return null;
+					log.atFiner().log( "Resource initialized with user values." );
 
-					// The asset type may have changed the URI so resolve the scheme again
+					// The resource type may have changed the URI so resolve the scheme again
 					resolveScheme( resource );
 				}
 
-				if( resource.getType() == null ) log.atError().log( "Asset type is null for: %s", resource );
+				if( resource.getType() == null ) log.atError().log( "Resource type is null for: %s", resource );
 
 				if( request.isOpenTool() ) tool = program.getToolManager().openTool( request );
 			} catch( NoToolRegisteredException exception ) {
@@ -1769,7 +1770,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 		@Override
 		public boolean doOperation( Resource resource ) throws ResourceException {
-			return doOpenAsset( resource );
+			return doOpenResource( resource );
 		}
 
 	}
@@ -1782,7 +1783,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 		@Override
 		public boolean doOperation( Resource resource ) throws ResourceException {
-			return doLoadAsset( resource );
+			return doLoadResource( resource );
 		}
 
 	}
@@ -1795,7 +1796,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 		@Override
 		public boolean doOperation( Resource resource ) throws ResourceException {
-			return doReloadAsset( resource );
+			return doReloadResource( resource );
 		}
 
 	}
@@ -1808,7 +1809,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 		@Override
 		public boolean doOperation( Resource resource ) throws ResourceException {
-			return doSaveAsset( resource );
+			return doSaveResource( resource );
 		}
 
 	}
@@ -1821,7 +1822,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 		@Override
 		public boolean doOperation( Resource resource ) throws ResourceException {
-			return doCloseAsset( resource );
+			return doCloseResource( resource );
 		}
 
 	}
@@ -1834,7 +1835,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 		@Override
 		public boolean doOperation( Resource resource ) throws ResourceException {
-			return doDeleteAsset( resource );
+			return doDeleteResource( resource );
 		}
 
 	}
@@ -1848,7 +1849,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 		@Override
 		public boolean doOperation( Resource resource ) {
-			return doSetCurrentAsset( resource );
+			return doSetCurrentResource( resource );
 		}
 
 	}

@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class AssetTypeOptionProvider implements SettingOptionProvider {
+public class ResourceTypeOptionProvider implements SettingOptionProvider {
 
 	private final Xenon program;
 
-	public AssetTypeOptionProvider( Xenon program ) {
+	public ResourceTypeOptionProvider( Xenon program ) {
 		this.program = program;
 	}
 

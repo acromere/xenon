@@ -50,7 +50,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @CustomLog
-public class AssetTool extends GuidedTool {
+public class ResourceTool extends GuidedTool {
 
 	public enum Mode {
 		OPEN,
@@ -114,7 +114,7 @@ public class AssetTool extends GuidedTool {
 	@Setter
 	private Consumer<Resource> saveActionConsumer;
 
-	public AssetTool( XenonProgramProduct product, Resource resource ) {
+	public ResourceTool( XenonProgramProduct product, Resource resource ) {
 		super( product, resource );
 		setId( "tool-asset" );
 
