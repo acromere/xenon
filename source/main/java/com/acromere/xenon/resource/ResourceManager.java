@@ -492,61 +492,61 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 	public void reloadResource( Resource resource ) {
 		if( !resource.isLoaded() ) return;
-		reloadAssets( resource );
+		reloadResources( resource );
 	}
 
 	/**
 	 * @implNote This method makes calls to the FX platform.
 	 */
-	public void saveAsset( Resource resource ) {
-		doSaveOrRenameAsset( resource, null, false, false );
+	public void saveResource( Resource resource ) {
+		doSaveOrRenameResource( resource, null, false, false );
 	}
 
 	/**
-	 * Request that the source asset be saved as the target asset. This method
-	 * submits a task to the task manager and returns immediately.
+	 * Request that the source resource be saved as the target resource. This
+	 * method submits a task to the task manager and returns immediately.
 	 *
-	 * @param source The source asset
-	 * @param target The target asset
+	 * @param source The source resource
+	 * @param target The target resource
 	 * @implNote This method makes calls to the FX platform.
 	 */
-	public void saveAsAsset( Resource source, Resource target ) {
-		doSaveOrRenameAsset( source, target, true, false );
+	public void saveAsResource( Resource source, Resource target ) {
+		doSaveOrRenameResource( source, target, true, false );
 	}
 
 	/**
-	 * Request that the source asset be renamed as the target asset. This method
-	 * submits a task to the task manager and returns immediately.
+	 * Request that the source resource be renamed as the target resource. This
+	 * method submits a task to the task manager and returns immediately.
 	 *
-	 * @param source The source asset
-	 * @param target The target asset
+	 * @param source The source resource
+	 * @param target The target resource
 	 * @implNote This method makes calls to the FX platform.
 	 */
-	public void renameAsset( Resource source, Resource target ) {
-		doSaveOrRenameAsset( source, target, false, true );
+	public void renameResource( Resource source, Resource target ) {
+		doSaveOrRenameResource( source, target, false, true );
 	}
 
 	/**
-	 * Close the asset, prompting the user if necessary.
+	 * Close the resource, prompting the user if necessary.
 	 *
-	 * @param resource The asset to be closed
+	 * @param resource The resource to be closed
 	 * @implNote This method makes calls to the FX platform.
 	 */
 	public void close( Resource resource ) {
-		if( resource.isModified() && canSaveAsset( resource ) ) {
+		if( resource.isModified() && canSaveResource( resource ) ) {
 			Alert alert = new Alert( Alert.AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL );
-			alert.setTitle( Rb.text( RbKey.ASSET, "close-save-title" ) );
-			alert.setHeaderText( Rb.text( RbKey.ASSET, "close-save-message" ) );
-			alert.setContentText( Rb.text( RbKey.ASSET, "close-save-prompt" ) );
+			alert.setTitle( Rb.text( RbKey.RESOURCE, "close-save-title" ) );
+			alert.setHeaderText( Rb.text( RbKey.RESOURCE, "close-save-message" ) );
+			alert.setContentText( Rb.text( RbKey.RESOURCE, "close-save-prompt" ) );
 
 			Stage stage = program.getWorkspaceManager().getActiveStage();
 			Optional<ButtonType> result = DialogUtil.showAndWait( stage, alert );
 
-			if( result.isPresent() && result.get() == ButtonType.YES ) saveAsset( resource );
+			if( result.isPresent() && result.get() == ButtonType.YES ) saveResource( resource );
 			if( result.isEmpty() || result.get() == ButtonType.CANCEL ) return;
 		}
 
-		closeAssets( resource );
+		closeResources( resource );
 	}
 
 	public Resource createAsset( Object descriptor ) throws ResourceException {
@@ -758,8 +758,8 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	 *
 	 * @param resource The asset to reload
 	 */
-	public void reloadAssets( Resource resource ) {
-		reloadAssets( Collections.singletonList( resource ) );
+	public void reloadResources( Resource resource ) {
+		reloadResources( Collections.singletonList( resource ) );
 	}
 
 	/**
@@ -768,7 +768,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	 *
 	 * @param resources The assets to reload
 	 */
-	public void reloadAssets( Collection<Resource> resources ) {
+	public void reloadResources( Collection<Resource> resources ) {
 		program.getTaskManager().submit( new ReloadAssetTask( resources ) );
 	}
 
@@ -859,8 +859,8 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	 *
 	 * @param resource The asset to close.
 	 */
-	public void closeAssets( Resource resource ) {
-		closeAssets( Collections.singletonList( resource ) );
+	public void closeResources( Resource resource ) {
+		closeResources( Collections.singletonList( resource ) );
 	}
 
 	/**
@@ -868,7 +868,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	 *
 	 * @param resources The assets to close.
 	 */
-	public void closeAssets( Collection<Resource> resources ) {
+	public void closeResources( Collection<Resource> resources ) {
 		program.getTaskManager().submit( new CloseAssetTask( resources ) );
 	}
 
@@ -1074,7 +1074,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	 * @return True if all the assets can be saved
 	 */
 	private boolean canSaveAllAssets( Collection<Resource> resources ) {
-		return resources.stream().mapToInt( a -> canSaveAsset( a ) ? 0 : 1 ).sum() == 0;
+		return resources.stream().mapToInt( a -> canSaveResource( a ) ? 0 : 1 ).sum() == 0;
 	}
 
 	/**
@@ -1084,7 +1084,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	 * @return True if any of the assets can be saved
 	 */
 	private boolean canSaveAnyAssets( Collection<Resource> resources ) {
-		return resources.stream().mapToInt( a -> canSaveAsset( a ) ? 1 : 0 ).sum() > 0;
+		return resources.stream().mapToInt( a -> canSaveResource( a ) ? 1 : 0 ).sum() > 0;
 	}
 
 	/**
@@ -1094,7 +1094,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	 * @param resource The asset to check
 	 * @return True if the asset can be saved, false otherwise.
 	 */
-	private boolean canSaveAsset( Resource resource ) {
+	private boolean canSaveResource( Resource resource ) {
 		if( resource == null ) return false;
 
 		if( resource.isNew() ) return true;
@@ -1181,7 +1181,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		if( type == null ) {
 			log.atWarn().log( "Asset type not found: " + resource.getMediaType() );
 			String title = Rb.text( RbKey.LABEL, "asset" );
-			String message = Rb.text( RbKey.ASSET, "asset-type-not-supported", resource.getFileName() );
+			String message = Rb.text( RbKey.RESOURCE, "asset-type-not-supported", resource.getFileName() );
 			Notice notice = new Notice( title, message ).setType( Notice.Type.WARN );
 			getProgram().getNoticeManager().addNotice( notice );
 			return false;
@@ -1317,7 +1317,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	 * @param rename The rename flag
 	 * @implNote This method makes calls to the FX platform.
 	 */
-	private void doSaveOrRenameAsset( Resource source, Resource target, boolean saveAs, boolean rename ) {
+	private void doSaveOrRenameResource( Resource source, Resource target, boolean saveAs, boolean rename ) {
 		try {
 			boolean needsTargetAsset = source.isNew() || ((saveAs || rename) && target == null);
 			if( needsTargetAsset ) {
@@ -1399,7 +1399,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		// Use the scheme to save the source to the target
 		target.getScheme().saveAs( source, target );
 
-		if( source.isNew() ) closeAssets( source );
+		if( source.isNew() ) closeResources( source );
 		openResource( target.getUri() );
 	}
 
@@ -1412,7 +1412,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		target.getScheme().rename( source, target );
 
 		openResource( target.getUri() );
-		closeAssets( source );
+		closeResources( source );
 	}
 
 	private void copySettings( Resource source, Resource target, boolean delete ) {
@@ -1595,12 +1595,12 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 		@Override
 		public boolean isEnabled() {
-			return (saveAs && getCurrentResource() != null) || canSaveAsset( getCurrentResource() );
+			return (saveAs && getCurrentResource() != null) || canSaveResource( getCurrentResource() );
 		}
 
 		@Override
 		public void handle( ActionEvent event ) {
-			saveAsAsset( getCurrentResource(), null );
+			saveAsResource( getCurrentResource(), null );
 		}
 
 	}
@@ -1640,7 +1640,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 		@Override
 		public void handle( ActionEvent event ) {
-			renameAsset( getCurrentResource(), null );
+			renameResource( getCurrentResource(), null );
 		}
 
 	}
@@ -1659,7 +1659,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		@Override
 		public void handle( ActionEvent event ) {
 			try {
-				closeAssets( getCurrentResource() );
+				closeResources( getCurrentResource() );
 			} catch( Exception exception ) {
 				log.atSevere().withCause( exception ).log();
 			}
@@ -1675,13 +1675,13 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 		@Override
 		public boolean isEnabled() {
-			return canSaveAsset( getCurrentResource() );
+			return canSaveResource( getCurrentResource() );
 		}
 
 		@Override
 		public void handle( ActionEvent event ) {
 			try {
-				closeAssets( openResources );
+				closeResources( openResources );
 			} catch( Exception exception ) {
 				log.atSevere().withCause( exception ).log();
 			}

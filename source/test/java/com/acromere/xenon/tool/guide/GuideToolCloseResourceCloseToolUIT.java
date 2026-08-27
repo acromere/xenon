@@ -22,7 +22,7 @@ class GuideToolCloseResourceCloseToolUIT extends GuideToolUIT {
 		assertThat( area.getActiveTool() ).isInstanceOf( GuideTool.class );
 		assertToolCount( area, 1 );
 
-		getProgram().getResourceManager().closeAssets( future.get().getResource() );
+		getProgram().getResourceManager().closeResources( future.get().getResource() );
 		getWorkpaneWatcher().waitForEvent( ToolEvent.REMOVED );
 		assertToolCount( area, 0 );
 	}

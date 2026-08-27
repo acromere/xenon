@@ -119,7 +119,7 @@ public class ResourceManagerTest extends ProgramTestCase {
 	}
 
 	@Test
-	void testReloadAssets() throws Exception {
+	void testReloadResources() throws Exception {
 		String uri = "mock:///home/user/temp/test.txt";
 		Resource resource = manager.createAsset( uri );
 		AssetWatcher watcher = new AssetWatcher();
@@ -190,7 +190,7 @@ public class ResourceManagerTest extends ProgramTestCase {
 	}
 
 	@Test
-	void testCloseAssets() throws Exception {
+	void testCloseResources() throws Exception {
 		String uri = "mock:///home/user/temp/test.txt";
 		Resource resource = manager.createAsset( uri );
 		AssetWatcher watcher = new AssetWatcher();
@@ -201,13 +201,13 @@ public class ResourceManagerTest extends ProgramTestCase {
 		watcher.waitForEvent( ResourceEvent.OPENED );
 		assertThat( resource.isOpen() ).isTrue();
 
-		manager.closeAssets( resource );
+		manager.closeResources( resource );
 		watcher.waitForEvent( ResourceEvent.CLOSED );
 		assertThat( resource.isOpen() ).isFalse();
 	}
 
 	@Test
-	void testCloseAssetsAndWait() throws Exception {
+	void testCloseResourcesAndWait() throws Exception {
 		String uri = "mock:///home/user/temp/test.txt";
 		Resource resource = manager.createAsset( uri );
 		AssetWatcher watcher = new AssetWatcher();
@@ -237,18 +237,18 @@ public class ResourceManagerTest extends ProgramTestCase {
 	}
 
 	@Test
-	void canRenameAssetWithNull() {
+	void canRenameResourceWithNull() {
 		assertThat( manager.canRenameAsset( null ) ).isFalse();
 	}
 
 	@Test
-	void canRenameAssetWithNewResource() throws Exception {
+	void canRenameResourceWithNewResource() throws Exception {
 		Resource resource = manager.createAsset( manager.getResourceType( FileScheme.ID ), "mock://test.mock" );
 		assertThat( manager.canRenameAsset( resource ) ).isFalse();
 	}
 
 	@Test
-	void canRenameAssetWithOldAsset() throws Exception {
+	void canRenameAssetWithOldResource() throws Exception {
 		Resource resource = manager.createAsset( "mock://test.mock" );
 		manager.openAssetsAndWait( resource, 100, TimeUnit.MILLISECONDS );
 		assertThat( manager.canRenameAsset( resource ) ).isTrue();

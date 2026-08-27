@@ -25,7 +25,7 @@ class TaskToolCloseResourceCloseToolUIT extends TaskToolUIT {
 		assertThat( pane.getActiveTool() ).isInstanceOf( TaskTool.class );
 		assertToolCount( pane, 1 );
 
-		getProgram().getResourceManager().closeAssets( future.get().getResource() );
+		getProgram().getResourceManager().closeResources( future.get().getResource() );
 		getWorkpaneWatcher().waitForEvent( ToolEvent.REMOVED );
 		Fx.waitFor( LONG_TIMEOUT );
 		assertToolCount( pane, 0 );

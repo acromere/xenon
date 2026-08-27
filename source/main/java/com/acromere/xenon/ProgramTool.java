@@ -322,8 +322,8 @@ public abstract class ProgramTool extends Tool {
 		Fx.run( () -> {
 			// Notify the user if the asset is missing
 			if( finalAssetMissing ) {
-				String title = Rb.text( RbKey.ASSET, "asset-missing" );
-				String message = Rb.text( RbKey.ASSET, "asset-is-missing", request.getResource().getSimpleName(), request.getResource().getUri() );
+				String title = Rb.text( RbKey.RESOURCE, "asset-missing" );
+				String message = Rb.text( RbKey.RESOURCE, "asset-is-missing", request.getResource().getSimpleName(), request.getResource().getUri() );
 				Notice notice = new Notice( title, message );
 				getProgram().getNoticeManager().addNotice( notice );
 			}

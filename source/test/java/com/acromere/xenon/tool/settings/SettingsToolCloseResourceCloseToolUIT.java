@@ -26,7 +26,7 @@ class SettingsToolCloseResourceCloseToolUIT extends SettingsToolUIT {
 		assertThat( area.getActiveTool() ).isInstanceOf( SettingsTool.class );
 		assertToolCount( area, 2 );
 
-		getProgram().getResourceManager().closeAssets( future.get().getResource() );
+		getProgram().getResourceManager().closeResources( future.get().getResource() );
 		getWorkpaneWatcher().waitForEvent( ToolEvent.REMOVED );
 		Fx.waitFor( LONG_TIMEOUT );
 		assertToolCount( area, 1 );

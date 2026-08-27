@@ -27,7 +27,7 @@ class ProductToolCloseResourceCloseToolUIT extends ProductToolUIT {
 		assertThat( pane.getActiveTool() ).isInstanceOf( SettingsTool.class );
 		assertToolCount( pane, 2 );
 
-		getProgram().getResourceManager().closeAssets( future.get().getResource() );
+		getProgram().getResourceManager().closeResources( future.get().getResource() );
 		getWorkpaneWatcher().waitForEvent( ToolEvent.REMOVED );
 		Fx.waitForDangerously( LONG_TIMEOUT );
 		assertToolCount( pane, 1 );
