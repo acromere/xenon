@@ -349,7 +349,7 @@ public class AssetTool extends GuidedTool {
 	private void addSupportedFilters() {
 		List<ResourceFilter> filters = getProgram()
 			.getResourceManager()
-			.getAssetTypes()
+			.getResourceTypes()
 			.stream()
 			.filter( ResourceType::isUserType )
 			.flatMap( t -> t.getCodecs().stream() )

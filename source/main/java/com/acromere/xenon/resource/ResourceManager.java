@@ -49,11 +49,11 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 	private final Set<Resource> openResources;
 
-	private final Map<URI, Resource> identifiedAssets;
+	private final Map<URI, Resource> identifiedResources;
 
 	private final Map<String, Scheme> schemes;
 
-	private final Map<String, ResourceType> assetTypes;
+	private final Map<String, ResourceType> resourceTypes;
 
 	private final Map<Codec.Pattern, Map<String, Set<Codec>>> registeredCodecs;
 
@@ -79,11 +79,11 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 	private final CloseAllActionHandler closeAllActionHandler;
 
-	private final CurrentAssetWatcher currentAssetWatcher;
+	private final CurrentResourceWatcher currentResourceWatcher;
 
-	private final GeneralAssetWatcher generalAssetWatcher;
+	private final GeneralResourceWatcher generalResourceWatcher;
 
-	private final Object currentAssetLock = new Object();
+	private final Object currentResourceLock = new Object();
 
 	private final Map<URI, URI> aliases;
 
@@ -92,24 +92,24 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	public ResourceManager( Xenon program ) {
 		this.program = program;
 		openResources = new CopyOnWriteArraySet<>();
-		identifiedAssets = new ConcurrentHashMap<>();
+		identifiedResources = new ConcurrentHashMap<>();
 		schemes = new ConcurrentHashMap<>();
-		assetTypes = new ConcurrentHashMap<>();
+		resourceTypes = new ConcurrentHashMap<>();
 		registeredCodecs = new ConcurrentHashMap<>();
 		aliases = new ConcurrentHashMap<>();
 
 		// FIXME This is pretty dangerous for a couple of reasons
-		// 1. It saves all assets, not just the current one
-		// 2. In the event there was an error loading an asset, it can save the asset in a bad state
-		// ?. Maybe this should be changed to save assets that submit themselves for autosave?
+		// 1. It saves all resources, not just the current one
+		// 2. In the event there was an error loading an resource, it can save the resource in a bad state
+		// ?. Maybe this should be changed to save resources that submit themselves for autosave?
 		autosave = new DelayedAction( program.getTaskManager().getExecutor(), this::saveAll );
 		autosave.setMinTriggerLimit( program.getSettings().get( "autosave-trigger-min", Long.class, DEFAULT_AUTOSAVE_MIN_TRIGGER_LIMIT ) );
 		autosave.setMaxTriggerLimit( program.getSettings().get( "autosave-trigger-max", Long.class, DEFAULT_AUTOSAVE_MAX_TRIGGER_LIMIT ) );
 
 		eventBus = new FxEventHub();
 		eventBus.parent( program.getFxEventHub() );
-		currentAssetWatcher = new CurrentAssetWatcher();
-		generalAssetWatcher = new GeneralAssetWatcher();
+		currentResourceWatcher = new CurrentResourceWatcher();
+		generalResourceWatcher = new GeneralResourceWatcher();
 
 		newActionHandler = new NewActionHandler( program );
 		openActionHandler = new OpenActionHandler( program );
@@ -190,16 +190,16 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		getProgram().getSettings().set( ResourceManager.CURRENT_FILE_FOLDER_SETTING_KEY, uri );
 	}
 
-	public Resource getCurrentAsset() {
+	public Resource getCurrentResource() {
 		return currentResource;
 	}
 
-	public void setCurrentAsset( Resource resource ) {
-		program.getTaskManager().submit( new SetCurrentAssetTask( resource ) );
+	public void setCurrentResource( Resource resource ) {
+		program.getTaskManager().submit( new SetCurrentResourceTask( resource ) );
 	}
 
-	public void setCurrentAssetAndWait( Resource resource ) throws ExecutionException, InterruptedException {
-		program.getTaskManager().submit( new SetCurrentAssetTask( resource ) ).get();
+	public void setCurrentResourceAndWait( Resource resource ) throws ExecutionException, InterruptedException {
+		program.getTaskManager().submit( new SetCurrentResourceTask( resource ) ).get();
 	}
 
 	public Set<Resource> getOpenAssets() {
@@ -211,7 +211,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	}
 
 	Set<ResourceType> getUserAssetTypes() {
-		return assetTypes.values().stream().filter( ResourceType::isUserType ).collect( Collectors.toSet() );
+		return resourceTypes.values().stream().filter( ResourceType::isUserType ).collect( Collectors.toSet() );
 	}
 
 	/**
@@ -289,7 +289,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	 */
 	public ResourceType getAssetType( String key ) {
 		if( key == null ) return null;
-		ResourceType type = assetTypes.get( key );
+		ResourceType type = resourceTypes.get( key );
 		if( type == null ) log.atWarning().log( "Asset type not found: %s", key );
 		return type;
 	}
@@ -299,8 +299,8 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	 *
 	 * @return The set of supported asset types
 	 */
-	public Collection<ResourceType> getAssetTypes() {
-		return Collections.unmodifiableCollection( assetTypes.values() );
+	public Collection<ResourceType> getResourceTypes() {
+		return Collections.unmodifiableCollection( resourceTypes.values() );
 	}
 
 	/**
@@ -311,8 +311,8 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	public void addAssetType( ResourceType type ) {
 		if( type == null ) return;
 
-		synchronized( assetTypes ) {
-			if( assetTypes.get( type.getKey() ) != null ) throw new IllegalArgumentException( "AssetType already exists: " + type.getKey() );
+		synchronized( resourceTypes ) {
+			if( resourceTypes.get( type.getKey() ) != null ) throw new IllegalArgumentException( "AssetType already exists: " + type.getKey() );
 
 			// Register codecs
 			for( Codec codec : type.getCodecs() ) {
@@ -325,7 +325,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 			}
 
 			// Add the asset type to the registered asset types.
-			assetTypes.put( type.getKey(), type );
+			resourceTypes.put( type.getKey(), type );
 
 			// Update the actions.
 			updateActionState();
@@ -339,11 +339,11 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	 */
 	public void removeAssetType( ResourceType type ) {
 		if( type == null ) return;
-		synchronized( assetTypes ) {
-			if( !assetTypes.containsKey( type.getKey() ) ) return;
+		synchronized( resourceTypes ) {
+			if( !resourceTypes.containsKey( type.getKey() ) ) return;
 
 			// Remove the asset type from the registered asset types
-			type = assetTypes.remove( type.getKey() );
+			type = resourceTypes.remove( type.getKey() );
 
 			for( Codec codec : type.getCodecs() ) {
 				// Unregister codecs
@@ -928,7 +928,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	 * @return A collection of all supported codecs
 	 */
 	public Collection<Codec> getCodecs() {
-		return assetTypes.values().stream().flatMap( t -> t.getCodecs().stream() ).collect( Collectors.toUnmodifiableSet() );
+		return resourceTypes.values().stream().flatMap( t -> t.getCodecs().stream() ).collect( Collectors.toUnmodifiableSet() );
 	}
 
 	public Resource getParent( Resource resource ) throws ResourceException {
@@ -1002,7 +1002,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		String firstLine = resource.getScheme().getFirstLine( resource );
 
 		Set<Codec> codecs = new HashSet<>();
-		for( ResourceType resourceType : getAssetTypes() ) {
+		for( ResourceType resourceType : getResourceTypes() ) {
 			codecs.addAll( resourceType.getSupportedCodecs( Codec.Pattern.URI, uri ) );
 			codecs.addAll( resourceType.getSupportedCodecs( Codec.Pattern.SCHEME, uri ) );
 			codecs.addAll( resourceType.getSupportedCodecs( Codec.Pattern.MEDIATYPE, mediaType ) );
@@ -1157,11 +1157,11 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		// so we need to clean up the URI before using it
 		uri = uriCleanup( uri );
 
-		Resource resource = identifiedAssets.get( uri );
+		Resource resource = identifiedResources.get( uri );
 		if( resource == null ) {
 			resource = new Resource( type, uri );
 			resolveScheme( resource );
-			identifiedAssets.put( uri, resource );
+			identifiedResources.put( uri, resource );
 			resource.setIcon( resource.isFolder() ? "folder" : "file" );
 			log.atDebug().log( "Asset create: %s", resource );
 		} else {
@@ -1200,7 +1200,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		log.atFiner().log( "Asset initialized with default values." );
 
 		// Register the general asset listener
-		resource.register( ResourceEvent.ANY, generalAssetWatcher );
+		resource.register( ResourceEvent.ANY, generalResourceWatcher );
 
 		// Open the asset
 		resource.open( this );
@@ -1253,7 +1253,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		if( !resource.getScheme().canSave( resource ) ) return false;
 
 		resource.save( this );
-		identifiedAssets.put( resource.getUri(), resource );
+		identifiedResources.put( resource.getUri(), resource );
 
 		// TODO If the asset is changing URI the settings need to be moved
 
@@ -1274,11 +1274,11 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		resource.close( this );
 
 		// Unregister the general asset listener
-		resource.unregister( ResourceEvent.ANY, generalAssetWatcher );
+		resource.unregister( ResourceEvent.ANY, generalResourceWatcher );
 
 		// Remove the asset from the list of open assets
 		openResources.remove( resource );
-		identifiedAssets.remove( resource.getUri() );
+		identifiedResources.remove( resource.getUri() );
 
 		if( openResources.isEmpty() ) doSetCurrentAsset( null );
 
@@ -1433,14 +1433,14 @@ public class ResourceManager implements Controllable<ResourceManager> {
 	}
 
 	private boolean doSetCurrentAsset( Resource resource ) {
-		synchronized( currentAssetLock ) {
+		synchronized( currentResourceLock ) {
 			//log.log( Log.WARN,  "Current asset: " + currentAsset + " new asset: " + asset );
 			Resource previous = currentResource;
 
 			// "Disconnect" the old current asset
 			if( currentResource != null ) {
 				currentResource.getEventHub().dispatch( new ResourceEvent( this, ResourceEvent.DEACTIVATED, currentResource ) );
-				currentResource.getEventHub().unregister( ResourceEvent.ANY, currentAssetWatcher );
+				currentResource.getEventHub().unregister( ResourceEvent.ANY, currentResourceWatcher );
 			}
 
 			// Change current asset
@@ -1448,7 +1448,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 			// "Connect" the new current asset
 			if( currentResource != null ) {
-				currentResource.getEventHub().register( ResourceEvent.ANY, currentAssetWatcher );
+				currentResource.getEventHub().register( ResourceEvent.ANY, currentResourceWatcher );
 				currentResource.getEventHub().dispatch( new ResourceEvent( this, ResourceEvent.ACTIVATED, currentResource ) );
 			}
 
@@ -1574,12 +1574,12 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 		@Override
 		public boolean isEnabled() {
-			return canReloadAsset( getCurrentAsset() );
+			return canReloadAsset( getCurrentResource() );
 		}
 
 		@Override
 		public void handle( ActionEvent event ) {
-			reloadAsset( getCurrentAsset() );
+			reloadAsset( getCurrentResource() );
 		}
 
 	}
@@ -1595,12 +1595,12 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 		@Override
 		public boolean isEnabled() {
-			return (saveAs && getCurrentAsset() != null) || canSaveAsset( getCurrentAsset() );
+			return (saveAs && getCurrentResource() != null) || canSaveAsset( getCurrentResource() );
 		}
 
 		@Override
 		public void handle( ActionEvent event ) {
-			saveAsAsset( getCurrentAsset(), null );
+			saveAsAsset( getCurrentResource(), null );
 		}
 
 	}
@@ -1635,12 +1635,12 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 		@Override
 		public boolean isEnabled() {
-			return canRenameAsset( getCurrentAsset() );
+			return canRenameAsset( getCurrentResource() );
 		}
 
 		@Override
 		public void handle( ActionEvent event ) {
-			renameAsset( getCurrentAsset(), null );
+			renameAsset( getCurrentResource(), null );
 		}
 
 	}
@@ -1659,7 +1659,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 		@Override
 		public void handle( ActionEvent event ) {
 			try {
-				closeAssets( getCurrentAsset() );
+				closeAssets( getCurrentResource() );
 			} catch( Exception exception ) {
 				log.atSevere().withCause( exception ).log();
 			}
@@ -1675,7 +1675,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 		@Override
 		public boolean isEnabled() {
-			return canSaveAsset( getCurrentAsset() );
+			return canSaveAsset( getCurrentResource() );
 		}
 
 		@Override
@@ -1819,9 +1819,9 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 	}
 
-	private class SetCurrentAssetTask extends AssetTask {
+	private class SetCurrentResourceTask extends AssetTask {
 
-		private SetCurrentAssetTask( Resource resource ) {
+		private SetCurrentResourceTask( Resource resource ) {
 			// A null collection will call the operation with a null value
 			super( resource == null ? null : Set.of( resource ) );
 		}
@@ -1833,7 +1833,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 	}
 
-	private class CurrentAssetWatcher implements EventHandler<ResourceEvent> {
+	private class CurrentResourceWatcher implements EventHandler<ResourceEvent> {
 
 		@Override
 		public void handle( ResourceEvent event ) {
@@ -1844,7 +1844,7 @@ public class ResourceManager implements Controllable<ResourceManager> {
 
 	}
 
-	private class GeneralAssetWatcher implements EventHandler<ResourceEvent> {
+	private class GeneralResourceWatcher implements EventHandler<ResourceEvent> {
 
 		@Override
 		public void handle( ResourceEvent event ) {

@@ -28,7 +28,7 @@ public class PropertiesAction extends ProgramAction {
 	@Override
 	public void handle( ActionEvent event ) {
 		// Get the settings pages for the asset type
-		Resource resource = getProgram().getResourceManager().getCurrentAsset();
+		Resource resource = getProgram().getResourceManager().getCurrentResource();
 		SettingsPage page = resource.getType().getSettingsPages().get( "asset" );
 
 		// Set the settings for the pages

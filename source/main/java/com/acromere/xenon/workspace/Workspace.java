@@ -655,7 +655,7 @@ public class Workspace extends Stage implements WritableIdentity {
 			workpaneContainer.getChildren().add( activeWorkarea );
 			activeWorkarea.setActive( true );
 			Tool activeTool = activeWorkarea.getActiveTool();
-			if( activeTool != null ) getProgram().getResourceManager().setCurrentAsset( activeTool.getResource() );
+			if( activeTool != null ) getProgram().getResourceManager().setCurrentResource( activeTool.getResource() );
 		}
 
 		// Send a program event when active area changes

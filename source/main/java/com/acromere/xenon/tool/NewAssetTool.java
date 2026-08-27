@@ -58,7 +58,7 @@ public class NewAssetTool extends ProgramTool {
 		}
 
 		public void update() {
-			List<ResourceType> types = new ArrayList<>( getProgram().getResourceManager().getAssetTypes() );
+			List<ResourceType> types = new ArrayList<>( getProgram().getResourceManager().getResourceTypes() );
 			types.sort( new AssetTypeNameComparator() );
 
 			getChildren().clear();

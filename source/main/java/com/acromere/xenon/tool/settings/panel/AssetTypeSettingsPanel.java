@@ -163,11 +163,11 @@ public class AssetTypeSettingsPanel extends SettingsPanel {
 	}
 
 	private List<ResourceType> getUserAssetTypes( XenonProgramProduct product ) {
-		return product.getProgram().getResourceManager().getAssetTypes().stream().filter( ResourceType::isUserType ).sorted( new AssetTypeNameComparator() ).toList();
+		return product.getProgram().getResourceManager().getResourceTypes().stream().filter( ResourceType::isUserType ).sorted( new AssetTypeNameComparator() ).toList();
 	}
 
 	private List<ResourceType> getAssetTypes( XenonProgramProduct product ) {
-		return product.getProgram().getResourceManager().getAssetTypes().stream().sorted( new AssetTypeNameComparator() ).toList();
+		return product.getProgram().getResourceManager().getResourceTypes().stream().sorted( new AssetTypeNameComparator() ).toList();
 	}
 
 }

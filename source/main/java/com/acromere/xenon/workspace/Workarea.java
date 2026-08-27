@@ -181,11 +181,11 @@ public class Workarea extends Workpane implements WritableIdentity {
 	private void doSetCurrentAsset( ToolEvent e ) {
 		ProgramTool tool = (ProgramTool)e.getTool();
 		if( !tool.changeCurrentAsset() ) return;
-		getWorkspace().getProgram().getResourceManager().setCurrentAsset( tool.getResource() );
+		getWorkspace().getProgram().getResourceManager().setCurrentResource( tool.getResource() );
 	}
 
 	private void doClearCurrentAsset( ToolEvent e ) {
-		getWorkspace().getProgram().getResourceManager().setCurrentAsset( null );
+		getWorkspace().getProgram().getResourceManager().setCurrentResource( null );
 	}
 
 	private void doDispatchToolEventToWorkspace( ToolEvent e ) {
