@@ -7,7 +7,7 @@ import com.acromere.zerra.javafx.Fx;
 abstract class SettingsToolUIT extends BaseToolUIT {
 
 	void openSettingsTool() throws Exception {
-		openMenuItem( "#menu-help", "#menu-item-settings" );
+		openMenuItem( "#menu-program", "#menu-item-settings" );
 		Fx.waitFor( ProgramTestConfig.LONG_TIMEOUT );
 	}
 
