@@ -293,7 +293,7 @@ public class ResourceTool extends GuidedTool {
 		pushAction( "new-folder", newFolderAction );
 		pushAction( "delete", deleteAction );
 
-		pushTools( "refresh | prior next up | new-folder | delete" );
+		pushTools( "refresh | up prior next | new-folder | delete" );
 	}
 
 	@Override
