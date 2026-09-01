@@ -287,9 +287,9 @@ public class ResourceTool extends GuidedTool {
 		super.activate();
 
 		pushAction( "refresh", refreshAction );
+		pushAction( "up", parentAction );
 		pushAction( "prior", priorAction );
 		pushAction( "next", nextAction );
-		pushAction( "up", parentAction );
 		pushAction( "new-folder", newFolderAction );
 		pushAction( "delete", deleteAction );
 
