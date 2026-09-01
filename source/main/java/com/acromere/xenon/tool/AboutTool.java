@@ -172,8 +172,8 @@ public class AboutTool extends GuidedTool {
 		@Getter
 		private final InformationPane informationPane;
 
-		@Getter
-		private final ModSummaryPane modSummaryPane;
+//		@Getter
+//		private final ModSummaryPane modSummaryPane;
 
 		public SummaryPane() {
 			Node icon = getProgram().getIconLibrary().getIcon( "program", ICON_SIZE );
@@ -186,12 +186,12 @@ public class AboutTool extends GuidedTool {
 			HBox header = new HBox( icon, title );
 
 			informationPane = new InformationPane();
-			modSummaryPane = new ModSummaryPane();
+			//modSummaryPane = new ModSummaryPane();
 			HBox.setHgrow( informationPane, Priority.ALWAYS );
-			HBox.setHgrow( modSummaryPane, Priority.ALWAYS );
-			HBox summaries = new HBox( informationPane, modSummaryPane );
+			//HBox.setHgrow( modSummaryPane, Priority.ALWAYS );
+			//HBox summaries = new HBox( informationPane, modSummaryPane );
 
-			ScrollPane summaryScroller = new ScrollPane( summaries );
+			ScrollPane summaryScroller = new ScrollPane( informationPane );
 			summaryScroller.setFitToWidth( true );
 
 			VBox page = new VBox( header, summaryScroller );
