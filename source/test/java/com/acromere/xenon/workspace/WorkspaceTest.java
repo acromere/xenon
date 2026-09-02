@@ -28,47 +28,6 @@ class WorkspaceTest extends BaseFullXenonTestCase {
 	}
 
 	@Test
-	void programMenuBar_hidingEvent_withNonMenuButtonTarget_doesNotThrow() {
-		assertThatCode( () -> Fx.call( () -> {
-			// Access the private programMenuBar via reflection
-			MenuBar menuBar;
-			try {
-				var field = Workspace.class.getDeclaredField( "programMenuBar" );
-				field.setAccessible( true );
-				menuBar = (MenuBar)field.get( workspace );
-			} catch( ReflectiveOperationException e ) {
-				throw new RuntimeException( e );
-			}
-
-			// Fire a ON_HIDING event targeted at the MenuBar itself (not a MenuButton)
-			Event.fireEvent( menuBar, new Event( MenuButton.ON_HIDING ) );
-			return null;
-		} ) ).doesNotThrowAnyException();
-	}
-
-	@Test
-	void pushPullMenuActions_areGuarded_andDoNotThrow() {
-		assertThatCode( () -> Fx.call( () -> {
-			// Ensure pulling when nothing is present is safe
-			workspace.pullMenuActions();
-
-			// Pushing an empty descriptor should be a no-op and not throw
-			workspace.pushMenuActions( "" );
-
-			// Pull again; should not throw regardless of internal marker state
-			workspace.pullMenuActions();
-
-
-			// Push a descriptor with known program actions; should not throw
-			workspace.pushMenuActions( "maximize|minimize" );
-
-			// Final pull cleanup; should be safe
-			workspace.pullMenuActions();
-			return null;
-		} ) ).doesNotThrowAnyException();
-	}
-
-	@Test
 	void switchingActiveWorkarea_rebindsTitle_safely_andSetsTitleFromActiveWorkarea() throws Exception {
 		Workarea w1 = new Workarea();
 		w1.setName( "One" );

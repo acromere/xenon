@@ -540,37 +540,24 @@ public class Workspace extends Stage implements WritableIdentity {
 		workareaMenu.setVisible( true );
 	}
 
- public void pushMenuActions( String descriptor ) {
-        // First, clear any existing tool actions safely
-        pullMenuActions();
+	public void pushMenuActions( String descriptor ) {
+		pullMenuActions();
+		descriptor = "tool[" + descriptor + "]";
+		int index = programMenuBar.getMenus().indexOf( programMenuToolEnd );
+		programMenuBar.getMenus().addAll( index, MenuBarFactory.createMenus( getProgram(), descriptor, COMPACT_PROGRAM_MENU ) );
+	}
 
-        // Validate marker presence and order
-        List<Menu> menus = programMenuBar.getMenus();
-        int endIndex = menus.indexOf( programMenuToolEnd );
-        int startIndex = menus.indexOf( programMenuToolStart );
-        if( startIndex < 0 || endIndex < 0 || endIndex <= startIndex ) {
-            // Markers missing or out of order — nothing to do
-            log.atDebug().log( "Skipping pushMenuActions: markers missing or out of order (startIndex={}, endIndex={})", startIndex, endIndex );
-            return;
-        }
+	public void pullMenuActions() {
+		int index = programMenuBar.getMenus().indexOf( programMenuToolStart );
+		if( index < 0 ) return;
+		index++;
 
-        // Insert new tool menus just before the end marker
-        descriptor = "tool[" + descriptor + "]";
-        menus.addAll( endIndex, MenuBarFactory.createMenus( getProgram(), descriptor, COMPACT_PROGRAM_MENU ) );
-    }
-
-    public void pullMenuActions() {
-        List<Menu> menus = programMenuBar.getMenus();
-        int startIndex = menus.indexOf( programMenuToolStart );
-        int endIndex = menus.indexOf( programMenuToolEnd );
-
-        // If markers are not found or out of order, bail out safely
-        if( startIndex < 0 || endIndex < 0 || endIndex <= startIndex ) return;
-
-        // Remove everything between start (exclusive) and end (exclusive)
-        // Using subList avoids index churn and out-of-bounds
-        menus.subList( startIndex + 1, endIndex ).clear();
-    }
+		MenuItem node = programMenuBar.getMenus().get( index );
+		while( node != programMenuToolEnd ) {
+			programMenuBar.getMenus().remove( index );
+			node = programMenuBar.getMenus().get( index );
+		}
+	}
 
 	public void pushToolbarActions( String descriptor ) {
 		pullToolbarActions();
