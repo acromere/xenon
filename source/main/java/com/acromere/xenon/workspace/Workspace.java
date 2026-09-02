@@ -60,7 +60,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * The workspace manages the menu bar, toolbar and workareas.
+ * The workspace manages the menu bar, toolbar, and workareas.
  */
 @CustomLog
 public class Workspace extends Stage implements WritableIdentity {
@@ -88,13 +88,12 @@ public class Workspace extends Stage implements WritableIdentity {
 	public static final String ACTIVE = "active";
 
 	/**
-	 * Should the program menu be shown as a compact menu in the toolbar.
+	 * The compact program menu flag specifies if the program menu should be shown
+	 * as a compact menu in the toolbar. This is now the default option.
 	 */
-	private static final boolean COMPACT_MENU = true;
+	private static final boolean COMPACT_PROGRAM_MENU = true;
 
 	private static final boolean TRANSPARENT_WINDOW_SUPPORTED = Platform.isSupported( ConditionalFeature.TRANSPARENT_WINDOW );
-
-	private static final Timer timer = new Timer( true );
 
 	@Getter
 	private final Xenon program;
@@ -112,8 +111,6 @@ public class Workspace extends Stage implements WritableIdentity {
 	private final Set<Pane> rails;
 
 	private final Region actionBar;
-
-	private final Region workspaceActionBar;
 
 	private final Node workareaMenu;
 
@@ -199,7 +196,7 @@ public class Workspace extends Stage implements WritableIdentity {
 			program.getWorkspaceManager().requestCloseWorkspace( this );
 			event.consume();
 		} );
-		focusedProperty().addListener( ( p, o, n ) -> {
+		focusedProperty().addListener( ( _, _, n ) -> {
 			if( Boolean.TRUE.equals( n ) ) program.getWorkspaceManager().setActiveWorkspace( this );
 		} );
 
@@ -218,21 +215,19 @@ public class Workspace extends Stage implements WritableIdentity {
 		workareaMenu = createWorkareaMenu( program );
 
 		// Create the program menu bar
-		String defaultDescriptor = program.getSettings().get( "workspace-menubar" );
-		String menuDescriptor = program.getSettings().get( "menubar", defaultDescriptor );
-		programMenuBar = MenuBarFactory.createMenuBar( program, menuDescriptor, false );
-		if( XenonMode.DEV.equals( program.getMode() ) ) insertDevMenu( program, programMenuBar.getMenus() );
-		programMenuToolStart = FxUtil.findMenuItemById( programMenuBar.getMenus(), MenuBarFactory.MENU_ID_PREFIX + EDIT_ACTION );
-		programMenuToolEnd = FxUtil.findMenuItemById( programMenuBar.getMenus(), MenuBarFactory.MENU_ID_PREFIX + VIEW_ACTION );
+		programMenuBar = createProgramMenu();
+		programMenuToolStart = FxUtil.findMenuItemById( programMenuBar, MenuBarFactory.MENU_ID_PREFIX + EDIT_ACTION );
+		programMenuToolEnd = FxUtil.findMenuItemById( programMenuBar, MenuBarFactory.MENU_ID_PREFIX + VIEW_ACTION );
 
 		// Create the workspace action bar
-		workspaceActionBar = new StackPane( workareaMenu, programMenuBar );
+		Region workspaceActionBar = new StackPane( workareaMenu, programMenuBar );
 
+		// Create the standard toolbar
 		toolbarToolStart = new Separator();
 		toolbarToolEnd = ToolBarFactory.createSpring();
 		toolbar = createProgramToolBar( program, toolbarToolStart, toolbarToolEnd );
 
-		// Create the action bar. Depends on workspaceSelectionContainer and toolbar.
+		// Create the action bar
 		actionBar = createActionBar( program, workspaceActionBar, toolbar );
 
 		noticeBox = createNoticeBox();
@@ -241,15 +236,17 @@ public class Workspace extends Stage implements WritableIdentity {
 		// Setting pickOnBounds here is important for mouse events to pass to the
 		// workarea. When the notice pane is showing, it captures mouse events, even
 		// though it is transparent. This makes sense since mouse events need to be
-		// passed to the notices. In order to pass events through the transparent
-		// area, pickOnBounds is set to false.
+		// passed to the notices. To pass events through the transparent area,
+		// pickOnBounds is set to false.
 		noticePane.setPickOnBounds( false );
 
 		statusBar = createStatusBar( program );
 		Pane statusPane = createStatusPane( statusBar );
 
-		// Workpane container
+		// Workspace background
 		background = new WorkspaceBackground();
+
+		// Workpane container
 		workpaneContainer = new StackPane( background );
 
 		Pane workspaceStack = new StackPane( workpaneContainer, noticePane );
@@ -267,20 +264,23 @@ public class Workspace extends Stage implements WritableIdentity {
 		rails = new HashSet<>();
 		railPane = buildRailPane( workspaceLayout );
 
-		orderProperty().addListener( ( p, o, n ) -> {
-			getSettings().set( "order", n );
-		} );
+		orderProperty().addListener( ( _, _, n ) -> getSettings().set( "order", n ) );
 
-		showingProperty().addListener( ( p, o, n ) -> {
+		showingProperty().addListener( ( _, _, n ) -> {
 			if( n ) hideProgramMenuBar();
 		} );
 
 		// Bind the stage title property to the active workarea name
-		activeWorkareaProperty.addListener( ( p, o, n ) -> {
+		activeWorkareaProperty.addListener( ( _, _, n ) -> {
 			if( n == null ) {
 				titleProperty().unbind();
 				actionBar.backgroundProperty().unbind();
 			} else {
+				// Unbind the properties
+				titleProperty().unbind();
+				actionBar.backgroundProperty().unbind();
+
+				// Bind the properties
 				titleProperty().bind( n.nameProperty().map( this::generateStageTitle ) );
 				actionBar.backgroundProperty().bind( n.colorProperty().map( c -> {
 					Color mix = Colors.mix( c, Color.TRANSPARENT, 0.6 );
@@ -291,7 +291,7 @@ public class Workspace extends Stage implements WritableIdentity {
 		} );
 
 		// Maximized property listener
-		maximizedProperty().addListener( ( p, o, n ) -> {
+		maximizedProperty().addListener( ( _, _, n ) -> {
 			// Toggle the maximize/normalize icon
 			String icon = Boolean.TRUE.equals( n ) ? NORMALIZE : MAXIMIZE;
 			getProgram().getActionLibrary().getAction( MAXIMIZE ).setIcon( icon );
@@ -301,7 +301,7 @@ public class Workspace extends Stage implements WritableIdentity {
 		} );
 
 		// Show the first menu when the program menu bar shows
-		programMenuBar.visibleProperty().addListener( ( p, o, n ) -> {
+		programMenuBar.visibleProperty().addListener( ( _, _, n ) -> {
 			if( Boolean.TRUE.equals( n ) ) programMenuBar.getMenus().getFirst().show();
 		} );
 
@@ -316,7 +316,7 @@ public class Workspace extends Stage implements WritableIdentity {
 
 		// This catches when menus are hidden and the mouse is not hovering over the menu bar
 		programMenuBar.addEventFilter(
-			MenuButton.ON_HIDDEN, e -> Fx.run( () -> {
+			MenuButton.ON_HIDDEN, _ -> Fx.run( () -> {
 				// It's important that this run as a different runnable on the FX thread
 				// If no other menus are showing, hide the program menu bar
 				if( allMenusAreHidden( programMenuBar ) ) Fx.run( this::hideProgramMenuBar );
@@ -328,18 +328,70 @@ public class Workspace extends Stage implements WritableIdentity {
 		fpsMonitor.start();
 	}
 
-	private Pane buildRailPane( Node workspaceLayout ) {
-		Pane t = new WorkspaceRail( Side.TOP );
-		Pane r = new WorkspaceRail( Side.RIGHT );
-		Pane b = new WorkspaceRail( Side.BOTTOM );
-		Pane l = new WorkspaceRail( Side.LEFT );
+	private Node createWorkareaMenu( Xenon program ) {
+		// The menu button
+		Button menuButton = ToolBarFactory.createToolBarButton( program, "menu" );
+		menuButton.setId( "menu-button-menu" );
 
-		rails.add( t );
-		rails.add( r );
-		rails.add( b );
-		rails.add( l );
+		MenuButton workareaMenu = MenuBarFactory.createMenuButton( program, "workarea", true );
+		workareaMenu.getStyleClass().addAll( "workarea-menu" );
+		StackPane.setAlignment( workareaMenu, Pos.CENTER_LEFT );
 
-		return new BorderPane( workspaceLayout, t, r, b, l );
+		// Link the active workarea property to the menu
+		activeWorkareaProperty().addListener( ( _, _, n ) -> {
+			if( n == null ) {
+				workareaMenu.graphicProperty().unbind();
+				workareaMenu.textProperty().unbind();
+			} else {
+				// Ensure we are not re-binding while already bound
+				workareaMenu.graphicProperty().unbind();
+				workareaMenu.textProperty().unbind();
+				workareaMenu.graphicProperty().bind( n.iconProperty().map( i -> program.getIconLibrary().getIcon( i ) ) );
+				workareaMenu.textProperty().bind( n.nameProperty() );
+			}
+		} );
+
+		// Create the workarea action menu items
+		MenuItem create = MenuBarFactory.createMenuBarItem( program, "workarea-new" );
+		MenuItem rename = MenuBarFactory.createMenuBarItem( program, "workarea-rename" );
+		MenuItem close = MenuBarFactory.createMenuBarItem( program, "workarea-close" );
+		SeparatorMenuItem workareaSeparator = new SeparatorMenuItem();
+
+		// Add the workarea action menu items
+		workareaMenu.getItems().addAll( create, rename, close, workareaSeparator );
+
+		// Update the workarea menu when the workareas change
+		workareasProperty().addListener( (ListChangeListener<Workarea>)c -> {
+			int startIndex = workareaMenu.getItems().indexOf( workareaSeparator );
+			if( startIndex < 0 ) return;
+
+			// Remove existing workarea menu items
+			workareaMenu.getItems().remove( startIndex + 1, workareaMenu.getItems().size() );
+
+			// Update the list of workarea menu items
+			workareaMenu.getItems().addAll( c.getList().stream().map( MenuBarFactory::createWorkareaMenuItem ).toList() );
+		} );
+
+		// The menu button and workarea menu should be put in a toolbar for proper layout
+		ToolBar workareaToolbar = ToolBarFactory.createToolBar( program );
+		workareaToolbar.getItems().addAll( menuButton, workareaMenu );
+
+		return workareaToolbar;
+	}
+
+	private MenuBar createProgramMenu() {
+		String defaultDescriptor = program.getSettings().get( "workspace-menubar" );
+		String menuDescriptor = program.getSettings().get( "menubar", defaultDescriptor );
+		MenuBar programMenuBar = MenuBarFactory.createMenuBar( program, menuDescriptor, false );
+		if( XenonMode.DEV.equals( program.getMode() ) ) insertDevMenu( program, programMenuBar.getMenus() );
+		return programMenuBar;
+	}
+
+	private ToolBar createProgramToolBar( Xenon program, Node toolbarToolStart, Node toolbarToolEnd ) {
+		ToolBar toolbar = ToolBarFactory.createToolBar( program );
+		toolbar.getItems().addFirst( toolbarToolStart );
+		toolbar.getItems().addLast( toolbarToolEnd );
+		return toolbar;
 	}
 
 	private HBox createActionBar( Xenon program, Region workspaceActionBarRegion, ToolBar toolbar ) {
@@ -371,8 +423,44 @@ public class Workspace extends Stage implements WritableIdentity {
 		return box;
 	}
 
+	private StatusBar createStatusBar( Xenon program ) {
+		StatusBar statusBar = new StatusBar();
+
+		// Task Monitor
+		taskMonitor = new TaskMonitor( program );
+
+		// Memory Monitor
+		memoryMonitor = new MemoryMonitor();
+
+		// FPS Monitor
+		fpsMonitor = new FpsMonitor();
+
+		// If the memory monitor is clicked, then call the garbage collector
+		memoryMonitor.setOnMouseClicked( _ -> System.gc() );
+
+		statusBar.addRightItems( memoryMonitor.getMonitorGroup() );
+		statusBar.addRightItems( taskMonitor.getMonitorGroup() );
+		statusBar.addRightItems( fpsMonitor.getMonitorGroup() );
+
+		return statusBar;
+	}
+
 	private static Pane createStatusPane( StatusBar statusBar ) {
 		return new BorderPane( statusBar );
+	}
+
+	private Pane buildRailPane( Node workspaceLayout ) {
+		Pane t = new WorkspaceRail( Side.TOP );
+		Pane r = new WorkspaceRail( Side.RIGHT );
+		Pane b = new WorkspaceRail( Side.BOTTOM );
+		Pane l = new WorkspaceRail( Side.LEFT );
+
+		rails.add( t );
+		rails.add( r );
+		rails.add( b );
+		rails.add( l );
+
+		return new BorderPane( workspaceLayout, t, r, b, l );
 	}
 
 	public void initializeScene( double width, double height ) {
@@ -415,83 +503,6 @@ public class Workspace extends Stage implements WritableIdentity {
 		return MenuBarFactory.createMenu( program, development, true );
 	}
 
-	private ToolBar createProgramToolBar( Xenon program, Node toolbarToolStart, Node toolbarToolEnd ) {
-		ToolBar toolbar = ToolBarFactory.createToolBar( program );
-		toolbar.getItems().addFirst( toolbarToolStart );
-		toolbar.getItems().addLast( toolbarToolEnd );
-		return toolbar;
-	}
-
-	private Node createWorkareaMenu( Xenon program ) {
-		// The menu button
-		Button menuButton = ToolBarFactory.createToolBarButton( program, "menu" );
-		menuButton.setId( "menu-button-menu" );
-
-		MenuButton workareaMenu = MenuBarFactory.createMenuButton( program, "workarea", true );
-		workareaMenu.getStyleClass().addAll( "workarea-menu" );
-		StackPane.setAlignment( workareaMenu, Pos.CENTER_LEFT );
-
-		// Link the active workarea property to the menu
-		activeWorkareaProperty().addListener( ( p, o, n ) -> {
-			if( n == null ) {
-				workareaMenu.graphicProperty().unbind();
-				workareaMenu.textProperty().unbind();
-			} else {
-				workareaMenu.graphicProperty().bind( n.iconProperty().map( i -> program.getIconLibrary().getIcon( i ) ) );
-				workareaMenu.textProperty().bind( n.nameProperty() );
-			}
-		} );
-
-		// Create the workarea action menu items
-		MenuItem create = MenuBarFactory.createMenuBarItem( program, "workarea-new" );
-		MenuItem rename = MenuBarFactory.createMenuBarItem( program, "workarea-rename" );
-		MenuItem close = MenuBarFactory.createMenuBarItem( program, "workarea-close" );
-		SeparatorMenuItem workareaSeparator = new SeparatorMenuItem();
-
-		// Add the workarea action menu items
-		workareaMenu.getItems().addAll( create, rename, close, workareaSeparator );
-
-		// Update the workarea menu when the workareas change
-		workareasProperty().addListener( (ListChangeListener<Workarea>)c -> {
-			int startIndex = workareaMenu.getItems().indexOf( workareaSeparator );
-			if( startIndex < 0 ) return;
-
-			// Remove existing workarea menu items
-			workareaMenu.getItems().remove( startIndex + 1, workareaMenu.getItems().size() );
-
-			// Update the list of workarea menu items
-			workareaMenu.getItems().addAll( c.getList().stream().map( MenuBarFactory::createWorkareaMenuItem ).toList() );
-		} );
-
-		// The menu button and workarea menu should be put in a toolbar for proper layout
-		ToolBar workareaToolbar = ToolBarFactory.createToolBar( program );
-		workareaToolbar.getItems().addAll( menuButton, workareaMenu );
-
-		return workareaToolbar;
-	}
-
-	private StatusBar createStatusBar( Xenon program ) {
-		StatusBar statusBar = new StatusBar();
-
-		// Task Monitor
-		taskMonitor = new TaskMonitor( program );
-
-		// Memory Monitor
-		memoryMonitor = new MemoryMonitor();
-
-		// FPS Monitor
-		fpsMonitor = new FpsMonitor();
-
-		// If the memory monitor is clicked then call the garbage collector
-		memoryMonitor.setOnMouseClicked( e -> System.gc() );
-
-		statusBar.addRightItems( memoryMonitor.getMonitorGroup() );
-		statusBar.addRightItems( taskMonitor.getMonitorGroup() );
-		statusBar.addRightItems( fpsMonitor.getMonitorGroup() );
-
-		return statusBar;
-	}
-
 	@SuppressWarnings( "unused" )
 	public void showProgramMenu( ActionEvent event ) {
 		toggleProgramWorkspaceActions();
@@ -529,7 +540,7 @@ public class Workspace extends Stage implements WritableIdentity {
 		pullMenuActions();
 		descriptor = "tool[" + descriptor + "]";
 		int index = programMenuBar.getMenus().indexOf( programMenuToolEnd );
-		programMenuBar.getMenus().addAll( index, MenuBarFactory.createMenus( getProgram(), descriptor, COMPACT_MENU ) );
+		programMenuBar.getMenus().addAll( index, MenuBarFactory.createMenus( getProgram(), descriptor, COMPACT_PROGRAM_MENU ) );
 	}
 
 	public void pullMenuActions() {
