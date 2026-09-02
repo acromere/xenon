@@ -51,6 +51,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lombok.CustomLog;
 import lombok.Getter;
+import org.jspecify.annotations.NonNull;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;
@@ -771,13 +772,21 @@ public class Workspace extends Stage implements WritableIdentity {
 	}
 
 	@Override
+	@NonNull
 	public String getUid() {
-		return getProperties().get( Identity.KEY ).toString();
+		Object value = getProperties().get( Identity.KEY );
+		if( value == null ) {
+			String id = IdGenerator.getId();
+			getProperties().put( Identity.KEY, id );
+			return id;
+		}
+		return value.toString();
 	}
 
 	@Override
 	public void setUid( String id ) {
-		getProperties().put( Identity.KEY, id );
+		// Ensure UID is never stored as null; generate if needed
+		getProperties().put( Identity.KEY, id != null ? id : IdGenerator.getId() );
 	}
 
 	/**
