@@ -310,8 +310,11 @@ public class Workspace extends Stage implements WritableIdentity {
 		programMenuBar.addEventHandler(
 			MenuButton.ON_HIDING, e -> {
 				// Pressing ESC causes an extra MenuButton.ON_HIDING event with the menu already hidden
-				MenuButton button = (MenuButton)e.getTarget();
-				if( !button.isShowing() ) Fx.run( this::hideProgramMenuBar );
+				// Events targeted at the MenuBar (or other nodes) can also arrive here; guard the cast.
+				Object target = e.getTarget();
+				if( target instanceof MenuButton button ) {
+					if( !button.isShowing() ) Fx.run( this::hideProgramMenuBar );
+				}
 			}
 		);
 

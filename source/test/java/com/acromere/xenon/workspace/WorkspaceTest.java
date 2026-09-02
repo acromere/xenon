@@ -2,6 +2,9 @@ package com.acromere.xenon.workspace;
 
 import com.acromere.xenon.BaseFullXenonTestCase;
 import com.acromere.zerra.javafx.Fx;
+import javafx.event.Event;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuButton;
 import javafx.scene.paint.Color;
 import lombok.Setter;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,6 +25,25 @@ class WorkspaceTest extends BaseFullXenonTestCase {
 		Fx.startup();
 		Fx.run( () -> setWorkspace( new Workspace( getProgram() ) ) );
 		Fx.waitForStability( 1000 );
+	}
+
+	@Test
+	void programMenuBar_hidingEvent_withNonMenuButtonTarget_doesNotThrow() {
+		assertThatCode( () -> Fx.call( () -> {
+			// Access the private programMenuBar via reflection
+			MenuBar menuBar;
+			try {
+				var field = Workspace.class.getDeclaredField( "programMenuBar" );
+				field.setAccessible( true );
+				menuBar = (MenuBar)field.get( workspace );
+			} catch( ReflectiveOperationException e ) {
+				throw new RuntimeException( e );
+			}
+
+			// Fire a ON_HIDING event targeted at the MenuBar itself (not a MenuButton)
+			Event.fireEvent( menuBar, new Event( MenuButton.ON_HIDING ) );
+			return null;
+		} ) ).doesNotThrowAnyException();
 	}
 
 	@Test
