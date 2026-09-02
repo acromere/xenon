@@ -47,6 +47,27 @@ class WorkspaceTest extends BaseFullXenonTestCase {
 	}
 
 	@Test
+	void pushPullToolbarActions_areGuarded_andDoNotThrow() {
+		assertThatCode( () -> Fx.call( () -> {
+			// Ensure pulling when nothing is present is safe
+			workspace.pullToolbarActions();
+
+			// Pushing an empty descriptor should be a no-op and not throw
+			workspace.pushToolbarActions( "" );
+
+			// Pull again; should not throw regardless of internal marker state
+			workspace.pullToolbarActions();
+
+			// Push a descriptor with known program actions; should not throw
+			workspace.pushToolbarActions( "maximize|minimize" );
+
+			// Final pull cleanup; should be safe
+			workspace.pullToolbarActions();
+			return null;
+		} ) ).doesNotThrowAnyException();
+	}
+
+	@Test
 	void switchingActiveWorkarea_rebindsTitle_safely_andSetsTitleFromActiveWorkarea() throws Exception {
 		Workarea w1 = new Workarea();
 		w1.setName( "One" );
