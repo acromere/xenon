@@ -233,7 +233,7 @@ public class Workspace extends Stage implements WritableIdentity {
 		toolbar = createProgramToolBar( program, toolbarToolStart, toolbarToolEnd );
 
 		// Create the action bar. Depends on workspaceSelectionContainer and toolbar.
-		actionBar = createActionBar( program );
+		actionBar = createActionBar( program, workspaceActionBar, toolbar );
 
 		noticeBox = createNoticeBox();
 		BorderPane noticePane = new BorderPane( null, null, noticeBox, null, null );
@@ -342,21 +342,24 @@ public class Workspace extends Stage implements WritableIdentity {
 		return new BorderPane( workspaceLayout, t, r, b, l );
 	}
 
-	private HBox createActionBar( Xenon program ) {
-		ToolBar programActionBar = ToolBarFactory.createToolBar( program, "program{minimize,maximize|workspace-close}" );
+	private HBox createActionBar( Xenon program, Region workspaceActionBarRegion, ToolBar toolbar ) {
+		// The program actions
+		String workspaceToolbarProgramActionsDescriptor =program.getSettings().get( "workspace-toolbar-program-actions" );
+		ToolBar programActionBar = ToolBarFactory.createToolBar( program, workspaceToolbarProgramActionsDescriptor );
 		programActionBar.getStyleClass().add( ACTIONS );
 
 		// The action bar spring
 		Node spring = StageMover.of( ToolBarFactory.createSpring() );
 
 		// The workspace actions
-		ToolBar workspaceActions = ToolBarFactory.createToolBar( program, "notice-toggle,search-toggle,settings{settings,modules|theme|update|about}|minimize,maximize,workspace-close" );
-		workspaceActions.getStyleClass().add( ACTIONS );
+		String workspaceToolbarSettingsActionsDescriptor = program.getSettings().get( "workspace-toolbar-settings-actions" );
+		ToolBar workspaceActionBar = ToolBarFactory.createToolBar( program, workspaceToolbarSettingsActionsDescriptor );
+		workspaceActionBar.getStyleClass().add( ACTIONS );
 
 		// Create the action bar
 		HBox actionBar = new HBox();
 		actionBar.getStyleClass().add( ACTION_BAR );
-		actionBar.getChildren().addAll( programActionBar, workspaceActionBar, toolbar, spring, workspaceActions );
+		actionBar.getChildren().addAll( programActionBar, workspaceActionBarRegion, toolbar, spring, workspaceActionBar );
 
 		return actionBar;
 	}
