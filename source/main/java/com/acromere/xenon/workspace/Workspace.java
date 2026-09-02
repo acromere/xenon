@@ -572,38 +572,23 @@ public class Workspace extends Stage implements WritableIdentity {
         menus.subList( startIndex + 1, endIndex ).clear();
     }
 
-    public void pushToolbarActions( String descriptor ) {
-        // Clear any existing tool items first
-        pullToolbarActions();
+	public void pushToolbarActions( String descriptor ) {
+		pullToolbarActions();
+		int index = toolbar.getItems().indexOf( toolbarToolEnd );
+		toolbar.getItems().add( index++, toolbarToolStart );
+		toolbar.getItems().addAll( index, ToolBarFactory.createToolBar( getProgram(), descriptor ).getItems() );
+	}
 
-        // Validate sentinel positions
-        List<Node> items = toolbar.getItems();
-        int endIndex = items.indexOf( toolbarToolEnd );
-        if( endIndex < 0 ) {
-            log.atDebug().log( "Skipping pushToolbarActions: end sentinel missing" );
-            return;
-        }
+	public void pullToolbarActions() {
+		int index = toolbar.getItems().indexOf( toolbarToolStart );
+		if( index < 0 ) return;
 
-        // Insert start marker just before the end sentinel
-        int insertIndex = endIndex; // before end
-        items.add( insertIndex, toolbarToolStart );
-        insertIndex++; // position after start marker
-
-        // Insert new tool nodes
-        items.addAll( insertIndex, ToolBarFactory.createToolBar( getProgram(), descriptor ).getItems() );
-    }
-
-    public void pullToolbarActions() {
-        List<Node> items = toolbar.getItems();
-        int startIndex = items.indexOf( toolbarToolStart );
-        int endIndex = items.indexOf( toolbarToolEnd );
-
-        // If markers are not found or out of order, bail out safely
-        if( startIndex < 0 || endIndex < 0 || endIndex <= startIndex ) return;
-
-        // Remove everything between start (exclusive) and end (exclusive)
-        items.subList( startIndex + 1, endIndex ).clear();
-    }
+		Node node = toolbar.getItems().get( index );
+		while( node != toolbarToolEnd ) {
+			toolbar.getItems().remove( index );
+			node = toolbar.getItems().get( index );
+		}
+	}
 
 	public void setActive( boolean active ) {
 		if( !active ) {
