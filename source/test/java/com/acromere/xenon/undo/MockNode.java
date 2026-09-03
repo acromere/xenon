@@ -1,10 +1,10 @@
 package com.acromere.xenon.undo;
 
-import com.acromere.data.IdNode;
+import com.acromere.data.IdDataNode;
 
 import java.util.Set;
 
-public class MockNode extends IdNode {
+public class MockNode extends IdDataNode {
 
 	private static final String NODES = "nodes";
 

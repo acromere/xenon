@@ -1,6 +1,6 @@
 package com.acromere.xenon.tool.guide;
 
-import com.acromere.data.IdNode;
+import com.acromere.data.IdDataNode;
 import com.acromere.xenon.NodeOrderNameComparator;
 import com.acromere.xenon.Xenon;
 import com.acromere.zerra.javafx.Fx;
@@ -8,7 +8,7 @@ import javafx.scene.control.TreeItem;
 
 import java.util.Comparator;
 
-public class GuideNode extends IdNode {
+public class GuideNode extends IdDataNode {
 
 	public static final String ICON = "icon";
 

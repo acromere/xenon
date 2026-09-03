@@ -1,6 +1,6 @@
 package com.acromere.xenon.tool.settings;
 
-import com.acromere.data.Node;
+import com.acromere.data.DataNode;
 import com.acromere.settings.Settings;
 import com.acromere.xenon.RbKey;
 import com.acromere.xenon.XenonProgramProduct;
@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class SettingsPage extends Node {
+public class SettingsPage extends DataNode {
 
 	public static final SettingsPage EMPTY = new SettingsPage( null );
 

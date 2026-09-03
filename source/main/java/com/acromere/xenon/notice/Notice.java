@@ -1,6 +1,6 @@
 package com.acromere.xenon.notice;
 
-import com.acromere.data.IdNode;
+import com.acromere.data.IdDataNode;
 import com.acromere.transaction.Txn;
 import com.acromere.transaction.TxnException;
 import com.acromere.util.HashUtil;
@@ -13,7 +13,7 @@ import java.text.MessageFormat;
 import java.util.stream.Collectors;
 
 @CustomLog
-public class Notice extends IdNode {
+public class Notice extends IdDataNode {
 
 	public enum Balloon {
 

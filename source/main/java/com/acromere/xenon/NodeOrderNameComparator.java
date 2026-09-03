@@ -1,10 +1,10 @@
 package com.acromere.xenon;
 
-import com.acromere.data.Node;
+import com.acromere.data.DataNode;
 
 import java.util.Comparator;
 
-public class NodeOrderNameComparator<T extends Node> implements Comparator<T> {
+public class NodeOrderNameComparator<T extends DataNode> implements Comparator<T> {
 
 	public static final String ORDER = "order";
 

@@ -1,6 +1,6 @@
 package com.acromere.xenon.notice;
 
-import com.acromere.data.Node;
+import com.acromere.data.DataNode;
 
 import java.util.Comparator;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 /**
  * A simple storage model for notices.
  */
-public class NoticeModel extends Node {
+public class NoticeModel extends DataNode {
 
 	/**
 	 * Get the notices. The list is returned in reverse chronological order of the

@@ -1,6 +1,6 @@
 package com.acromere.xenon.resource;
 
-import com.acromere.data.Node;
+import com.acromere.data.DataNode;
 import com.acromere.data.NodeEvent;
 import com.acromere.transaction.TxnEvent;
 import com.acromere.util.TextUtil;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Objects;
 
 @CustomLog
-public class Resource extends Node {
+public class Resource extends DataNode {
 
 	public static final Resource NONE = new Resource( java.net.URI.create( XenonScheme.ID + ":none" ) );
 

@@ -1,6 +1,6 @@
 package com.acromere.xenon.tool.settings;
 
-import com.acromere.data.Node;
+import com.acromere.data.DataNode;
 import com.acromere.settings.Settings;
 import com.acromere.util.TextUtil;
 import lombok.CustomLog;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @CustomLog
-public class SettingDependency extends Node {
+public class SettingDependency extends DataNode {
 
 	public enum Operator {
 		NOT,

@@ -1,6 +1,6 @@
 package com.acromere.xenon.undo;
 
-import com.acromere.data.Node;
+import com.acromere.data.DataNode;
 import com.acromere.transaction.Txn;
 import org.fxmisc.undo.UndoManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -117,9 +117,9 @@ public class NodeChangeTest {
 
 	@Test
 	void testMultipleUndoWithMultipleNodes() throws Exception {
-		Node childB = new MockNode();
-		Node childC = new MockNode();
-		Node childD = new MockNode();
+		DataNode childB = new MockNode();
+		DataNode childC = new MockNode();
+		DataNode childD = new MockNode();
 
 		childB.addModifyingKeys( "x", "y", "z" );
 		childC.addModifyingKeys( "x", "y", "z" );

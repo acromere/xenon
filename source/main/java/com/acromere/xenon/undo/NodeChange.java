@@ -1,6 +1,6 @@
 package com.acromere.xenon.undo;
 
-import com.acromere.data.Node;
+import com.acromere.data.DataNode;
 import lombok.CustomLog;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public class NodeChange {
 
 	public static final boolean DEFAULT_CAPTURE_UNDO_CHANGES = false;
 
-	private final Node node;
+	private final DataNode node;
 
 	private final String key;
 
@@ -30,11 +30,11 @@ public class NodeChange {
 
 	private final List<NodeChange> changes;
 
-	public NodeChange( Node node, String key, Object oldValue, Object newValue ) {
+	public NodeChange( DataNode node, String key, Object oldValue, Object newValue ) {
 		this( node, key, oldValue, newValue, false );
 	}
 
-	public NodeChange( Node node, String key, Object oldValue, Object newValue, boolean isRedo ) {
+	public NodeChange( DataNode node, String key, Object oldValue, Object newValue, boolean isRedo ) {
 		this.node = node;
 		this.key = key;
 		this.oldValue = oldValue;
@@ -52,7 +52,7 @@ public class NodeChange {
 		this.changes = new ArrayList<>( changes );
 	}
 
-	Node getNode() {
+	DataNode getNode() {
 		return node;
 	}
 

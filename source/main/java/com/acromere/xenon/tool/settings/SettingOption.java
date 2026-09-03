@@ -1,8 +1,8 @@
 package com.acromere.xenon.tool.settings;
 
-import com.acromere.data.Node;
+import com.acromere.data.DataNode;
 
-public class SettingOption extends Node {
+public class SettingOption extends DataNode {
 
 	private static final String KEY = "key";
 

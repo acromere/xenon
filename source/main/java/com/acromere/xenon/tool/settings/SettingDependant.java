@@ -1,6 +1,6 @@
 package com.acromere.xenon.tool.settings;
 
-import com.acromere.data.Node;
+import com.acromere.data.DataNode;
 import com.acromere.settings.Settings;
 import lombok.CustomLog;
 
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @CustomLog
-public abstract class SettingDependant extends Node {
+public abstract class SettingDependant extends DataNode {
 
 	public static final String ID = "id";
 

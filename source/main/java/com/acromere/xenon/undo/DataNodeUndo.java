@@ -1,6 +1,6 @@
 package com.acromere.xenon.undo;
 
-import com.acromere.data.Node;
+import com.acromere.data.DataNode;
 import com.acromere.data.NodeEvent;
 import com.acromere.transaction.Txn;
 import com.acromere.transaction.TxnEvent;
@@ -19,19 +19,19 @@ public class DataNodeUndo {
 
 	private static final String UNDO_CHANGES = DataNodeUndo.class.getName() + ":undo-changes";
 
-	public static UndoManager<List<NodeChange>> manager( Node node ) {
+	public static UndoManager<List<NodeChange>> manager( DataNode node ) {
 		return UndoManagerFactory.unlimitedHistoryMultiChangeUM( events( node ), DataNodeUndo::invert, DataNodeUndo::apply );
 	}
 
 	@SuppressWarnings( "SynchronizationOnLocalVariableOrMethodParameter" )
-	public static EventStream<List<NodeChange>> events( Node node ) {
+	public static EventStream<List<NodeChange>> events( DataNode node ) {
 		EventSource<List<NodeChange>> events = new EventSource<>();
 
 		node.setValue( UNDO_CHANGES, new LinkedList<>() );
 
 		node.register(
 			NodeEvent.VALUE_CHANGED, e -> {
-				Node eventNode = e.getNode();
+				DataNode eventNode = e.getNode();
 				String eventKey = e.getKey();
 				boolean isModifying = eventNode.isModifyingKey( eventKey );
 				boolean isCaptureUndoChanges = node.getValue( NodeChange.CAPTURE_UNDO_CHANGES, NodeChange.DEFAULT_CAPTURE_UNDO_CHANGES );
