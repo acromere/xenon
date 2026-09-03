@@ -1,7 +1,7 @@
 package com.acromere.xenon.resource;
 
 import com.acromere.data.DataNode;
-import com.acromere.data.NodeEvent;
+import com.acromere.data.DataNodeEvent;
 import com.acromere.transaction.TxnEvent;
 import com.acromere.util.TextUtil;
 import com.acromere.util.UriUtil;
@@ -416,9 +416,9 @@ public class Resource extends DataNode {
 		//				System.out.println( "DesignLayer event=" + event.getEventType() );
 		//			}
 		//		}
-		if( event.getEventType() == NodeEvent.UNMODIFIED ) {
+		if( event.getEventType() == DataNodeEvent.UNMODIFIED ) {
 			getEventHub().dispatch( new ResourceEvent( this, ResourceEvent.UNMODIFIED, Resource.this ) );
-		} else if( event.getEventType() == NodeEvent.MODIFIED ) {
+		} else if( event.getEventType() == DataNodeEvent.MODIFIED ) {
 			getEventHub().dispatch( new ResourceEvent( this, ResourceEvent.MODIFIED, Resource.this ) );
 		}
 		super.dispatch( event );

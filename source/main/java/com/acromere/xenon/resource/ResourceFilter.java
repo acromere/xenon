@@ -1,6 +1,6 @@
 package com.acromere.xenon.resource;
 
-import com.acromere.data.DataFilter;
+import com.acromere.data.DataNodeFilter;
 
 import java.util.function.Predicate;
 
@@ -14,7 +14,7 @@ import java.util.function.Predicate;
  * typical use is with the <code>ResourceTool</code> to filter the resources
  * shown.
  */
-public interface ResourceFilter extends DataFilter<Resource>, Predicate<Resource>, Comparable<ResourceFilter> {
+public interface ResourceFilter extends DataNodeFilter<Resource>, Predicate<Resource>, Comparable<ResourceFilter> {
 
 	/**
 	 * <p>

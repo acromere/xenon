@@ -1,6 +1,6 @@
 package com.acromere.xenon.tool.settings;
 
-import com.acromere.data.NodeEvent;
+import com.acromere.data.DataNodeEvent;
 import com.acromere.event.EventHandler;
 import com.acromere.log.LazyEval;
 import com.acromere.settings.Settings;
@@ -128,7 +128,7 @@ public class SettingsPanel extends VBox {
 		groupPane.setCollapsible( group.isCollapsible() );
 		groupPane.setExpanded( group.isExpanded() );
 
-		group.register( NodeEvent.ANY, new GroupChangeHandler( group, (Pane)groupPane.getContent() ) );
+		group.register( DataNodeEvent.ANY, new GroupChangeHandler( group, (Pane)groupPane.getContent() ) );
 
 		Settings pageSettings = page.getSettings();
 		List<SettingDependency> dependencies = group.getDependencies();
@@ -286,11 +286,11 @@ public class SettingsPanel extends VBox {
 
 	}
 
-	private record GroupChangeHandler(SettingGroup group, Pane pane) implements EventHandler<NodeEvent> {
+	private record GroupChangeHandler(SettingGroup group, Pane pane) implements EventHandler<DataNodeEvent> {
 
 		@Override
-		public void handle( NodeEvent event ) {
-			if( event.getSource() != group || event.getEventType() != NodeEvent.VALUE_CHANGED ) return;
+		public void handle( DataNodeEvent event ) {
+			if( event.getSource() != group || event.getEventType() != DataNodeEvent.VALUE_CHANGED ) return;
 
 			switch( event.getKey() ) {
 				case SettingData.DISABLE -> setDisable( event.getNewValue() );
@@ -318,10 +318,10 @@ public class SettingsPanel extends VBox {
 			settingData.getSettings().register( SettingsEvent.CHANGED, editor::handle );
 
 			// Register a handler on the setting node to update other setting nodes
-			settingData.register( NodeEvent.VALUE_CHANGED, this::handleNodeEvent );
+			settingData.register( DataNodeEvent.VALUE_CHANGED, this::handleNodeEvent );
 		}
 
-		private void handleNodeEvent( NodeEvent event ) {
+		private void handleNodeEvent( DataNodeEvent event ) {
 			switch( event.getKey() ) {
 				case SettingData.DISABLE -> editor.setDisable( event.getNewValue() );
 				case SettingData.VISIBLE -> editor.setVisible( event.getNewValue() );

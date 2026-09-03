@@ -1,7 +1,7 @@
 package com.acromere.xenon.undo;
 
 import com.acromere.data.DataNode;
-import com.acromere.data.NodeEvent;
+import com.acromere.data.DataNodeEvent;
 import com.acromere.transaction.Txn;
 import com.acromere.transaction.TxnEvent;
 import lombok.CustomLog;
@@ -30,7 +30,7 @@ public class DataNodeUndo {
 		node.setValue( UNDO_CHANGES, new LinkedList<>() );
 
 		node.register(
-			NodeEvent.VALUE_CHANGED, e -> {
+			DataNodeEvent.VALUE_CHANGED, e -> {
 				DataNode eventNode = e.getNode();
 				String eventKey = e.getKey();
 				boolean isModifying = eventNode.isModifyingKey( eventKey );

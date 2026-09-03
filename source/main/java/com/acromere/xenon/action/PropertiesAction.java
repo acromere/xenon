@@ -1,6 +1,6 @@
 package com.acromere.xenon.action;
 
-import com.acromere.data.NodeSettings;
+import com.acromere.data.DataNodeSettings;
 import com.acromere.xenon.ProgramAction;
 import com.acromere.xenon.PropertiesToolEvent;
 import com.acromere.xenon.Xenon;
@@ -32,7 +32,7 @@ public class PropertiesAction extends ProgramAction {
 		SettingsPage page = resource.getType().getSettingsPages().get( "resource" );
 
 		// Set the settings for the pages
-		page.setSettings( new NodeSettings( resource.getModel() ) );
+		page.setSettings( new DataNodeSettings( resource.getModel() ) );
 
 		// Switch to a task thread to get the tool
 		getProgram().getTaskManager().submit( Task.of( () -> {

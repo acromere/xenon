@@ -1,6 +1,6 @@
 package com.acromere.xenon.tool;
 
-import com.acromere.data.NodeEvent;
+import com.acromere.data.DataNodeEvent;
 import com.acromere.event.EventHandler;
 import com.acromere.product.Rb;
 import com.acromere.xenon.ProgramTool;
@@ -30,7 +30,7 @@ public class NoticeTool extends ProgramTool {
 
 	private final VBox noticeContainer;
 
-	private EventHandler<NodeEvent> resourceHandler;
+	private EventHandler<DataNodeEvent> resourceHandler;
 
 	public NoticeTool( XenonProgramProduct product, Resource resource ) {
 		super( product, resource );
@@ -63,7 +63,7 @@ public class NoticeTool extends ProgramTool {
 	protected void ready( OpenResourceRequest request ) {
 		setTitle( Rb.text( "tool", "notice-name" ) );
 		setGraphic( getProgram().getIconLibrary().getIcon( "notice" ) );
-		((NoticeModel)getResourceModel()).register( NodeEvent.NODE_CHANGED, resourceHandler = ( e ) -> updateNotices() );
+		((NoticeModel)getResourceModel()).register( DataNodeEvent.NODE_CHANGED, resourceHandler = ( e ) -> updateNotices() );
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class NoticeTool extends ProgramTool {
 
 	@Override
 	protected void deallocate() {
-		((NoticeModel)getResourceModel()).unregister( NodeEvent.NODE_CHANGED, resourceHandler );
+		((NoticeModel)getResourceModel()).unregister( DataNodeEvent.NODE_CHANGED, resourceHandler );
 	}
 
 	private void clearAll() {
