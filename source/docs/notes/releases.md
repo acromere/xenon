@@ -20,34 +20,34 @@ This document helps coordinate the process:
 | Project                   | Old Version   | New Version |   Status | When       |
 |---------------------------|---------------|-------------|---------:|------------|
 | Maven Parent POMs         |
-| top                       | 3.6.4         | 3.6.4       | Complete | 2025-09-25 |
-| jar                       | 3.6.4         | 3.6.4       | Complete | 2025-09-25 |
-| asm                       | 3.6.4         | 3.6.4       | Complete | 2025-09-25 |
-| prd                       | 3.6.4         | 3.6.4       | Complete | 2025-09-25 |
-| prg                       | 3.6.4         | 3.6.4       | Complete | 2025-09-25 |
-| mod                       | 3.6.4         | 3.6.4       | Complete | 2025-09-25 |
+| top                       | 3.6.4         | 1.0         | Complete | 2026-09-03 |
+| jar                       | 3.6.4         | 1.0         | Complete | 2026-09-03 |
+| asm                       | 3.6.4         | 1.0         | Complete | 2026-09-03 |
+| prd                       | 3.6.4         | 1.0         | Complete | 2026-09-03 |
+| prg                       | 3.6.4         | 1.0         | Complete | 2026-09-03 |
+| mod                       | 3.6.4         | 1.0         | Complete | 2026-09-03 |
 |                           |               |             |          |
-| Acromere Libraries         |
-| zevra                     | 0.11-SNAPSHOT | 0.11        | Complete | 2025-09-25 |
-| zerra                     | 0.11-SNAPSHOT | 0.11        | Complete | 2025-09-25 |
-| zenna                     | 0.11-SNAPSHOT | 0.11        | Complete | 2025-09-25 |
+| Acromere Libraries        |
+| zevra                     | 0.12-SNAPSHOT | 1.0         |          |            |
+| zerra                     | 0.12-SNAPSHOT | 1.0         |          |            |
+| zenna                     | 0.12-SNAPSHOT | 1.0         |          |            |
 |                           |               |             |          |            |
-| Acromere Maven Plugins     |
-| curex                     | 1.5.0         | 1.5.0       | Complete | 2025-09-25 |
-| cameo                     | 2.12-SNAPSHOT | 2.12        | Complete | 2025-09-25 |
+| Acromere Maven Plugins    |
+| curex                     | 2.0-SNAPSHOT  | 2.0         |          |            |
+| cameo                     | 3.0-SNAPSHOT  | 3.0         |          |            |
 |                           |               |             |          |            |
-| Acromere Applications      |
-| weave                     | 1.6-SNAPSHOT  | 1.6         | Complete | 2025-09-25 |
-| xenon                     | 1.9-SNAPSHOT  | 1.9         | Complete | 2025-09-26 |
+| Acromere Applications     |
+| weave                     | 1.7-SNAPSHOT  | 1.7         |          |            |
+| xenon                     | 2.0-SNAPSHOT  | 2.0         |          |            |
 |                           |               |             |          |            |
 | Xenon Module Test Library |
-| xenos                     | 1.9-SNAPSHOT  | 1.9         | Complete | 2025-09-26 |
+| xenos                     | 2.0-SNAPSHOT  | 2.0         |          |            |
 |                           |               |             |          |            |
 | Xenon Module Libraries    |
 | curve                     | 0.6-SNAPSHOT  | 0.6         |          |            |
 | marea                     | 0.4-SNAPSHOT  | 0.4         |          |            |
 |                           |               |             |          |            |
-| Acromere Modules           |
+| Acromere Modules          |
 | acorn                     | 1.3-SNAPSHOT  | 1.3         |          |
 | aveon                     | 1.3-SNAPSHOT  | 1.3         |          |
 | carta                     | 1.4-SNAPSHOT  | 1.4         |          |
