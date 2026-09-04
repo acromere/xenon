@@ -22,7 +22,7 @@ packaged properly for ${project.name}:
 The project structure is typical for a 
 Maven Java project and the simplest module requires only three files: the Java
 file for the Mod, the Java module-info.java file and the mod 
-[product card](./product-card.md) file.
+[product card](product-card.md) file.
 
 ~~~~
 src/main/java/<package>/<Mod>.java
