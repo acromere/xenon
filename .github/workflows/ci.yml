@@ -40,10 +40,10 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Fetch sources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Fetch CI/CD resources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: acromere/canoe
           path: .github
@@ -59,7 +59,7 @@ jobs:
           Xvfb ${{env.DISPLAY}} ${{env.XVFB_PARMS}} &
 
       - name: Set up Java
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: ${{env.JAVA_DISTRO}}
           java-version: ${{env.JAVA_VERSION}}
@@ -88,10 +88,10 @@ jobs:
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/stable' || github.base_ref == 'refs/heads/main' || github.base_ref == 'refs/heads/stable'
     steps:
       - name: Fetch sources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Fetch CI/CD resources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: acromere/canoe
           path: .github
@@ -107,7 +107,7 @@ jobs:
           Xvfb ${{env.DISPLAY}} ${{env.XVFB_PARMS}} &
 
       - name: Set up Java
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: ${{env.JAVA_DISTRO}}
           java-version: ${{env.JAVA_VERSION}}
@@ -166,10 +166,10 @@ jobs:
       XVFB_PARMS: "-screen 0 1920x1080x24 -nolisten unix"
     steps:
       - name: Fetch sources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Fetch CI/CD resources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: acromere/canoe
           path: .github
@@ -184,7 +184,7 @@ jobs:
           Xvfb ${{env.DISPLAY}} ${{env.XVFB_PARMS}} &
 
       - name: Set up Java
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: ${{env.JAVA_DISTRO}}
           java-version: ${{env.JAVA_VERSION}}
@@ -218,10 +218,10 @@ jobs:
       XVFB_PARMS: "-screen 0 3840x2160x24 -nolisten unix"
     steps:
       - name: Fetch sources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Fetch CI/CD resources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: acromere/canoe
           path: .github
@@ -236,7 +236,7 @@ jobs:
           Xvfb ${{env.DISPLAY}} ${{env.XVFB_PARMS}} &
 
       - name: Set up Java
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: ${{env.JAVA_DISTRO}}
           java-version: ${{env.JAVA_VERSION}}
@@ -269,10 +269,10 @@ jobs:
       ACM_PLATFORM: "linux"
     steps:
       - name: Fetch sources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Fetch CI/CD resources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: acromere/canoe
           path: .github
@@ -287,7 +287,7 @@ jobs:
           Xvfb ${{env.DISPLAY}} ${{env.XVFB_PARMS}} &
 
       - name: Set up Java
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: ${{env.JAVA_DISTRO}}
           java-version: ${{env.JAVA_VERSION}}
@@ -330,10 +330,10 @@ jobs:
       ACM_PLATFORM: "linux"
     steps:
       - name: Fetch sources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Fetch CI/CD resources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: acromere/canoe
           path: .github
@@ -348,7 +348,7 @@ jobs:
           Xvfb ${{env.DISPLAY}} ${{env.XVFB_PARMS}} &
 
       - name: Set up Java
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: ${{env.JAVA_DISTRO}}
           java-version: ${{env.JAVA_VERSION}}
@@ -385,10 +385,10 @@ jobs:
       ACM_PLATFORM: "linux"
     steps:
       - name: Fetch sources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Fetch CI/CD resources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: acromere/canoe
           path: .github
@@ -403,7 +403,7 @@ jobs:
           Xvfb ${{env.DISPLAY}} ${{env.XVFB_PARMS}} &
 
       - name: Set up Java
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: ${{env.JAVA_DISTRO}}
           java-version: ${{env.JAVA_VERSION}}
@@ -440,10 +440,10 @@ jobs:
       ACM_PLATFORM: "macosx"
     steps:
       - name: Fetch sources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Fetch CI/CD resources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: acromere/canoe
           path: .github
@@ -458,7 +458,7 @@ jobs:
           Xvfb ${{env.DISPLAY}} ${{env.XVFB_PARMS}} &
 
       - name: Set up Java
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: ${{env.JAVA_DISTRO}}
           java-version: ${{env.JAVA_VERSION}}
@@ -532,10 +532,10 @@ jobs:
       ACM_PLATFORM: "macosx"
     steps:
       - name: Fetch sources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Fetch CI/CD resources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: acromere/canoe
           path: .github
@@ -550,7 +550,7 @@ jobs:
           Xvfb ${{env.DISPLAY}} ${{env.XVFB_PARMS}} &
 
       - name: Set up Java
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: ${{env.JAVA_DISTRO}}
           java-version: ${{env.JAVA_VERSION}}
@@ -619,10 +619,10 @@ jobs:
       ACM_PLATFORM: "windows"
     steps:
       - name: Fetch sources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Fetch CI/CD resources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: acromere/canoe
           path: .github
@@ -638,7 +638,7 @@ jobs:
       #    Xvfb ${{env.DISPLAY}} ${{env.XVFB_PARMS}} &
 
       - name: Set up Java
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: ${{env.JAVA_DISTRO}}
           java-version: ${{env.JAVA_VERSION}}
@@ -685,10 +685,10 @@ jobs:
       ACM_PLATFORM: "windows"
     steps:
       - name: Fetch sources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Fetch CI/CD resources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: acromere/canoe
           path: .github
@@ -704,7 +704,7 @@ jobs:
       #    Xvfb ${{env.DISPLAY}} ${{env.XVFB_PARMS}} &
 
       - name: Set up Java
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: ${{env.JAVA_DISTRO}}
           java-version: ${{env.JAVA_VERSION}}
@@ -745,10 +745,10 @@ jobs:
       ACM_PLATFORM: "windows"
     steps:
       - name: Fetch sources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Fetch CI/CD resources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: acromere/canoe
           path: .github
@@ -764,7 +764,7 @@ jobs:
       #    Xvfb ${{env.DISPLAY}} ${{env.XVFB_PARMS}} &
 
       - name: Set up Java
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: ${{env.JAVA_DISTRO}}
           java-version: ${{env.JAVA_VERSION}}

@@ -75,7 +75,7 @@
 		<zenna.version>0.12-SNAPSHOT</zenna.version>
 		<zerra.version>0.12-SNAPSHOT</zerra.version>
 		<zevra.version>0.12-SNAPSHOT</zevra.version>
-		<jackson.version>2.20.1</jackson.version>
+		<jackson.version>2.22.2</jackson.version>
 		<!-- Annotations caused a mismatch with version 2.20.0 -->
 		<jackson.annotations.version>2.22</jackson.annotations.version>
 		<reactfx.version>2.0-M6</reactfx.version>
@@ -83,8 +83,8 @@
 
 		<!-- Runtime dependencies -->
 		<!-- Version numbers reviewed 28 Apr 2025 -->
-		<openjfx.version>26.0.1</openjfx.version>
-		<controlsfx.version>11.2.3</controlsfx.version>
+		<openjfx.version>26.0.2</openjfx.version>
+		<controlsfx.version>11.2.5</controlsfx.version>
 
 		<!-- Test dependencies -->
 		<!-- Version numbers reviewed 18 Feb 2023 -->
