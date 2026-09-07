@@ -1,5 +1,6 @@
 package com.acromere.xenon;
 
+import com.acromere.annotation.Note;
 import com.acromere.product.Rb;
 import com.acromere.settings.SettingsEvent;
 import com.acromere.skill.Controllable;
@@ -281,8 +282,14 @@ public class WorkspaceManager implements Controllable<WorkspaceManager> {
 		return workpane.getTools( type );
 	}
 
+	@Note( Note.ANY_THREAD )
 	public void requestCloseTools( Class<? extends ProgramTool> type ) {
 		Fx.run( () -> getActiveWorkpaneTools( type ).forEach( Tool::close ) );
+	}
+
+	@Note( Note.FX_THREAD )
+	public void requestCloseToolsFxSync( Class<? extends ProgramTool> type ) {
+		Fx.runFxSync( () -> getActiveWorkpaneTools( type ).forEach( Tool::close ) );
 	}
 
 	public Workspace findWorkspace( ProgramTool tool ) {

@@ -670,7 +670,7 @@ public class ProductManagerLogic {
 
 		if( result.isPresent() ) {
 			if( result.get() == ButtonType.YES ) {
-				getProgram().getWorkspaceManager().requestCloseTools( SettingsTool.class );
+				getProgram().getWorkspaceManager().requestCloseToolsFxSync( SettingsTool.class );
 				getProgram().getProductManager().applyStagedUpdates();
 			} else if( result.get() == discard ) {
 				getProgram().getProductManager().clearStagedUpdates();
