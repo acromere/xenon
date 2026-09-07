@@ -65,7 +65,9 @@ class UiWorkspaceFactory {
 		updateThemeFromSettings( workspace, settings );
 		workspace.applySettings();
 
-		storeWorkspaceSettings( workspace, settings );
+		// NOTE 2026-09-07 Fix program not restoring in maximized state
+		// https://github.com/acromere/xenon/issues/22
+		//storeWorkspaceSettings( workspace, settings );
 	}
 
 	void storeWorkspaceSettings( Workspace workspace, Settings settings ) {

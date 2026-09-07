@@ -193,7 +193,7 @@ class UiReader {
 			Workarea area = spaceActiveAreas.get( space );
 			space.setActiveWorkarea( area );
 		}
-		// For each space there might be a maximized area
+		// Maximized spaces
 		for( Workspace space : maximizedSpaces ) {
 			space.setMaximized( true );
 		}
