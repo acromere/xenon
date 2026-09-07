@@ -23,8 +23,6 @@ public class WelcomeTool extends ProgramTool {
 
 	private static final double PRODUCT_ICON_SIZE = 96;
 
-	private static final double ICON_SIZE = 64;
-
 	private static final double SLOPE_RADIUS = 5000;
 
 	public WelcomeTool( XenonProgramProduct product, Resource resource ) {
@@ -32,8 +30,8 @@ public class WelcomeTool extends ProgramTool {
 		setId( "tool-welcome" );
 
 		Node icon = product.getProgram().getIconLibrary().getIcon( "program", PRODUCT_ICON_SIZE );
-		Node docsIcon = product.getProgram().getIconLibrary().getIcon( "document", ICON_SIZE );
-		Node modsIcon = product.getProgram().getIconLibrary().getIcon( "product", ICON_SIZE );
+		Node docsIcon = product.getProgram().getIconLibrary().getIcon( "document", Ui.ALERT_ICON_SIZE );
+		Node modsIcon = product.getProgram().getIconLibrary().getIcon( "product", Ui.ALERT_ICON_SIZE );
 
 		String documentButtonTitle = Rb.text( RbKey.LABEL, "documentation" );
 		String documentButtonDescription = Rb.text( RbKey.LABEL, "documentation-desc" );
@@ -44,7 +42,7 @@ public class WelcomeTool extends ProgramTool {
 		Label label = new Label( product.getCard().getName(), icon );
 		label.getStyleClass().add( "tool-welcome-title" );
 
-		Ellipse accent = new Ellipse( 0, ICON_SIZE + 2 * PAD + SLOPE_RADIUS, SLOPE_RADIUS, SLOPE_RADIUS );
+		Ellipse accent = new Ellipse( 0, Ui.ALERT_ICON_SIZE + 2 * PAD + SLOPE_RADIUS, SLOPE_RADIUS, SLOPE_RADIUS );
 		accent.getStyleClass().add( "accent" );
 
 		Pane accentPane = new Pane();

@@ -3,6 +3,7 @@ package com.acromere.xenon.tool;
 import com.acromere.product.Rb;
 import com.acromere.xenon.ProgramTool;
 import com.acromere.xenon.RbKey;
+import com.acromere.xenon.Ui;
 import com.acromere.xenon.XenonProgramProduct;
 import com.acromere.xenon.compare.ResourceTypeNameComparator;
 import com.acromere.xenon.resource.OpenResourceRequest;
@@ -88,7 +89,7 @@ public class NewResourceTool extends ProgramTool {
 			description.setTextAlignment( TextAlignment.CENTER );
 			description.setWrapText( true );
 
-			getChildren().add( getProgram().getIconLibrary().getIcon( type.getIcon(), 64 ) );
+			getChildren().add( getProgram().getIconLibrary().getIcon( type.getIcon(), Ui.ALERT_ICON_SIZE ) );
 			getChildren().add( name );
 			getChildren().add( description );
 		}

@@ -274,7 +274,7 @@ class ProductPane extends GridPane {
 		String message = Rb.text( RbKey.PRODUCT, "product-remove-message" );
 
 		Alert alert = new Alert( Alert.AlertType.CONFIRMATION, message, ButtonType.YES, ButtonType.NO );
-		alert.setGraphic( program.getIconLibrary().getIcon( source.getIcons(), 64 ) );
+		alert.setGraphic( program.getIconLibrary().getIcon( source.getIcons(), Ui.ALERT_ICON_SIZE ) );
 		alert.setTitle( title );
 		alert.setHeaderText( header );
 

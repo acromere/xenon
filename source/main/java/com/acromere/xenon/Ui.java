@@ -84,6 +84,7 @@ public interface Ui {
 	double DEFAULT_WIDTH = 960;
 	double DEFAULT_HEIGHT = 600;
 	double PAD = BorderStroke.THICK.getTop();
+	double ALERT_ICON_SIZE = 64;
 	String DOCK_TOP_SIZE = "dock-top-size";
 	String DOCK_LEFT_SIZE = "dock-left-size";
 	String DOCK_RIGHT_SIZE = "dock-right-size";

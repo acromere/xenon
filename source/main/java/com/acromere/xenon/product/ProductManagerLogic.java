@@ -7,6 +7,7 @@ import com.acromere.product.ProductCardComparator;
 import com.acromere.product.Rb;
 import com.acromere.util.FileUtil;
 import com.acromere.xenon.RbKey;
+import com.acromere.xenon.Ui;
 import com.acromere.xenon.Xenon;
 import com.acromere.xenon.notice.Notice;
 import com.acromere.xenon.resource.type.ProgramSettingsType;
@@ -660,7 +661,7 @@ public class ProductManagerLogic {
 
 		ButtonType discard = new ButtonType( Rb.text( RbKey.UPDATE, "updates-discard" ), ButtonBar.ButtonData.LEFT );
 		Alert alert = new Alert( Alert.AlertType.CONFIRMATION, "", discard, ButtonType.YES, ButtonType.NO );
-		alert.setGraphic( getProgram().getIconLibrary().getIcon( "update", 64 ) );
+		alert.setGraphic( getProgram().getIconLibrary().getIcon( "update", Ui.ALERT_ICON_SIZE ) );
 		alert.setTitle( title );
 		alert.setHeaderText( header );
 		alert.setContentText( message );
