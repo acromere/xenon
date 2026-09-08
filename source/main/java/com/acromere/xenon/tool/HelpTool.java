@@ -1,6 +1,5 @@
 package com.acromere.xenon.tool;
 
-import com.acromere.util.FileUtil;
 import com.acromere.xenon.XenonProgramProduct;
 import com.acromere.xenon.resource.OpenResourceRequest;
 import com.acromere.xenon.resource.Resource;
@@ -12,15 +11,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.web.WebView;
 import lombok.CustomLog;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 @CustomLog
 public class HelpTool extends GuidedTool {
 
-	//	private final MarkdownView mdfx;
+	// Consider using JPro Markdown https://github.com/JPro-one/jpro-platform#jpro-markdown
+
+	private final Label label;
 
 	private final WebView web;
 
@@ -29,39 +28,43 @@ public class HelpTool extends GuidedTool {
 
 		setGraphic( product.getProgram().getIconLibrary().getIcon( "help" ) );
 
-		Label label = new Label( "Label" );
-		//label.textFillProperty().addListener( ( p, o, n ) -> updateTextFill( n ) );
+		// The CSS takes care of the transparent background
+		String cssUrl = getClass().getResource("/xenon-help.css").toExternalForm();
 
+		// Needed to keep track of the style text fill paint
+		label = new Label( "Label" );
+		label.setVisible( false );
+
+		// The help content view
 		web = new WebView();
-		web.setPageFill( Color.WHITE );
+		web.setPageFill( Color.TRANSPARENT );
+		web.getEngine().setUserStyleSheetLocation(cssUrl);
 		web.getEngine().loadContent( "<body>Web Content</body>" );
 
-		getChildren().addAll( web );
+		// Add listeners
+		label.textFillProperty().addListener( (p,o,n)-> updateBodyTextColor( web.getEngine().getDocument(), n ));
+		web.getEngine().titleProperty().addListener( ( p, o, n ) -> setTitle( n ) );
+		web.getEngine().documentProperty().addListener( ( p, o, n ) -> updateBodyTextColor( n, label.getTextFill() ) );
+
+		getChildren().addAll( label, web );
 	}
 
 	@Override
 	protected void ready( OpenResourceRequest request ) throws ToolException {
-		// The resource type should load the help content
-		// The resource model should be a Markdown document
 		String content = request.getResource().getModel();
-		//log.atConfig().log( "content=" + content );
-		//content = content == null ? "null" : content;
-		//mdfx.setMdString( content );
-		// FIXME Help content not loading
-		System.out.println( content );
-
-		web.getEngine().titleProperty().addListener( ( p, o, n ) -> setTitle( n ) );
 		web.getEngine().loadContent( content );
 	}
 
-	private void updateTextFill( Paint paint ) {
-		Path path = getProgram().getDataFolder().resolve( "settings" ).resolve( "ui" ).resolve( "browser.css" );
-		String style = "body {color:" + Paints.toString( paint ) + ";background:#008000;font-family:sansserif;}";
-		try {
-			FileUtil.save( style, path, StandardCharsets.UTF_8 );
-			web.getEngine().setUserStyleSheetLocation( path.toUri().toString() );
-		} catch( IOException exception ) {
-			throw new RuntimeException( exception );
+	private void updateBodyTextColor( org.w3c.dom.Document n, Paint color ) {
+		if( n == null ) return;
+
+		NodeList bodyList = n.getElementsByTagName( "body" );
+		int count = bodyList.getLength();
+		for( int index = 0; index < count; index++ ) {
+			org.w3c.dom.Node node = bodyList.item( index );
+			if( node instanceof Element element ) {
+				element.setAttribute( "style", "color: " + Paints.toString( color ) );
+			}
 		}
 	}
 
