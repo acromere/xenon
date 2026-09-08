@@ -17,6 +17,8 @@ import java.util.List;
  */
 public interface Scheme {
 
+	String SCHEME_SUFFIX = ":/";
+
 	/**
 	 * Get the scheme name. The scheme name is equivalent to the URI scheme
 	 * defined in <a href="http://tools.ietf.org/html/rfc3986">RFC-3986</a>.

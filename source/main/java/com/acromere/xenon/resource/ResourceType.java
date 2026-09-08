@@ -9,6 +9,8 @@ import com.acromere.xenon.resource.exception.ResourceException;
 import com.acromere.xenon.tool.settings.SettingsPage;
 import com.acromere.zerra.javafx.Fx;
 import lombok.CustomLog;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Collections;
 import java.util.List;
@@ -73,6 +75,8 @@ public abstract class ResourceType implements Comparable<ResourceType> {
 
 	private Codec defaultCodec;
 
+	@Setter
+	@Getter
 	private Map<String, SettingsPage> settingsPages;
 
 	public ResourceType( XenonProgramProduct product, String rbKey ) {
@@ -219,12 +223,12 @@ public abstract class ResourceType implements Comparable<ResourceType> {
 	}
 
 	/**
-	 * This method is called as an resource is opened just before it is loaded. This
+	 * This method is called as a resource is opened just before it is loaded. This
 	 * method can provide the specified resource with an initial state prior to being
 	 * loaded or used in a tool.
 	 * <p>
 	 * Unlike the {@link #resourceNew(Xenon, Resource)} method this method is
-	 * always called whenever an resource is opened, new or otherwise. This method
+	 * always called whenever a resource is opened, new or otherwise. This method
 	 * should not be used for user interaction. User interaction should be
 	 * implemented in the {@link #resourceNew(Xenon, Resource)} method.
 	 * <p>
@@ -256,14 +260,6 @@ public abstract class ResourceType implements Comparable<ResourceType> {
 
 	public Set<Codec> getSupportedCodecs( Codec.Pattern type, String value ) {
 		return codecs.stream().filter( c -> c.isSupported( type, value ) ).collect( Collectors.toSet() );
-	}
-
-	public Map<String, SettingsPage> getSettingsPages() {
-		return settingsPages;
-	}
-
-	public void setSettingsPages( Map<String, SettingsPage> pages ) {
-		this.settingsPages = pages;
 	}
 
 }

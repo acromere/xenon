@@ -6,9 +6,11 @@ import com.acromere.xenon.resource.PlaceholderCodec;
 import com.acromere.xenon.resource.ResourceType;
 import com.acromere.xenon.scheme.XenonScheme;
 
+import static com.acromere.xenon.resource.Scheme.SCHEME_SUFFIX;
+
 public class ProgramGuideType extends ResourceType {
 
-	private static final String uriPattern = XenonScheme.ID + ":/guide";
+	private static final String uriPattern = XenonScheme.ID + SCHEME_SUFFIX + "guide";
 
 	public static final java.net.URI URI = java.net.URI.create( uriPattern );
 

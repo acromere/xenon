@@ -29,13 +29,14 @@ public class HelpTool extends GuidedTool {
 
 		setGraphic( product.getProgram().getIconLibrary().getIcon( "help" ) );
 
+		Label label = new Label( "Label" );
+		//label.textFillProperty().addListener( ( p, o, n ) -> updateTextFill( n ) );
+
 		web = new WebView();
-		web.setPageFill( Color.TRANSPARENT );
+		web.setPageFill( Color.WHITE );
+		web.getEngine().loadContent( "<body>Web Content</body>" );
 
-		Label label = new Label( "" );
-		label.textFillProperty().addListener( ( p, o, n ) -> updateTextFill( n ) );
-
-		getChildren().addAll( label, web );
+		getChildren().addAll( web );
 	}
 
 	@Override
@@ -46,6 +47,8 @@ public class HelpTool extends GuidedTool {
 		//log.atConfig().log( "content=" + content );
 		//content = content == null ? "null" : content;
 		//mdfx.setMdString( content );
+		// FIXME Help content not loading
+		System.out.println( content );
 
 		web.getEngine().titleProperty().addListener( ( p, o, n ) -> setTitle( n ) );
 		web.getEngine().loadContent( content );
@@ -53,7 +56,7 @@ public class HelpTool extends GuidedTool {
 
 	private void updateTextFill( Paint paint ) {
 		Path path = getProgram().getDataFolder().resolve( "settings" ).resolve( "ui" ).resolve( "browser.css" );
-		String style = "body {color:" + Paints.toString( paint ) + ";background:transparent;font-family:sans-serif;}";
+		String style = "body {color:" + Paints.toString( paint ) + ";background:#008000;font-family:sansserif;}";
 		try {
 			FileUtil.save( style, path, StandardCharsets.UTF_8 );
 			web.getEngine().setUserStyleSheetLocation( path.toUri().toString() );
