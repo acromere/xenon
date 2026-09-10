@@ -1,5 +1,6 @@
 package com.acromere.xenon.resource.type;
 
+import com.acromere.index.Document;
 import com.acromere.product.Product;
 import com.acromere.util.IoUtil;
 import com.acromere.util.TextUtil;
@@ -14,6 +15,8 @@ import com.acromere.xenon.scheme.XenonScheme;
 import lombok.CustomLog;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Locale;
 
@@ -75,6 +78,11 @@ public class ProgramHelpType extends ResourceType {
 				localeSuffix = localeSuffix.substring( 0, localeSuffix.lastIndexOf( "_" ) );
 				contentPath = contentPrefix + localeSuffix + ".html";
 			}
+
+			// NEXT Should the help tool be filtering the content?
+			// ...or, can we get the content from the index?
+			//getProgram().getIndexService().lookupFromCache( contentUrl.toURI() );
+
 			// The default resource
 			if( contentUrl == null ) contentUrl = product.getClass().getResource( contentPath );
 
