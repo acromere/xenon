@@ -21,7 +21,7 @@ public class ProgramHelpType extends ResourceType {
 	public ProgramHelpType( XenonProgramProduct product ) {
 		super( product, "help" );
 
-		Codec codec = new HelpContentCodec();
+		Codec codec = new HelpContentCodec( product );
 		codec.addSupported( Codec.Pattern.URI, uriPattern );
 		setDefaultCodec( codec );
 	}
