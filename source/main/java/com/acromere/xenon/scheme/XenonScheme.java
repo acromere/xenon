@@ -30,21 +30,20 @@ public class XenonScheme extends ProgramScheme {
 
 	@Override
 	public void load( Resource resource, Codec codec ) throws ResourceException {
-		// Most program resources don't actually load anything
-		// However, the following do:
+		// Most program resources don't actually load anything.
+		// However, the following does:
 
 		// Help content
 		URI uri = resource.getUri();
 		if( uri.getScheme().equals( ID ) ) {
-			if( uri.getSchemeSpecificPart().equals( "help" ) ) {
-				loadHelp( resource, codec );
-			}
+			if( uri.getSchemeSpecificPart().startsWith( "/help" ) ) loadHelp( resource, codec );
 		}
 	}
 
 	private void loadHelp( Resource resource, Codec codec ) {
 		URI uri = resource.getUri();
 
+		// FIXME Can this logic be moved to the HelpContentCodec?
 		String content;
 		try {
 			Document document = getProgram().getIndexService().lookupFromCache( uri );

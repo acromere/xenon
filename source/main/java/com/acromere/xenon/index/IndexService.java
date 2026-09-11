@@ -8,7 +8,9 @@ import com.acromere.xenon.Xenon;
 import lombok.CustomLog;
 
 import java.io.FileWriter;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -105,23 +107,30 @@ public class IndexService implements Controllable<IndexService> {
 			.orElseThrow( () -> new IndexNotFoundException( "Default index missing" ) );
 	}
 
-	public Document lookupFromCache( URI uri ) throws Exception {
-		return new Document( uri, "", "", getDocumentContentPath( uri ).toFile().toURI().toURL() );
+	public Document lookupFromCache( String path ) throws URISyntaxException, MalformedURLException {
+		return lookupFromCache( new URI( path ) );
 	}
 
-	/**
-	 * Remove a search index.
-	 *
-	 * @param index The index to remove
-	 */
+	public Document lookupFromCache( URI uri ) throws MalformedURLException {
+		Path path  = getDocumentContentPath( uri ).toAbsolutePath();
+		//log.atWarn().log("Lookup document uri={0}\n  at file={1}", uri, path);
+		if( !Files.exists( path )) return null;
+		return new Document( uri, "", "", path.toUri().toURL() );
+	}
+
+		/**
+		 * Remove a search index.
+		 *
+		 * @param index The index to remove
+		 */
 	public void removeIndex( String index ) {
 		indexer.removeIndex( index );
 	}
 
 	private void storeContent( Document document ) {
 		// TODO Do this work on IO threads
-
 		Path path = getDocumentContentPath( document.uri() );
+		//log.atWarn().log("Caching document uri={0}\n  at file={1}", document.uri(), path);
 		try {
 			Files.createDirectories( path.getParent() );
 			try( FileWriter writer = new FileWriter( path.toFile() ) ) {

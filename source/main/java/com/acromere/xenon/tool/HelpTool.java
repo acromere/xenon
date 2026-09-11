@@ -39,7 +39,7 @@ public class HelpTool extends GuidedTool {
 		web = new WebView();
 		web.setPageFill( Color.TRANSPARENT );
 		web.getEngine().setUserStyleSheetLocation(cssUrl);
-		web.getEngine().loadContent( "<body>Web Content</body>" );
+		web.getEngine().loadContent( "<body>Missing Help Content</body>" );
 
 		// Add listeners
 		label.textFillProperty().addListener( (p,o,n)-> updateBodyTextColor( web.getEngine().getDocument(), n ));

@@ -10,7 +10,7 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 @CustomLog
-public class ContentCodec extends Codec {
+public class HelpContentCodec extends Codec {
 
 	@Override
 	public String getKey() {
@@ -36,7 +36,6 @@ public class ContentCodec extends Codec {
 	public void load( Resource resource, InputStream input ) {
 		try {
 			String content = IoUtil.toString( input, StandardCharsets.UTF_8 );
-			//if( TextUtil.isEmpty( content ) ) log.atWarn().withCause( new IOException() ).log( "No content loaded!" );
 			if( TextUtil.isEmpty( content ) ) throw new IOException( "No content loaded!" );
 			resource.setModel( content );
 		} catch( IOException exception ) {

@@ -46,9 +46,10 @@ public class SearchTool extends ProgramTool {
 		ScrollPane scroller = new ScrollPane( docList );
 		scroller.setFitToWidth( true );
 		scroller.setFitToHeight( true );
-		getChildren().add( scroller );
 
 		VBox listContainer = new VBox( Ui.PAD, search, scroller );
+		VBox.setVgrow( search,Priority.NEVER );
+		VBox.setVgrow( scroller,Priority.ALWAYS );
 		getChildren().add( listContainer );
 
 		search.textProperty().addListener( ( p, o, n ) -> doSearchAll( n ) );
