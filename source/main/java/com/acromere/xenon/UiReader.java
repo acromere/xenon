@@ -159,23 +159,25 @@ class UiReader {
 	}
 
 	private void restoreFlags() {
-		/* TOOLS */
-		// For each view there is an active tool
-		for( WorkpaneView view : viewActiveTools.keySet() ) {
-			Tool tool = viewActiveTools.get( view );
-			if( tool instanceof ProgramTool programTool ) {
-				programTool.setActiveWhenReady();
-			} else {
-				view.setActiveTool( tool );
-			}
+
+		/* WORKSPACES */
+		// Maximized spaces
+		for( Workspace space : maximizedSpaces ) {
+			space.setMaximized( true );
+		}
+		// Set the active space
+		if( activeSpace != null ) {
+			// Run this later
+			Fx.run( () -> program.getWorkspaceManager().setActiveWorkspace( activeSpace ) );
+		}
+		// For each space there is an active area
+		for( Workspace space : spaceActiveAreas.keySet() ) {
+			Workarea area = spaceActiveAreas.get( space );
+			// Run this later
+			Fx.run( () -> space.setActiveWorkarea( area ) );
 		}
 
 		/* WORKAREAS */
-		// For each area there is an active view
-		for( Workarea area : areaActiveViews.keySet() ) {
-			WorkpaneView view = areaActiveViews.get( area );
-			area.setActiveView( view );
-		}
 		// For each area there is a default view
 		for( Workarea area : areaDefaultViews.keySet() ) {
 			WorkpaneView view = areaDefaultViews.get( area );
@@ -186,20 +188,22 @@ class UiReader {
 			WorkpaneView view = areaMaximizedViews.get( area );
 			area.setMaximizedView( view );
 		}
+		// For each area there is an active view
+		for( Workarea area : areaActiveViews.keySet() ) {
+			WorkpaneView view = areaActiveViews.get( area );
+			// Run this later
+			Fx.run( () -> area.setActiveView( view ) );
+		}
 
-		/* WORKSPACES */
-		// For each space there is an active area
-		for( Workspace space : spaceActiveAreas.keySet() ) {
-			Workarea area = spaceActiveAreas.get( space );
-			space.setActiveWorkarea( area );
-		}
-		// Maximized spaces
-		for( Workspace space : maximizedSpaces ) {
-			space.setMaximized( true );
-		}
-		// Set the active space
-		if( activeSpace != null ) {
-			program.getWorkspaceManager().setActiveWorkspace( activeSpace );
+		/* TOOLS */
+		// For each view there is an active tool
+		for( WorkpaneView view : viewActiveTools.keySet() ) {
+			Tool tool = viewActiveTools.get( view );
+			if( tool instanceof ProgramTool programTool ) {
+				Fx.run( programTool::setActiveWhenReady );
+			} else {
+				Fx.run( () -> view.setActiveTool( tool ) );
+			}
 		}
 	}
 
