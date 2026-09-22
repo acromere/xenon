@@ -33,10 +33,8 @@ public class ComboBoxSettingEditor extends SettingEditor {
 		Label label = new Label( Rb.text( getProduct(), getRbKey(), rbKey ) );
 		label.setMinWidth( Region.USE_PREF_SIZE );
 
-		List<SettingOption> options = setting.getOptions();
 		combobox = new ComboBox<>();
-		combobox.getItems().addAll( options );
-		combobox.setMaxWidth( Double.MAX_VALUE );
+		loadComboBoxOptions( combobox );
 
 		nodes = List.of( label, combobox );
 
@@ -74,7 +72,13 @@ public class ComboBoxSettingEditor extends SettingEditor {
 
 	@Override
 	protected void pageSettingsChanged() {
+		loadComboBoxOptions( combobox );
 		combobox.getSelectionModel().select( setting.getOption( getCurrentValue() ) );
+	}
+
+	private void loadComboBoxOptions( ComboBox<SettingOption> combobox ) {
+		combobox.getItems().setAll( setting.getOptions() );
+		combobox.setMaxWidth( Double.MAX_VALUE );
 	}
 
 	private void doComboBoxValueChanged( ObservableValue<? extends SettingOption> observable, SettingOption oldValue, SettingOption newValue ) {
