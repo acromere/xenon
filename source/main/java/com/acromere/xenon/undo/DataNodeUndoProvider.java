@@ -34,7 +34,7 @@ public class DataNodeUndoProvider {
 				DataNode eventNode = e.getNode();
 				String eventKey = e.getKey();
 				boolean isModifying = eventNode.isModifyingKey( eventKey );
-				boolean isCaptureUndoChanges = node.getValue( NodeChange.CAPTURE_UNDO_CHANGES, NodeChange.DEFAULT_CAPTURE_UNDO_CHANGES );
+				boolean isCaptureUndoChanges = NodeChange.isCaptureUndoChanges( node );
 
 				if( isModifying && isCaptureUndoChanges ) {
 					synchronized( changes ) {

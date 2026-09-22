@@ -10,13 +10,13 @@ import java.util.Objects;
 @CustomLog
 public class NodeChange {
 
-	public static final String CAPTURE_UNDO_CHANGES = NodeChange.class.getName() + ":capture-undo-changes";
+	private static final String CAPTURE_UNDO_CHANGES = NodeChange.class.getName() + ":capture-undo-changes";
 
-	//public static final String PUBLISH_UNDO_CHANGES = NodeChange.class.getName() + ":publish-undo-changes";
+	//private static final String PUBLISH_UNDO_CHANGES = NodeChange.class.getName() + ":publish-undo-changes";
 
-	//public static final String CAPTURE_REDO_CHANGES = NodeChange.class.getName() + ":capture-redo-changes";
+	//private static final String CAPTURE_REDO_CHANGES = NodeChange.class.getName() + ":capture-redo-changes";
 
-	public static final boolean DEFAULT_CAPTURE_UNDO_CHANGES = false;
+	private static final boolean DEFAULT_CAPTURE_UNDO_CHANGES = false;
 
 	private final DataNode node;
 
@@ -50,6 +50,14 @@ public class NodeChange {
 		this.newValue = null;
 		this.redo = false;
 		this.changes = new ArrayList<>( changes );
+	}
+
+	public static boolean isCaptureUndoChanges( DataNode node ) {
+		return node.getValue( CAPTURE_UNDO_CHANGES, DEFAULT_CAPTURE_UNDO_CHANGES );
+	}
+
+	public static void setCaptureUndoChanges( DataNode node, boolean capture ) {
+		node.setValue( NodeChange.CAPTURE_UNDO_CHANGES, capture );
 	}
 
 	DataNode getNode() {

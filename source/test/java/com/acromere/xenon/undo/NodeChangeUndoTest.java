@@ -35,7 +35,7 @@ public class NodeChangeUndoTest {
 		this.setNode2 = new MockNode( "set-node-2" );
 
 		// Enable undo change capture
-		this.node.setValue( NodeChange.CAPTURE_UNDO_CHANGES, true );
+		NodeChange.setCaptureUndoChanges( node, true );
 		undoManager = DataNodeUndoProvider.manager( node );
 	}
 

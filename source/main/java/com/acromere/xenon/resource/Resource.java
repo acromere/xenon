@@ -216,11 +216,11 @@ public class Resource extends DataNode {
 	}
 
 	public boolean isCaptureUndoChanges() {
-		return getValue( NodeChange.CAPTURE_UNDO_CHANGES, NodeChange.DEFAULT_CAPTURE_UNDO_CHANGES );
+		return NodeChange.isCaptureUndoChanges( this );
 	}
 
 	public void setCaptureUndoChanges( boolean enabled ) {
-		setValue( NodeChange.CAPTURE_UNDO_CHANGES, enabled );
+		NodeChange.setCaptureUndoChanges( this, enabled );
 	}
 
 	public boolean isExternallyModified() {
