@@ -13,6 +13,7 @@ import org.reactfx.EventStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CustomLog
 public class DataNodeUndoProvider {
@@ -20,7 +21,7 @@ public class DataNodeUndoProvider {
 	private static final String UNDO_CHANGES = DataNodeUndoProvider.class.getName() + ":undo-changes";
 
 	public static UndoManager<List<NodeChange>> manager( DataNode node ) {
-		return UndoManagerFactory.unlimitedHistoryMultiChangeUM( events( node ), DataNodeUndoProvider::invert, DataNodeUndoProvider::apply );
+		return UndoManagerFactory.unlimitedHistorySingleChangeUM( events( node ), DataNodeUndoProvider::invert, DataNodeUndoProvider::apply );
 	}
 
 	private static EventStream<List<NodeChange>> events( DataNode node ) {
@@ -56,6 +57,10 @@ public class DataNodeUndoProvider {
 		);
 
 		return events;
+	}
+
+	private static List<NodeChange> invert( List<NodeChange> changes ) {
+		return changes.stream().map( DataNodeUndoProvider::invert ).collect( Collectors.toList() );
 	}
 
 	private static NodeChange invert( NodeChange change ) {
