@@ -15,19 +15,19 @@ import java.util.LinkedList;
 import java.util.List;
 
 @CustomLog
-public class DataNodeUndo {
+public class DataNodeUndoProvider {
 
-	private static final String UNDO_CHANGES = DataNodeUndo.class.getName() + ":undo-changes";
+	private static final String UNDO_CHANGES = DataNodeUndoProvider.class.getName() + ":undo-changes";
 
 	public static UndoManager<List<NodeChange>> manager( DataNode node ) {
-		return UndoManagerFactory.unlimitedHistoryMultiChangeUM( events( node ), DataNodeUndo::invert, DataNodeUndo::apply );
+		return UndoManagerFactory.unlimitedHistoryMultiChangeUM( events( node ), DataNodeUndoProvider::invert, DataNodeUndoProvider::apply );
 	}
 
-	@SuppressWarnings( "SynchronizationOnLocalVariableOrMethodParameter" )
-	public static EventStream<List<NodeChange>> events( DataNode node ) {
+	private static EventStream<List<NodeChange>> events( DataNode node ) {
 		EventSource<List<NodeChange>> events = new EventSource<>();
 
-		node.setValue( UNDO_CHANGES, new LinkedList<>() );
+		final LinkedList<NodeChange> changes = new LinkedList<>();
+		node.setValue( UNDO_CHANGES, changes );
 
 		node.register(
 			DataNodeEvent.VALUE_CHANGED, e -> {
@@ -37,7 +37,6 @@ public class DataNodeUndo {
 				boolean isCaptureUndoChanges = node.getValue( NodeChange.CAPTURE_UNDO_CHANGES, NodeChange.DEFAULT_CAPTURE_UNDO_CHANGES );
 
 				if( isModifying && isCaptureUndoChanges ) {
-					LinkedList<NodeChange> changes = node.getValue( UNDO_CHANGES );
 					synchronized( changes ) {
 						changes.add( new NodeChange( eventNode, eventKey, e.getOldValue(), e.getNewValue() ) );
 					}
@@ -46,11 +45,12 @@ public class DataNodeUndo {
 		);
 
 		node.register(
-			TxnEvent.COMMIT_END, e -> {
-				LinkedList<NodeChange> changes = node.getValue( UNDO_CHANGES );
-				synchronized( changes ) {
-					events.push( new ArrayList<>( changes ) );
-					changes.clear();
+			TxnEvent.COMMIT_END, _ -> {
+				if( !changes.isEmpty()) {
+					synchronized( changes ) {
+						events.push( new ArrayList<>( changes ) );
+						changes.clear();
+					}
 				}
 			}
 		);
@@ -58,15 +58,12 @@ public class DataNodeUndo {
 		return events;
 	}
 
-	public static NodeChange invert( NodeChange change ) {
+	private static NodeChange invert( NodeChange change ) {
 		return new NodeChange( change.getNode(), change.getKey(), change.getNewValue(), change.getOldValue() );
 	}
 
-	public static void apply( List<NodeChange> changes ) {
-		Txn.run( () -> {
-			//changes.forEach( c -> System.out.println( "apply change=" + c ));
-			changes.forEach( c -> c.getNode().setValue( c.getKey(), c.getNewValue() ) );
-		} );
+	private static void apply( List<NodeChange> changes ) {
+		Txn.run( () -> changes.forEach( c -> c.getNode().setValue( c.getKey(), c.getNewValue() ) ) );
 	}
 
 }

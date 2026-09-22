@@ -8,7 +8,7 @@ import com.acromere.util.UriUtil;
 import com.acromere.xenon.resource.exception.ResourceException;
 import com.acromere.xenon.scheme.NewScheme;
 import com.acromere.xenon.scheme.XenonScheme;
-import com.acromere.xenon.undo.DataNodeUndo;
+import com.acromere.xenon.undo.DataNodeUndoProvider;
 import com.acromere.xenon.undo.NodeChange;
 import com.acromere.zerra.event.FxEventHub;
 import lombok.CustomLog;
@@ -95,7 +95,7 @@ public class Resource extends DataNode {
 
 	public Resource( ResourceType type, URI uri ) {
 		this.eventHub = new FxEventHub().parent( super.getEventHub() );
-		this.undoManager = DataNodeUndo.manager( this );
+		this.undoManager = DataNodeUndoProvider.manager( this );
 
 		setUri( uri == null ? NewScheme.uri() : uri );
 		setType( type );

@@ -2,6 +2,7 @@ package com.acromere.xenon.undo;
 
 import com.acromere.data.DataNode;
 import com.acromere.transaction.Txn;
+import com.acromere.transaction.TxnEvent;
 import org.fxmisc.undo.UndoManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class NodeChangeTest {
+public class NodeChangeUndoTest {
 
 	private MockNode node;
 
@@ -35,16 +36,16 @@ public class NodeChangeTest {
 
 		// Enable undo change capture
 		this.node.setValue( NodeChange.CAPTURE_UNDO_CHANGES, true );
-		undoManager = DataNodeUndo.manager( node );
+		undoManager = DataNodeUndoProvider.manager( node );
 	}
 
 	@Test
 	void testSetValue() {
-		assertThat( node.<Object> getValue( "a" ) ).isNull();
+		assertThat( node.<Object>getValue( "a" ) ).isNull();
 		assertThat( undoManager.isUndoAvailable() ).isFalse();
 		assertThat( undoManager.isRedoAvailable() ).isFalse();
 		node.setValue( "a", 0 );
-		assertThat( node.<Integer> getValue( "a" ) ).isEqualTo( 0 );
+		assertThat( node.<Integer>getValue( "a" ) ).isEqualTo( 0 );
 		assertThat( undoManager.isUndoAvailable() ).isTrue();
 		assertThat( undoManager.isRedoAvailable() ).isFalse();
 	}
@@ -53,7 +54,7 @@ public class NodeChangeTest {
 	void testUndo() {
 		testSetValue();
 		undoManager.undo();
-		assertThat( node.<Object> getValue( "a" ) ).isNull();
+		assertThat( node.<Object>getValue( "a" ) ).isNull();
 		assertThat( undoManager.isUndoAvailable() ).isFalse();
 		assertThat( undoManager.isRedoAvailable() ).isTrue();
 	}
@@ -62,14 +63,14 @@ public class NodeChangeTest {
 	void testRedo() {
 		testUndo();
 		undoManager.redo();
-		assertThat( node.<Integer> getValue( "a" ) ).isEqualTo( 0 );
+		assertThat( node.<Integer>getValue( "a" ) ).isEqualTo( 0 );
 		assertThat( undoManager.isRedoAvailable() ).isFalse();
 		assertThat( undoManager.isUndoAvailable() ).isTrue();
 	}
 
 	@Test
 	void testMultipleUndo() throws Exception {
-		assertThat( node.<Object> getValue( "a" ) ).isNull();
+		assertThat( node.<Object>getValue( "a" ) ).isNull();
 		assertThat( undoManager.isUndoAvailable() ).isFalse();
 		assertThat( undoManager.isRedoAvailable() ).isFalse();
 
@@ -80,20 +81,20 @@ public class NodeChangeTest {
 			node.setValue( "a", 3 );
 		}
 		node.setValue( "a", 4 );
-		assertThat( node.<Integer> getValue( "a" ) ).isEqualTo( 4 );
+		assertThat( node.<Integer>getValue( "a" ) ).isEqualTo( 4 );
 
 		undoManager.undo();
-		assertThat( node.<Integer> getValue( "a" ) ).isEqualTo( 3 );
+		assertThat( node.<Integer>getValue( "a" ) ).isEqualTo( 3 );
 
 		undoManager.undo();
-		assertThat( node.<Object> getValue( "a" ) ).isNull();
+		assertThat( node.<Object>getValue( "a" ) ).isNull();
 		assertThat( undoManager.isUndoAvailable() ).isFalse();
 		assertThat( undoManager.isRedoAvailable() ).isTrue();
 	}
 
 	@Test
 	void testMultipleUndoWithChildNode() throws Exception {
-		assertThat( child.<Object> getValue( "c" ) ).isNull();
+		assertThat( child.<Object>getValue( "c" ) ).isNull();
 		assertThat( undoManager.isUndoAvailable() ).isFalse();
 		assertThat( undoManager.isRedoAvailable() ).isFalse();
 
@@ -104,13 +105,13 @@ public class NodeChangeTest {
 			child.setValue( "c", 3 );
 		}
 		child.setValue( "c", 4 );
-		assertThat( child.<Integer> getValue( "c" ) ).isEqualTo( 4 );
+		assertThat( child.<Integer>getValue( "c" ) ).isEqualTo( 4 );
 
 		undoManager.undo();
-		assertThat( child.<Integer> getValue( "c" ) ).isEqualTo( 3 );
+		assertThat( child.<Integer>getValue( "c" ) ).isEqualTo( 3 );
 
 		undoManager.undo();
-		assertThat( child.<Object> getValue( "c" ) ).isNull();
+		assertThat( child.<Object>getValue( "c" ) ).isNull();
 		assertThat( undoManager.isUndoAvailable() ).isFalse();
 		assertThat( undoManager.isRedoAvailable() ).isTrue();
 	}
@@ -129,15 +130,15 @@ public class NodeChangeTest {
 		node.setValue( "childC", childC );
 		node.setValue( "childD", childD );
 
-		assertThat( childB.<Object> getValue( "x" ) ).isNull();
-		assertThat( childB.<Object> getValue( "y" ) ).isNull();
-		assertThat( childB.<Object> getValue( "z" ) ).isNull();
-		assertThat( childC.<Object> getValue( "x" ) ).isNull();
-		assertThat( childC.<Object> getValue( "y" ) ).isNull();
-		assertThat( childC.<Object> getValue( "z" ) ).isNull();
-		assertThat( childD.<Object> getValue( "x" ) ).isNull();
-		assertThat( childD.<Object> getValue( "y" ) ).isNull();
-		assertThat( childD.<Object> getValue( "z" ) ).isNull();
+		assertThat( childB.<Object>getValue( "x" ) ).isNull();
+		assertThat( childB.<Object>getValue( "y" ) ).isNull();
+		assertThat( childB.<Object>getValue( "z" ) ).isNull();
+		assertThat( childC.<Object>getValue( "x" ) ).isNull();
+		assertThat( childC.<Object>getValue( "y" ) ).isNull();
+		assertThat( childC.<Object>getValue( "z" ) ).isNull();
+		assertThat( childD.<Object>getValue( "x" ) ).isNull();
+		assertThat( childD.<Object>getValue( "y" ) ).isNull();
+		assertThat( childD.<Object>getValue( "z" ) ).isNull();
 		assertThat( undoManager.isUndoAvailable() ).isFalse();
 		assertThat( undoManager.isRedoAvailable() ).isFalse();
 
@@ -171,48 +172,48 @@ public class NodeChangeTest {
 		assertThat( undoManager.isUndoAvailable() ).isTrue();
 		assertThat( undoManager.isRedoAvailable() ).isFalse();
 
-		assertThat( childB.<Integer> getValue( "x" ) ).isEqualTo( 11 );
-		assertThat( childB.<Integer> getValue( "y" ) ).isEqualTo( 11 );
-		assertThat( childB.<Integer> getValue( "z" ) ).isEqualTo( 11 );
-		assertThat( childC.<Integer> getValue( "x" ) ).isEqualTo( 4 );
-		assertThat( childC.<Integer> getValue( "y" ) ).isEqualTo( 4 );
-		assertThat( childC.<Integer> getValue( "z" ) ).isEqualTo( 4 );
-		assertThat( childD.<Integer> getValue( "x" ) ).isEqualTo( 14 );
-		assertThat( childD.<Integer> getValue( "y" ) ).isEqualTo( 14 );
-		assertThat( childD.<Integer> getValue( "z" ) ).isEqualTo( 14 );
+		assertThat( childB.<Integer>getValue( "x" ) ).isEqualTo( 11 );
+		assertThat( childB.<Integer>getValue( "y" ) ).isEqualTo( 11 );
+		assertThat( childB.<Integer>getValue( "z" ) ).isEqualTo( 11 );
+		assertThat( childC.<Integer>getValue( "x" ) ).isEqualTo( 4 );
+		assertThat( childC.<Integer>getValue( "y" ) ).isEqualTo( 4 );
+		assertThat( childC.<Integer>getValue( "z" ) ).isEqualTo( 4 );
+		assertThat( childD.<Integer>getValue( "x" ) ).isEqualTo( 14 );
+		assertThat( childD.<Integer>getValue( "y" ) ).isEqualTo( 14 );
+		assertThat( childD.<Integer>getValue( "z" ) ).isEqualTo( 14 );
 
 		undoManager.undo();
-		assertThat( childB.<Integer> getValue( "x" ) ).isEqualTo( 1 );
-		assertThat( childB.<Integer> getValue( "y" ) ).isEqualTo( 1 );
-		assertThat( childB.<Integer> getValue( "z" ) ).isEqualTo( 1 );
-		assertThat( childC.<Integer> getValue( "x" ) ).isEqualTo( 4 );
-		assertThat( childC.<Integer> getValue( "y" ) ).isEqualTo( 4 );
-		assertThat( childC.<Integer> getValue( "z" ) ).isEqualTo( 4 );
-		assertThat( childD.<Integer> getValue( "x" ) ).isEqualTo( 3 );
-		assertThat( childD.<Integer> getValue( "y" ) ).isEqualTo( 3 );
-		assertThat( childD.<Integer> getValue( "z" ) ).isEqualTo( 3 );
+		assertThat( childB.<Integer>getValue( "x" ) ).isEqualTo( 1 );
+		assertThat( childB.<Integer>getValue( "y" ) ).isEqualTo( 1 );
+		assertThat( childB.<Integer>getValue( "z" ) ).isEqualTo( 1 );
+		assertThat( childC.<Integer>getValue( "x" ) ).isEqualTo( 4 );
+		assertThat( childC.<Integer>getValue( "y" ) ).isEqualTo( 4 );
+		assertThat( childC.<Integer>getValue( "z" ) ).isEqualTo( 4 );
+		assertThat( childD.<Integer>getValue( "x" ) ).isEqualTo( 3 );
+		assertThat( childD.<Integer>getValue( "y" ) ).isEqualTo( 3 );
+		assertThat( childD.<Integer>getValue( "z" ) ).isEqualTo( 3 );
 
 		undoManager.undo();
-		assertThat( childB.<Object> getValue( "x" ) ).isNull();
-		assertThat( childB.<Object> getValue( "y" ) ).isNull();
-		assertThat( childB.<Object> getValue( "z" ) ).isNull();
-		assertThat( childC.<Object> getValue( "x" ) ).isNull();
-		assertThat( childC.<Object> getValue( "y" ) ).isNull();
-		assertThat( childC.<Object> getValue( "z" ) ).isNull();
-		assertThat( childD.<Object> getValue( "x" ) ).isNull();
-		assertThat( childD.<Object> getValue( "y" ) ).isNull();
-		assertThat( childD.<Object> getValue( "z" ) ).isNull();
+		assertThat( childB.<Object>getValue( "x" ) ).isNull();
+		assertThat( childB.<Object>getValue( "y" ) ).isNull();
+		assertThat( childB.<Object>getValue( "z" ) ).isNull();
+		assertThat( childC.<Object>getValue( "x" ) ).isNull();
+		assertThat( childC.<Object>getValue( "y" ) ).isNull();
+		assertThat( childC.<Object>getValue( "z" ) ).isNull();
+		assertThat( childD.<Object>getValue( "x" ) ).isNull();
+		assertThat( childD.<Object>getValue( "y" ) ).isNull();
+		assertThat( childD.<Object>getValue( "z" ) ).isNull();
 		assertThat( undoManager.isUndoAvailable() ).isFalse();
 		assertThat( undoManager.isRedoAvailable() ).isTrue();
 	}
 
 	@Test
 	void testSetChildValue() {
-		assertThat( child.<Object> getValue( "c" ) ).isNull();
+		assertThat( child.<Object>getValue( "c" ) ).isNull();
 		assertThat( undoManager.isUndoAvailable() ).isFalse();
 		assertThat( undoManager.isRedoAvailable() ).isFalse();
 		child.setValue( "c", 0 );
-		assertThat( child.<Integer> getValue( "c" ) ).isEqualTo( 0 );
+		assertThat( child.<Integer>getValue( "c" ) ).isEqualTo( 0 );
 		assertThat( undoManager.isUndoAvailable() ).isTrue();
 		assertThat( undoManager.isRedoAvailable() ).isFalse();
 	}
@@ -221,7 +222,7 @@ public class NodeChangeTest {
 	void testUndoChildValue() {
 		testSetChildValue();
 		undoManager.undo();
-		assertThat( child.<Object> getValue( "c" ) ).isNull();
+		assertThat( child.<Object>getValue( "c" ) ).isNull();
 		assertThat( undoManager.isUndoAvailable() ).isFalse();
 		assertThat( undoManager.isRedoAvailable() ).isTrue();
 	}
@@ -230,7 +231,7 @@ public class NodeChangeTest {
 	void testRedoChildValue() {
 		testUndoChildValue();
 		undoManager.redo();
-		assertThat( child.<Integer> getValue( "c" ) ).isEqualTo( 0 );
+		assertThat( child.<Integer>getValue( "c" ) ).isEqualTo( 0 );
 		assertThat( undoManager.isRedoAvailable() ).isFalse();
 		assertThat( undoManager.isUndoAvailable() ).isTrue();
 	}
