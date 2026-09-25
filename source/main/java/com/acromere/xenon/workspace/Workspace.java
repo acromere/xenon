@@ -59,6 +59,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * The workspace manages the menu bar, toolbar, and workareas.
@@ -809,25 +810,29 @@ public class Workspace extends Stage implements WritableIdentity {
 	}
 
 	public void screenshot( Path file ) {
-		Fx.waitForDangerously( 5, TimeUnit.SECONDS );
-		Fx.run( () -> {
-			double renderScaleX = getRenderScaleX();
-			double renderScaleY = getRenderScaleY();
+		try {
+			Fx.waitForStability( 5, TimeUnit.SECONDS );
+			Fx.run( () -> {
+				double renderScaleX = getRenderScaleX();
+				double renderScaleY = getRenderScaleY();
 
-			WritableImage buffer = new WritableImage( (int)Math.rint( renderScaleX * scene.getWidth() ), (int)Math.rint( renderScaleY * scene.getHeight() ) );
-			SnapshotParameters spa = new SnapshotParameters();
-			spa.setTransform( Transform.scale( renderScaleX, renderScaleY ) );
+				WritableImage buffer = new WritableImage( (int)Math.rint( renderScaleX * scene.getWidth() ), (int)Math.rint( renderScaleY * scene.getHeight() ) );
+				SnapshotParameters spa = new SnapshotParameters();
+				spa.setTransform( Transform.scale( renderScaleX, renderScaleY ) );
 
-			WritableImage image = scene.getRoot().snapshot( spa, buffer );
+				WritableImage image = scene.getRoot().snapshot( spa, buffer );
 
-			try {
-				Files.createDirectories( file.getParent() );
-				ImageIO.write( SwingFXUtils.fromFXImage( image, null ), "png", file.toFile() );
-			} catch( IOException exception ) {
-				log.atWarn( exception );
-			}
-		} );
-		Fx.waitForDangerously( 5, TimeUnit.SECONDS );
+				try {
+					Files.createDirectories( file.getParent() );
+					ImageIO.write( SwingFXUtils.fromFXImage( image, null ), "png", file.toFile() );
+				} catch( IOException exception ) {
+					log.atWarn( exception );
+				}
+			} );
+			Fx.waitFor( 5, TimeUnit.SECONDS );
+		} catch( TimeoutException | InterruptedException exception ) {
+			log.atWarn( exception );
+		}
 	}
 
 	@Override
