@@ -211,8 +211,10 @@ public class TaskManager implements Controllable<TaskManager> {
 	}
 
 	protected void taskFailed( Task<?> task, Throwable throwable ) {
-		// No need to be noisy here
-		//log.atWarn( throwable ).log( "Task failed" );
+		// Do not silently hide exceptions.
+		// If this is too noisy, find a better way to handle it, but do not ignore it.
+		// Maybe make some user setting to control this.
+		log.atWarn().withCause( throwable ).log( "Task failed" );
 	}
 
 	private static boolean isTaskThread() {
