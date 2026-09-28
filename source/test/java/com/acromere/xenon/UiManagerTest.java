@@ -49,11 +49,13 @@ public class UiManagerTest extends BasePartXenonTestCase {
 		// Check that settings files exist
 		long timeout = getProgram().getSettingsManager().getMaxFlushLimit() * 5;
 		Path settingsFolder = getProgram().getDataFolder().resolve( SettingsManager.ROOT );
+		Path uiFolder = settingsFolder.resolve( ProgramSettings.UI.substring( 1 ) );
 		Path areaFolder = settingsFolder.resolve( ProgramSettings.AREA.substring( 1 ) );
 		Path areaSettingsFolder = settingsFolder.resolve( ProgramSettings.AREA.substring( 1 ) ).resolve( workarea.getUid() );
 		Path viewFolder = settingsFolder.resolve( ProgramSettings.VIEW.substring( 1 ) );
 
 		FileUtil.waitToExist( settingsFolder, timeout, TimeUnit.MILLISECONDS );
+		FileUtil.waitToExist( uiFolder, timeout, TimeUnit.MILLISECONDS );
 		FileUtil.waitToExist( areaFolder, timeout, TimeUnit.MILLISECONDS );
 		FileUtil.waitToExist( viewFolder, timeout, TimeUnit.MILLISECONDS );
 		FileUtil.waitToExist( areaSettingsFolder, timeout, TimeUnit.MILLISECONDS );
