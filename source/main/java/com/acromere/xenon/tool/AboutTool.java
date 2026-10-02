@@ -497,10 +497,11 @@ public class AboutTool extends GuidedTool {
 	private String getProgramDetails( Xenon program ) {
 		StringBuilder builder = new StringBuilder();
 
+		builder.append( "Java folder: " ).append( System.getProperty( "java.home" ) ).append( "\n" );
 		builder.append( "Home folder: " ).append( program.getHomeFolder() ).append( "\n" );
 		builder.append( "Data folder: " ).append( program.getDataFolder() ).append( "\n" );
 		builder.append( "User folder: " ).append( System.getProperty( "user.home" ) ).append( "\n" );
-		builder.append( "Log file:    " ).append( Log.getLogFile() ).append( "\n" );
+		builder.append( "Log file:    " ).append( Log.getLogFile().replace( "%h", System.getProperty( "user.home" ) ) ).append( "\n" );
 		builder.append( "Launcher:    " ).append( OperatingSystem.getJavaLauncherPath() ).append( "\n" );
 		builder.append( "Updater:     " ).append( program.getUpdateManager().getUpdaterLauncher() ).append( "\n" );
 
