@@ -1086,8 +1086,8 @@ public class ProductManager implements Controllable<ProductManager> {
 		// Remove old repos. These repositories were replaced with:
 		//   https://www.acromere.com/download/stable
 		//   https://www.acromere.com/download/latest
-		repos.remove( "https://acromere.com/download/stable" );
-		repos.remove( "https://acromere.com/download/latest" );
+		repos.remove( "https://avereon.com/download/stable" );
+		repos.remove( "https://avereon.com/download/latest" );
 
 		// TODO Can this logic be moved to registerProviderRepos(repos)?
 		repos.values().forEach( ( repo ) -> {
