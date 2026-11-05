@@ -72,8 +72,9 @@ public interface XenonProgram extends Program, ProgramProduct, XenonProgramProdu
 	String getMode();
 
 	/**
-	 * Get the home folder. If the home folder is null that means that the program is not installed locally and was most likely started with a technology like
-	 * Java Web Start.
+	 * Get the home folder. If the home folder is null, that means that the
+	 * program is not installed locally and was most likely started with a
+	 * technology like Java Web Start.
 	 *
 	 * @return The home folder
 	 */
