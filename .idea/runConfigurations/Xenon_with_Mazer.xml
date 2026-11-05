@@ -3,7 +3,7 @@
     <option name="INCLUDE_PROVIDED_SCOPE" value="true" />
     <option name="MAIN_CLASS_NAME" value="com.acromere.xenon.Launcher" />
     <module name="mazer" />
-    <option name="PROGRAM_PARAMETERS" value="--profile dev --noupdate --log-level debug" />
+    <option name="PROGRAM_PARAMETERS" value="--profile mazer --mode dev --noupdate --log-level debug" />
     <option name="VM_PARAMETERS" value="-Xmx256m -Duser.language=es --enable-native-access=javafx.graphics" />
     <extension name="coverage">
       <pattern>
