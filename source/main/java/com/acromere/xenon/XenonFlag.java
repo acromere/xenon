@@ -34,7 +34,7 @@ public interface XenonFlag extends ProgramFlag {
 	String ENABLE_MOD = "--enable-mod";
 
 	/**
-	 * Send greeting to already running instance.
+	 * Send greeting to an already running instance.
 	 */
 	String HELLO = "--hello";
 
@@ -57,12 +57,12 @@ public interface XenonFlag extends ProgramFlag {
 	/**
 	 * Specify an execution profile. Execution profiles are used to change the
 	 * program folder so that the program can execute with different modules and
-	 * configuration.
+	 * configurations.
 	 */
 	String PROFILE = "--profile";
 
 	/**
-	 * Specify an execution mode. Execution modes are limited, and used to change
+	 * Specify an execution mode. Execution modes are limited and used to change
 	 * specific program functionality. Only supported modes are allowed. Only one
 	 * execution mode may be specified. Specifying an execution mode will also
 	 * modify the program profile, if specified, by appending the execution mode
@@ -74,7 +74,7 @@ public interface XenonFlag extends ProgramFlag {
 	 *   <tr><th>Mode</th><th>Description</th></tr>
 	 *   <tr><td>dev</td><td>Developers can use the <code>dev</code> mode to enable development features.</td></tr>
 	 *   <tr><td>test</td><td>Test mode is used for automated testing to change certain behavior during tests.</td></tr>
-	 *   <tr><td>screenshot</td><td>Screen shot mode is used when taking automated screen shots of the program.</td></tr>
+	 *   <tr><td>screenshot</td><td>Screenshot mode is used when taking automated screenshots of the program.</td></tr>
 	 * </table>
 	 */
 	String MODE = "--mode";
@@ -85,7 +85,7 @@ public interface XenonFlag extends ProgramFlag {
 	String STATUS = "--status";
 
 	/**
-	 * Request the program stop.
+	 * Request the program to stop.
 	 */
 	String STOP = "--stop";
 

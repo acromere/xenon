@@ -3,7 +3,7 @@
     <option name="INCLUDE_PROVIDED_SCOPE" value="true" />
     <option name="MAIN_CLASS_NAME" value="com.acromere.xenon.Launcher" />
     <module name="sonic" />
-    <option name="PROGRAM_PARAMETERS" value="--profile dev --noupdate --log-level debug --enable-mod com.avereon.sonic" />
+    <option name="PROGRAM_PARAMETERS" value="--profile sonic --mode dev --noupdate --log-level debug --enable-mod com.avereon.sonic" />
     <option name="VM_PARAMETERS" value="-Duser.language=es -Dprism.forceGPU=true --enable-native-access=javafx.graphics" />
     <extension name="coverage">
       <pattern>
